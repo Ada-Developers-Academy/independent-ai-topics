@@ -1,0 +1,13 @@
+---
+Standards:
+  - 
+    Title: Working with Generative AI
+    Description: What are Generative AIs & Large Learning Models, and how are they used?
+    UID: 6e38c08c-7cdb-11ee-b962-0242ac120002
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: 6e38c51e-7cdb-11ee-b962-0242ac120002
+        Path: /01-generative-ai-overview/generative-ai-overview.md
