@@ -12,8 +12,8 @@ Standards:
         UID: 6e38c51e-7cdb-11ee-b962-0242ac120002
         Path: /01-generative-ai-overview/generative-ai-overview.md
   -
-    Title: Making Requests From ChatGPT
-    Description: More uses for generative AIs, Setting up & using ChatGPT
+    Title: Prompting Basics & Using ChatGPT
+    Description: Setting up & using ChatGPT, techniques to improve responses, and how to verify information
     UID: 3a90ca66-83ea-11ee-b962-0242ac120002
     SuccessCriteria:
       - success criteria
