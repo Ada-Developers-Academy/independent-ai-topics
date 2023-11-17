@@ -163,3 +163,44 @@ We now have an understanding of some of the many uses for Generative AIs outside
 From here, it's up to you where you want to go with prompting! You can make changes to the frog story prompt to see how you can influence the tale, try out some of the example uses we listed out earlier, or follow your curiosity about other applications. As you try new prompts that you find interesting, feel free to share them in Slack with your classmates.
 
 This is a great time to pause and think about what questions you have on writing prompts and reflect on how you might want to use LLMs and Generative AI tools now and in the future.
+
+## Check for Understanding
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: 3cGYv7
+* title: Using vocabulary
+
+##### !question
+Select the statements that are true.
+##### !end-question
+
+##### !options
+* 'Large Learning Models' and 'Generative AIs' are synonymous
+* We need to fact check responses from Generative AI tools
+* Generative AIs can be used to create study aides, write drafts, and review text
+* The responses a generative AI creates can be used as-is for any purpose
+* Generative AIs can only output plain text without formatting
+##### !end-options
+
+##### !answer
+* We need to fact check responses from Generative AI tools
+* Generative AIs can be used to create study aides, write drafts, and review text
+##### !end-answer
+
+##### !explanation
+1. 'Large Learning Models' and 'Generative AIs' are synonymous
+   - Incorrect: All LLMs are a form of generative AI, however, not all generative AI tools are built on LLMs. Generative AIs are a broad category of AI, and refers to any artificial intelligence that can create new content. Generative AI tools are built on AI models, such as a large language model. LLMs are the text-generating part of generative AI.
+2. We need to fact check responses from Generative AI tools
+   - Correct: Generative AIs can fully fabricate information, so we need to be critical of any concrete information like names, places, and dates.
+3. Generative AIs can be used to create study aides, write drafts, and review text
+   - Correct: There are myriad applications for generative AI tools and folks keep coming up with new uses all the time!
+4. The responses a generative AI creates can be used as-is for any purpose
+   - Incorrect: Most tools are not built on datasets that have been fully cleared for public use. There are a few specialized generative AIs like Photoshop's Firefly that have ensured all of their training data has full permission to be used for both training and generating new materials.
+5. Generative AIs can only output plain text without formatting
+   - Incorrect: There are Generative AIs that output graphics, and tools like ChatGPT can handle complicated markdown formatting to structure output.
+##### !end-explanation
+
+### !end-challenge
+<!-- prettier-ignore-end -->
