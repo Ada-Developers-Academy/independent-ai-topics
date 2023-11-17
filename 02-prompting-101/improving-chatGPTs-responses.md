@@ -27,16 +27,10 @@ We’re starting our techniques with an easy win - we’ve already looked at an 
 
 Generative AI tools like ChatGPT are very powerful, and we can be a lot more specific and detailed with our instructions. We can add constraints to make the response better fit what we need, like asking for a particular word count or subject matter for a story: `Write a 500 word story about a heroine saving the world through science`.
 
-We can also ask these tools to perform multi step tasks. Say that we run a website, and we want to categorize and count themes that surfaced in our user feedback. We could ask an AI tool to help us:
+We can also ask these tools to perform multi step tasks. We could ask an AI tool to write a story, list out the themes of the story, then write a haiku based on the themes:
 
 ```
-Feedback:
-- Great product, love the UI 10/10!
-- The admin tools didn’t work very well.
-- Super helpful, admin tools and customer support are worth it.
-- I can’t log in!
-
-I would like to know whether each item in the feedback above is positive or negative and themes from each piece of feedback.
+Write a 300 word story about a heroine saving the world through science, summarize the themes in a list, and use the themes to write a haiku.
 ```
 
 ### Prompting tips
@@ -44,23 +38,75 @@ I would like to know whether each item in the feedback above is positive or nega
 By changing the way we ask a question, generative AIs will also change how they respond. If the AI tool is struggling to perform a large, or multi-step task, or is producing an incorrect result, we can alter *how* we write the instruction to get better results. Let's look at common strategies.
 
 **Break the task into detailed or numbered steps**  
-Clarity is very important in prompts, as generative AIs can't reason or infer information the way that a human can. If we take a look at the Feedback prompt above, we weren't clear about how the output should be formatted, what is meant by themes, or if the AI should include duplicates in the themes. We can add details and steps to the prompt to guide the AI to a formatted response that may be much more useful than the result of the initial prompt.
+Clarity is very important in prompts, as generative AIs can't reason or infer information the way that a human can. We can add details and steps to the prompt to guide the AI to a formatted response that may be much more useful than the result of the initial prompt.
 
-<details>
-   <summary>Take a moment to think about what you might add to the Feedback prompt above if you wanted to: 
-   1) get a list of unique nouns from the themes which represent the areas users are talking about and 
-   2) get counts of how many times those nouns were referred to positively or negatively. 
-   
-   Once you've come up with your answer, expand this section to see how we updated the prompt.</summary>
+Say that we want to review a short story for spelling and grammar mistakes. We can start with a short instruction prompt:
 
 ```
-Feedback:
-- Great product, love the UI 10/10!
-- The admin tools didn’t work very well.
-- Super helpful, admin tools and customer support are worth it.
-- I can’t log in!
+Review the following story: 
 
-I would like to know whether each item in the feedback above is positive or negative and themes from each piece of feedback. Please list the themes out individually if there is more than one. When you are done, please output a list of nouns from all themes and include counts of how many times they were mentioned as positive or negative. Only output each noun once.
+-----------------------------------
+
+As Emily embarked on her journey to explore her favorite destinations, she was filled with an exhilarating sense of wanderlust.  The crisp breeze of the coastal air greeted her as she strolled down the sandy shores, reminiscing about the times she had spent here as a child. With each step, the waves whiispered tales of forgotten adventures, creating a symphony of memories that echoed in her heart.
+
+The quaint village nestled between the hills was her next stop, where cobblestone streets led her to charming boutiques and cozy cafes. Emily couldn't help but indulge in a freshly brew cup of coffee, savoring the aroma that wafted through the air.As she wandered through the narrow alleys, she stumbled upon an antique bookstore that beckoned her with its dusty shelves and worn leatherbound books. 
+
+
+Lost in the literary treasures, Emily found solace in the pages of forgotten tales, letting the stories transport her to distant lands. Each destination held a piece of her past, weaving a tapestry of joy and nostalgia that accompanied her on this enchonting journey.
+``` 
+
+If you try this out in ChatGPT, it will address spelling and grammar mistakes, but it's likely going to change the text without highlighting anything that was altered, making it more difficult to quickly review. We can add some steps and clear details about how we want our response formatted to help us see and review what ChatGPT wants to change:
+
+```
+Review the following story for spelling, grammar, and style consistency. First, output a list of the errors. Each entry in the list should contain the error, why it is an issue, and a suggestion for how to fix the error. Finally, display the updated text with the fixes listed applied.
+
+...
+```
+
+By adding a few sentences, we get a detailed list of the issues ChatGPT caught! Now we can review the changes to see if we really do want them all applied or if there are some we want to keep as-is. 
+
+<details>
+   <summary>Try out the prompt above, then expand this section to see how your response differs from the response we received.</summary>
+
+```
+**List of Errors:**
+
+1. "whiispered" should be "whispered." (Spelling error)
+   - **Suggestion:** Correct the spelling to "whispered."
+
+2. "Symphony" should be "symphony." (Capitalization error)
+   - **Suggestion:** Correct the capitalization to "symphony."
+
+3. Add a space after the comma in "freshly brew." (Spacing error)
+   - **Suggestion:** Add a space to make it "freshly brewed."
+
+4. "brew" should be "brewed." (Grammar error)
+   - **Suggestion:** Correct the verb form to "brewed."
+
+5. The comma after "cozy cafes" should be a period to separate the sentences. (Punctuation error)
+   - **Suggestion:** Replace the comma with a period.
+
+6. Add a space after the period in "air.As." (Spacing error)
+   - **Suggestion:** Add a space to make it "air. As."
+
+7. "literary" in "literary treasures" should be capitalized. (Style inconsistency)
+   - **Suggestion:** Capitalize "literary" for consistency.
+
+8. "enchonting" in "enchonting journey" should be "enchanting." (Spelling error)
+   - **Suggestion:** Correct the spelling to "enchanting."
+
+9. "As" at the beginning of the last sentence should be lowercase. (Style inconsistency)
+   - **Suggestion:** Change "As" to lowercase.
+
+———————————————————
+
+**Updated Text with Fixes:**
+
+As Emily embarked on her journey to explore her favorite destinations, she was filled with an exhilarating sense of wanderlust. The crisp breeze of the coastal air greeted her as she strolled down the sandy shores, reminiscing about the times she had spent here as a child. With each step, the waves whispered tales of forgotten adventures, creating a symphony of memories that echoed in her heart.
+
+The quaint village nestled between the hills was her next stop, where cobblestone streets led her to charming boutiques and cozy cafes. Emily couldn't help but indulge in a freshly brewed cup of coffee, savoring the aroma that wafted through the air. As she wandered through the narrow alleys, she stumbled upon an antique bookstore that beckoned her with its dusty shelves and worn leather-bound books.
+
+Lost in the literary treasures, Emily found solace in the pages of forgotten tales, letting the stories transport her to distant lands. Each destination held a piece of her past, weaving a tapestry of joy and nostalgia that accompanied her on this enchanting journey.
 ```
 
 </details>  
@@ -212,7 +258,7 @@ As we’ve learned, generative AIs act very much like predictive text, but with 
 
 Especially when you need the output formatted a particular way or in a way that is difficult to describe, we can improve an AI Tool’s response by including examples (called “Shots” when talking about prompt engineering) of what it is that we want the AI tool to do. When we include a single example, this is called “Single Shot” prompting, and when we give it 2 or more examples it gets called “Few Shot” prompting.
 
-Let's circle back to an earlier use case we saw around categorizing feedback. We're going start from a zero-shot prompt and iterate on it until we have a few-shot prompt. This time, let's say we have a list of feedback like:
+Let's say that we moderate a forum and want to categorize feedback from our users. We're going start from a zero-shot prompt and iterate on it until we have a few-shot prompt. For our example, we have a list of feedback like:
 
 ```
 Feedback 1: I love this site but I can’t log in on iPhone!
@@ -450,3 +496,55 @@ Let’s review the common pieces of a prompt:
 - Examples (one or more shots), to help the AI tool understand and replicate particular formatting or response style.
 
 Much of prompt engineering is starting small and adjusting the ask or adding techniques until we get back what we are looking for. Not every prompt will need each of these techniques to give a useful response. If we are asking an AI tool to perform a task, we might not also have a question in there. If we include examples, we may or may not need other context for the AI to perform as hoped. It’s all about creating a starting point, seeing what that returns, and iterating - improving our prompts to get closer and closer to our ideal response. 
+
+## Check for Understanding
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: a154e2ae-8585-11ee-b9d1-0242ac120002
+* title: Prompt Engineering Techniques
+
+##### !question
+Select all prompt engineering techniques and tips that are being used in the following prompt:
+
+```
+I am a forum moderator who handles user feedback. For our site, each piece of feedback is a single sentence and can only be either positive or negative. I would like to know whether each item in the feedback below is positive or negative and themes from each piece of feedback. Please list the themes out individually if there is more than one. When you are done, please output a list of nouns from all themes and include counts of how many times they were mentioned as positive or negative. Only output each noun once.
+
+Feedback:
+- Great product, love the UI 10/10!
+- The admin tools didn’t work very well.
+- Super helpful, admin tools and customer support are worth it.
+- I can’t log in!
+```
+##### !end-question
+
+##### !options
+* Instruction prompting
+* Detailed steps
+* Asking the AI to show its work
+* Open-ended question
+* Adding context
+* Shot prompting
+* Assigning roles
+##### !end-options
+
+##### !answer
+* Instruction prompting
+* Detailed steps
+* Adding context
+* Assigning roles
+##### !end-answer
+
+##### !explanation
+1. Instruction prompting - Correct.
+2. Detailed steps - Correct.
+3. Asking the AI to show its work - Incorrect, we give the AI specific directions, but we do not direct it to show it's work using phrases like "Work step by step", "work backwards", or "reason through each step".
+4. Open-ended question - Incorrect, we don't pose any direct questions.
+5. Adding context - Correct, we added context about the format of the feedback for the forum we moderate.
+6. Shot prompting - Incorrect, we include the feedback to categorize in the prompt, but we don't include any examples of what the result should look like.
+7. Assigning roles - Correct, we assigned ourselves a role as a forum moderator.
+##### !end-explanation
+
+### !end-challenge
+<!-- prettier-ignore-end -->
