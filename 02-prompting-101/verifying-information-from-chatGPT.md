@@ -86,3 +86,65 @@ While we verify information, we need to be checking if the sources we are using 
 
 ## Check for Understanding
 
+<!-- Question 1 -->
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: 4f5ad7fa-859f-11ee-b9d1-0242ac120002
+* title: Verifiable Information
+
+##### !question
+What kinds of verifiable information are present in the following statement?
+
+> Born in 1918, Katherine Johnson, a pioneering mathematician and physicist, played a crucial role in the early years of the United States' space program. Her mathematical expertise was instrumental in calculating trajectories for historic space missions, including the first American in space and the Apollo 11 moon landing. Johnson's groundbreaking work, along with her colleagues at NASA, helped propel the nation into the space age and challenge the prevailing stereotypes of women and African Americans in STEM fields. Her contributions were recognized in 2015 when she was awarded the Presidential Medal of Freedom, and her legacy continues to inspire future generations of scientists and mathematicians.
+
+##### !end-question
+
+##### !options
+* proper names
+* place names
+* references to time, distance, date, season
+* physical descriptions
+* references to the gender of anyone described 
+* quotations (or facts within quotes)
+* an argument or narrative that depends on fact
+##### !end-options
+
+##### !answer
+* proper names
+* place names
+* references to time, distance, date, season
+* references to the gender of anyone described 
+##### !end-answer
+
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- Question 2 -->
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: 4f5adc96-859f-11ee-b9d1-0242ac120002
+* title: Using SMART
+
+##### !question
+What part of the SMART check should give me pause about the statement below?
+
+> I found a website that supports the fact I’m checking, but the site hasn’t been updated since it was first created 5 years ago. 
+
+##### !end-question
+
+##### !options
+* S
+* M
+* A
+* R
+* T
+##### !end-options
+
+##### !answer
+* T
+##### !end-answer
+
+### !end-challenge
+<!-- prettier-ignore-end -->

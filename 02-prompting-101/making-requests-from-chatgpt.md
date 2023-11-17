@@ -169,7 +169,7 @@ This is a great time to pause and think about what questions you have on writing
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: checkbox
-* id: 3cGYv7
+* id: 4f5ad3cc-859f-11ee-b9d1-0242ac120002
 * title: Using vocabulary
 
 ##### !question
