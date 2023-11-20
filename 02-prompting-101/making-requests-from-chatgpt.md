@@ -102,9 +102,7 @@ For longer prompts, or prompts that require specific spacing, we recommend writi
 
 For our first prompt, let's start with something simple that shows how creative generative AIs can be. Submit the following prompt and see what you get!
 
-```
-Write a story about a frog.
-```
+> Write a story about a frog.
 
 Once you submit the prompt, you'll see ChatGPT construct the story, very quickly, a word or phrase at a time.
 
@@ -145,11 +143,11 @@ Makes ChatGPT create a new response for the prompt that was submitted. Can be ha
 
 ## More on Regenerating a Response
 
-Let's go back to our initial prompt: `Write a story about a frog.` We didn't ask for any constraints on how long the story should be or subject matter other than it had to include a frog. Say that we wanted a different story about a frog – we could add to our prompt if we had specific things to include, but what if we just want another frog story?
+Let's go back to our initial prompt: "`Write a story about a frog.`" We didn't ask for any constraints on how long the story should be or subject matter other than it had to include a frog. Say that we wanted a different story about a frog – we could add to our prompt if we had specific things to include, but what if we just want another frog story?
 
-One option would be to pose the prompt again again, retype and submit `Write a story about a frog.`, but as we learned above, there's an even easier way – the "Regenerate" button! When we use the "Regenerate" button, just like when we first sent the prompt, we'll see the text being put together a word or phrase at a time until it's finished. The new response will replace the spot in the chat where the original response was, but the original isn't lost to us. 
+One option would be to pose the prompt again again, retype and submit "`Write a story about a frog.`", but as we learned above, there's an even easier way – the "Regenerate" button! When we use the "Regenerate" button, just like when we first sent the prompt, we'll see the text being put together a word or phrase at a time until it's finished. The new response will replace the spot in the chat where the original response was, but the original isn't lost to us. 
 
-If we take a look at the bottom of the response after regenerating, in front of our original toolbar we should see something like `< 2 / 2 >`. 
+If we take a look at the bottom of the response after regenerating, in front of our original toolbar we should see additional text and buttons that look like: `< 2 / 2 >`. 
 
 ![Regenerate viewing options](./assets/regenerate-viewing-tools.png)  
 *Fig. response tools after generating a second response*
@@ -199,7 +197,7 @@ Select the statements that are true.
 4. The responses a generative AI creates can be used as-is for any purpose
    - Incorrect: Most tools are not built on datasets that have been fully cleared for public use. There are a few specialized generative AIs like Photoshop's Firefly that have ensured all of their training data has full permission to be used for both training and generating new materials.
 5. Generative AIs can only output plain text without formatting
-   - Incorrect: There are Generative AIs that output graphics, and tools like ChatGPT can handle complicated markdown formatting to structure output.
+   - Incorrect: There are Generative AIs that output graphics, and tools built on LLMs like ChatGPT can handle complicated markdown formatting to structure output.
 ##### !end-explanation
 
 ### !end-challenge
