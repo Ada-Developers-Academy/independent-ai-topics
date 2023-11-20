@@ -26,7 +26,7 @@ An AI doesn’t know where its training data came from to be able to cite where 
 
 Newer tools that augment generative AI with search capabilities such as “Bing Chat” are trying to increase their reliability by grounding their answers in external sources of truth (tactics like this can also help deal with the knowledge cutoff of their training data). However, a website cited by a search augmented AI tool can still contain misinformation so these augmented tools should not be seen as a solution that prevents needing to fact check. We still need to confirm that the sources used are trustworthy and accurate, but it does at least give us a starting point for our fact checking. 
 
-The issue is widespread enough that many universities have statements [like this one from University of Arizona](https://ask.library.arizona.edu/faq/387173) on what to do when someone can't find the citations ChatGPT provided.
+The issue of generating non-existent citations is widespread enough that some universities have statements [like this one from University of Arizona](https://ask.library.arizona.edu/faq/387173) on what to do when someone can't find the citations ChatGPT provided.
 
 ### Inclusion of information from biased sources
 
