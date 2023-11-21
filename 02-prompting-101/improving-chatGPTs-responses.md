@@ -237,7 +237,7 @@ As we’ve learned, generative AIs act very much like predictive text, but with 
 
 Especially when you need the output formatted a particular way or in a way that is difficult to describe, we can improve an AI Tool’s response by including examples (called “Shots” when talking about prompt engineering) of what it is that we want the AI tool to do. When we include a single example, this is called “Single Shot” prompting, and when we give it 2 or more examples it gets called “Few Shot” prompting.
 
-Let's say that we moderate a forum and want to categorize feedback from our users. We're going start from a zero-shot prompt and iterate on it until we have a few-shot prompt. For our example, we have a list of feedback like:
+We're going to look at a prompt that's different from others we've seen – this time we're not going to include any instructions telling the generative AI what it should do. Let's say that we moderate a forum and want to categorize feedback from our users. We're going start from a zero-shot prompt and iterate on it until we have a few-shot prompt. For our example, we have a list of feedback like:
 
 > Feedback 1: I love this site but I can’t log in on iPhone!  
 > Feedback 2: The custom icons are so cute.  
@@ -257,7 +257,7 @@ and as a response we want to get back:
 > Sentiment: negative  
 > Themes: UI, cursor  
 
-If we include no examples, no instructions, and simply submit our list of feedback as a prompt, generative AI tools like ChatGPT will still try to provide a helpful response, likely about how to address these pieces of user feedback. 
+If we include no examples, no instructions, and submit our list of feedback itself as the prompt, generative AI tools like ChatGPT will still try to provide a helpful response, likely about how to address these pieces of user feedback. 
 
 Open a new chat in ChatGPT and try out submitting the list of feedback as a zero shot prompt to see what advice ChatGPT gives.
 
