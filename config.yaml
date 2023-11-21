@@ -11,3 +11,22 @@ Standards:
         Type: Lesson
         UID: 6e38c51e-7cdb-11ee-b962-0242ac120002
         Path: /01-generative-ai-overview/generative-ai-overview.md
+  -
+    Title: Prompting Basics & Using ChatGPT
+    Description: Setting up & using ChatGPT, techniques to improve responses, and how to verify information
+    UID: 3a90ca66-83ea-11ee-b962-0242ac120002
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: 4d2e6b4c-83ea-11ee-b962-0242ac120002
+        Path: /02-prompting-101/making-requests-from-chatgpt.md
+      -
+        Type: Lesson
+        UID: 4d2e6dd6-83ea-11ee-b962-0242ac120002
+        Path: /02-prompting-101/improving-chatGPTs-responses.md
+      -
+        Type: Lesson
+        UID: c2e2d742-83ea-11ee-b962-0242ac120002
+        Path: /02-prompting-101/verifying-information-from-chatGPT.md
