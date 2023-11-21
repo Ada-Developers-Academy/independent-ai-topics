@@ -63,7 +63,7 @@ We're readied with some background on what generative AI tools are and how we ca
 ![Email verification message](./assets/verify-email-message.png)  
 *Fig. Email verification message*
 
-5. You can log in with your new account at [chat.openai.com](chat.openai.com) once your email is verified. The first time you log in, you'll be asked to enter your first name, last name, and birth date to verify your age.
+5. You can log in with your new account at [chat.openai.com](https://chat.openai.com) once your email is verified. The first time you log in, you'll be asked to enter your first name, last name, and birth date to verify your age.
 
 ![Submitting info on first log in](./assets/info-after-login.png)  
 *Fig. First log-in information form*
