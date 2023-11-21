@@ -43,7 +43,7 @@ We're readied with some background on what generative AI tools are and how we ca
 
 ### Signing up
 
-1. Our first step is to visit [chat.openai.com](chat.openai.com) and press the "Sign Up" button to start creating an account. 
+1. Our first step is to visit [chat.openai.com](https://chat.openai.com) and press the "Sign Up" button to start creating an account. 
 
 ![chat.openai.com landing page](./assets/chatgpt-landing-page.png)  
 *Fig. ChatGPT landing page*
