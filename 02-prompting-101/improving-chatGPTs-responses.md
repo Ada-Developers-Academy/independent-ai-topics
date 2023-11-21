@@ -131,7 +131,7 @@ If ChatGPT gets it right on the first time, you can change to a different prime 
 
 ### !end-callout
 
-This incorrect answer is clearly not desired, but we can often get to a correct response for this question by asking the AI tool to show it's work and reason itself to a correct answer. Try out this updated prompt in either the same chat or a new one:
+This incorrect answer is clearly not desired, but we can often get to a correct response for this question by asking the AI tool to show its work and reason itself to a correct answer. Try out this updated prompt in either the same chat or a new one:
 
 > Is 6113 a prime number? Think step by step and reason yourself to the right decisions to make sure we get it right.
 

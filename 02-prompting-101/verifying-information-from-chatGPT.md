@@ -54,7 +54,7 @@ When a generative AI tool makes a claim like "Ida B. Wells became editor and co-
 
 ### Looking for SMART resources
 
-When doing our own searching, we also need to be asking ourselves if the sources we’re using to verify information are trustworthy. Anyone can publish anything on the internet, but there are frameworks we can use to ask ourselves questions about a website or source to help us investigate if it may be worthwhile. Once such framework is the SMART Check:
+When doing our own searching, we also need to be asking ourselves if the sources we’re using to verify information are trustworthy. Anyone can publish anything on the internet, but there are frameworks we can use to ask ourselves questions about a website or source to help us investigate if it may be worthwhile. One such framework is the SMART Check:
 
 | Abbreviation | Meaning | Questions to ask |
 | ------------ | ------- | ---------------- |
@@ -78,7 +78,7 @@ If you'd like to dive more into fact checking and sharpen your skills, these are
 
 ## Summary 
 
-Generative AI tools are very powerful, but at this stage, there are several issues around hallucinations, the cutoff date of their training data, inability connect to the internet to gather new or further information, and inability to share sources from their training data, which together mean that we cannot trust any facts that they state without verification. 
+Generative AI tools are very powerful, but at this stage, there are several issues around hallucinations, the cutoff date of their training data, inability to connect to the internet to gather new or further information, and inability to share sources from their training data, which together mean that we cannot trust any facts that they state without verification. 
 
 Any time we ask an AI tool for concrete information about the real world: historical dates, people, places, events, programming languages, etc., we need to break out our web searching and fact-checking skills to confirm each piece of verifiable information. 
 
@@ -135,15 +135,15 @@ What part of the SMART check should give me pause about the statement below?
 ##### !end-question
 
 ##### !options
-* S
-* M
-* A
-* R
-* T
+* S - Scope
+* M - Motivation
+* A - Authority & Accuracy
+* R - Relevancy & Reliability
+* T - Timely
 ##### !end-options
 
 ##### !answer
-* T
+* T - Timely
 ##### !end-answer
 
 ### !end-challenge

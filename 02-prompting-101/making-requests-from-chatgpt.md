@@ -78,7 +78,7 @@ We're readied with some background on what generative AI tools are and how we ca
 ![Submit verification code](./assets/phone-verification-code.png)   
 *Fig. Form to submit verification code*
 
-8. At this point you should be redirected a brand new chat page! We should see "ChatGPT 3.5" at the top, letting us know we are working with OpenAI's 3.5 model. 
+8. At this point you should be redirected to a brand new chat page! We should see "ChatGPT 3.5" at the top, letting us know we are working with OpenAI's 3.5 model. 
 
 ### !callout-info
 
@@ -152,7 +152,9 @@ If we take a look at the bottom of the response after regenerating, in front of 
 ![Regenerate viewing options](./assets/regenerate-viewing-tools.png)  
 *Fig. response tools after generating a second response*
 
-The first number indicates how many versions of the response there are, and the second number is which version of the response we are currently viewing. The arrows are buttons that let us navigate forwards and backwards through the responses so we can see all of the versions.
+The second number indicates how many versions of the response there are, and the first number is which version of the response we are currently viewing. The arrows are buttons that let us navigate forwards and backwards through the responses so we can see all of the versions.
+
+For example, if we generate a response 3 times, when the indicator shows `< 1 / 3 >`, this means we are viewing the first output of the prompt, `< 2 / 3 >` means we are viewing the second output of the prompt, and so on.
 
 ## Summary
 
