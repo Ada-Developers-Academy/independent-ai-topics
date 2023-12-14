@@ -9,13 +9,17 @@ Our goals for this lesson are to:
 - Use ChatGPT in conjunction with our other debugging skills 
 - Examine how to evaluate ChatGPT provided explanations for correctness
 
+### !callout-warning
+
 ## Caveats & Concerns
 
-First and foremost, we want to note that all of our debugging skills that we learned before are still necessary and helpful, even with generative AI tools. In many instances, we’ll be able to find and fix a bug faster by reading through the code or adding a couple break points than it would take to craft and iterate on a prompt to get an explanation. Furthermore, because tools like ChatGPT can fabricate information and are not running code themselves to ensure what they suggest works, we need to keep up our debugging and reasoning skills to evaluate what ChatGPT shares with us to see if it 1) makes sense and 2) truly addresses the initial problem.
+First and foremost, we want to note that all of our debugging skills that we learned before are still necessary and helpful, even with generative AI tools. In many instances, we’ll be able to find and fix a bug faster by reading through the code or adding a couple break points than it would take to craft and iterate on a prompt to get an explanation. Furthermore, because tools like ChatGPT can fabricate information and are not running code themselves to ensure what they suggest works, we need to keep up our debugging and reasoning skills to evaluate what ChatGPT shares with us to see if it 1) makes sense and 2) truly addresses the initial problem.  
+<br>
+Second, and very importantly: depending on what it is you’re working on, you may not be allowed to send the code to ChatGPT or other generative AI tools. Enterprise solutions are being created and improved that allow companies to feed their proprietary code into an LLM-based tool without the code being used for further training or made in some way available to other people, but this is not the case for most publicly available LLMs and generative AI tools at this time.  
+<br>
+Be very careful about what you share with LLMs - an example of code that you could submit to ChatGPT to receive an explanation of concepts or debug with would be a personal project that you have complete control over. Any project which you don’t have full ownership over should be discussed and approved by other stakeholders before code is shared with generative AI tools of any kind.  
 
-Second, and very importantly: depending on what it is you’re working on, you may not be allowed to send the code to ChatGPT or other generative AI tools. Enterprise solutions are being created and improved that allow companies to feed their proprietary code into an LLM-based tool without the code being used for further training or made in some way available to other people, but this is not the case for most publicly available LLMs and generative AI tools at this time. 
-
-Be very careful about what you share with LLMs - an example of code that you could submit to ChatGPT to receive an explanation of concepts or debug with would be a personal project that you have complete control over. Any project which you don’t have full ownership over should be discussed and approved by other stakeholders before code is shared with generative AI tools of any kind.
+### !end-callout
 
 ## Tips for working with code in LLMs
 
