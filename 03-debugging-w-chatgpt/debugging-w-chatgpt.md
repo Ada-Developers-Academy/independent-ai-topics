@@ -2,12 +2,12 @@
 
 ## Goals
 
-We have a number of tools in our belt for debugging and understanding code, but there’s always room for more! This lesson is about what we can do with LLMs and generative AI tools like ChatGPT if we’ve used all the debugging tools at our disposal and are still feeling stuck or unsure of what a piece of code is doing.
+We have a number of tools in our belt for debugging and understanding code, but there’s always room for more! This lesson is about what we can do with LLMs and generative AI tools like ChatGPT if we’ve used all other debugging tools at our disposal and are still feeling stuck or unsure of what a piece of code is doing.
 
 Our goals for this lesson are to:
-- Learn how to effectively share code and context around code with ChatGPT
+- Learn how to effectively share code and context with ChatGPT
 - Use ChatGPT in conjunction with our other debugging skills 
-- Examine how to evaluate the explanations ChatGPT gives for correctness
+- Examine how to evaluate ChatGPT provided explanations for correctness
 
 ## Caveats & Concerns
 
@@ -15,19 +15,19 @@ First and foremost, we want to note that all of our debugging skills that we lea
 
 Second, and very importantly: depending on what it is you’re working on, you may not be allowed to send the code to ChatGPT or other generative AI tools. Enterprise solutions are being created and improved that allow companies to feed their proprietary code into an LLM-based tool without the code being used for further training or made in some way available to other people, but this is not the case for most publicly available LLMs and generative AI tools at this time. 
 
-Be very careful about what you share with LLMs - personal projects that you have complete control over and don’t mind the code being shared with the companies training these tools are great candidates for using ChatGPT to explain concepts and debug with. Any project you don’t have full ownership over should be discussed and approved by other stakeholders before code is shared with generative AI tools of any kind.
+Be very careful about what you share with LLMs - an example of code that you could submit to ChatGPT to receive an explanation of concepts or debug with would be a personal project that you have complete control over. Any project which you don’t have full ownership over should be discussed and approved by other stakeholders before code is shared with generative AI tools of any kind.
 
 ## Tips for working with code in LLMs
 
 ### Setting the Stage
 
-It’s helpful to set the stage first when working with LLM tools like ChatGPT for code. We can do this by asking ChatGPT to act as an expert in a particular language, helping you to debug. If we know exactly what problem we need help with we can include more details in the prompt, but a starting prompt could look like:
+It’s helpful to set the stage first when working with LLM tools like ChatGPT while coding. We can do this by prompting ChatGPT to "act as an expert in a particular language, helping you to debug". If we know exactly what problem we need help with we can include more details in the prompt, but a starting prompt could look like:
 
 > You are a python expert who will help me debug python code.
 
 ### Gathering Information
 
-Adding in ChatGPT doesn’t change our generic debugging steps, but it means that we may want to take some extra notes in a text editor for crafting a prompt if necessary. 
+Adding in ChatGPT doesn’t change our generic debugging steps, but it means that we may want to take some extra notes in a text editor for crafting a prompt if necessary. We should try our best to provide as many details as possible so that ChatGPT does not need to fill in gaps or make assumptions which might result in an incorrect response. 
 
 As we investigate what is happening, we should take notes of the exact issues our code is experiencing such as: 
 - compiler errors that the IDE generates 
@@ -39,7 +39,7 @@ When we ask ChatGPT for assistance, we need to be descriptive to get useful help
 - a detailed description of the input, expected result, and actual result
 - any other information needed to reliably reproduce the issue being debugged
 
-The type of info we’re gathering likely sounds familiar - when we ask ChatGPT for help we need to gather the same kinds of detailed information and explanation that we would use if we were reaching out to other people for help who may be unfamiliar with the project. 
+The type of information we’re gathering likely sounds familiar - when we ask ChatGPT for help we need to collect the same kinds of detailed information and explanation that we would use if we were reaching out to other people for help who may be unfamiliar with the project. 
 
 ## Providing Code & Enumerating Lines
 
@@ -203,7 +203,7 @@ Let’s take a closer look at the debugging journey to see where we can make the
 
 #### Investigation
 
-When we’re debugging the problem may not always be obvious, so we may have to do some searches about errors, set breakpoints, or add print statements to better understand what kinds of inputs are giving us an issue and how. If our initial searches don’t come up with clear answers, we can ask ChatGPT questions about the error messages or the behavior we are seeing to get a better idea of what is causing the problem and where it may stem from.
+When we’re debugging the problem may not always be obvious, so we may have to do some searches about errors, set breakpoints, or add print statements to better understand what kinds of inputs are giving us an issue and why. If our initial searches don’t come up with clear answers, we can ask ChatGPT questions about the error messages or the behavior we are seeing to get a better idea of what is causing the problem.
 
 ### Why is it Happening?
 
@@ -215,9 +215,9 @@ We need a solid understanding of how a piece of code works to debug effectively.
 
 Next we want to dig into why the bug is happening. We want to isolate the problem by finding the line or lines of code causing our issue and reliably reproduce the bug so we know how to test for it and confirm the bug was fixed. Our prior tools are a great place to start, stepping through our code or charting the execution to see when unexpected values begin to appear. 
 
-A helpful strategy can be to set a timebox for stepping through the code with a debugger and if that ends, then reach out to ChatGPT for help determining which lines of code are causing the issue. ChatGPT can also help us use other debugging tools more effectively if we ask for guidance. For example, if we pinpoint where the bug is happening after having trouble doing so with a debugger, we can ask ChatGPT “How could we catch the issue with a debugger?”.
+A helpful strategy can be to set a timebox for stepping through the code with a debugger and when that ends, then reach out to ChatGPT for help determining which lines of code are causing the issue. ChatGPT can also help us use other debugging tools more effectively if we ask for guidance. For example, if we pinpoint where the bug is happening after having trouble doing so with a debugger, we can ask ChatGPT “How could we catch the issue with a debugger?”.
 
-Similarly, if we’re having trouble reproducing the bug consistently, we can set a timebox for exploration and research. If the timebox ends, we can see if ChatGPT can help guide us on how to reproduce the issue and suggest test cases to let us reliably test the issue.
+Similarly, if we’re having trouble reproducing the bug consistently, we can set a timebox for exploration and research. If the timebox ends and we still don't have our answer, we can see if ChatGPT can help guide us on how to reproduce the issue and suggest test cases to let us reliably test the issue.
 
 ### How we Fix it
 
@@ -399,14 +399,14 @@ After completing the project, Althea has some time and wants to refactor their c
 
 We can see that ChatGPT is suggesting that Althea uses a separate function `sample` from the `random` module. Before copy/pasting the suggestion into their project, they go back to the random module documentation or other trusted resources to ensure: 
 - Does the `random.sample` function exist? 
-- If `random.sample` does exist, does it actually do what ChatGPT thinks it does? 
-- If it does what ChatGPT thinks, then does using the function meet the original intention of the code we’re trying to fix?
+- If `random.sample` does exist, does it actually do what ChatGPT says it does? 
+- If it does what ChatGPT thinks, then does using the function meet the original code requirements?
 
 In this case, the answer to all of these questions is Yes! Althea can once again update their code and run the test suite to ensure everything is still in working order after their changes 🎉.
 
 ## Summary
 
-ChatGPT can be a really helpful tool to give us more insight on what code is doing, but we need to be careful about over-reliance. There are many situations in life such as interviews and code review meetings where we may not have access to generative AI tools, meaning that tools like ChatGPT are best used to support and augment the debugging skills we’ve built rather than to replace them. When we start out a debugging journey, we still want to begin with searching errors on the web, using print statements, and setting breakpoints to step through our code. 
+ChatGPT can be a really helpful tool to give us more insight on what code is doing, but we need to be careful about over-reliance. There are many situations in life such as interviews and code review meetings where we may not have access to generative AI tools, meaning that tools like ChatGPT are best used to support and augment the debugging skills we’ve built rather than to replace them. When we start out a debugging journey, we still want to begin with searching errors on the web, using print statements, setting breakpoints to step through our code, and asking others for help before turning to ChatGPT. 
 
 If we have trouble finding resources about the error or understanding what the code is doing using our prior skills, we can begin to augment our investigation by folding in ChatGPT to see if it can explain an error and common causes, or talk through what particular lines of code are doing in reality vs expectation. 
 
@@ -439,7 +439,7 @@ Order the debugging steps that they took from first to last action:
 ##### !end-answer
 ##### !explanation
 
-Althea wants to first do some quick searches for the error to see if there are resources on what the error means and why it might be happening. They want to understand the code better, so they do a close reading of the code and do some rubber ducking. Once they feel more clear on the overall goal of the code, they set some breakpoints and step through the code line by line to try to suss out where the strange behavior starts. Althea has an idea of what is going wrong and has narrowed down the issue to a few lines of code but they want more clarity, so they write up what they learned from their observations and prompt ChatGPT for guidance on where the issue might be happening. After carefully reading ChatGPT’s response to ensure it makes sense, they step through their code again, paying close attention to the line that ChatGPT called out as a potential issue and ensuring they see the the bug happening at that line.
+Althea wants to first do some quick searches for the error to see if there are resources on what the error means and why it might be happening. They want to understand the code better, so they do a close reading of the code and do some rubber ducking. Once they feel more clear on the overall goal of the code, they set some breakpoints and step through the code line by line to try to suss out where the strange behavior starts. Althea has an idea of what is going wrong and has narrowed down the issue to a few lines of code but they want more clarity, so they write up what they learned from their observations and prompt ChatGPT for guidance on where the issue might be happening. After carefully reading ChatGPT’s response to ensure it makes sense, they step through their code again, paying close attention to the line that ChatGPT called out as a potential issue and double check that they see the the bug happening at that line.
 
 ##### !end-explanation
 ### !end-challenge
@@ -462,7 +462,7 @@ For this problem, let’s say that we’ve fixed all the bugs in `snowman.py` ex
 print(f"Sorry, you lose! The word was {snowman}")
 ```
 
-If we wanted to craft a prompt to help debug this specific issue, what is the least amount of code we could share with a LLM tool that would give it enough context to help us debug? Choose one option below:
+If we wanted to craft a prompt to help debug this specific issue, what is the *least* amount of code we could share with a LLM tool that would give it enough context to help us debug? Choose one option below:
 
 ##### !end-question
 
