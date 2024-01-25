@@ -41,3 +41,22 @@ Standards:
         Type: Lesson
         UID: ebd7c520-952b-11ee-b9d1-0242ac120002
         Path: /03-debugging-w-chatgpt/debugging-w-chatgpt.md
+  - 
+    Title: Using GitHub's Copilot
+    Description: How do we work with code-specific AI Assistants like GitHub's Copilot?
+    UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
+        Path: /06-working-w-copilot/setting-up-copilot.md
+      -
+        Type: Lesson
+        UID: e3e38130-72f1-4695-8aa9-e9f4a2d14c58
+        Path: /06-working-w-copilot/copilot-interface-shortcuts.md
+      -
+        Type: Lesson
+        UID: d070c172-d08a-4548-93da-ba629a15d766
+        Path: /06-working-w-copilot/copilot-in-projects.md
