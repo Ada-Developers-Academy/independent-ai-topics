@@ -22,12 +22,12 @@ Github's Copilot is a paid service that is free for students for a limited time 
 
 1. Check if your student developer pack is still active from Unit 2.
    - Look for a "PRO" status under "Highlights" in your profile on GitHub (In the upper-right corner of any page, click your profile photo, then click "Your Profile").  
-   ![A GitHub profile page with the "Highlights" section circled](assets/github-profile-pro-location.png)  
+   ![A GitHub profile page with the "Highlights" section circled](assets/setting-up-copilot/github-profile-pro-location.png)  
    *Fig. "Highlights" section of a profile on GitHub*
    - If your developer pack is expired or you have trouble with the following steps, please drop by office hours or reach out to an instructor to help you troubleshoot student developer pack access.
 
 2. Go to the account settings screen by clicking your profile photo in the upper-right corner of any page, then click "Settings". Under the "Code, planning, and automation" section of the "Settings" sidebar, click "Copilot".  
-   ![The GitHub "Settings" menu with the "Code, planning, and automation" section underlined and the "Copilot" option circled](assets/github-settings-menu.png)  
+   ![The GitHub "Settings" menu with the "Code, planning, and automation" section underlined and the "Copilot" option circled](assets/setting-up-copilot/github-settings-menu.png)  
    *Fig. "Copilot" option in the "Settings" menu*
 
 3. Click “Enable Copilot” and we should see a message that we have access to Copilot for free and a new button “Continue to get access to Github Copilot” that we should click.
@@ -44,11 +44,11 @@ To add Copilot to VS Code, we need to install the Copilot extension:
 1. Open VS Code, then click the Extensions tab.
  
 2. In the Extensions tab, search for "GitHub Copilot"  
-   ![The "Extensions" tab of VS Code with the search terms "GitHub Copilot" entered in the search bar. The results show "GitHub Copilot" as the first result, which is circled in red.](assets/vscode-search-copilot.png)  
+   ![The "Extensions" tab of VS Code with the search terms "GitHub Copilot" entered in the search bar. The results show "GitHub Copilot" as the first result, which is circled in red.](assets/setting-up-copilot/vscode-search-copilot.png)  
    *Fig. "GitHub Copilot" in the VS Code Extension search results*
 
 3. You can install GitHub Copilot using the "Install" button directly on the entry in the results list or click the "GitHub Copilot" result to go to their extension page and click "Install" from there.  
-   ![The information page for the GitHub Copilot Extension](assets/vscode-copilot-extension-page.png)  
+   ![The information page for the GitHub Copilot Extension](assets/setting-up-copilot/vscode-copilot-extension-page.png)  
    *Fig. "GitHub Copilot"'s extension page in VS Code*
 
 4. If you haven't previously authorized VS Code in your GitHub account, you will be asked to sign in to GitHub inside VS Code (If you've previously authorized Visual Studio Code in your GitHub account, GitHub Copilot should automatically be authorized).
