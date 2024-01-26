@@ -110,21 +110,114 @@ From here we can ask further questions in the chat, requesting changes or a deep
 
 ## Accepting and Rejecting Suggestions
 
-We've seen a bunch of ways that we can ask copilot to generate code, but what do we do once the suggestion is showing? With the inline chat there's an "Accept" button, but if we're just typing a function definition or a comment in a code file, how do we choose to keep some or all of the code presented to us?
+We've seen several ways that we can ask copilot to generate code, but what do we do once the suggestion is showing? With the inline chat there's an "Accept" button, but if we're just typing a function definition or a comment in a code file, how do we choose to keep some or all of the code presented to us?
 
 It turns out that we have a lot of control! We can accept an entire suggestion, the next line of a suggestion, or we can go word-by-word. There are default shortcuts for accepting a whole suggestion (`Tab`) or the next word of a suggestion (`CMD + left arrow`), but if we want to accept suggestions line-by-line we need to either set up our own shortcut in VS Code or hover over the suggestion to bring up the suggestion menu. In the image below we've clicked on the '3 dots' icon at the right of the suggestion menu to show all the available options, which includes "Accept Line". 
 
-![The suggestion options UI that is shown when you hover over a Copilot suggestion](assets/copilot-interface-shortcuts/copilot-suggestion-menu-overflow-open.png)
+![The suggestion options UI that is shown when you hover over a Copilot suggestion](assets/copilot-interface-shortcuts/copilot-suggestion-menu-overflow-open.png)  
 *Fig. Copilot's suggestion options UI with the overflow menu open so we can see all options*
 
 ## Seeing alternate suggestions
 
-There are many reasons that we might want to see alternative suggestions from Copilot. We saw in the chat UIs that we had options to regenerate a response, similar to with CHatGPT, but how do we do it from a suggestion in a file?
+We saw in the chat UIs that we had options to regenerate a response, similar to ChatGPT, but how do we see alternatives from a suggestion in a file?
+
+When we're in a code file, Copilot will immediately gather multiple suggestions if it can. If we take a look at the image above, the first controls in the suggestion menu `< 1/3 >` tell us that we're looking at the first of 3 suggestions and the arrows buttons let us navigate back and forth through Copilot's suggestions. There are also shortcuts for viewing the next suggestion (`OPTION + ]`) or the previous suggestion (`OPTION + [`).
+
+If we want to see all of the suggestions from Copilot next to each other for comparison, we can use the shortcut `CTRL + Enter`. This will open a new tab that Copilot will fill with suggestions, along with "Accept Solution" buttons above each suggestion that we can use to bring a specific suggestion back to our code file.
+
+![VS Code with 2 tabs open, a python file, and a window of suggestions from Copilot](assets/copilot-interface-shortcuts/copilot-multiple-suggestions-new-tab.png)  
+*Fig. Copilot's suggestions opened in a new tab*
 
 ## Other uses for Copilot Chat
 
+Just like we saw with ChatGPT, if we bring up the inline chat or the chat tab and write out prompts like `Can you explain this code line by line?` or `Please help me generate test cases for the selected code, focusing on edge cases.` we can start a conversation and get guidance, providing more context and asking further questions as needed until we reach a satisfying answer. In addition to writing out prompts, Copilot chat has a few handy shortcuts for common actions. We can also use Copilot to help summarize code changes for our commit messages!
+
+### !callout-info
+## Copilot limitations
+
+Copilot does have limitations and a knowledge cut off like ChatGPT, so languages or syntax that is very new may not be available in suggestions or Copilot may not have very useful results. However, when it comes to commonly used libraries and modules, Copilot is great at surfacing and explaining functions or syntax without having to leave our IDE.
+### !end-callout  
+
 ### Shortcut Commands
+
+If we open up a Copilot chat and type `/` we'll see a few shortcut options in a dropdown. We're focusing on 4 of them here, but feel free to follow your curiosity about the rest.
+
+| Shortcut | Use |
+| -------- | --- |
+| /doc | Add documentation comments for the selected code |
+| /explain | Explain the selected code. If invoked from the inline chat, this will open the chat tab. |
+| /fix | Try to fix any problems detected in the selected code |
+| /tests | Generate unit tests for the selected code. This will create a new file you can review and modify. |
+
+![Copilot's inline chat with a `/` entered and showing a dropdown of shortcut options](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png)  
+*Fig. Shortcut options showing on an inline chat after entering `/`*
+
+### Commit Messages
+
+If you use the Source Control tab in VS Code to manage branches and commits, Copilot is already integrated there for us! The text box to write our commit message now has a button to the right with a sparkles icon – if we hover over it we'll see a message "Generate Commit Message with Copilot". If you click it, copilot will generate a summary based on the changed files that we can review and update as needed to fit our own or our team's standards.
+
+![Close up view of the source control tab of VS Code with the Copilot commit message button circled in red](assets/copilot-interface-shortcuts/vscode-source-control-copilot-button.png)  
+*Fig. VS Code's Source Control tab with the Copilot commit message button circled*
 
 ## Summary
 
+This has been a dash through the Copilot UI, focusing mostly on how we can generate and work with code suggestions and use the chat to our benefit. The biggest takeaway is that, like so much in coding, there are multiple ways we can perform most actions, and we need to explore and try things out to see what fits best with our workflow. If you're still a little unsure how or where you might apply Copilot, in our next lesson, we'll use a Unit 2 project as a practical example for generating new code and refactoring existing code with Copilot.
+
 ## Check for Understanding
+
+<!-- Question 1 -->
+<!-- prettier-ignore-start -->
+### !challenge
+* type: ordering
+* id: 1ede5119-c503-4aa5-8833-bd39472ed25b
+* title: Ordering Copilot Shortcuts
+
+##### !question
+Order the shortcuts so that they match the order of the actions listed below:
+
+1. Open the inline chat
+2. View the next suggestion
+3. View the previous suggestion
+4. Accept a code suggestion
+##### !end-question
+
+##### !answer
+1. `CTRL + i`
+2. `OPTION + ]`
+3. `OPTION + [`
+4. `TAB`
+##### !end-answer
+
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- Question 2 -->
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: 4b5135e4-1435-46ad-b010-fafef36c26fc
+* title: Copilot's Limitations
+
+##### !question
+Select the actions below that Copilot would have trouble performing. 
+##### !end-question
+
+##### !options
+* Surfacing syntax in well-used libraries
+* Explaining functions or classes line by line
+* Writing test cases for a brand new testing library
+* Adding documentation to a function or class
+* Suggesting code in a language released this year
+##### !end-options
+
+##### !answer
+* Writing test cases for a brand new testing library
+* Suggesting code in a language released this year
+##### !end-answer
+
+##### !explanation
+Both `Writing test cases for a brand new testing library` and `Suggesting code in a language released this year` would require Copilot to have recent knowledge. Because of Copilot's training data cut off, it has no way to know about new languages or libraries and would have trouble performing these tasks.
+##### !end-explanation
+
+### !end-challenge
+<!-- prettier-ignore-end -->
