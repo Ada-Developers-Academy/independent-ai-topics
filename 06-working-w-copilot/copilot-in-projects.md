@@ -903,11 +903,11 @@ One option is to open each file, select the whole file, and ask Copilot to chang
 
 In our experimentation, we found that in the `routes.py` file, we could use a prompt with very few details to get the changes that we wanted: 
 
-> Please update any uses of validate_book to use validate_model instead
+> Please replace all uses of validate_book with validate_model
 
-However, in the test_routes.py file, we had to add more detail for Copilot to recognize that there was a new class parameter that was required wherever the function was invoked and that we needed import the `Book` class:
+However, in the test_routes.py file, we had to add more detail for Copilot to recognize that there was a new class parameter which was required wherever the function was invoked, and that we needed import the `Book` class:
 
-> Please update all instances of validate_book(book_id) to use validate_model(model_class, model_id) instead. Import any required model classes.
+> Please replace all uses of validate_book(book_id) with validate_model(model_class, model_id). Import any required model classes.
 
 ## Summary
 
