@@ -147,7 +147,7 @@ If we open up a Copilot chat and type `/` we'll see a few shortcut options in a 
 | /doc | Add documentation comments for the selected code |
 | /explain | Explain the selected code. If invoked from the inline chat, this will open the chat tab. |
 | /fix | Try to fix any problems detected in the selected code |
-| /tests | Generate unit tests for the selected code. This will create a new file you can review and modify. |
+| /tests | Generate unit tests for the selected code. If a test file doesn't exist already, this will create a new file you can review and modify. |
 
 ![Copilot's inline chat with a `/` entered and showing a dropdown of shortcut options](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png)  
 *Fig. Shortcut options showing on an inline chat after entering `/`*
