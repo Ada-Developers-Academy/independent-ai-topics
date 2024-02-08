@@ -527,12 +527,6 @@ This hands-on experience in a project wraps up our whirlwind tour of GitHub's Co
 
 ## Check for Understanding
 
-What are things we need to look out for when using the `/tests` shortcut?
-The tests being placed in the source file
-If Copilot brought in the right imports when referencing other classes or files
-The test file being generated in the source folder instead of test folder
-Whether the test assertions are assuming the correct kind of data
-
 <!-- Question 1 -->
 <!-- prettier-ignore-start -->
 ### !challenge
