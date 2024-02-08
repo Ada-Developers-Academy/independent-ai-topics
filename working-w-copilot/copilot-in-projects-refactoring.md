@@ -85,7 +85,7 @@ Since we want these test scenarios and the tests bodies are pretty close to what
 
 <details>
   <summary>
-    Take a moment to adjust the test file for best practices and to make sure all tests are passing. Feel free to expand this section when done to our updated `test_routes.py` file. 
+    Take a moment to adjust the test file for best practices and to make sure all tests are passing. Feel free to expand this section when done to view our updated `test_routes.py` file. 
   </summary>
 
   **Updated test_routes.py**
@@ -517,7 +517,7 @@ In our experimentation, we found that in the `routes.py` file, we could use a pr
 
 > Please replace all uses of validate_book with validate_model
 
-However, in the test_routes.py file, we had to add more detail for Copilot to recognize that there was a new class parameter which was required wherever the function was invoked, and that we needed import the `Book` class:
+However, in the `test_routes.py` file, we had to add more detail for Copilot to recognize that there was a new class parameter which was required wherever the function was invoked, and that we needed import the `Book` class:
 
 > Please replace all uses of validate_book(book_id) with validate_model(model_class, model_id). Import any required model classes.
 
