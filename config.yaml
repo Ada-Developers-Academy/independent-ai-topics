@@ -59,4 +59,8 @@ Standards:
       -
         Type: Lesson
         UID: d070c172-d08a-4548-93da-ba629a15d766
-        Path: /working-w-copilot/copilot-in-projects.md
+        Path: /working-w-copilot/copilot-in-projects-new-code.md
+      -
+        Type: Lesson
+        UID: d02d6d74-c6cd-11ee-a506-0242ac120002
+        Path: /working-w-copilot/copilot-in-projects-refactoring.md

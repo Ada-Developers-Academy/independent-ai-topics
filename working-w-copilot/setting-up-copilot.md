@@ -25,7 +25,7 @@ Github's Copilot is a paid service that is free for students for a limited time 
    - Look for a "PRO" status under "Highlights" in your profile on GitHub. In the upper-right corner of any page, click your profile photo, then click "Your Profile".  
    ![A GitHub profile page with the "Highlights" section circled](assets/setting-up-copilot/github-profile-pro-location.png)  
    *Fig. "Highlights" section of a profile on GitHub*
-   - If your Student Developer Pack is expired or you have trouble with the following steps, please drop by office hours or reach out to an instructor to help you troubleshoot Student Developer Pack access.
+   - If you have issues activating your Student Developer Pack, please file a ticket with [GitHub Education Support](https://support.github.com/contact/education). The linked support page also has a button to troubleshoot with GitHub's Virtual Agent in case it can provide immediate help. 
 
 2. Go to the account settings screen by clicking your profile photo in the upper-right corner of any page, then click "Settings". Under the "Code, planning, and automation" section of the "Settings" sidebar, click "Copilot".  
    ![The GitHub "Settings" menu with the "Code, planning, and automation" section underlined and the "Copilot" option circled](assets/setting-up-copilot/github-settings-menu.png)  
@@ -33,7 +33,7 @@ Github's Copilot is a paid service that is free for students for a limited time 
 
 3. Click “Enable Copilot”. A message will appear that we have access to Copilot for free, along with a new button “Continue to get access to Github Copilot” that we should click.
 
-4. We will be taken to a preferences screen where we can choose some options about how Copilot will use public code and snippets it generates. 
+4. We will be taken to a preferences screen where we can choose some options about how Copilot will use public code and snippets it generates. Leaving the options on can help improve the overall quality of Copilot, but turning them off won't impact your ability to get recommendations.
    - Choose what you are most comfortable with, these choices can be updated at any time by navigating to "Settings" > "Copilot".
 
 ## Setting up Copilot in VS Code

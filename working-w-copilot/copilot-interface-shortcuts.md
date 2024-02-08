@@ -5,7 +5,7 @@
 We won't cover all of Copilot's capabilities and shortcuts in this lesson, but we want to share the ones that we think developers will use most when getting started. For more in-depth information check out GitHub's documentation on ["Configuring GitHub Copilot in your environment"](https://docs.github.com/en/copilot/configuring-github-copilot/configuring-github-copilot-in-your-environment?tool=vscode) or ["Getting started with GitHub Copilot"](https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot#seeing-alternative-suggestions-2)
 
 Our goals for this lesson are to:
-- Show multiple ways prompt Copilot for suggestions
+- Show multiple ways to prompt Copilot for suggestions
 - Review helpful commands and shortcuts
 - Generate our first suggestions
 
@@ -19,7 +19,8 @@ When Copilot is active, if we start typing a function definition in a code file,
 ```
 def convert_f_to_c(temp):
 ```
-Copilot will suggest the body `return (temp - 32) * 5 / 9`, which in this case is exactly what we wanted.  
+Copilot will suggest the body `return (temp - 32) * 5 / 9`, which in this case is exactly what we wanted. We can use `Tab` to accept the presented code, which moves it from a greyed-out suggestion to code in the file that we can navigate and edit.
+
 ![The function definition "def convert_f_to_c(temp):" with a greyed out suggestion from Copilot that reads "return (temp - 32) * 5 / 9"](assets/copilot-interface-shortcuts/copilot-temperature-example.png)  
 *Fig. A function definition we wrote with a suggestion from Copilot in grey below*
 
@@ -49,7 +50,7 @@ When we create another new line, copilot tries to generate example inputs and ou
 ![A comment in a python file describing a function where Copilot has added an example input and output to the comment](assets/copilot-interface-shortcuts/copilot-comment-prompt-example-completed.png.png)  
 *Fig. An example input and output suggested by Copilot*
 
-If create yet one more new line, that is when copilot realizes we aren't trying to add any further description and provides us with a function definition. Once we press `Tab` to accept the function definition suggested, Copilot will suggest an implementation for the function.  
+If we create yet one more new line, that is when copilot realizes we aren't trying to add any further description and provides us with a function definition. Once we press `Tab` to accept the function definition suggested, Copilot will suggest an implementation for the function.  
 ![A comment in a python file describing a function where Copilot has then suggested a function definition](assets/copilot-interface-shortcuts/copilot-comment-prompt-function-definition.png)  
 *Fig. A function definition suggested by Copilot for the function described in our comment*
 
@@ -64,7 +65,7 @@ Copilot has a chat feature where you can write out questions or code prompts to 
 
 There are 2 ways we can interact with the Copilot chat:
 
-1. We can right click inside a file and select "Copilot > Start Inline Chat" or use the shortcut  `CMD + i` to open up a text box while we're still in a file.  
+1. We can right click inside a file and select "Copilot > Start Inline Chat" or use the shortcut  `CMD + i` to open up a text box while we're still in a file. Note in the second image, that Copilot itself displays a warning that generated code may be inaccurate – which is a nice reminder for us to carefully review what it presents!   
    ![A menu in VS Code that shows the Copilot options and where to open the inline chat](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
    *Fig. The right-click menu in VS Code showing the Copilot options*
 
@@ -135,7 +136,7 @@ Just like we saw with ChatGPT, if we bring up the inline chat or the chat tab an
 ### !callout-info
 ## Copilot limitations
 
-Copilot does have limitations and a knowledge cut off like ChatGPT, so languages or syntax that is very new may not be available in suggestions or Copilot may not have very useful results. However, when it comes to commonly used libraries and modules, Copilot is great at surfacing and explaining functions or syntax without having to leave our IDE.
+Copilot does have limitations and a knowledge cut off like ChatGPT, so languages or syntax that are very new may not be available in suggestions or Copilot may not have very useful results. However, when it comes to commonly used libraries and modules, Copilot is great at surfacing and explaining functions or syntax without having to leave our IDE.
 ### !end-callout  
 
 ### Shortcut Commands
