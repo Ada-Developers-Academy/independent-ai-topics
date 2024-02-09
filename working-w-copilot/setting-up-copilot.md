@@ -48,7 +48,9 @@ To add Copilot to VS Code, we need to install the Copilot extension:
    ![The "Extensions" tab of VS Code with the search terms "GitHub Copilot" entered in the search bar. The results show "GitHub Copilot" as the first result, which is circled in red.](assets/setting-up-copilot/vscode-search-copilot.png)  
    *Fig. "GitHub Copilot" in the VS Code Extension search results*
 
-3. We can install GitHub Copilot using the "Install" button directly on the entry in the results list or click the "GitHub Copilot" result to go to their extension page and click "Install" from there.  
+3. We can install GitHub Copilot using the "Install" button directly on the entry in the results list or click the "GitHub Copilot" result to go to their extension page and click "Install" from there.
+   - When we install the "GitHub Copilot" extension it will automatically install the "GitHub Copilot Chat" extension and vice versa. These are both required for Copilot to work. 
+
    ![The information page for the GitHub Copilot Extension](assets/setting-up-copilot/vscode-copilot-extension-page.png)  
    *Fig. "GitHub Copilot"'s extension page in VS Code*
 

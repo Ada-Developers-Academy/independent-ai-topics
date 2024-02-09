@@ -13,6 +13,13 @@ Our goals for this lesson are to:
 
 There are several ways we can prompt Copilot to start writing code. Feel free to open up a blank Python file to try these out as we go. It can be helpful to experiment and learn how you prefer to get suggestions from Copilot!
 
+### !callout-info
+
+## Trying the same prompts will generate different results
+Copilot may give drastically different responses for the same prompts, just as we saw with other LLM tools like ChatGPT. There is no need to be concerned if you are following along and code Copilot suggest code that looks nothing like our examples. This is okay and expected! 
+
+### !end-callout
+
 ### Starting with code
 
 When we start typing a function definition in a code file with Copilot activated, Copilot will jump in and suggest the contents of the function in grey text. Let's type the following function definition into a Python file to see what happens:
