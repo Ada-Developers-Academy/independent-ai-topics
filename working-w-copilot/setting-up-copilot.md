@@ -25,7 +25,7 @@ Github's Copilot is a paid service that is free for students for a limited time 
    - Look for a "PRO" status under "Highlights" in your profile on GitHub. In the upper-right corner of any page, click your profile photo, then click "Your Profile".  
    ![A GitHub profile page with the "Highlights" section circled](assets/setting-up-copilot/github-profile-pro-location.png)  
    *Fig. "Highlights" section of a profile on GitHub*
-   - If you have issues activating your Student Developer Pack, please file a ticket with [GitHub Education Support](https://support.github.com/contact/education). The linked support page also has a button to troubleshoot with GitHub's Virtual Agent in case it can provide immediate help. 
+   - If you have issues accessing or activating your Student Developer Pack, please file a ticket with [GitHub Education Support](https://support.github.com/contact/education). The linked support page also has a button to troubleshoot with GitHub's Virtual Agent in case it can provide immediate help. 
 
 2. Go to the account settings screen by clicking your profile photo in the upper-right corner of any page, then click "Settings". Under the "Code, planning, and automation" section of the "Settings" sidebar, click "Copilot".  
    ![The GitHub "Settings" menu with the "Code, planning, and automation" section underlined and the "Copilot" option circled](assets/setting-up-copilot/github-settings-menu.png)  
