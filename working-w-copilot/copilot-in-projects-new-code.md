@@ -23,7 +23,7 @@ Our plans in this section of the lesson are to:
 
 If we open up the `Book` class, we should have the bare bones of a model defining 3 properties: `id`, `title`, and `description`. Our first step will be to add our `to_dict` function. To make GET requests easier, we know that we want a function that takes a `Book` model and converts it to a dictionary for us, so let's write a comment to that effect. Add the following comment to your `Book.py` file then press enter to see what Copilot suggests:
 
-```
+```py
 # An instance function that returns a  
 # dictionary which represents the book model
 ```
@@ -58,7 +58,7 @@ We need a more robust function, so let's update our prompt. There are 2 signific
 
 
 **Suggestion from Copilot: ** 
-```
+```py
 @classmethod
 def from_dict(cls, data):
     if 'title' not in data or 'description' not in data:
@@ -98,7 +98,7 @@ The "Create" button will generate the new test file in the current folder, in ou
 
 We want to carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. In our case, Copilot came up with 3 tests that nearly have us covered:
 
-```
+```py
 def test_book_to_dict():
     book_data = {
         'id': 1,
@@ -142,7 +142,7 @@ To make our test suite as complete as possible, we can update the name of our la
   > Please rename this test to reflect that it only tests what happens if the description field is missing. Next, add a new test for the from_dict function that tests the scenario where the title is missing but the description is present
 
   **Updated test and newly added test:**  
-  ```
+  ```py
   def test_book_from_dict_missing_description():
       book_data = {
           'title': 'The Hobbit'
@@ -211,7 +211,7 @@ Before we make any decisions about where we want to put the code, let's examine 
 
 > Sure, here are the three new model classes following the same pattern as the Book class:
 > 
-> ```
+> ```py
 > class Author(db.Model):
 >     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 >     name = db.Column(db.String)
@@ -263,7 +263,7 @@ We can get help from Copilot with both of these tasks at the same time with a pr
 
 **Copilot's response:**
 > Sure, here are all the model classes including `Book` with the updates to use `back_populates` instead of `backref`:
-> ```
+> ```py
 > from app import db
 >  
 > class Book(db.Model):
@@ -346,7 +346,7 @@ We could make the changes manually after moving the code to a file, but we can a
   > Please update the Book to_dict function to include the name of the author and a list of the names of the genres associated in the return dictionary, only if those pieces of data exist. Please update the Author to_dict function to include the title of each item in the list books.
 
   **Copilot's Suggested Code:**
-  ```
+  ```py
   class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String)

@@ -89,7 +89,7 @@ Since we want these test scenarios and the tests bodies are pretty close to what
   </summary>
 
   **Updated test_routes.py**
-  ```
+  ```py
   import pytest
   from app.routes import validate_book
 
@@ -257,7 +257,7 @@ Since we want these test scenarios and the tests bodies are pretty close to what
 With `validate_book` we were lucky and Copilot outlined all of the scenarios that we intended to test, but that will not always be the case. We won't go step by step again, but we want to take the same initial approach to testing our remaining dependencies `update_book` & `delete_book`. 
 
 Let's use the Copilot inline chat to ask for help generating tests for the `update_book` function and take a look at what Copilot suggested below:
-```
+```py
 def test_update_book(client, two_saved_books):
     # Arrange
     book_id = 1
@@ -327,7 +327,7 @@ However, there are other scenarios that are worth testing. What happens if the r
 </details>
 
 When we asked for help with testing these scenarios, Copilot gave us test suggestions, but they looked very different from our code in `test_routes.py`:
-```
+```py
 import pytest
 from flask import json
 
@@ -364,7 +364,7 @@ We could manually update the tests to match better, but Copilot can also reforma
 
 The resulting test code Copilot suggests still has issues we will address, but it is structured much closer to our other tests:
 
-```
+```py
 def test_update_book_with_extra_keys(client, two_saved_books):
     # Arrange
     book_id = 1
@@ -424,7 +424,7 @@ Copilot could have written tests that expected a crash, but here it has helped u
   </summary>
 
   **Updated `update_book` function:**
-  ```
+  ```py
   @books_bp.route("/<book_id>", methods=["PUT"])
   def update_book(book_id):
       book = validate_book(book_id)
@@ -447,7 +447,7 @@ Copilot could have written tests that expected a crash, but here it has helped u
   ```
 
   **Updated tests:**
-  ```
+  ```py
   def test_update_book_without_title(client, two_saved_books):
       # Arrange
       book_id = 1
@@ -494,7 +494,7 @@ The changes we need are pretty minimal and could be quick to perform manually, b
 > Please update this function so that we could use it for any model class
 
 The response delivers exactly what we're looking for:
-```
+```py
 def validate_model(model_class, model_id):
     try:
         model_id = int(model_id)
