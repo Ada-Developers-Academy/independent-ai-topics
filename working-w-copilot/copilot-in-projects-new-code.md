@@ -10,12 +10,12 @@ Our goals for this lesson are to show how we can use Copilot to:
 
 ## Writing new code with Copilot
 
-We won't be following the same path as our previous visit with `hello-books`. To keep things shorter and focus on areas where we can benefit from Copilot we will check out a couple branches and use the code at that state as an example to work from.
+We won't be following the same path as our previous visit with `hello-books`. To keep things shorter and focus on areas where we can benefit from Copilot, we will check out a couple branches and use the code at that state as an example to work from.
 
 For now, we're going to start at the branch [`03a-models-setup`](https://github.com/AdaGold/hello-books-api/tree/03a-models-setup) so that the database connection is set up for us in our `__init__.py` and we have a single model class `Book` already existing.
 
 Our plan in this section of the lesson is to:
-- Add the convenience methods `from_dict` & `to_dict` to the existing `Book` model
+- Add the convenience methods `from_dict` and `to_dict` to the existing `Book` model
 - Write tests for our new functions
 - Create the `Author`, `Genre`, and `BookGenre` model classes.
 
@@ -194,7 +194,7 @@ To make our test suite as complete as possible, we can update the name of our la
 
 ### Creating `Author`, `Genre`, and `BookGenre` models
 
-We can ask Copilot to help us write something even if we don't have a template or example, but it's easier for Copilot to reason about what we want if we have samples to show. Here, we have a `Book` model that we can use as a pattern when asking Copilot to help us create the `Author`, `Genre`, and `BookGenre` models.
+We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. Here, we have a `Book` model that we can use as a pattern when asking Copilot to help us create the `Author`, `Genre`, and `BookGenre` models.
 
 Before we ask Copilot for help, the first thing we need to do is gather the requirements for our new classes. In our previous work with these models, we gave them the following properties:
 
@@ -288,7 +288,7 @@ Before we make any decisions about where we want to put the code, let's examine 
 
 Overall, this is a solid start! The classes all meet the property requirements we outlined, the `Author` and `Genre` classes have the `to_dict` and `from_dict` convenience functions defined, and Copilot even gave us a heads up about the changes we'll need to make to the `Book` class for everything to work.
 
-However, the code isn't perfect; the `Author` and `BookGenre` classes use a deprecated keyword `backref` when creating a relationship with another model. We need to replace the uses of `backref` with the `back_populates` syntax, and we also still need to update our `Book` class to work with these new classes.
+However, the code isn't perfect; the `Author` and `BookGenre` classes use a deprecated named argument `backref` when creating a relationship with another model. We need to replace the uses of `backref` with the `back_populates` syntax, and we also still need to update our `Book` class to work with these new classes.
 
 We can get help from Copilot with both of these tasks at the same time with a prompt like:
 
@@ -364,7 +364,7 @@ We can get help from Copilot with both of these tasks at the same time with a pr
 
 The updated code that Copilot displays is looking much better! The deprecated `backref` usage has been replaced and the `Book` suggestion has all the new properties we needed to create our one-to-many `Author` relationship and many-to-many `Genre` relationship.
 
-We can accept the code as-is, but there is still some room for improvement depending on our needs. There are properties like `name` that we might want to mark as required on some of our models. In the `to_dict` functions for `Book` and `Author`, we may want to include some convenience properties that make use of our new relationships.
+We can accept the code as is, but there is still some room for improvement depending on our needs. There are properties like `name` that we might want to mark as required on some of our models. In the `to_dict` functions for `Book` and `Author`, we may want to include some convenience properties that make use of our new relationships.
 - For the `Book` class, it would be nice to also include the author's name and genres in the return dictionary.
 - For `Author`, it could be handy if the return dictionary included a list of the `title`s of the `Book` instances that the Author is associated with. 
 
@@ -453,7 +453,7 @@ Copilot can help make many code tasks move faster, as long as we use it with cau
 ### !challenge
 * type: checkbox
 * id: 9100b9a2-b806-4b0c-94d2-5f1af5acf54b
-* title: Using `/tests`
+* title: Copilot in Projects Pt. 1 - Writing New Code
 
 ##### !question
 What are some points to look out for when using the `/tests` shortcut.

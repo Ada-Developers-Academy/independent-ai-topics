@@ -2,7 +2,7 @@
 
 ## Goals
 
-We won't cover all of Copilot's capabilities and shortcuts in this lesson, but we want to share the ones that we think developers will use most when getting started. For more in-depth information check out GitHub's documentation on ["Configuring GitHub Copilot in your environment"](https://docs.github.com/en/copilot/configuring-github-copilot/configuring-github-copilot-in-your-environment?tool=vscode) or ["Getting started with GitHub Copilot"](https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot#seeing-alternative-suggestions-2)
+While we won't cover all of Copilot's capabilities and shortcuts in this lesson, we will take a look at the ones developers tend to use most when getting started. For more in-depth information check out GitHub's documentation on ["Configuring GitHub Copilot in your environment"](https://docs.github.com/en/copilot/configuring-github-copilot/configuring-github-copilot-in-your-environment?tool=vscode) or ["Getting started with GitHub Copilot"](https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot#seeing-alternative-suggestions-2)
 
 Our goals for this lesson are to:
 - Show multiple ways to prompt Copilot for suggestions
@@ -16,7 +16,7 @@ There are several ways we can prompt Copilot to start writing code. Feel free to
 ### !callout-info
 
 ## Trying the same prompts will generate different results
-Copilot may give drastically different responses for the same prompts, just as we saw with other LLM tools like ChatGPT. There is no need to be concerned if you are following along and code Copilot suggest code that looks nothing like our examples. This is okay and expected! 
+Copilot may give drastically different responses for the same prompts, just as we saw with other LLM tools like ChatGPT. There is no need to be concerned if you are following along and code Copilot suggests code that looks nothing like our examples. This is okay and expected! 
 
 ### !end-callout
 
@@ -33,7 +33,7 @@ Copilot will suggest the body `return (temp - 32) * 5 / 9`, which in this case i
 
 ### Using a comment as a prompt
 
-We can also use natural language to describe the function we want in a comment and Copilot will suggest code to meet those requirements. In this case, the more information we include, the more likely that Copilot will be able to respond with what we're looking for. For example, if we know that we'll be sorting inputs and want to use a particular algorithm, we should mention that in our comment. If we don't, Copilot will make a best guess at what we want and may choose a slower or otherwise less optimal algorithm.
+We can also use natural language to describe the function we want in a comment and Copilot will suggest code to meet those requirements. In this case, the more information we include, the more likely it is that Copilot will be able to respond with what we're looking for. For example, if we know that we'll be sorting inputs and want to use a particular algorithm, we should mention that in our comment. If we don't, Copilot will make a best guess at what we want and may choose a slower or otherwise less optimal algorithm.
 
 Let's try out another example to show off creating code from a comment. This time, we'll start with the prompt:
 ```py
@@ -69,20 +69,20 @@ If we create yet one more new line, that is when copilot realizes we aren't tryi
 
 ### Asking in a chat
 
-Copilot has a chat feature where you can write out questions or code prompts to Copilot, similarly to how we've interacted with ChatGPT for code. We'll see how we can use it to create a function, walk us through how the function works, and help us test it.
+Copilot has a chat feature where we can write out questions or code prompts to Copilot, similarly to how we've interacted with ChatGPT for code. We'll see how we can use it to create a function, walk us through how the function works, and help us test it.
 
 #### Starting a chat
 
 There are 2 ways we can interact with the Copilot chat:
 
 1. Through inline chat. We can right click inside a file then select "Copilot > Start Inline Chat" to open a chat box at the location we clicked. `⌘I` (`CMD + i`) accomplishes the same thing at the current cursor location. 
-   - Note that in the second image below, Copilot itself displays a warning that generated code may be inaccurate – which is a nice reminder for us to carefully review what it presents!   
+   - Note that in the second image below, Copilot itself displays a warning that generated code may be inaccurate—a nice reminder for us to carefully review what it presents!   
 
    ![A menu in VS Code that shows the Copilot options and where to open the inline chat](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
    *Fig. The right-click menu in VS Code showing the Copilot options*
 
-   ![A blank Python file with an empty inline Copilot chat showing](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png)  
-   *Fig. A blank Python file with an empty inline Copilot chat showing*
+   ![A blank Python file with an empty inline Copilot chat showing. A warning is displayed that generated code may be incorrect.](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png)  
+   *Fig. A blank Python file with an empty inline Copilot chat showing. Note the warning that generated code may be incorrect.*
 
 2. Through the Copilot chat pane. We can click either the chat tab icon in the activity bar on the left or the Copilot icon in the status bar at the bottom. The keyboard shortcut to open the chat pane is `⌃⌘I` (`CTRL + CMD + i`).  
 
@@ -167,10 +167,10 @@ and through additional prompts and responses, we can tune the conversation to ou
 ### !callout-info
 ## Copilot limitations
 
-Copilot does have limitations and a knowledge cut off like ChatGPT, so languages or syntax that are very new may not be available in suggestions or Copilot may not have very useful results. However, when it comes to commonly used libraries and modules, Copilot is great at surfacing and explaining functions or syntax without having to leave our IDE.
+Copilot does have limitations and a knowledge cut off like ChatGPT, so languages or syntax that are very new may not be available in suggestions, or Copilot may not have very useful results. However, when it comes to commonly used libraries and modules, Copilot is great at surfacing and explaining functions or syntax without having to leave our IDE.
 ### !end-callout  
 
-In addition to writing out prompts, Copilot chat has a few handy shortcuts for common actions. We can also use Copilot to help summarize code changes for our commit messages!
+In addition to writing out prompts, Copilot chat has a few handy shortcuts for common actions. We can even use Copilot to help summarize code changes for our commit messages!
 
 ### Shortcut Commands
 
@@ -195,7 +195,9 @@ Copilot can take some of the tedium out of writing commit messages when using th
 
 ## Summary
 
-This has been a dash through the Copilot UI, focusing mostly on how we can generate and work with code suggestions and use the chat to our benefit. The biggest takeaway is that, like so much in coding, there are multiple ways we can perform most actions, and we need to explore and try things out to see what fits best with our workflow. If you're still a little unsure how or where you might apply Copilot, in our next lesson, we'll use a familiar project as a practical example for generating new code and refactoring existing code with Copilot.
+This has been a dash through the Copilot UI, focusing mostly on how we can generate and work with code suggestions and use the chat to our benefit. The biggest takeaway is that, like so much in coding, there are multiple ways we can perform most actions, and we need to explore and try things out to see what fits best with our workflow.
+
+Even after looking at some potential ways to interact with Copilot, it might still feel unclear how or where Copilot can help us in our daily coding work. In our next lesson, we'll use a familiar project as a practical example for generating new code and refactoring existing code with Copilot.
 
 ## Check for Understanding
 
@@ -204,7 +206,7 @@ This has been a dash through the Copilot UI, focusing mostly on how we can gener
 ### !challenge
 * type: ordering
 * id: 1ede5119-c503-4aa5-8833-bd39472ed25b
-* title: Ordering Copilot Shortcuts
+* title: Copilot Interface & Shortcuts
 
 ##### !question
 Order the shortcuts so that they match the order of the actions listed below:
@@ -230,7 +232,7 @@ Order the shortcuts so that they match the order of the actions listed below:
 ### !challenge
 * type: checkbox
 * id: 4b5135e4-1435-46ad-b010-fafef36c26fc
-* title: Copilot's Limitations
+* title: Copilot Interface & Shortcuts
 
 ##### !question
 Select the actions below that Copilot would have trouble performing. 
@@ -258,6 +260,8 @@ Both of the following:
 
 - Writing test cases for a brand new testing library
 - Suggesting code in a language released this year
+
+<br />
 
 would require Copilot to have recent knowledge. Because of Copilot's training data cut off, it has no way to know about new languages or libraries and would have trouble performing these tasks.
 ##### !end-explanation

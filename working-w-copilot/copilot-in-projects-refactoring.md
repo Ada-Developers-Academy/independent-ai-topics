@@ -70,7 +70,7 @@ This is a scenario where Copilot shouldn't be used, since Copilot has access to 
   > Please search your codebase for `validate_book` to find all its usages. In Visual Studio Code, you can do this by pressing `Ctrl+Shift+F` and typing `validate_book` in the search bar.
 </details>
 
-If we search our project, we have 4 dependencies:
+Searching our project, we find 4 dependencies:
 - the `validate_book` function definition
 - usage in `read_one_book`
 - usage in `update_book`
@@ -115,7 +115,7 @@ Remember, the tests generated during the Copilot run in this lesson may not matc
 
 ### !end-callout
 
-Since we want these test scenarios and the tests bodies are pretty close to what we're looking for, let's use the "Apply" button in the `Refactor Preview` tab to accept the changes. We'll address the issues listed above by adjusting the imports, adding the relevant test fixtures, and updating the assertions to ensure they are for the correct values and are located in scope of the objects they are trying to examine.
+Since we want these test scenarios, and the tests bodies are pretty close to what we're looking for, let's use the "Apply" button in the `Refactor Preview` tab to accept the changes. We'll address the issues listed above by adjusting the imports, adding the relevant test fixtures, and updating the assertions to ensure they are for the correct values and are located in scope of the objects they are trying to examine.
 
 <br />
 
@@ -525,7 +525,7 @@ Now that we have a solid test suite, we can get some help from Copilot to make t
 - change any uses of the `Book` class to use our new parameter
 - update the function name, variable names, and return messages so they reflect that the function is not specific to the `Book` class
 
-The changes we need are pretty minimal and could be quick to perform manually, but for the practice, let's see how Copilot handles the change. Let's highlight the `validate_book` function, open up the inline Copilot chat, and provide the following prompt:
+The changes we need are pretty minimal and could be quick to perform manually, but for practice, let's see how Copilot handles the change. Let's highlight the `validate_book` function, open up the inline Copilot chat, and provide the following prompt:
 
 > Please update this function so that we could use it for any model class
 
@@ -551,9 +551,9 @@ To rename the class reference parameter, we select the `validate_model` function
 
 > Please use cls for the class parameter name
 
-Find & Replace could have done this just as easily, and we might have had more confidence in the results, but changing the rest of the code to use the refactored function is a bit more complex. Let's try having Copilot helping us with the rest of the change. 
+Copilot can handle this request without issue. However, Find & Replace could do this just as easily, and we might even have more confidence in the results by performing the change manually. As usual, we need to review Copilot's changes carefully to ensure nothing was missed. In contrast, changing the rest of the code to use the refactored function is a more complex change that requires several edits, and we might not feel as confident jumping in on our own. This is a great opportunity to have Copilot lend a virtual hand, so let's have Copilot help us with the rest of the change.
 
-One approach we can try is to open each file, select the entire contents, and ask Copilot to change any instances of `validate_book` to `validate_model`. We need to carefully review the lines Copilot suggests changing to ensure nothing unexpected is altered, but it can save us a little time since we need to do slightly more than find and replace the function name.
+One approach we can try is to open each file, select the entire contents, and ask Copilot to change any instances of `validate_book` to `validate_model`. We need to carefully review the lines Copilot suggests changing to ensure nothing unexpected is altered, but it can save us a little time since we need to do slightly more than just find and replace the function name.
 
 Due to differences in context, it's possible that a prompt that works fine in one file may not work as well in another file. For example, in the `routes.py` file, the following prompt, which provides very few details, is able to produce the desired changes:
 
@@ -563,13 +563,13 @@ However, in the `test_routes.py` file, more detail is necessary for Copilot to r
 
 > Please replace all uses of validate_book(book_id) with validate_model(cls, model_id). Import any required model classes.
 
-Since there is always a degree of validation and review required with any change when using Copilot, if we're having trouble finding an effective prompt, it may be worth doing the refactoring some other way. We can always refactor by hand, or by using dedicated refactoring utilities or those built into a development environment. Copilot is just one tool among many that we can draw on as developers.
+Since there is always a degree of validation and review required with any change when using Copilot, if we're having trouble finding an effective prompt, it may be worth doing the refactoring some other way. We can always refactor by hand, by using standalone refactoring tools, or by using tools in our development environment. Copilot is just one tool among many that we can draw on as developers.
 
 ## Summary
 
 This hands-on experience in a project wraps up our whirlwind tour of GitHub's Copilot! Whether we're writing new code or working in an existing codebase, Copilot can help us with tasks like generating ideas for tests, surfacing error handling we may have missed, and generally writing code more quickly. Even when Copilot's suggestions look good at a glance, we always need to carefully proofread them both for correctness and completeness. Just because a code suggestion works does not mean it fits all of our needs, so we need to remain vigilant and critical of what Copilot provides.
 
-If you're interested in more practice with Copilot, we highly suggest revisiting Solar System, Task List, Inspiration Board, or any other project that you're already familiar with so you know what the end product could look like and can focus on working with Copilot.
+For more practice with Copilot, think about revisiting Solar System, Task List, Inspiration Board, or any other familiar project. When we already have a reasonable idea what the end product could look like, that lets us focus on practicing new skills, such as working with Copilot.
 
 ## Check for Understanding
 
@@ -578,7 +578,7 @@ If you're interested in more practice with Copilot, we highly suggest revisiting
 ### !challenge
 * type: checkbox
 * id: b53afd64-55e1-4670-8d3b-bce1ca3b8872
-* title: Refactoring with Copilot Concerns
+* title: Copilot in Projects Pt. 2 - Refactoring
 
 ##### !question
 Select the refactoring steps below where Copilot may **not** be useful.
@@ -588,7 +588,7 @@ Select the refactoring steps below where Copilot may **not** be useful.
 a| Gathering requirements
 b| Locating Dependencies
 c| Checking and expanding our test suite
-d| Apply the code change
+d| Applying the code change
 ##### !end-options
 
 ##### !answer
