@@ -201,7 +201,6 @@ Even after looking at some potential ways to interact with Copilot, it might sti
 
 ## Check for Understanding
 
-<!-- Question 1 -->
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: ordering
@@ -227,7 +226,6 @@ Order the shortcuts so that they match the order of the actions listed below:
 ### !end-challenge
 <!-- prettier-ignore-end -->
 
-<!-- Question 2 -->
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: checkbox

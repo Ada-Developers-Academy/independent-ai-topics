@@ -448,7 +448,6 @@ Copilot can help make many code tasks move faster, as long as we use it with cau
 
 ## Check for Understanding
 
-<!-- Question 1 -->
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: checkbox

@@ -573,7 +573,6 @@ For more practice with Copilot, think about revisiting Solar System, Task List, 
 
 ## Check for Understanding
 
-<!-- Question 1 -->
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: checkbox
