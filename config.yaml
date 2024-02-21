@@ -10,7 +10,7 @@ Standards:
       -
         Type: Lesson
         UID: 6e38c51e-7cdb-11ee-b962-0242ac120002
-        Path: /01-generative-ai-overview/generative-ai-overview.md
+        Path: /generative-ai-overview/generative-ai-overview.md
   -
     Title: Prompting Basics & Using ChatGPT
     Description: Setting up & using ChatGPT, techniques to improve responses, and how to verify information
@@ -21,15 +21,15 @@ Standards:
       -
         Type: Lesson
         UID: 4d2e6b4c-83ea-11ee-b962-0242ac120002
-        Path: /02-prompting-101/making-requests-from-chatgpt.md
+        Path: /prompting-101/making-requests-from-chatgpt.md
       -
         Type: Lesson
         UID: 4d2e6dd6-83ea-11ee-b962-0242ac120002
-        Path: /02-prompting-101/improving-chatGPTs-responses.md
+        Path: /prompting-101/improving-chatGPTs-responses.md
       -
         Type: Lesson
         UID: c2e2d742-83ea-11ee-b962-0242ac120002
-        Path: /02-prompting-101/verifying-information-from-chatGPT.md
+        Path: /prompting-101/verifying-information-from-chatGPT.md
   - 
     Title: Debugging with ChatGPT
     Description: Where is ChatGPT useful in our debugging toolbox? How do we evaluate ChatGPT's responses?
@@ -40,4 +40,27 @@ Standards:
       -
         Type: Lesson
         UID: ebd7c520-952b-11ee-b9d1-0242ac120002
-        Path: /03-debugging-w-chatgpt/debugging-w-chatgpt.md
+        Path: /debugging-w-chatgpt/debugging-w-chatgpt.md
+  - 
+    Title: Using GitHub's Copilot
+    Description: How do we work with code-specific AI Assistants like GitHub's Copilot?
+    UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
+        Path: /working-w-copilot/setting-up-copilot.md
+      -
+        Type: Lesson
+        UID: e3e38130-72f1-4695-8aa9-e9f4a2d14c58
+        Path: /working-w-copilot/copilot-interface-shortcuts.md
+      -
+        Type: Lesson
+        UID: d070c172-d08a-4548-93da-ba629a15d766
+        Path: /working-w-copilot/copilot-in-projects-new-code.md
+      -
+        Type: Lesson
+        UID: d02d6d74-c6cd-11ee-a506-0242ac120002
+        Path: /working-w-copilot/copilot-in-projects-refactoring.md
