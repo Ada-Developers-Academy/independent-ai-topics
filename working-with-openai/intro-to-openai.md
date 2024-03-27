@@ -1,4 +1,4 @@
-# Setting Up the OpenAI API
+# Introduction to the OpenAI API
 
 ## Goals
 
@@ -10,6 +10,15 @@ Our goals for this lesson are to:
 - Set up an OpenAI account 
 - Create an OpenAI environment on Postman that we can use for testing
 - Install the OpenAI Python library
+
+## Vocabulary and Synonyms
+
+| Vocab | Definition | Synonyms | How to Use in a Sentence |
+| ----- | ---------- | -------- | ------------------------ |
+| OpenAI | OpenAI is an organization that specializes in Artificial Intelligence research and deployment | | | 
+| OpenAI API | An API created by OpenAI to allow users to access and deploy AI models within their own applications. | | |
+| ChatGPT | A web app created by OpenAI that provides an interface for users to interact directly with AI models | | |
+| OpenAI Model | An AI program that has been trained on OpenAI data sets to achieve a specific purpose. | | |
 
 ## What is the OpenAI API?
 
