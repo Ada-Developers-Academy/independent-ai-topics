@@ -6,8 +6,7 @@ Now that we have a good idea of what the OpenAI API is and some of the ways we c
 Our goals for this lesson are to:
 - Create an OpenAI API account and login
 - Generate an API Key
-- Create an OpenAI API environment on Postman for testing
-- Install the OpenAI Python library
+- Verify credits have been granted to your account
 
 ### !callout-warning
 
@@ -71,3 +70,48 @@ If your phone number has already been used to verify an OpenAI account, you will
 *Fig. OpenAI credits warning*
 
 ### !end-callout
+
+4. Verifying credits were added
+   - If you did not receive a warning about credits, you can verify your credits have been added by navigating to the "Usage" tab in the menu on the left side of the page.  
+   ![Usage tab in OpenAI menu](assets/setting-up-openai/open-ai-usage-tab.png)  
+   *Fig. OpenAI side menu with "usage" tab circled*  
+
+   - You will be taken to a page and the panel on the right side will have a list of the credits you have recieved and the credits you have used. Here you can verify that credits have been added to your account.     
+   ![OpenAI Usage statistics example](assets/setting-up-openai/open-ai-credits-verification.png)
+   *Fig. OpenAI usage page with lists of gredits granted and credits used.*  
+   - If you do not see credits associated with your account, feel free to reach out to an instructor for assistance.
+
+### !callout-info
+
+## Credits Expiration
+
+In the image above, you may notice that some of the credits have expired. The free credits granted from OpenAI expire after 3 months. You should have received $5.00 which will be more than enough to complete the coursework for the next few lessons with plenty left over to play around on your own. Information on the OpenAI pricing structure can be found [here](https://openai.com/pricing).
+
+
+### !end-callout   
+
+## Check for Understanding
+
+<!-- prettier-ignore-start -->
+### !challenge
+
+* type: tasklist
+* id: f441202f-319a-4f15-8cf1-2bc6419b7a4f
+* title: Setting up the OpenAI API
+
+##### !question
+
+Before moving on to the next section, make sure you have completed the three setps below:
+
+##### !end-question
+
+##### !options
+
+* Log into OpenAI/Create an account
+* Generate API key
+* Verify credits
+
+##### !end-options
+### !end-challenge
+
+<!-- prettier-ignore-end -->
