@@ -22,6 +22,7 @@ What are LLMs?
 
 How does bias impact LLMs?
 * *Content Warning: there are no graphic depictions, but there are examples discussed of harmful sexist and racist content created by generative AIs.* [Exploration of bias in ChatGPT and other AI models](https://www.insider.com/chatgpt-is-like-many-other-ai-models-rife-with-bias-2023-1) - from Insider.com
+* [Depression in Black people goes unnoticed by AI models analyzing language in social media posts](https://www.pennmedicine.org/news/news-releases/2024/march/depression-in-black-people-unnoticed-by-ai-analyzing-social-media) - from Penn Medicine News
 
 What are some areas of strength and weakness of LLMs?
 * [Pitfalls of LLMs](https://learnprompting.org/docs/basics/pitfalls) - From learnprompting.org
