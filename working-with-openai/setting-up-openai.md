@@ -71,7 +71,16 @@ If your phone number has already been used to verify an OpenAI account, you will
 
 ### !end-callout
 
-4. Verifying credits were added
+4. Create your secret key. 
+   - Now that you have verified your phone number, you can create a secret key. On the API Keys screen, press the button that says "+ Create new secret key" and a pop up will appear to prompt you to create a new secret key.  
+   ![Secret key pop up](assets/setting-up-openai/open-ai-secret-key-pop-up.png)  
+   *Fig. OpenAI secret key creation pop up*
+
+   - Once you press "Create secret key", you will be taken to another pop up with a prompt to save your key in a secure location. This will be your only chance to copy your key, so make sure to copy it over somewhere safe so that you can use it later.  
+   ![Save secret key pop up](assets/setting-up-openai/open-ai-save-secret-key.png)  
+   *Fig. Pop up window with alert to save secret key*
+
+5. Verifying credits were added
    - If you did not receive a warning about credits, you can verify your credits have been added by navigating to the "Usage" tab in the menu on the left side of the page.  
    ![Usage tab in OpenAI menu](assets/setting-up-openai/open-ai-usage-tab.png)  
    *Fig. OpenAI side menu with "usage" tab circled*  
