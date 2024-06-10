@@ -50,7 +50,7 @@ If you get this error, it's a pretty sure sign your API key is working. However,
     ]
 }
 ```
-You should now be able to submit your POST request and get a response more in line with what you are looking for. Your response may look slightly different, but a sample of what you could see can be seen below:  
+You should now be able to submit your POST request and get a response more in line with what you are looking for. Your response may look slightly different, but a sample of what you could see is shown below:  
 
 ![Successful API response](assets/setting-up-openai-postman-and-java/open-ai-postman-response-success.png) 
 *Fig. Successful OpenAI POST request with response body ([Full size image](assets/setting-up-openai-postman-and-java/open-ai-postman-response-success.png))*  
