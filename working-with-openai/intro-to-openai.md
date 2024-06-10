@@ -7,9 +7,6 @@ We explored how we can use tools built on OpenAI's offerings like ChatGPT and Co
 Our goals for this lesson are to:
 - Understand what the OpenAI API is and how we can use it
 - Understand how the OpenAI API is different than ChatGPT
-- Set up an OpenAI account 
-- Create an OpenAI environment on Postman that we can use for testing
-- Install the OpenAI Python library
 
 ## Vocabulary and Synonyms
 
