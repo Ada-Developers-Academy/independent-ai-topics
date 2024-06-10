@@ -2,7 +2,7 @@
 
 ## Goals
 
-We explored how we can use ChatGPT to understand existing APIs and integrate them into our projects, but what if we wanted to leverage ChatGPT itself? In this lesson, we'll learn about the OpenAI API - the API behind ChatGPT itself - and how to set it up in a way that brings ChatGPT's many powerful tools right to our doorstep.
+We explored how we can use tools built on OpenAI's offerings like ChatGPT and Copilot to generate ideas and to write and review code, but what if we wanted to leverage ChatGPT itself in our projects? In this lesson, we'll learn about the OpenAI API - the API behind ChatGPT itself - and how to set it up in a way that brings ChatGPT's many powerful tools right to our doorstep.
 
 Our goals for this lesson are to:
 - Understand what the OpenAI API is and how we can use it
