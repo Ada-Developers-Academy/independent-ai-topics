@@ -1,4 +1,4 @@
-## Introduction to OpenAI API Models
+# Introduction to OpenAI API Models
 
 ## Goals
 
