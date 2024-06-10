@@ -1,7 +1,7 @@
 # Setting up the OpenAI API
 
 ## Goals
-Now that we have a good idea of what the OpenAI API is and some of the ways we can use it, let's go ahead and get it set up. We'll set up our accounts and then set everything up for us to start integrating the OpenAI API into our projects!
+Now that we have a good idea of what the OpenAI API is and some of the ways we can use it, let's go ahead and get it set up. We'll create or configure our account and then confirm that everything is in place for us to start integrating the OpenAI API into our projects!
 
 Our goals for this lesson are to:
 - Create an OpenAI API account and login
