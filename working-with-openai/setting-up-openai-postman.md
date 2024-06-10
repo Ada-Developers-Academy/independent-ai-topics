@@ -53,7 +53,7 @@ If you get this error, it's a pretty sure sign your API key is working. However,
 You should now be able to submit your POST request and get a response more in line with what you are looking for. Your response may look slightly different, but a sample of what you could see can be seen below:  
 
 ![Successful API response](assets/setting-up-openai-postman-and-java/open-ai-postman-response-success.png) 
-*Fig. Successful OpenAI POST request with response body*  
+*Fig. Successful OpenAI POST request with response body ([Full size image](assets/setting-up-openai-postman-and-java/open-ai-postman-response-success.png))*  
 
 If you've made it this far, congratulations! You now have Postman configured to practice the openAI requests that we will be going over in the next couple of lessons. If you saved your environment correctly, it should now exist as an option in Postman when you choose your environment. If for any reason your requests still aren't working, double check your work or reach out to an instructor for further assistance! 
 
