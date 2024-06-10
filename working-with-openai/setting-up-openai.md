@@ -94,7 +94,7 @@ If your phone number has already been used to verify an OpenAI account, you will
 
 ## Credits Expiration
 
-In the image above, you may notice that some of the credits have expired. The free credits granted from OpenAI expire after 3 months. You should have received $5.00 which will be more than enough to complete the coursework for the next few lessons with plenty left over to play around on your own. Information on the OpenAI pricing structure can be found [here](https://openai.com/pricing).
+In the image above, you may notice that some of the credits have expired. The free credits granted from OpenAI expire after 3 months. You should have received $5.00 which will be more than enough to complete the coursework for the next few lessons with some left over to play around on your own. Information on the OpenAI pricing structure can be found [here](https://openai.com/pricing).
 
 
 ### !end-callout   
