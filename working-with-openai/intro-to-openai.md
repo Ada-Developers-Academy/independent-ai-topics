@@ -8,14 +8,13 @@ Our goals for this lesson are to:
 - Understand what the OpenAI API is and how we can use it
 - Understand how the OpenAI API is different than ChatGPT
 
-## Vocabulary and Synonyms
+## Vocabulary
 
-| Vocab | Definition | Synonyms | How to Use in a Sentence |
-| ----- | ---------- | -------- | ------------------------ |
-| OpenAI | OpenAI is an organization that specializes in Artificial Intelligence research and deployment | | | 
-| OpenAI API | An API created by OpenAI to allow users to access and deploy AI models within their own applications. | | |
-| ChatGPT | A web app created by OpenAI that provides an interface for users to interact directly with AI models | | |
-| OpenAI Model | An AI program that has been trained on OpenAI data sets to achieve a specific purpose. | | |
+| Vocab | Definition | How to Use in a Sentence |
+| ----- | ---------- | ------------------------ |
+| OpenAI | OpenAI is an organization that specializes in Artificial Intelligence research and deployment | |
+| OpenAI API | An API created by OpenAI to allow users to access and deploy AI models within their own applications. | |
+| OpenAI Model | An AI program that has been trained on OpenAI data sets to achieve a specific purpose. | |
 
 ## What is the OpenAI API?
 
