@@ -1,4 +1,4 @@
-## Setting up the OpenAI API
+# Setting up the OpenAI API
 
 ## Goals
 Now that we have a good idea of what the OpenAI API is and some of the ways we can use it, let's go ahead and get it set up. We'll set up our accounts and then set everything up for us to start integrating the OpenAI API into our projects!
