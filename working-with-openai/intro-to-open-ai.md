@@ -41,7 +41,7 @@ If we look at ChatGPT itself, we see that the free version is built using the GP
 ### !callout-warn
 
 ## The OpenAI is Not Free at this Time
-Unfortunately, the OpenAI is not currently a free API. It is priced according to which model you are using and how often you are using it. New users do currently get $5 worth of credits to begin experimenting which is tied to the phone number you provide when signing up. 
+Unfortunately, the OpenAI API is not currently a free API. It is priced according to which model you are using and how often you are using it. New users do currently get $5 worth of credits to begin experimenting which is tied to the phone number you provide when signing up. This information is accurate as of the time this lesson has been published. The OpenAI services are changing rapidly and offerings may have changed at the time of reading.
 
 
 ### !end-callout

@@ -2,26 +2,25 @@
 
 ## Goals
 
-Now that we know a bit about the OpenAI models, lets learn how to use them within our programs. To do so, we'll start by exploring OpenAI endpoints. From there we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the OpenAI library and then leverage one of OpenAI's endpoints to generate dialogue for characters we create.
+Now that we know a bit about the OpenAI models, lets learn about the OpenAI endpoints. 
 
 Our goals for this lesson are to:
 - Recognize different OpenAI endpoints and how they are used
-- Understand how to integrate the OpenAI library into a python project.
-- Use the OpenAI chat completion endpoint to generate content for our project. 
+- Write our first OpenAI request in Postman
 
 ## Exploring OpenAI Endpoints
 
 In the last lesson, we looked at the different models associated with OpenAI. It may come as no surprise that each model maps to a specific endpoint we can use to access different AI functionalities. Below is a non-exhaustive list of OpenAI's endpoints and the models they map to:
 
-| Endpoint | Model(s) | Usage |
-| -------- | -------- | ----- |
-| POST https://api.openai.com/v1/chat/completions | GPT 3.5 Turbo/GPT 4.0/ GPT 4.0 Turbo | Generating a response to a set of messages |
-| POST https://api.openai.com/v1/images/generations | DALL-E | Generate a new image from a given prompt |
-| POST https://api.openai.com/v1/audio/speech | TTS | Generate audio from input |
-| POST https://api.openai.com/v1/audio/transcriptions | Whisper | Generate a transcription of audio input |
-| POST https://api.openai.com/v1/embeddings | Embeddings | Creates a numerical  representation of text |
-| POST https://api.openai.com/v1/moderations | Moderations | Checks to see if text could be potentially harmful | 
-| GET https://api.openai.com/v1/models | None | Returns a list of OpenAI models | 
+| Endpoint | Verb | Model(s) | Usage |
+| -------- | ---- | -------- | ----- |
+| https://api.openai.com/v1/chat/completions | POST | GPT 3.5 Turbo/GPT 4.0/ GPT 4.0 Turbo | Generating a response to a set of messages |
+| https://api.openai.com/v1/images/generations | POST | DALL-E | Generate a new image from a given prompt |
+| https://api.openai.com/v1/audio/speech | POST | TTS | Generate audio from input |
+| https://api.openai.com/v1/audio/transcriptions | POST | Whisper | Generate a transcription of audio input |
+| https://api.openai.com/v1/embeddings | POST | Embeddings | Creates a numerical  representation of text |
+| https://api.openai.com/v1/moderations | POST | Moderations | Checks to see if text could be potentially harmful | 
+| https://api.openai.com/v1/models | GET | None | Returns a list of OpenAI models | 
 
 We will focus on using the chat completions endpoint for now, but  each endpoint can be called similarly. Each request body will require some form of input at a minimum and most will require the specific model you would like to use as well. The response you receive will also vary from request to request so make sure you have an understanding of the shape of a response before jumping right in. The full list of OpenAI endpoints along with examples of a request and response body can be found [here](https://platform.openai.com/docs/api-reference/introduction). OpenAI also provides a [model compatability chart](https://platform.openai.com/docs/models/model-endpoint-compatibility) that allows you to see which models work with each endpoint.
 
@@ -35,21 +34,9 @@ As mentioned earlier, the chat completion endpoint is:
 ```
     POST https://api.openai.com/v1/chat/completions 
 ``` 
-Like most POST endpoints, the chat completions endpoint is not complete itself without a request body. This particular endpoint has two required properties:
+Like most POST endpoints, the chat completions endpoint is not complete itself without a request body. Let's go ahead and write a request body and then discuss its individual parts after.
 
-- messages - A list of messages that hold the conversation so far.
-- model - The model to be used. As mentioned earlier, GPT 4.0 might return a different response than GPT 3.5.
-
-We encourage you to research all the opther optional properties for this endpoint but some of note are:
-
-- max-tokens - The maximum number of tokens to be returned
-- n - The number of choices you'd like the api to return. The default value is 1. 
-- temperature - A sampling temperature from 0-2. The higher the value, the more random the response. The default value is 1.
-
-The rest of the optional properties can be found [here](https://platform.openai.com/docs/api-reference/chat/create).
-
-
-Now that we know what is required, let's test the chat completions endpoint in Postman. Go ahead and open up Postman and enter the POST endpoint from above. Make sure you are in your OpenAI environment and then navigate to set up a raw JSON body. In the window, copy and paste the request body below.
+Open up Postman and enter the POST endpoint from above. Make sure you are in your OpenAI environment and then navigate to set up a raw JSON body. In the window, copy and paste the request body below.
 ```
 {
     "model": "gpt-3.5-turbo",
@@ -66,13 +53,24 @@ Now that we know what is required, let's test the chat completions endpoint in P
 }
 ```
 
-### !callout-info
+Now let's look at each piece a little more in depth
 
-## The Message Object
+| Piece of Code | Notes |
+| ------------- | ----- | 
+| `model` | The model you would like to use for the request. |
+| `messages` | A list of all the messages within a conversation. |
+| `role` | Indicates who the message came from. The most common roles are "user" and "system". |
+| `content` | The actual text of the message |
 
-You may notice that each message object in our request body has two properties: "role" and "content". The "role" property indicates who the message came from. For our purposes, we have two options, "user" and "system". The content property holds the message text itself. Both properties are required to make a valid request.
+The four properties above are REQUIRED for your request to work properly. Below are a few other properties that can be included in your request, but the following are all OPTIONAL. 
 
-### !end-callout
+| Property | Description |
+| -------- | ----------- | 
+| `max-tokens` | The maximum number of tokens to be returned. |
+| `n` | The number of choices you'd like the api to return. The default value is 1. |
+| `temperature` | A sampling temperature from 0-2. The higher the value, the more random the response. The default value is 1.. |
+
+Those are just a few of the optional properties you can use within your request body. The rest can be found [here](https://platform.openai.com/docs/api-reference/chat/create).
 
 Go ahead and run the request and then let's check out the response body.
 
@@ -104,11 +102,13 @@ After running the above request, we received the response below. Your response m
     "system_fingerprint": null
 }
 ```
-A few of the response properties to take note of are:
-- id - A unique identifier for the response.
-- model - The model you used.
-- choices- A list of potential responses that you can choose from. If you did not specify an n in the request body, there will only be one choice.
-- usage - Details on how many tokens were used in the request and response. 
+
+| Piece of Code | Notes |
+| ------------- | ----- | 
+| `id` | A unique identifier for the response |
+| `model` | The model that was used |
+| `choices` | A list of potential responses that you can choose from. If you did not specify an n in the request body, there will only be one choice. |
+| `usage` | Details on how many tokens were used in the request and response |
 
 You have now written your first request to the OpenAI API! 
 
