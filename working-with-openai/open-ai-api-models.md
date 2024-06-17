@@ -18,7 +18,7 @@ An OpenAI Model is a large language Model that used different data sets to perfo
 | GPT-3.5 | A model that improves upon GPT-3 and is used primarily for Natural Language Processing. It can be used to understand and process natural language in order to generate code or respond to questions. | Chatbots, content generation |
 | GPT-4/ GPT-4 Turbo | Models that further improve upon GPT-3.5. They perform the same functions but have been trained with even more data. They typically have a lower rate of hallucinations (but can still make mistakes!), and are considered one of the most powerful currently LLMs on the market. That being said, they are currently only available to use via both ChatGPT and the OpenAI API at an extra cost. | Chatbots, content generation |
 | DALL-E | Not to be confused with our favorite trash collecting robot, DALL-E can be used to generate or edit an image or images via a Natural Language prompt. | Image generation, Image Manipulation | 
-| TTS ("Text To Speech) | The TTS model converts text to natural sounding speech. When using the TTS model, the OpenAI API has a variety of pre-selected voices that can be used. These come in the form of a parameter within the API request. | Text to speech conversion | 
+| TTS ("Text To Speech") | The TTS model converts text to natural sounding speech. When using the TTS model, the OpenAI API has a variety of pre-selected voices that can be used. These come in the form of a parameter within the API request. | Text to speech conversion | 
 | Whisper | The Whisper model converts audio to text | Audio transcription | 
 | Embeddings | The embeddings model converts text to its numerical equivalent in order to measure the "relatedness" of text strings. | Search queries, clustering text by similarity | 
 | Moderation | The moderation model can be used to check and see if content might be considered sensitive, unsafe or unsuitable for certain populations. | Content moderation |  
@@ -40,6 +40,40 @@ The OpenAI API is not a free service at this point in time, so each model has a 
 
 ### !end-callout
 
+## Summary
+You should know have a basic understanding of OpenAI models and what they are used for. OpenAI provides models for everything from Text to Speech to Image Generation. If you are curious to know even more about OpenAI models, don't hesitate to do more research in the [OpenAI API Documentation](https://platform.openai.com/docs/guides/text-generation)
 
+## Check for Understanding 
 
+### !challenge
+
+* type: multiple-choice
+* id: 143d8fd5-9070-4700-8ed0-58747edf997e
+* title: Understanding OpenAI Models
+<!-- * points: [1] (optional, the number of points for scoring as a checkpoint) -->
+<!-- * topics: [python, pandas] (Checkpoints only. optional the topics for analyzing points) -->
+
+##### !question
+
+Which of the following models is used primarily for image generation and analysis?
+
+##### !end-question
+
+##### !options
+
+a| DALL-E
+b| TTS
+c| Whisper
+d| GPT-3.5 Turbo
+e| GPT-4.0
+
+##### !end-options
+
+##### !answer
+
+a|
+
+##### !end-answer
+
+### !end-challenge
 
