@@ -1,4 +1,4 @@
-# Setting up the OpenAI API in Postman
+# Calling the OpenAI API from Postman
 
 ## Goals
 Now that we have our OpenAI account created and verified, let's get OpenAI set up in Postman and Python so we are prepared to start testing our API calls and bringing them into our project.
