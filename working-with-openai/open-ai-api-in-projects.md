@@ -207,7 +207,7 @@ Before we write our request to OpenAI within the project, we need to install the
 | <div style="min-width:300px;">Part of Code</div> | Description |
 | ------------- | ----------- | 
 | `from openai import OpenAI` | Import the OpenAI library |
-| `client = OpenAI()` | This code creates an OpenAI environment with your secret key from the `.env` file. We will use `client` to make our API calls. |
+| `client = OpenAI()` | This code creates an OpenAI environment with your secret key from the `.env` file. We will use `client` to make requests to the OpenAI endpoints. |
 
 ## Make the API call
 
