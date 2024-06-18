@@ -22,7 +22,7 @@ Just as an API allows us to interact with and access the functions, data and oth
 
 Some practical applications include but are not limited to:
 - Creating a chatbot or virtual assistant
-- Content generation
+- Content generation from user input
 - Image recognition
 - Language translation
 - Generating recommendations based off user input
@@ -36,8 +36,6 @@ On the other hand, the OpenAI API is an API that allows developers to integrate 
 
 If we look at ChatGPT itself, we see that the free version is built using the GPT 3.5 model from the OpenAI API. It is built specifically to answer questions, provide recommendations, or generate content based off user text input. The paid version is built similarly but uses the better trained GPT 4.0 model for its conversational piece and also incorporates other models that can handle input in the form of images, video or audio. If we wanted to, we could use the OpenAI API to build our own pseudo ChatGPT, but since that has already been created, it is up to us to find other exciting ways to leverage OpenAI's API within our own projects.
 
-## Setting up the OpenAI API
-
 ### !callout-warn
 
 ## The OpenAI is Not Free at this Time
@@ -45,3 +43,6 @@ Unfortunately, the OpenAI API is not currently a free API. It is priced accordin
 
 
 ### !end-callout
+
+## Summary
+In this lesson, we've learned the difference between the OpenAI API and ChatGPT. In the next lessons, we will take a look at how to create our OpenAI accounts and start integrating AI functionality into our projects!

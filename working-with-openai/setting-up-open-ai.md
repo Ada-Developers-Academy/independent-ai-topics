@@ -84,7 +84,7 @@ If you do not have credits left on your account and do not have another phone nu
    ![Save secret key pop up](assets/setting-up-openai/open-ai-save-secret-key.png)  
    *Fig. Pop up window with alert to save secret key*
 
-5. Verifying credits were added
+## Verifying credits were added
    - If you did not receive a warning about credits, you can verify your credits have been added by navigating to the "Usage" tab in the menu on the left side of the page.  
    ![Usage tab in OpenAI menu](assets/setting-up-openai/open-ai-usage-tab.png)  
    *Fig. OpenAI side menu with "usage" tab circled*  

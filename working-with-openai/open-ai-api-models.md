@@ -40,7 +40,7 @@ The OpenAI API is not a free service at this point in time, so each model has a 
 ### !end-callout
 
 ## Summary
-OpenAI provides models for everything from Text to Speech to Image Generation. We've also seen some ideas of applications that could incorporate the OpenAI models. If you are curious to know even more about the OpenAI models, don't hesitate to do more research in the [OpenAI API Documentation](https://platform.openai.com/docs/guides/text-generation)
+OpenAI provides models for everything from Text to Speech to Image Generation. We've also seen some ideas of applications that could incorporate the OpenAI models. If you are curious to know even more about the OpenAI models, don't hesitate to do more research in the [OpenAI API Documentation](https://platform.openai.com/docs/guides/text-generation)!
 
 ## Check for Understanding 
 
