@@ -14,12 +14,12 @@ In the last lesson, we looked at the different models associated with OpenAI. It
 
 | Endpoint | Verb | Model(s) | Usage |
 | -------- | ---- | -------- | ----- |
-| https://api.openai.com/v1/chat/completions | POST | GPT 3.5 Turbo/GPT 4.0/ GPT 4.0 Turbo | Generating a response to a set of messages |
-| https://api.openai.com/v1/images/generations | POST | DALL-E | Generate a new image from a given prompt |
-| https://api.openai.com/v1/audio/speech | POST | TTS | Generate audio from input |
-| https://api.openai.com/v1/audio/transcriptions | POST | Whisper | Generate a transcription of audio input |
-| https://api.openai.com/v1/embeddings | POST | Embeddings | Creates a numerical  representation of text |
-| https://api.openai.com/v1/moderations | POST | Moderations | Checks to see if text could be potentially harmful | 
+| https://api.openai.com/v1/chat/completions | POST | `GPT 3.5 Turbo`/ `GPT 4.0`/ `GPT 4.0 Turbo` | Generating a response to a set of messages |
+| https://api.openai.com/v1/images/generations | POST | `DALL-E` | Generate a new image from a given prompt |
+| https://api.openai.com/v1/audio/speech | POST | `TTS` | Generate audio from input |
+| https://api.openai.com/v1/audio/transcriptions | POST | `Whisper` | Generate a transcription of audio input |
+| https://api.openai.com/v1/embeddings | POST | `Embeddings` | Creates a numerical  representation of text |
+| https://api.openai.com/v1/moderations | POST | `Moderations` | Checks to see if text could be potentially harmful | 
 | https://api.openai.com/v1/models | GET | None | Returns a list of OpenAI models | 
 
 We will focus on using the chat completions endpoint for now, but  each endpoint can be called similarly. Each request body will require some form of input at a minimum and most will require the specific model you would like to use as well. The response you receive will also vary from request to request so make sure you have an understanding of the shape of a response before jumping right in. The full list of OpenAI endpoints along with examples of a request and response body can be found [here](https://platform.openai.com/docs/api-reference/introduction). OpenAI also provides a [model compatability chart](https://platform.openai.com/docs/models/model-endpoint-compatibility) that allows you to see which models work with each endpoint.
