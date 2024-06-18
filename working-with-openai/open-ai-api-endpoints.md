@@ -55,7 +55,7 @@ Open up Postman and enter the POST endpoint from above. Make sure you are in you
 
 Now let's look at each piece a little more in depth
 
-| Piece of Code | Notes |
+| Property | Description |
 | ------------- | ----- | 
 | `model` | The model you would like to use for the request. |
 | `messages` | A list of all the messages within a conversation. |
