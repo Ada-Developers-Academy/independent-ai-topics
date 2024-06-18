@@ -214,9 +214,9 @@ Before we write our request to OpenAI within the project, we need to install the
 To make an API call, we'll create a helper function called `generate_greetings` that will take a `Character` in as a parameter. Then we'll use the `Character`'s attributes to construct a prompt for our request body. This may look something like:
 
 ```python
-    def generate_greetings(character):
+def generate_greetings(character):
 
-        prompt = f"I am writing a video game in the style of The Witcher. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a python style list of 10 stock phrases they might use when the main character talks to them"
+    prompt = f"I am writing a video game in the style of The Witcher. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a python style list of 10 stock phrases they might use when the main character talks to them"
 
 ```
  Once the prompt has been constructed, we can insert it to the request body of our API call. The code we will use to make the call to the chat completion endpoint and then store the response is:
