@@ -214,7 +214,7 @@ To make an API call, we'll create a helper function called `generate_greetings` 
 ```python
 def generate_greetings(character):
 
-    prompt = f"I am writing a video game in the style of The Witcher. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a python style list of 10 stock phrases they might use when the main character talks to them"
+    prompt = f"I am writing a video game in the style of a fantasy role playing game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a python style list of 10 stock phrases they might use when the main character talks to them"
 
 ```
 Once the prompt has been constructed, we can insert it to the request body of our API call. To send the request, we want to go ahead and use the `client` that we created. The code we will use to make the call to the chat completion endpoint and then store the response is:
@@ -226,6 +226,7 @@ completion = client.chat.completions.create(
         {"role": "user", "content": <prompt>}
     ]
 )
+```
 
 Remember that the chat completions endpoint returns a completion object. Let's pause here and recall what that object looks like:
 
