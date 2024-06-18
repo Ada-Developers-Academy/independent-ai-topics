@@ -257,7 +257,7 @@ Remember that the chat completions endpoint returns a completion object. If we p
 }
 ```
 
-That is a lot of information but now it's up to us to parse through that response and determine what we want to use. Ultimately, we want to just use the content within the message. We have a list of generated greetings, but they are all a single string. Fortunately, each item is separated by a newline character, so we can use that to our advantage. If we parse through the completion object and access the content string itself, we can split it by newline character to return a list of responses. That return statement may look something like this:
+That is a lot of information but now it's up to us to parse through that response and determine what we want to use. Ultimately, we want to just use the `content` within the `message`. We have a list of generated greetings, but they are all a single string. Fortunately, each item is separated by a newline character, so we can use that to our advantage. If we parse through the completion object and access the `content` string itself, we can split it by the newline character to return a list of responses. That return statement may look something like:
 ```python
 return(completion.choices[0].message.content.split("\n"))
 ```
