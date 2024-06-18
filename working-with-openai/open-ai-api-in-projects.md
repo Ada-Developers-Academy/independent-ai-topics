@@ -264,7 +264,7 @@ return(completion.choices[0].message.content.split("\n"))
 
 When we string this all together, our `generate_greetings` helper method is as follows:
 ```python
-    def generate_greetings(character):
+def generate_greetings(character):
 
     prompt = f"I am writing a video game in the style of The Witcher. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a python style list of 10 stock phrases they might use when the main character talks to them"
     completion = client.chat.completions.create(
