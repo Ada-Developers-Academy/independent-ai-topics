@@ -87,7 +87,7 @@ def to_dict(self):
 </details>
 </br>
 
-Now let's take a look at the routes we currently have. If you examine the code below, we currently have our validate_model helper method as well as a POST endpoint to add a character and a GET endpoint to list all the characters. There are POST and GET endpoints to add and list greetings as well that we will write shortly.
+Now let's take a look at the routes we currently have. If you examine the code below, we currently have our `validate_model` helper method as well as a POST endpoint to add a character and a GET endpoint to list all the characters. There are POST and GET endpoints to add and list greetings as well that we will write shortly.
 
 <br />
 <details>
