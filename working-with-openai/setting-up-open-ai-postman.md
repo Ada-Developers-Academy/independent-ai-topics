@@ -10,7 +10,7 @@ Our goals for this lesson are to:
 
 ## The OpenAI API and Postman
 
-As a reminder, when we work with APIs, Postman is a great tool to test our endpoints, make sure we are formatting our requests correctly and ensure that we are receiving the expected responses. 
+As a reminder, when we work with APIs, Postman is a great tool for testing our endpoints, making sure we are formatting our requests correctly, and ensuring that we are receiving the expected responses. 
 
 In the past, when we worked with APIs that require authorization, we created an environment within our project using the .env file where we stored our environment variables such as our API key. To make testing out OpenAI endpoints in Postman just a bit easier, we can create an environment within Postman itself that includes our API key so that we don't have to manually attach it to each request. We can do that following the steps below.
 
