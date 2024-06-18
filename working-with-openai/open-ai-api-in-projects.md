@@ -168,8 +168,8 @@ def validate_model(cls,id):
 
 Create and connect your database using the steps below
 
-1. Set up a development database in psql called npc_generator_dev
-2. Create a .env file and add the database as your `SQLALCHEMY_DATABASE_URI`
+1. Set up a development database in `psql` called `npc_generator_dev`
+2. Create a `.env` file and add the database as your `SQLALCHEMY_DATABASE_URI`
 3. Run `flask init`, `flask migrate` and `flask upgrade` to connect the API to your database.
 4. Test the POST and GET methods for `Character` in Postman.
 
