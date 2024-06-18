@@ -20,7 +20,7 @@ In the past, when we worked with APIs that require authorization, we created an 
 ![New Environment Drop Down in Postman](assets/setting-up-openai-postman-and-java/open-ai-postman-new-environment.png)  
 *Fig. Postman POST request with New Environment Selected*
 
-2. Add the following request to Postman: https://api.openai.com/v1/chat/completions.   
+2. Set the URL in Postman to the following endpoint: `https://api.openai.com/v1/chat/completions`.   
 We will talk more in the next lesson about what this request is and how it works, but for now, we will use it to verify that our environment is set up correctly. If you try and make the request now, you will get the following response body with an error that states you are missing an API key.  
 ![OpenAI POST Response with Missing API Key Error](assets/setting-up-openai-postman-and-java/open-ai-postman-missing-api-key-error.png)  
 *Fig. OpenAI Postman response body with Missing API Key Error*
