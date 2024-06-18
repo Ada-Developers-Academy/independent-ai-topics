@@ -55,7 +55,7 @@ You should now be able to submit your POST request and get a response more in li
 ![Successful API response](assets/setting-up-openai-postman-and-java/open-ai-postman-response-success.png) 
 *Fig. Successful OpenAI POST request with response body ([Full size image](assets/setting-up-openai-postman-and-java/open-ai-postman-response-success.png))*  
 
-If you've made it this far, congratulations! You now have Postman configured to practice the openAI requests that we will be going over in the next couple of lessons. If you saved your environment correctly, it should now exist as an option in Postman when you choose your environment. If for any reason your requests still aren't working, double check your work or reach out to an instructor for further assistance! 
+If you've made it this far, congratulations! You now have Postman configured to practice the openAI requests that we will be going over in the next couple of lessons. If you saved your environment correctly, it should now exist as an option in Postman when you choose your environment. If for any reason your requests still aren't working, double check your work then use resources such as #study-hall, office hours, etc. for further assistance! 
 
 ### !callout-warn
 
