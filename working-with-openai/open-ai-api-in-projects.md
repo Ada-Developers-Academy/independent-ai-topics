@@ -14,7 +14,7 @@ This tutorial will walk you through how to integrate the OpenAI API into your pr
 
 1. Fork the repo to your github and then clone to your machine.
 2. Create and run a virtual environment for the project.
-3. Use pip to install the requirements.txt.
+3. Use `pip` to install the requirements.txt.
 
 ## Explore the NPC Generator
 
