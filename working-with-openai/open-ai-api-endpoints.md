@@ -1,4 +1,4 @@
-# Using the OpenAI API
+# OpenAI API Endpoints
 
 ## Goals
 
@@ -30,10 +30,9 @@ Before we jump right into integrating the API into a project, let's explore the 
 
 ### Chat Completion Request Body
 
-As mentioned earlier, the chat completion endpoint is: 
-```
-    POST https://api.openai.com/v1/chat/completions 
-``` 
+As mentioned earlier, the chat completion endpoint takes a POST request at the URL:
+https://api.openai.com/v1/chat/completions 
+
 Like most POST endpoints, a request to the chat completions endpoint is not complete itself without a request body. Let's go ahead and write a request body and then discuss its individual parts after.
 
 Open up Postman and enter the POST endpoint from above. Make sure you are in your OpenAI environment and then navigate to set up a raw JSON body. In the window, copy and paste the request body below.
