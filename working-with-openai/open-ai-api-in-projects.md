@@ -78,7 +78,7 @@ class Greeting(db.Model):
     character_id: Mapped[int] = mapped_column(ForeignKey("character.id")) 
     character: Mapped["Character"] = relationship(back_populates="greetings")
 
-def to_dict(self):
+    def to_dict(self):
         return {
             "id" : self.id,
             "greeting" : self.greeting_text,
