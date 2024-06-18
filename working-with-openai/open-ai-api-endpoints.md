@@ -6,7 +6,7 @@ Now that we know a bit about the OpenAI models, lets learn about the OpenAI endp
 
 Our goals for this lesson are to:
 - Recognize different OpenAI endpoints and how they are used
-- Write our first OpenAI request in Postman
+- Learn about the structure of requests and responses to OpenAI's `chat/completions` endpoint
 
 ## Exploring OpenAI Endpoints
 
