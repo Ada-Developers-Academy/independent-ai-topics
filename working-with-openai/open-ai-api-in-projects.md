@@ -16,9 +16,11 @@ This tutorial will walk you through how to integrate the OpenAI API into your pr
 2. Create and run a virtual environment for the project.
 3. Use `pip` to install the requirements.txt.
 
-## Explore the NPC Generator
+## Explore the NPC Generator repo
 
-Take a second to explore the NPC Generator in its current state. For this project, we will be finishing an API that creates NPCs (Non Playable Characters) for a Witcher style game. We currently have two models, "Character" and "Greeting". "Character" holds some basic information about a character and has a one to many relationship with "Greeting", which represents a stock phrase that particular character may say when interacting with the player. Each NPC can have multiple greetings but each greeting can only be connected to one character. We will use the OpenAI API to generate those greetings which we will then store in our database.
+Take some time to explore the NPC Generator repo in its current state. For this project, we will be finishing an API for a role-playing style game. Our API creates NPCs (Non Playable Characters) that your player's character will interact with. 
+
+We currently have two models, "Character" and "Greeting". "Character" holds some basic information about a character and has a one to many relationship with "Greeting", which represents a stock phrase that particular character may say when interacting with the player. Each NPC can have multiple greetings but each greeting can only be connected to one character. We will use the OpenAI API to generate those greetings which we will then store in our database.
 
 <br />
 
