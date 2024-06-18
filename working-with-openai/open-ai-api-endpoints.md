@@ -63,7 +63,7 @@ Now let's look at each piece a little more in depth
 
 The four properties above are REQUIRED for your request to work properly. Below are a few other properties that can be included in your request, but the following are all OPTIONAL. 
 
-| <div style="min-width:100px;">Property</div>| Description |
+| <div style="min-width:150px;">Property</div> | Description |
 | -------- | ----------- | 
 | `max-tokens` | The maximum number of tokens to be returned. |
 | `n` | The number of choices you'd like the api to return. The default value is 1. |
