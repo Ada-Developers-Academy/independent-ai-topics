@@ -222,13 +222,12 @@ To make an API call, we'll create a helper function called `generate_greetings` 
  Once the prompt has been constructed, we can insert it to the request body of our API call. The code we will use to make the call to the chat completion endpoint and then store the response is:
 
 ```python
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": <prompt>}
-        ]
-    )
-```
+completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": <prompt>}
+    ]
+)
 
 Remember that the chat completions endpoint returns a completion object. If we pause here a second and recall what that object looks like, this particular call's response may look something like this:
 
