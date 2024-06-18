@@ -69,6 +69,8 @@ If your phone number has already been used to verify an OpenAI account, you will
 ![OpenAI credits warning](assets/setting-up-openai/open-ai-credits-warning.png)  
 *Fig. OpenAI credits warning*
 
+If you do not have credits left on your account and do not have another phone number you can use for registrations, please reach out to instructional staff for assistance.
+
 ### !end-callout
 
 4. Create your secret key. 
