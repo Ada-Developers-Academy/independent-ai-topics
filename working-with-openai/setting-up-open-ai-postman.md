@@ -61,7 +61,7 @@ If you've made it this far, congratulations! You now have Postman configured to 
 
 ## API Calls in Postman Use Credits
 
-Just a quick reminder that any API calls you make to OpenAI will use credits. You can check your usage in your account online.
+Just a quick reminder that any API calls you make to OpenAI will use credits. You can check your credit balance on the "Usage" page of your account online.
 
 
 ### !end-callout  
