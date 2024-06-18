@@ -10,11 +10,11 @@ Our goals for this lesson are to:
 
 ## Vocabulary
 
-| Vocab | Definition | How to Use in a Sentence |
-| ----- | ---------- | ------------------------ |
-| OpenAI | OpenAI is an organization that specializes in Artificial Intelligence research and deployment | |
-| OpenAI API | An API created by OpenAI to allow users to access and deploy AI models within their own applications. | |
-| OpenAI Model | An AI program that has been trained on OpenAI data sets to achieve a specific purpose. | |
+| Vocab | Definition |
+| ----- | ---------- | 
+| OpenAI | OpenAI is an organization that specializes in Artificial Intelligence research and deployment |
+| OpenAI API | An API created by OpenAI to allow users to access and deploy AI models within their own applications. |
+| OpenAI Model | An AI program that has been trained on OpenAI data sets to achieve a specific purpose. |
 
 ## What is the OpenAI API?
 
