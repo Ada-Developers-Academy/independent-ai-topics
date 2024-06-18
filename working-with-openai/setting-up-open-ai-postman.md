@@ -5,8 +5,7 @@ Now that we have our OpenAI account created and verified, let's get OpenAI set u
 
 Our goals for this lesson are to:
 - Set up an OpenAI environment in Postman
-- Make our first Postman API 
-- Learn how to set up the OpenAI library in Python
+- Make our first request to the OpenAI API 
 
 ## The OpenAI API and Postman
 
