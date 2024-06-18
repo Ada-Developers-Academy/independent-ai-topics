@@ -211,7 +211,7 @@ Before we write our request to OpenAI within the project, we need to install the
 
 ## Make the API call
 
-To make an API call, we want to go ahead and use the `client` that we created. We'll go ahead and nest our call inside a helper function called `generate_greetings` that will take a character in as a parameter and then use the character's attributes to construct a prompt for our request body. This may look something like this:
+To make an API call, we'll create a helper function called `generate_greetings` that will take a `Character` in as a parameter. Then we'll use the `Character`'s attributes to construct a prompt for our request body. This may look something like:
 
 ```python
     def generate_greetings(character):
