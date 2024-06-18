@@ -41,6 +41,37 @@ Standards:
         Type: Lesson
         UID: ebd7c520-952b-11ee-b9d1-0242ac120002
         Path: /debugging-w-chatgpt/debugging-w-chatgpt.md
+  -
+    Title: Using The OpenAI API
+    Description: How do we leverage the OpenAI API to introduce generative AI into our projects?
+    UID: 0182dc79-daa0-4cf6-bf14-ba0a98292f95
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: 0370ba94-6324-413e-9c1b-7b2db283f643
+        Path: /working-with-openai/intro-to-open-ai.md
+      -
+        Type: Lesson
+        UID: eca69a0b-e630-4766-acd5-4a3992f89b9d
+        Path: /working-with-openai/setting-up-open-ai.md
+      -
+        Type: Lesson
+        UID: d603955b-a208-412b-bb9d-2511bf48f589 
+        Path: /working-with-openai/setting-up-open-ai-postman.md
+      -
+        Type: Lesson
+        UID: 735f527b-865b-4878-b67b-af9af8a2100a 
+        Path: /working-with-openai/open-ai-api-models.md
+      -
+        Type: Lesson
+        UID: 522ec902-9f54-4c8e-9848-47a8d8d80de8
+        Path: /working-with-openai/open-ai-api-endpoints.md
+      -
+        Type: Lesson
+        UID: 08cc5b97-3408-4e71-8b47-aecbde2cb458
+        Path: /working-with-openai/open-ai-api-in-projects.md
   - 
     Title: Using GitHub's Copilot
     Description: How do we work with code-specific AI Assistants like GitHub's Copilot?
