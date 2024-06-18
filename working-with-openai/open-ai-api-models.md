@@ -5,9 +5,8 @@
 Now that we have OpenAI set up on Postman, we can start taking a look under the hood at how OpenAI works and how we can integrate it into the programs we create. We will start by looking at the OpenAI API Models.
 
 Our goals for this lesson are to:
-- Understand what an OpenAI Model is and how it is used
-- Recognize different OpenAI Models and how they are used
-- Understand the difference between different GPT models and how they are used.
+- Recognize several commonly used OpenAI Models, their specific capabilities, and how they can be used.
+- Understand some of the differences and limitations between the versions of GPT models.
 
 ## What is an OpenAI Model?
 
