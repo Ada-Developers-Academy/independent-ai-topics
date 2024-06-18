@@ -229,7 +229,7 @@ completion = client.chat.completions.create(
     ]
 )
 
-Remember that the chat completions endpoint returns a completion object. If we pause here a second and recall what that object looks like, this particular call's response may look something like this:
+Remember that the chat completions endpoint returns a completion object. Let's pause here and recall what that object looks like:
 
 ```JSON
 {
