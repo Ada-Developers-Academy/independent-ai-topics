@@ -20,13 +20,18 @@ However you choose to move through the materials, as you read through these reso
 What are LLMs?
 * [Introduction to Large Language Models](https://developers.google.com/machine-learning/resources/intro-llms) - From Google's Machine Learning resources
 
+What are some areas of strength and weakness of LLMs?
+* [Pitfalls of LLMs](https://learnprompting.org/docs/basics/pitfalls) - From learnprompting.org
+* [5 Practical Business Use Cases for Large Language Models](https://opendatascience.com/5-practical-business-use-cases-for-large-language-models/) -  From opendatascience.com
+
 How does bias impact LLMs?
 * *Content Warning: there are no graphic depictions, but there are examples discussed of harmful sexist and racist content created by generative AIs.* [Exploration of bias in ChatGPT and other AI models](https://www.insider.com/chatgpt-is-like-many-other-ai-models-rife-with-bias-2023-1) - from Insider.com
 * [Depression in Black people goes unnoticed by AI models analyzing language in social media posts](https://www.pennmedicine.org/news/news-releases/2024/march/depression-in-black-people-unnoticed-by-ai-analyzing-social-media) - from Penn Medicine News
 
-What are some areas of strength and weakness of LLMs?
-* [Pitfalls of LLMs](https://learnprompting.org/docs/basics/pitfalls) - From learnprompting.org
-* [5 Practical Business Use Cases for Large Language Models](https://opendatascience.com/5-practical-business-use-cases-for-large-language-models/) -  From opendatascience.com
+How does the physical infrastructure of LLMs impact people and the environment?
+* [Artificial intelligence technology behind ChatGPT was built in Iowa — with a lot of water](https://apnews.com/article/chatgpt-gpt4-iowa-ai-water-consumption-microsoft-f551fde98083d17a7e8d904f8be822c4) - from The Associated Press
+* [Behind the AI boom, an army of overseas workers in ‘digital sweatshops’](https://www.washingtonpost.com/world/2023/08/28/scale-ai-remotasks-philippines-artificial-intelligence/) - from The Washington Post
+
 
 ## Further Readings
 The following resources are not required reading, but are provided for those who'd like to dive a little deeper into some of the topics above.
@@ -34,3 +39,4 @@ The following resources are not required reading, but are provided for those who
 * [Recognizing the kinds of biases in Generative AIs](https://www.forbes.com/sites/forbestechcouncil/2023/09/06/navigating-the-biases-in-llm-generative-ai-a-guide-to-responsible-implementation) - From Forbes.com
 * [Chatbot Hallucinations Are Poisoning Web Search](https://www.wired.com/story/fast-forward-chatbot-hallucinations-are-poisoning-web-search/) - From Wired.com
 * [What Happens When a Prompt Doesn't Work?](https://learnprompting.org/docs/basics/prompt_engineering#what-happens-when-a-prompt-doesnt-work) - From learnprompting.org
+* [Exclusive: OpenAI Used Kenyan Workers on Less Than $2 Per Hour to Make ChatGPT Less Toxic](https://time.com/6247678/openai-chatgpt-kenya-workers/) - From Time USA
