@@ -31,8 +31,8 @@ Standards:
         UID: c2e2d742-83ea-11ee-b962-0242ac120002
         Path: /prompting-101/verifying-information-from-chatGPT.md
   - 
-    Title: Debugging with ChatGPT
-    Description: Where is ChatGPT useful in our debugging toolbox? How do we evaluate ChatGPT's responses?
+    Title: Coming Soon - Debugging with ChatGPT
+    Description: Coming Soon - Debugging with ChatGPT
     UID: e2dfab5e-952b-11ee-b9d1-0242ac120002
     SuccessCriteria:
       - success criteria
@@ -40,7 +40,18 @@ Standards:
       -
         Type: Lesson
         UID: ebd7c520-952b-11ee-b9d1-0242ac120002
-        Path: /debugging-w-chatgpt/debugging-w-chatgpt.md
+        Path: /temp/coming-soon.md
+  # - 
+  #   Title: Debugging with ChatGPT
+  #   Description: Where is ChatGPT useful in our debugging toolbox? How do we evaluate ChatGPT's responses?
+  #   UID: e2dfab5e-952b-11ee-b9d1-0242ac120002
+  #   SuccessCriteria:
+  #     - success criteria
+  #   ContentFiles:
+  #     -
+  #       Type: Lesson
+  #       UID: ebd7c520-952b-11ee-b9d1-0242ac120002
+  #       Path: /debugging-w-chatgpt/debugging-w-chatgpt.md
   -
     Title: Using The OpenAI API
     Description: How do we leverage the OpenAI API to introduce generative AI into our projects?
