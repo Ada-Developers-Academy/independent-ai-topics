@@ -508,7 +508,7 @@ If we have trouble finding resources about the error or understanding what the c
 
 Before applying any suggestions from generative AI tools we need to break out our information validation skills to check if what they are suggesting is accurate for the language we’re working in and addresses the intended issue. And just like any situation where we’re bug fixing or refactoring, we should be running our tests frequently and expanding our test suite if necessary to ensure that we are truly addressing the issue without causing side effects.
 
-The more we work with code, the more familiar we will be with common edge cases and coming up with the edge cases unique to our project, but we can also ask ChatGPT to help us brainstorm test cases to help strengthen our test suites. 
+The more we work with code, the more familiar we will be with common edge cases and coming up with the edge cases unique to our project, but we can also ask ChatGPT to help us brainstorm test cases to strengthen our test suites. 
 
 ## Check for Understanding
 
