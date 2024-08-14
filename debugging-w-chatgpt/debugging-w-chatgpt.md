@@ -25,7 +25,7 @@ Be very careful about what you share with LLMs - an example of code that you cou
 
 ### Setting the Stage
 
-It’s helpful to set the stage first when working with LLM tools like ChatGPT while coding. We can do this by prompting ChatGPT to "act as an expert in a particular language, helping you to debug". If we know exactly what problem we need help with we can include more details in the prompt, but a starting prompt could look like:
+It’s helpful to set the stage first when working with LLM tools like ChatGPT while coding. We can do this by prompting ChatGPT with a role to "act as an expert in a particular language, helping you to debug". If we know exactly what problem we need help with we can include more details in the prompt, but a starting prompt could look like:
 
 > You are a python expert who will help me debug python code.
 
@@ -51,47 +51,82 @@ The type of information we’re gathering likely sounds familiar - when we ask C
 
 Many tools like ChatGPT 3.5 don’t have access to outside sources like GitHub to view code, so we need to be prepared to paste the relevant code into our prompt. We need to provide ChatGPT with all the context it requires to understand where the bug is happening, including details like global variables and imports. 
 
-Let’s take a look at an example, say we have the following files in a project for an `Item` and a `Clothing` class.
+Let’s take a look at an example, say we have the following files in a project about dog sitting.
 
+```py
+# main.py
+from dog_actions import greet_all_dogs
+from dog_data import DOGS
+
+
+DOGS = [
+    {
+        "name": "Bud",
+        "age": 1,
+    },
+    {
+        "name": "Gouda",
+        "age": 11,
+    },    
+    {
+        "name": "Felix",
+        "age": 3,
+    },
+    {
+        "name": "Penny",
+        "age": 1,
+    }
+]
+
+
+def main():
+    mode = input("Enter 't' for testing or 'r' to run: ")
+    if mode.lower() == "t":
+        new_dog = {
+            "name": "Buttercup",
+            "age": 6
+        }
+        result = greet_all_dogs([new_dog])
+        expected = "You cautiously let Buttercup sniff your hand. You pet Buttercup gently. You wave goodbye to the dog, Buttercup. "
+        assert result == expected
+
+    else:
+        print(greet_all_dogs(DOGS))
+
+if __name__ == "__main__":
+    main()
 ```
-import uuid
 
-class Item:
-    def __init__(self, condition=0, id=None):
-        self.condition = condition
-        if id is None:
-            self.id = uuid.uuid4().int
-        else:
-            self.id = id
+```py
+# dog_actions.py
+def let_dog_sniff(dog):
+    dog_name = dog["name"]
+    return f"You cautiously let {dog_name} sniff your hand."
 
-    def get_category(self):
-        return self.__class__.__name__
+def pet_dog(dog):
+    dog_name = dog["name"]
+    return f"You pet {dog_name} gently."
 
-    def __str__(self):
-        return f"An object of type {self.get_category()} with id {self.id}."
+def say_bye_to_dog(dog):
+    dog_name = dog["name"]
+    return f"You wave goodbye to the dog, {dog_name}."
 
-    def condition_description(self):
-        if self.condition > 3:
-            return "It's great!"
-        else:
-            return "It stinks!"
+def greet_dog(dog):
+    message = f"{let_dog_sniff(dog)} {pet_dog(dog)} {say_bye_to_dog(dog)}"
+    return message
+
+def greet_all_dogs(dog_list):
+    all_messages = ""
+    for dog in range(len(dog_list)):
+        all_messages += f"{greet_dog(dog)} \n"
+
+    return all_messages
 ```
 
-```
-from swap_meet.item import Item
 
-class Clothing(Item):
-    def __init__(self, condition=None, id=None, fabric="Unknown"):
-        super().__init__(condition=condition, id=id)
-        self.fabric = fabric
+We would like assistance from ChatGPT to debug why we're getting a crash when we run the `main` file. We could paste just the `main` function into our prompt, but `main` relies on on the imported function `greet_all_dogs` from `dog_actions.py`, which tools like ChatGPT would have no way of knowing about. 
 
-    def __str__(self):
-        return f"{super()._str_()} It is made from {self.condition} fabric."
-```
-
-We would like assistance from ChatGPT to debug why the `Clothing` class’s `__str__` function isn’t working. We could paste just the `Clothing` class’s  `__str__` function into our prompt, but that function uses class variables and has a reliance on the imported class `Item` which tools like ChatGPT would have no way of knowing about. 
-
-In this case, by only including the function, we severely limit the tool’s ability to understand the full picture. If we want to debug what is happening in the `Clothing` class’s `__str__` method, then we should include the `Item` class definition, as well as the entire `Clothing` class definition in our prompt. 
+In this case, by only including the `main` function, we severely limit the tool’s ability to understand the full picture. If we want to debug what is happening in the `main` function, then we should include the `main` function definition, as well as the entire `dog_actions.py` file contents in our prompt. 
 
 ### Enumerating Lines
 
@@ -100,52 +135,81 @@ To make it easy for ourselves and ChatGPT to refer to specific lines of the code
 > Please enumerate the lines of the code I just gave you.
 
 <details>
-   <summary>Try out the prompt above with the `Item` and `Clothing` classes, then expand this section to see the prompts we used to share the code and enumerate it along with ChatGPT's responses.</summary> 
+   <summary>Try out the prompt above with the `main.py` and `dog_actions.py` files, then expand this section to see the prompts we used to share the code and enumerate it along with ChatGPT's responses.</summary> 
 
 Our Prompt:
 ```
 Given this Python code:
 '''
-import uuid
+from dog_actions import greet_all_dogs
 
-class Item:
-    def __init__(self, condition=0, id=None):
-        self.condition = condition
-        if id is None:
-            self.id = uuid.uuid4().int
-        else:
-            self.id = id
 
-    def get_category(self):
-        return self.__class__.__name__
+DOGS = [
+    {
+        "name": "Bud",
+        "age": 1,
+    },
+    {
+        "name": "Gouda",
+        "age": 11,
+    },    
+    {
+        "name": "Felix",
+        "age": 3,
+    },
+    {
+        "name": "Penny",
+        "age": 1,
+    }
+]
 
-    def __str__(self):
-        return f"An object of type {self.get_category()} with id {self.id}."
 
-    def condition_description(self):
-        if self.condition > 3:
-            return "It's great!"
-        else:
-            return "It stinks!"
+def main():
+    mode = input("Enter 't' for testing or 'r' to run: ")
+    if mode.lower() == "t":
+        new_dog = {
+            "name": "Buttercup",
+            "age": 6
+        }
+        result = greet_all_dogs([new_dog])
+        expected = "You cautiously let Buttercup sniff your hand. You pet Buttercup gently. You wave goodbye to the dog, Buttercup. "
+        assert result == expected
+
+    else:
+        print(greet_all_dogs(DOGS))
+
+if __name__ == "__main__":
+    main()
 '''
 '''
-from swap_meet.item import Item
+def let_dog_sniff(dog):
+    dog_name = dog["name"]
+    return f"You cautiously let {dog_name} sniff your hand."
 
-class Clothing(Item):
-    def __init__(self, condition=None, id=None, fabric="Unknown"):
-        super().__init__(condition=condition, id=id)
-        self.fabric = fabric
+def pet_dog(dog):
+    dog_name = dog["name"]
+    return f"You pet {dog_name} gently."
 
-    def __str__(self):
-        return f"{super()._str_()} It is made from {self.condition} fabric."
+def say_bye_to_dog(dog):
+    dog_name = dog["name"]
+    return f"You wave goodbye to the dog, {dog_name}."
+
+def greet_dog(dog):
+    message = f"{let_dog_sniff(dog)} {pet_dog(dog)} {say_bye_to_dog(dog)}"
+    return message
+
+def greet_all_dogs(dog_list):
+    all_messages = ""
+    for dog in range(len(dog_list)):
+        all_messages += f"{greet_dog(dog)} \n"
+
+    return all_messages
 '''
 Respond with YES if you understand the code.
 ```
 
 Chat GPT's response:
-> Yes, I understand the code. It consists of two classes: `Item` and `Clothing`. The `Item` class has methods to initialize an object, get its category, provide a string representation, and describe its condition. The `Clothing` class is a subclass of `Item` and adds an attribute for fabric in its initialization, along with a customized string representation.
-> 
-> If you have any specific questions or if there's anything else you'd like assistance with regarding this code, feel free to let me know!
+> YES. I understand the code.
 
 Our Prompt:
 ```
@@ -153,47 +217,76 @@ Please enumerate the lines of the code I shared
 ```
 
 Chat GPT's response:
-> Certainly! Here are the enumerated lines of the code you shared:
+> Sure! Here’s the code you shared with line numbers added:
 >
-> **Code Block 1: Item Class**
 > ```python
->  1. import uuid
->  2. 
->  3. class Item:
->  4.     def __init__(self, condition=0, id=None):
->  5.         self.condition = condition
->  6.         if id is None:
->  7.             self.id = uuid.uuid4().int
->  8.         else:
->  9.             self.id = id
-> 10. 
-> 11.     def get_category(self):
-> 12.         return self.__class__.__name__
-> 13. 
-> 14.     def __str__(self):
-> 15.         return f"An object of type {self.get_category()} with id {self.id}."
-> 16. 
-> 17.     def condition_description(self):
-> 18.         if self.condition > 3:
-> 19.             return "It's great!"
-> 20.         else:
-> 21.             return "It stinks!"
+> 1  from dog_actions import greet_all_dogs
+> 2  
+> 3  
+> 4  DOGS = [
+> 5      {
+> 6          "name": "Bud",
+> 7          "age": 1,
+> 8      },
+> 9      {
+> 10         "name": "Gouda",
+> 11         "age": 11,
+> 12     },    
+> 13     {
+> 14         "name": "Felix",
+> 15         "age": 3,
+> 16     },
+> 17     {
+> 18         "name": "Penny",
+> 19         "age": 1,
+> 20     }
+> 21 ]
+> 22 
+> 23 
+> 24 def main():
+> 25     mode = input("Enter 't' for testing or 'r' to run: ")
+> 26     if mode.lower() == "t":
+> 27         new_dog = {
+> 28             "name": "Buttercup",
+> 29             "age": 6
+> 30         }
+> 31         result = greet_all_dogs([new_dog])
+> 32         expected = "You cautiously let Buttercup sniff your hand. You pet Buttercup gently. You wave goodbye to the dog, Buttercup. "
+> 33         assert result == expected
+> 34 
+> 35     else:
+> 36         print(greet_all_dogs(DOGS))
+> 37 
+> 38 if __name__ == "__main__":
+> 39     main()
 > ```
 > 
-> **Code Block 2: Clothing Class**
 > ```python
-> 23. from swap_meet.item import Item
-> 24. 
-> 25. class Clothing(Item):
-> 26.     def __init__(self, condition=None, id=None, fabric="Unknown"):
-> 27.         super().__init__(condition=condition, id=id)
-> 28.         self.fabric = fabric
-> 29. 
-> 30.     def __str__(self):
-> 31.         return f"{super()._str_()} It is made from {self.condition} fabric."
+> 1  def let_dog_sniff(dog):
+> 2      dog_name = dog["name"]
+> 3      return f"You cautiously let {dog_name} sniff your hand."
+> 4  
+> 5  def pet_dog(dog):
+> 6      dog_name = dog["name"]
+> 7      return f"You pet {dog_name} gently."
+> 8  
+> 9  def say_bye_to_dog(dog):
+> 10     dog_name = dog["name"]
+> 11     return f"You wave goodbye to the dog, {dog_name}."
+> 12 
+> 13 def greet_dog(dog):
+> 14     message = f"{let_dog_sniff(dog)} {pet_dog(dog)} {say_bye_to_dog(dog)}"
+> 15     return message
+> 16 
+> 17 def greet_all_dogs(dog_list):
+> 18     all_messages = ""
+> 19     for dog in range(len(dog_list)):
+> 20         all_messages += f"{greet_dog(dog)} \n"
+> 21 
+> 22     return all_messages
 > ```
->
-> I've included line numbers for reference. If you have any questions or need further clarification, feel free to ask!
+> 
+> Let me know how you’d like to proceed!
 
 </details>  
 
