@@ -43,7 +43,7 @@ When we ask ChatGPT for assistance, we need to be descriptive to get useful help
 - a detailed description of the input, expected result, and actual result
 - any other information needed to reliably reproduce the issue being debugged
 
-The type of information we’re gathering likely sounds familiar - when we ask ChatGPT for help we need to collect the same kinds of detailed information and explanation that we would use if we were reaching out to other people for help who may be unfamiliar with the project. 
+The type of information we’re gathering may sound familiar. When we ask ChatGPT for help, we need to collect the same kinds of detailed information and explanation that we would share when asking someone for help who may be unfamiliar with the project. 
 
 ## Providing Code & Enumerating Lines
 
@@ -56,7 +56,6 @@ Let’s take a look at an example, say we have the following files in a project 
 ```py
 # main.py
 from dog_actions import greet_all_dogs
-from dog_data import DOGS
 
 
 DOGS = [
@@ -124,7 +123,7 @@ def greet_all_dogs(dog_list):
 ```
 
 
-We would like assistance from ChatGPT to debug why we're getting a crash when we run the `main` file. We could paste just the `main` function into our prompt, but `main` relies on on the imported function `greet_all_dogs` from `dog_actions.py`, which tools like ChatGPT would have no way of knowing about. 
+We would like assistance from ChatGPT to debug why we're getting a crash when we run the `main` file. We could paste just the `main` function into our prompt, but `main` relies on on the imported function `greet_all_dogs` from `dog_actions.py`. Unless we share the `dog_actions.py` code, tools like ChatGPT would not know about it. 
 
 In this case, by only including the `main` function, we severely limit the tool’s ability to understand the full picture. If we want to debug what is happening in the `main` function, then we should include the `main` function definition, as well as the entire `dog_actions.py` file contents in our prompt. 
 
