@@ -31,7 +31,7 @@ Opening the `Book` class, we have the bare bones of a model defining 3 propertie
 In our case, Copilot immediately suggests a function signature and body that matches our needs for the moment:
 
 ![VS Code window showing the comment above along with a function suggested by copilot](assets/copilot-in-projects/book-to-dict-suggestion.png)  
-*Fig. Our function description comment above with a suggestion for the `to_dict` function from Copilot in grey below*
+*Fig. Our function description comment above with a suggestion for the `to_dict` function from Copilot in grey below ([Full size image](assets/copilot-in-projects/book-to-dict-suggestion.png))*
 
 We could use a comment to try generating our `from_dict` class method, but instead we'll use the inline chat to prompt Copilot. Let's use `⌘I` (`CMD + i`) to open an inline chat and enter the following:
 
@@ -40,7 +40,7 @@ We could use a comment to try generating our `from_dict` class method, but inste
 When we submit the prompt, we are likely to receive a response similar to the following:
 
 ![VS Code showing the Copilot inline chat with the prompt above entered and a function suggestion below](assets/copilot-in-projects/book-from-dict-initial-suggestion.png)  
-*Fig. Our prompt entered in the Copilot inline chat with a suggestion for the `from_dict` function from Copilot in a temporary window below*
+*Fig. Our prompt entered in the Copilot inline chat with a suggestion for the `from_dict` function from Copilot in a temporary window below ([Full size image](assets/copilot-in-projects/book-from-dict-initial-suggestion.png))*
 
 The suggestion is succinct and will create a new class instance for us from a dictionary, but is this what we actually want? What happens if the dictionary is missing `title` or `description` keys? Does this take advantage of the `autoincrement` feature of SQLAlchemy that we're using for the `id`?
 
@@ -88,12 +88,12 @@ These functions aren't very long, but it's still a good idea to test them as a b
 In our `book.py` file, highlight the whole text, bring up the inline Copilot chat with `⌘I` (`CMD + i`), then type in the shortcut `/tests`.
 
 ![VS Code showing the full book.py file contents highlighted with the Copilot inline chat bar showing and "/tests" typed in](assets/copilot-in-projects/book-slash-tests-start.png)  
-*Fig. Selected text in* `book.py` *with the Copilot inline chat up to enter "/tests"*
+*Fig. Selected text in* `book.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/copilot-in-projects/book-slash-tests-start.png))*
 
 Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our copilot chat at the top and a temporary file with unit tests that we can review.
 
 ![VS Code showing the book.py class and a temporary file where Copilot is previewing unit tests](assets/copilot-in-projects/book-slash-tests-suggestion.png)  
-*Fig. Copilot's UI to preview tests for the* `book.py` *file*
+*Fig. Copilot's UI to preview tests for the* `book.py` *file ([Full size image](assets/copilot-in-projects/book-slash-tests-suggestion.png))*
 
 If we feel like the tests presented are a good starting place, we can click "Accept" in the copilot chat to dismiss the chat window, then use `⌘S` (`CMD + S`) to save the new test file. We should see a pop up that allows us to choose the folder where we want to save the test file.
 
@@ -216,7 +216,7 @@ Being an AI tool, we will likely see slightly different responses, even with the
   - **Insert into New File**
 
 ![A section of the Copilot chat pane in VS Code showing the controls for code suggestions](assets/copilot-in-projects/copilot-chat-pane-code-controls.png)  
-*Fig. Copilot Chat's controls for code suggestions*
+*Fig. Copilot Chat's controls for code suggestions ([Full size image](assets/copilot-in-projects/copilot-chat-pane-code-controls.png))*
 
 Before we make any decisions about where we want to put the code, let's examine what Copilot suggested for us.
 
