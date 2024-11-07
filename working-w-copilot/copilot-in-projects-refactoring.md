@@ -50,7 +50,7 @@ Be sure that the `hello_books_development` and `hello_books_test` databases exis
 
 Our steps to plan a refactor with Copilot stay the same: we first need to identify our dependencies, then check if we have tests for code that will be affected. We will be refactoring the `validate_book` function in the `book_routes.py` file, so we should search the project for where the function is used to remind ourselves of our dependencies.
 
-This is a scenario where Copilot shouldn't be used, since Copilot has access to open files, but not all of the files in your project. Indeed, if we ask Copilot for help, it will warn us about this lack of access and give us suggestions on how to search the project for dependencies.
+This is a scenario where Copilot shouldn't be used, since Copilot has access to open files, but not all of the files in your project. Indeed, if we ask Copilot for help, it may warn us about this lack of access and give us suggestions on how to search the project for dependencies.
 
 <br />
 
@@ -89,23 +89,53 @@ We'll start with testing the `validate_book` function. Before we begin, we're go
 - `test_book_model.py`
 - `test_book_routes.py`
 
-Start in `book_routes.py` and use the cursor to highlight the entire `validate_book` function. Next, bring up the inline Copilot chat and invoke the `/tests` shortcut. When Copilot is done thinking, we may see a slightly different UI than in previous scenarios:
+Start in `book_routes.py` and use the cursor to highlight the entire `validate_book` function. Next, bring up the inline Copilot chat and invoke the `/tests` shortcut. When Copilot is done thinking, we may see a slightly different UI than in previous scenarios.
 
-![A VS Code window with the routes.py file up and validate_book function selected showing a Refactor Preview tab at the bottom of the screen](assets/copilot-in-projects/routes-test-validate-book.png)  
-*Fig. Copilot's `Refactor Preview` tab showing at the bottom of VS Code*
+This time, Copilot has opened a pane to the right with our existing `test_book_routes.py` file. At the end of the file's original content we have a Copilot chat box that we can interact with and below that are the tests that Copilot is suggesting to us.
 
-This time, instead of showing changes to the current file in a temporary window, the bottom panel has opened to a `Refactor Preview` tab that has a single entry on it. If we click the entry, it will take us to a temporary file showing the changes Copilot is suggesting that we make to the `test_book_routes.py` file.
+![A VS Code window with a temporary file that contains the original contents of test_book_routes.py along with suggested changes to test the validate_book function](assets/copilot-in-projects/test-routes-validate-book-refactor-preview.png)  
+*Fig. Temporary file in VS Code showing the test suggestions from Copilot ([Full size image](assets/copilot-in-projects/test-routes-validate-book-refactor-preview.png))*
 
-![A VS Code window with a temporary file showing that contains the original contents of test_routes.py along with suggested changes to test the validate_book function](assets/copilot-in-projects/test-routes-validate-book-refactor-preview.png)  
-*Fig. Temporary file in VS Code showing the test suggestions from Copilot*
+Here we can review the test cases Copilot generated and see if there are changes or further tests we need. In the Copilot chat box we have "Apply", "Discard", and "Regenerate" controls to accept, reject, or ask Copilot to retry writing the tests, but we can also use the chat to ask for specific changes.
 
-Here we can review the test cases Copilot generated and see if there are changes or further tests we need. We have "Apply" and "Discard" controls at the bottom of the screen in the `Refactor Preview` tab to either accept or reject the changes.
+Examining the code created by Copilot, the scenarios identified are great: we have tests for the nominal case and a couple edge cases of invalid or non-existent book ids. However, there is a significant issue with all of the tests. Instead of testing the `validate_book` function by importing and invoking it directly, the tests are all making requests to the `GET` "`books/<book_id>`" endpoint. These tests aren't confirming that the `validate_book` function returns a specific value, they are testing a route which uses the function and which could have other side effects. Let's use the prompt below in the chat window to ask Copilot to rewrite these tests to invoke `validate_book` directly:
 
-Examining the code created by Copilot, the scenarios identified are great; we have tests for the nominal case and a couple edge cases of invalid or non-existent book ids. However, there are a number of issues:
-- imports were added in the middle of the file, one of which is tacked on to the last line of an existing test
-- `test_validate_book_with_valid_id` doesn't use our `two_saved_books` test fixture to ensure that there are books in the database before the test runs
-- `test_validate_book_with_valid_id` thinks the result of `validate_book(book_id)` will be an integer rather than a `Book` instance
-- `test_validate_book_with_invalid_id` and `test_validate_book_with_nonexistent_id` try to read the error value from outside the `with pytest.raises` block where it's out of scope
+> Please rewrite the validate_book tests to import and directly invoke the validate_book function
+
+Copilot's response is looking better, in our case Copilot added the import for `validate_book` at the top of the file and generated the following tests:
+```py
+from app.routes import validate_book
+
+...
+
+def test_validate_book_succeeds(client, two_saved_books):
+    # Act
+    book = validate_book(1)
+
+    # Assert
+    assert book.id == 1
+    assert book.title == "Ocean Book"
+    assert book.description == "watr 4evr"
+
+def test_validate_book_missing_record(client, two_saved_books):
+    # Act & Assert
+    with pytest.raises(NotFound):
+        validate_book(3)
+
+def test_validate_book_invalid_id(client, two_saved_books):
+    # Act & Assert
+    with pytest.raises(BadRequest):
+        validate_book("cat")
+```
+
+These tests are getting closer to what we need, but still won't work for us. The main issues are that:
+- The `validate_book` import path at the top of the file is slightly wrong
+- The tests require `pytest` to use `with pytest.raises`
+- The symbols `NotFound` and `BadRequest` used in the edge case tests do not exist
+- The status code isn't being checked on the edge cases where the request should have been aborted
+- The `client` fixture is not required on any of the tests since we aren't making a request to an endpoint
+
+Fixing the imports is a couple lines of code, but for our edge cases, we may need to do some research to be sure of the error we expect to be raised by our functions and ensure that our tests are looking for that particular error to be raised. In this case, we know from the Building an API series that the `validate_book` function will raise an `HTTPException` that we need to import from `werkzeug.exceptions` to access in our tests.
 
 ### !callout-info
 
@@ -115,176 +145,51 @@ Remember, the tests generated during the Copilot run in this lesson may not matc
 
 ### !end-callout
 
-Since we want these test scenarios, and the tests bodies are pretty close to what we're looking for, let's use the "Apply" button in the `Refactor Preview` tab to accept the changes. We'll address the issues listed above by adjusting the imports, adding the relevant test fixtures, and updating the assertions to ensure they are for the correct values and are located in scope of the objects they are trying to examine.
+Since we want these test scenarios, and the tests bodies are pretty close to what we're looking for, let's use the "Apply" button in the `Refactor Preview` tab to accept the changes. We'll address the issues listed above by:
+- adjusting the imports 
+- removing the client fixture from the tests' parameters
+- changing the expected error in the `with pytest.raises` statements
+- updating the assertions to check for a status where applicable
 
 <br />
 
 <details>
   <summary>
-    Take a moment to adjust the test file for best practices and to make sure all tests are passing. Feel free to expand this section when done to view our updated <code>test_routes.py</code> file.
+    Take a moment to adjust the test file for best practices and to make sure all tests are passing. Feel free to expand this section when done to view the changes to our <code>test_book_routes.py</code> file.
   </summary>
 
-  **Updated test_routes.py**
+  **Updated test_book_routes.py**
   ```py
+  from app.routes.book_routes import validate_book
+  from werkzeug.exceptions import HTTPException
   import pytest
-  from app.routes import validate_book
 
-  def test_get_all_books_with_no_records(client):
-      # Act
-      response = client.get("/books")
-      response_body = response.get_json()
+  ...
 
-      # Assert
-      assert response.status_code == 200
-      assert response_body == []
+  def test_validate_book_succeeds(two_saved_books):
+    # Act
+    book = validate_book(1)
 
-  def test_get_all_books_with_two_records(client, two_saved_books):
-      # Act
-      response = client.get("/books")
-      response_body = response.get_json()
+    # Assert
+    assert book.id == 1
+    assert book.title == "Ocean Book"
+    assert book.description == "watr 4evr"
 
-      # Assert
-      assert response.status_code == 200
-      assert len(response_body) == 2
-      assert response_body[0] == {
-          "id": 1,
-          "title": "Ocean Book",
-          "description": "watr 4evr"
-      }
-      assert response_body[1] == {
-          "id": 2,
-          "title": "Mountain Book",
-          "description": "i luv 2 climb rocks"
-      }
+  def test_validate_book_missing_record(two_saved_books):
+    # Act & Assert
+    with pytest.raises(HTTPException) as error:
+        validate_book(3)
 
-  def test_get_all_books_with_title_query_matching_none(client, two_saved_books):
-      # Act
-      data = {'title': 'Desert Book'}
-      response = client.get("/books", query_string = data)
-      response_body = response.get_json()
+    response = error.value.response
+    assert response.status == "404 NOT FOUND"
 
-      # Assert
-      assert response.status_code == 200
-      assert response_body == []
+  def test_validate_book_invalid_id(two_saved_books):
+    # Act & Assert
+    with pytest.raises(HTTPException) as error:
+        validate_book("cat")
 
-  def test_get_all_books_with_title_query_matching_one(client, two_saved_books):
-      # Act
-      data = {'title': 'Ocean Book'}
-      response = client.get("/books", query_string = data)
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 200
-      assert len(response_body) == 1
-      assert response_body[0] == {
-          "id": 1,
-          "title": "Ocean Book",
-          "description": "watr 4evr"
-      }
-
-  def test_get_one_book_missing_record(client, two_saved_books):
-      # Act
-      response = client.get("/books/3")
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 404
-      assert response_body == {"message":"book 3 not found"}
-
-  def test_get_one_book_invalid_id(client, two_saved_books):
-      # Act
-      response = client.get("/books/cat")
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 400
-      assert response_body == {"message":"book cat invalid"}
-
-  def test_get_one_book(client, two_saved_books):
-      # Act
-      response = client.get("/books/1")
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 200
-      assert response_body == {
-          "id": 1,
-          "title": "Ocean Book",
-          "description": "watr 4evr"
-      }
-
-  def test_create_one_book(client):
-      # Act
-      response = client.post("/books", json={
-          "title": "New Book",
-          "description": "The Best!"
-      })
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 201
-      assert response_body == "Book New Book successfully created"
-
-  def test_create_one_book_no_title(client):
-      # Arrange
-      test_data = {"description": "The Best!"}
-
-      # Act & Assert
-      with pytest.raises(KeyError, match='title'):
-          response = client.post("/books", json=test_data)
-
-  def test_create_one_book_no_description(client):
-      # Arrange
-      test_data = {"title": "New Book"}
-
-      # Act & Assert
-      with pytest.raises(KeyError, match = 'description'):
-          response = client.post("/books", json=test_data)
-
-  def test_create_one_book_with_extra_keys(client, two_saved_books):
-      # Arrange
-      test_data = {
-          "extra": "some stuff",
-          "title": "New Book",
-          "description": "The Best!",
-          "another": "last value"
-      }
-
-      # Act
-      response = client.post("/books", json=test_data)
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 201
-      assert response_body == "Book New Book successfully created"
-
-  def test_validate_book_with_valid_id(two_saved_books):
-      # Arrange
-      book_id = 1
-
-      # Act
-      result = validate_book(book_id)
-
-      # Assert
-      assert result.id == book_id
-
-  def test_validate_book_with_invalid_id():
-      # Arrange
-      book_id = "cat"
-
-      # Act & Assert
-      with pytest.raises(Exception) as e:
-          validate_book(book_id)
-          assert str(e.value) == "book cat invalid"
-
-  def test_validate_book_with_nonexistent_id():
-      # Arrange
-      book_id = 3
-
-      # Act & Assert
-      with pytest.raises(Exception) as e:
-          validate_book(book_id)
-          assert str(e.value) == "book 3 not found"
+    response = error.value.response
+    assert response.status == "400 BAD REQUEST"
   ```
 </details>
 
@@ -292,63 +197,111 @@ Since we want these test scenarios, and the tests bodies are pretty close to wha
 
 With `validate_book` we were lucky, and Copilot outlined all of the scenarios that we intended to test, but that will not always be the case. We won't go step by step again, but let's apply the same approach we took with `validate_model` to testing our remaining dependencies `update_book` and `delete_book`.
 
-We'll start by using Copilot inline chat to ask for help generating tests for the `update_book` function. Here's what Copilot suggested:
+We'll start by using Copilot inline chat and teh `/tests` shortcut to ask for help generating tests for the `update_book` function. Here's what Copilot suggested:
 ```py
 def test_update_book(client, two_saved_books):
-    # Arrange
-    book_id = 1
-    data = {
-        "title": "Updated Book",
-        "description": "New description"
-    }
-
     # Act
-    response = client.put(f"/books/{book_id}", json=data)
+    response = client.put("/books/1", json={
+        "title": "Updated Ocean Book",
+        "description": "Updated description"
+    })
     response_body = response.get_json()
 
     # Assert
-    assert response.status_code == 200
-    assert response_body == "Book #1 successfully updated"
+    assert response.status_code == 204
+    assert response_body is None
 
-def test_update_book_invalid_id(client, two_saved_books):
-    # Arrange
-    book_id = "cat"
-    data = {
-        "title": "Updated Book",
-        "description": "New description"
-    }
-
-    # Act
-    response = client.put(f"/books/{book_id}", json=data)
+    # Verify the update
+    response = client.get("/books/1")
     response_body = response.get_json()
-
-    # Assert
-    assert response.status_code == 400
-    assert response_body == {"message": "book cat invalid"}
-
-def test_update_book_nonexistent_id(client, two_saved_books):
-    # Arrange
-    book_id = 3
-    data = {
-        "title": "Updated Book",
-        "description": "New description"
+    assert response_body == {
+        "id": 1,
+        "title": "Updated Ocean Book",
+        "description": "Updated description"
     }
 
+def test_update_book_missing_record(client, two_saved_books):
     # Act
-    response = client.put(f"/books/{book_id}", json=data)
+    response = client.put("/books/3", json={
+        "title": "Updated Book",
+        "description": "Updated description"
+    })
     response_body = response.get_json()
 
     # Assert
     assert response.status_code == 404
     assert response_body == {"message": "book 3 not found"}
+
+def test_update_book_invalid_id(client, two_saved_books):
+    # Act
+    response = client.put("/books/cat", json={
+        "title": "Updated Book",
+        "description": "Updated description"
+    })
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 400
+    assert response_body == {"message": "book cat invalid"}
 ```
 
-This time Copilot did a great job writing tests that properly use our test fixtures and assert on the correct values! The tests above will run as is, and we already have a good range of scenarios:
+We already have a good range of scenarios:
 - successfully update a book
 - return an error if the book id is invalid
 - return an error if a book with the id doesn't exist
 
-However, there are other scenarios that are worth testing. What happens if the request dictionary is missing either the `"title"` or `"description"` keys? How will our code behave if the user adds extra keys to the dictionary in the request? We can open up Copilot chat and ask for help generating the tests for these scenarios.
+Something to note is that the `test_update_book` test is using our `GET` `books/<book_id>` route to verify that the database changed. Instead of relying on another route, we could check the database itself. We can ask Copilot to make this change with a prompt like:
+
+> Please update these tests to verify changes using the database rather than client.get
+
+*Updated `test_update_book`*
+```py
+def test_update_book(client, two_saved_books, db_session):
+    # Act
+    response = client.put("/books/1", json={
+        "title": "Updated Ocean Book",
+        "description": "Updated description"
+    })
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 204
+    assert response_body is None
+
+    # Verify the update using the database
+    updated_book = db_session.query(Book).get(1)
+    assert updated_book.title == "Updated Ocean Book"
+    assert updated_book.description == "Updated description"
+```
+
+We are using the database now, but from these new changes we need to address that:
+- we must import the `Book` class
+- the test is using a fixture `db_session` we haven't created
+- Copilot chose deprecated querying syntax `db_session.query(Book).get(1)`. 
+
+The overall frame of the tests is looking good so we can press "Accept" and save the file. We could see about writing a fixture `db_session` like Copilot suggested, but we will choose to import `db` into the test file since we need to use both the `select` method and `session` attribute from `db` to query for a specific record. If we import `Book` and `db` and change our querying syntax over to using `db.select` and `db.session` our invalid and deprecated syntax issues are solved, but if we try to run the tests, we'll see a `JSONDecodeError`. This is because the line `response.get_json()` will raise a `JSONDecodeError` when the `response` object has an empty body. We'll address this last issue by either manually or with Copilot's help replacing the `response_body` assert with one that checks if `response.content_length is None`. 
+
+*Updated `test_update_book`*
+```py
+def test_update_book(client, two_saved_books):
+    # Act
+    response = client.put("/books/1", json={
+        "title": "Updated Ocean Book",
+        "description": "Updated description"
+    })
+
+    # Assert
+    assert response.status_code == 204
+    assert response.content_length is None
+
+    # Verify the update using the database
+    query = db.select(Book).where(Book.id == 1)
+    updated_book = db.session.scalar(query)
+    assert updated_book.title == "Updated Ocean Book"
+    assert updated_book.description == "Updated description"
+```
+
+Before we move on, there are a few other scenarios that are worth testing. What happens if the request dictionary is missing either the `"title"` or `"description"` keys? How will our code behave if the user adds extra keys to the dictionary in the request? We can use the Copilot chat box to ask for help generating the tests for these scenarios.
 
 <br />
 
@@ -358,98 +311,100 @@ However, there are other scenarios that are worth testing. What happens if the r
   </summary>
 
   **Prompt:**
-  > Please write 3 more tests for the update_book function that cover the scenarios:
-  > - where the request dictionary has extra keys other than the required ones
+  > Please write 3 new tests for the update_book function that cover the scenarios:
+  > - Where the request dictionary has extra keys other than the required ones
   > - Where the request dictionary is missing the title
   > - Where the request dictionary is missing the description
 </details>
 
-When we asked for help with testing these scenarios, Copilot gave us test suggestions, but they looked very different from our code in `test_book_routes.py`:
-```py
-import pytest
-from flask import json
-
-def test_update_book_with_extra_keys(client):
-    response = client.put('/books/1', data=json.dumps({
-        "title": "New Title",
-        "description": "New Description",
-        "extra_key": "Extra Value"
-    }), content_type='application/json')
-
-    assert response.status_code == 200
-    assert b"Book #1 successfully updated" in response.data
-
-def test_update_book_without_title(client):
-    response = client.put('/books/1', data=json.dumps({
-        "description": "New Description"
-    }), content_type='application/json')
-
-    assert response.status_code == 400
-    assert b"Title is required" in response.data
-
-def test_update_book_without_description(client):
-    response = client.put('/books/1', data=json.dumps({
-        "title": "New Title"
-    }), content_type='application/json')
-
-    assert response.status_code == 400
-    assert b"Description is required" in response.data
-```
-
-We could manually update the tests to match better, but Copilot can also reformat them to be closer to what we're looking for if we follow up with a prompt like:
-
-> Please update the tests above to match the formatting used in test_routes.py
-
-The resulting test code Copilot suggests still has issues we will address, but it is structured much more closely to our other tests:
-
+When we asked for help with testing these scenarios, for the first test `test_update_book_with_extra_keys` Copilot gave us a suggestion with expectations that looked a little different than what we had set up in our prior `update_book` tests:
 ```py
 def test_update_book_with_extra_keys(client, two_saved_books):
-    # Arrange
-    book_id = 1
-    data = {
-        "title": "Updated Book",
-        "description": "New description",
-        "extra_key": "Extra Value"
-    }
-
     # Act
-    response = client.put(f"/books/{book_id}", json=data)
+    response = client.put("/books/1", json={
+        "title": "Updated Title",
+        "description": "Updated description",
+        "extra_key": "extra_value"
+    })
     response_body = response.get_json()
 
     # Assert
     assert response.status_code == 200
-    assert response_body == "Book #1 successfully updated"
+    assert response_body["title"] == "Updated Title"
+    assert response_body["description"] == "Updated description"
 
-def test_update_book_without_title(client, two_saved_books):
-    # Arrange
-    book_id = 1
-    data = {
-        "description": "New description"
-    }
-
+def test_update_book_missing_title(client, two_saved_books):
     # Act
-    response = client.put(f"/books/{book_id}", json=data)
+    response = client.put("/books/1", json={
+        "description": "Updated description"
+    })
+    response_body = response.get_json()
 
     # Assert
     assert response.status_code == 400
-    assert b"Title is required" in response.data
+    assert response_body == {"message": "Missing required field: title"}
 
-def test_update_book_without_description(client, two_saved_books):
-    # Arrange
-    book_id = 1
-    data = {
-        "title": "Updated Book"
-    }
-
+def test_update_book_missing_description(client, two_saved_books):
     # Act
-    response = client.put(f"/books/{book_id}", json=data)
+    response = client.put("/books/1", json={
+        "title": "Updated Title"
+    })
+    response_body = response.get_json()
 
     # Assert
     assert response.status_code == 400
-    assert b"Description is required" in response.data
+    assert response_body == {"message": "Missing required field: description"}
 ```
 
-Let's paste these tests into our test file and run them. The test `test_update_book_with_extra_keys` passes without changes, but the other two are failing. We need to take a deeper look at the tests for missing required data.
+We could manually update the `test_update_book_with_extra_keys` test to match better, but Copilot can also reformat it to be closer to what we're looking for if we follow up with a prompt like:
+
+> Please follow the patterns of the prior tests to validate changes and respect the expected response body
+
+The resulting test code Copilot suggests still has issues we will address, but `test_update_book_with_extra_keys` now follows the same patterns as our other tests:
+
+```py
+def test_update_book_with_extra_keys(client, two_saved_books):
+    # Act
+    response = client.put("/books/1", json={
+        "title": "Updated Ocean Book",
+        "description": "Updated description",
+        "extra_key": "extra_value"
+    })
+
+    # Assert
+    assert response.status_code == 204
+    assert response.content_length is None
+
+    # Verify the update using the database
+    query = db.select(Book).where(Book.id == 1)
+    updated_book = db.session.scalar(query)
+    assert updated_book.title == "Updated Ocean Book"
+    assert updated_book.description == "Updated description"
+
+def test_update_book_missing_title(client, two_saved_books):
+    # Act
+    response = client.put("/books/1", json={
+        "description": "Updated description"
+    })
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 400
+    assert response_body == {"message": "Missing required field: title"}
+
+def test_update_book_missing_description(client, two_saved_books):
+    # Act
+    response = client.put("/books/1", json={
+        "title": "Updated Ocean Book"
+    })
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 400
+    assert response_body == {"message": "Missing required field: description"}
+```
+
+Let's "Accept" and save these tests then run them. The test `test_update_book_with_extra_keys` should pass as-is, but the other two are failing. We need to take a deeper look at the tests for missing required data.
 
 The assertions for these tests assume that a 400 status code will be sent in case of an error, and also made an assumption about what the error message in the response would be. If we navigate to the `update_book` function in `book_routes.py`, we see that there actually isn't any error handling for this scenario. These tests fail because our application crashes with a `KeyError` when required data is missing from the request dictionary.
 
@@ -464,55 +419,45 @@ While it's possible that Copilot could have written tests that expected a crash 
 
   **Updated `update_book` function:**
   ```py
-  @books_bp.route("/<book_id>", methods=["PUT"])
+  @books_bp.put("/<book_id>")
   def update_book(book_id):
-      book = validate_book(book_id)
+    book = validate_book(book_id)
+    request_body = request.get_json()
 
-      request_body = request.get_json()
+    try:
+        book.title = request_body["title"]
+        book.description = request_body["description"]
 
-      try:
-          book.title = request_body["title"]
-          book.description = request_body["description"]
+    except KeyError as e:
+        abort(make_response({"message": f"{e.args[0]} is required"}, 400))
 
-      except KeyError as e:
-          abort(make_response({"message": f"{e.args[0]} is required"}, 400))
-
-      db.session.commit()
-
-      return make_response(jsonify(f"Book #{book.id} successfully updated"))
+    db.session.commit()
+    return Response(status=204, mimetype="application/json") # 204 No Content
   ```
 
   **Updated tests:**
   ```py
-  def test_update_book_without_title(client, two_saved_books):
-      # Arrange
-      book_id = 1
-      data = {
-          "description": "New description"
-      }
+  def test_update_book_missing_title(client, two_saved_books):
+    # Act
+    response = client.put("/books/1", json={
+        "description": "Updated description"
+    })
+    response_body = response.get_json()
 
-      # Act
-      response = client.put(f"/books/{book_id}", json=data)
-      response_body = response.get_json()
+    # Assert
+    assert response.status_code == 400
+    assert response_body == {"message": "title is required"}
 
-      # Assert
-      assert response.status_code == 400
-      assert response_body == {"message": "title is required"}
+  def test_update_book_missing_description(client, two_saved_books):
+    # Act
+    response = client.put("/books/1", json={
+        "title": "Updated Ocean Book"
+    })
+    response_body = response.get_json()
 
-  def test_update_book_without_description(client, two_saved_books):
-      # Arrange
-      book_id = 1
-      data = {
-          "title": "Updated Book"
-      }
-
-      # Act
-      response = client.put(f"/books/{book_id}", json=data)
-      response_body = response.get_json()
-
-      # Assert
-      assert response.status_code == 400
-      assert response_body == {"message": "description is required"}
+    # Assert
+    assert response.status_code == 400
+    assert response_body == {"message": "description is required"}
   ```
 </details>
 
