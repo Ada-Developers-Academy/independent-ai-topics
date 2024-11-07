@@ -12,13 +12,13 @@ Our goals for this lesson are to:
 
 Writing new code with Copilot is great, but a significant portion of software development involves refactoring and updating existing code. We got a little taste of updating code with the `Book` class, but we're going to revisit a scenario that we've seen before—refactoring the `validate_book` function into a more generic function that we can use for any model.
 
-For this section of the lesson, we're going to check out a different `hello-books` branch, [`07b-from-dict-refactor`](https://github.com/AdaGold/hello-books-api/tree/07b-from-dict-refactor), as the starting point.
+For this section of the lesson, we're going to check out a different `hello-books` branch, [`07b-to-dict-refactor`](https://github.com/AdaGold/hello-books-api/tree/07b-to-dict-refactor), as the starting point.
 
 ### !callout-info
 
 ## Saving Project Changes
 
-If we forked the `hello-books` repo and want to keep any local changes that we made in the previous part of the lesson, we recommend pausing to create a new branch from the current one then pushing that code up before checking out the `07b-from-dict-refactor` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
+If we forked the `hello-books` repo and want to keep any local changes that we made in the previous part of the lesson, we recommend pausing to create a new branch from the current one then pushing that code up before checking out the `07b-to-dict-refactor` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
 
 ### !end-callout
 
@@ -48,7 +48,7 @@ Be sure that the `hello_books_development` and `hello_books_test` databases exis
 
 ### Planning the `validate_book` Refactor
 
-Our steps to plan a refactor with Copilot stay the same: we first need to identify our dependencies, then check if we have tests for code that will be affected. We will be refactoring the `validate_book` function in the `routes.py` file, so we should search the project for where the function is used to remind ourselves of our dependencies.
+Our steps to plan a refactor with Copilot stay the same: we first need to identify our dependencies, then check if we have tests for code that will be affected. We will be refactoring the `validate_book` function in the `book_routes.py` file, so we should search the project for where the function is used to remind ourselves of our dependencies.
 
 This is a scenario where Copilot shouldn't be used, since Copilot has access to open files, but not all of the files in your project. Indeed, if we ask Copilot for help, it will warn us about this lack of access and give us suggestions on how to search the project for dependencies.
 
@@ -76,7 +76,7 @@ Searching our project, we find 4 dependencies:
 - usage in `update_book`
 - usage in `delete_book`
 
-Peeking at our test suite in `test_routes.py`, we do have tests for `read_one_book`, but we need to write tests for the remaining untested dependencies: `validate_book`, `update_book`, and `delete_book`.
+Peeking at our test suite in `test_book_routes.py`, we do have tests for `read_one_book`, but we need to write tests for the remaining untested dependencies: `validate_book`, `update_book`, and `delete_book`.
 
 ### Updating Our Test Suite
 
@@ -84,17 +84,17 @@ Peeking at our test suite in `test_routes.py`, we do have tests for `read_one_bo
 
 We'll start with testing the `validate_book` function. Before we begin, we're going to open several files to ensure Copilot has plenty of context around our code and test set up. Take a moment to ensure the following files are open in VS Code:
 - `book.py`
-- `routes.py`
+- `book_routes.py`
 - `conftest.py`
-- `test_models.py`
-- `test_routes.py`
+- `test_book_model.py`
+- `test_book_routes.py`
 
-Start in `routes.py` and use the cursor to highlight the entire `validate_book` function. Next, bring up the inline Copilot chat and invoke the `/tests` shortcut. When Copilot is done thinking, we may see a slightly different UI than in previous scenarios:
+Start in `book_routes.py` and use the cursor to highlight the entire `validate_book` function. Next, bring up the inline Copilot chat and invoke the `/tests` shortcut. When Copilot is done thinking, we may see a slightly different UI than in previous scenarios:
 
 ![A VS Code window with the routes.py file up and validate_book function selected showing a Refactor Preview tab at the bottom of the screen](assets/copilot-in-projects/routes-test-validate-book.png)  
 *Fig. Copilot's `Refactor Preview` tab showing at the bottom of VS Code*
 
-This time, instead of showing changes to the current file in a temporary window, the bottom panel has opened to a `Refactor Preview` tab that has a single entry on it. If we click the entry, it will take us to a temporary file showing the changes Copilot is suggesting that we make to the `test_routes.py` file.
+This time, instead of showing changes to the current file in a temporary window, the bottom panel has opened to a `Refactor Preview` tab that has a single entry on it. If we click the entry, it will take us to a temporary file showing the changes Copilot is suggesting that we make to the `test_book_routes.py` file.
 
 ![A VS Code window with a temporary file showing that contains the original contents of test_routes.py along with suggested changes to test the validate_book function](assets/copilot-in-projects/test-routes-validate-book-refactor-preview.png)  
 *Fig. Temporary file in VS Code showing the test suggestions from Copilot*
@@ -364,7 +364,7 @@ However, there are other scenarios that are worth testing. What happens if the r
   > - Where the request dictionary is missing the description
 </details>
 
-When we asked for help with testing these scenarios, Copilot gave us test suggestions, but they looked very different from our code in `test_routes.py`:
+When we asked for help with testing these scenarios, Copilot gave us test suggestions, but they looked very different from our code in `test_book_routes.py`:
 ```py
 import pytest
 from flask import json
@@ -451,7 +451,7 @@ def test_update_book_without_description(client, two_saved_books):
 
 Let's paste these tests into our test file and run them. The test `test_update_book_with_extra_keys` passes without changes, but the other two are failing. We need to take a deeper look at the tests for missing required data.
 
-The assertions for these tests assume that a 400 status code will be sent in case of an error, and also made an assumption about what the error message in the response would be. If we navigate to the `update_book` function in `routes.py`, we see that there actually isn't any error handling for this scenario. These tests fail because our application crashes with a `KeyError` when required data is missing from the request dictionary.
+The assertions for these tests assume that a 400 status code will be sent in case of an error, and also made an assumption about what the error message in the response would be. If we navigate to the `update_book` function in `book_routes.py`, we see that there actually isn't any error handling for this scenario. These tests fail because our application crashes with a `KeyError` when required data is missing from the request dictionary.
 
 While it's possible that Copilot could have written tests that expected a crash (which would look like a `500 Internal Server Error`), it's much more common that these scenarios would result in a `400 Bad Request`. So even though Copilot generated failing tests, it turns out that this helped us by highlighting error handling that would be useful to have. Rather than changing the tests to expect a crash, we're going to add error handling to `update_book` to make our app more robust, then update our test assertions to check for the correct message.
 
@@ -555,11 +555,11 @@ Copilot can handle this request without issue. However, Find & Replace could do 
 
 One approach we can try is to open each file, select the entire contents, and ask Copilot to change any instances of `validate_book` to `validate_model`. We need to carefully review the lines Copilot suggests changing to ensure nothing unexpected is altered, but it can save us a little time since we need to do slightly more than just find and replace the function name.
 
-Due to differences in context, it's possible that a prompt that works fine in one file may not work as well in another file. For example, in the `routes.py` file, the following prompt, which provides very few details, is able to produce the desired changes:
+Due to differences in context, it's possible that a prompt that works fine in one file may not work as well in another file. For example, in the `book_routes.py` file, the following prompt, which provides very few details, is able to produce the desired changes:
 
 > Please replace all uses of validate_book with validate_model
 
-However, in the `test_routes.py` file, more detail is necessary for Copilot to recognize that there is a new class parameter which is required wherever the function is invoked, and that the `Book` class needs to be imported:
+However, in the `test_book_routes.py` file, more detail is necessary for Copilot to recognize that there is a new class parameter which is required wherever the function is invoked, and that the `Book` class needs to be imported:
 
 > Please replace all uses of validate_book(book_id) with validate_model(cls, model_id). Import any required model classes.
 
