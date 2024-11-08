@@ -195,9 +195,9 @@ Since we want these test scenarios, and the tests bodies are pretty close to wha
 
 #### Testing `update_book`
 
-With `validate_book` we were lucky, and Copilot outlined all of the scenarios that we intended to test, but that will not always be the case. We won't go step by step again, but let's apply the same approach we took with `validate_model` to testing our remaining dependencies `update_book` and `delete_book`.
+With `validate_book` we were lucky, and Copilot outlined all of the scenarios that we intended to test, but that will not always be the case. We won't go step by step for each dependency in this lesson, but let's apply the same approach we took with `validate_model` to testing our remaining dependencies `update_book` and `delete_book`.
 
-We'll start by using Copilot inline chat and teh `/tests` shortcut to ask for help generating tests for the `update_book` function. Here's what Copilot suggested:
+We'll start by using Copilot inline chat and the `/tests` shortcut to ask for help generating tests for the `update_book` function. Here's what Copilot suggested:
 ```py
 def test_update_book(client, two_saved_books):
     # Act
