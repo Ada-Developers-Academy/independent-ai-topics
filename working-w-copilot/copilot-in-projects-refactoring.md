@@ -254,7 +254,7 @@ Something to note is that the `test_update_book` test is using our `GET` `books/
 
 > Please update these tests to verify changes using the database rather than client.get
 
-*Updated `test_update_book`*
+*Updated `test_update_book`:*
 ```py
 def test_update_book(client, two_saved_books, db_session):
     # Act
@@ -279,9 +279,11 @@ We are using the database now, but from these new changes we need to address tha
 - the test is using a fixture `db_session` we haven't created
 - Copilot chose deprecated querying syntax `db_session.query(Book).get(1)`. 
 
-The overall frame of the tests is looking good so we can press "Accept" and save the file. We could see about writing a fixture `db_session` like Copilot suggested, but we will choose to import `db` into the test file since we need to use both the `select` method and `session` attribute from `db` to query for a specific record. If we import `Book` and `db` and change our querying syntax over to using `db.select` and `db.session` our invalid and deprecated syntax issues are solved, but if we try to run the tests, we'll see a `JSONDecodeError`. This is because the line `response.get_json()` will raise a `JSONDecodeError` when the `response` object has an empty body. We'll address this last issue by either manually or with Copilot's help replacing the `response_body` assert with one that checks if `response.content_length is None`. 
+The overall frame of the tests is looking good so we can press "Accept" and save the file. We could see about writing a fixture `db_session` like Copilot suggested, but we will choose to import `db` into the test file since we need to use both the `select` method and `session` attribute from `db` to query for a specific record. 
 
-*Final `test_update_book`*
+If we import `Book` and `db` and change our querying syntax over to using `db.select` and `db.session` our invalid and deprecated syntax issues are solved, but if we try to run the tests, we'll see a `JSONDecodeError`. This is because the line `response.get_json()` will raise a `JSONDecodeError` when the `response` object has an empty body. We'll address this last issue by either manually or with Copilot's help replacing the `response_body` assert with one that checks if `response.content_length is None`. 
+
+*Final `test_update_book`:*
 ```py
 def test_update_book(client, two_saved_books):
     # Act
@@ -301,7 +303,7 @@ def test_update_book(client, two_saved_books):
     assert updated_book.description == "Updated description"
 ```
 
-Before we move on, there are a few other scenarios that are worth testing. What happens if the request dictionary is missing either the `"title"` or `"description"` keys? How will our code behave if the user adds extra keys to the dictionary in the request? We can use the Copilot chat box to ask for help generating the tests for these scenarios.
+Before we move on, there are a few other scenarios that are worth testing. What happens if the request dictionary is missing either the `"title"` or `"description"` keys? How will our code behave if the user adds extra keys to the dictionary in the request? We can open the Copilot chat in our test file to ask for help generating the tests for these scenarios.
 
 <br />
 
