@@ -65,7 +65,7 @@ This is a scenario where Copilot shouldn't be used, since Copilot has access to 
   **Copilot's Response:**
   > As an AI, I don't have access to your entire project's codebase, so I can't directly identify all the places where `validate_book` function is used. However, typically, such a function would be used in routes that require a book ID as a parameter.
   >  
-  > For example, you might have routes like `@books_bp.route("/<book_id>", methods=["GET", "PUT", "DELETE"])` where you would use `validate_book(book_id)` to ensure the provided book ID is valid before proceeding with the GET, PUT, or DELETE operation.
+  > For example, you might have routes like `@books_bp.get("/<book_id>")`, `@books_bp.put("/<book_id>")`, or `@books_bp.delete("/<book_id>")` where you would use `validate_book(book_id)` to ensure the provided book ID is valid before proceeding with the GET, PUT, or DELETE operation.
   >  
   > Please search your codebase for `validate_book` to find all its usages. In Visual Studio Code, you can do this by pressing `Ctrl+Shift+F` and typing `validate_book` in the search bar.
 </details>
