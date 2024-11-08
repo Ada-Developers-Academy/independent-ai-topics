@@ -281,7 +281,7 @@ We are using the database now, but from these new changes we need to address tha
 
 The overall frame of the tests is looking good so we can press "Accept" and save the file. We could see about writing a fixture `db_session` like Copilot suggested, but we will choose to import `db` into the test file since we need to use both the `select` method and `session` attribute from `db` to query for a specific record. If we import `Book` and `db` and change our querying syntax over to using `db.select` and `db.session` our invalid and deprecated syntax issues are solved, but if we try to run the tests, we'll see a `JSONDecodeError`. This is because the line `response.get_json()` will raise a `JSONDecodeError` when the `response` object has an empty body. We'll address this last issue by either manually or with Copilot's help replacing the `response_body` assert with one that checks if `response.content_length is None`. 
 
-*Updated `test_update_book`*
+*Final `test_update_book`*
 ```py
 def test_update_book(client, two_saved_books):
     # Act
@@ -414,7 +414,7 @@ While it's possible that Copilot could have written tests that expected a crash 
 
 <details>
   <summary>
-    Try out adding error handling and updating the test assertions, then expand this section to see how we changed <code>update_book</code>, <code>test_update_book_without_title</code>, and <code>test_update_book_without_description</code>.
+    Try out adding error handling and updating the test assertions, then expand this section to see how we changed <code>update_book</code>, <code>test_update_book_missing_title</code>, and <code>test_update_book_missing_description</code>.
   </summary>
 
   **Updated `update_book` function:**
@@ -479,15 +479,18 @@ The response delivers exactly what we're looking for:
 def validate_model(model_class, model_id):
     try:
         model_id = int(model_id)
-    except:
-        abort(make_response({"message": f"{model_class.__name__.lower()} {model_id} invalid"}, 400))
+    except ValueError:
+        response = {"message": f"{model_class.__name__.lower()} {model_id} invalid"}
+        abort(make_response(response, 400))
 
-    model = model_class.query.get(model_id)
+    query = db.select(model_class).where(model_class.id == model_id)
+    model_instance = db.session.scalar(query)
 
-    if not model:
-        abort(make_response({"message": f"{model_class.__name__.lower()} {model_id} not found"}, 404))
+    if not model_instance:
+        response = {"message": f"{model_class.__name__.lower()} {model_id} not found"}
+        abort(make_response(response, 404))
 
-    return model
+    return model_instance
 ```
 
 Our function is updated, now we just need to update our dependent functions and tests to use `validate_model` instead of `validate_book`, which includes passing in the new `model_class` parameter. We may also decide to rename `model_class` to the more common `cls`, which is often used in Python when passing in a class reference. We can do all of this manually using VS Code's Find & Replace tools followed by some minor edits to add our new parameter, or we can reach out to Copilot.
