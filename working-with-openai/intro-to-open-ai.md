@@ -13,7 +13,7 @@ Our goals for this lesson are to:
 | <div style="min-width:100px;">Vocab</div> | Definition |
 | ----- | ---------- | 
 | AI Model | An AI program that has been trained on data sets to achieve a specific purpose. Depending on their purpose, generative AI models are able to create content from different types of data input, including text, images, and audio. At their most basic level, generative models operate like sophisticated autocomplete applications. |
-| AI API | An API that allows users to access and deploy capabilities of AI models through specific endpoints so they can enable AI features within their own applications. Several AI APIs exist, some more well known ones are: the OpenAI API, Google Gemini API, and Meta's Llama API. |
+| AI API | An API that allows users to access and deploy capabilities of AI models through specific endpoints so they can enable AI features within their own applications. Several AI APIs exist, some of the more well known ones are: the [OpenAI API](https://platform.openai.com/docs/api-reference/introduction), [Google Gemini API](https://ai.google.dev/gemini-api/docs), and [Meta's Llama API](https://docs.llama-api.com/api-reference). |
 
 ## What is an AI API?
 
@@ -26,6 +26,10 @@ Some practical applications include but are not limited to:
 - Language translation
 - Generating recommendations based off user input
 - Providing accessibility considerations such as text to speech or speech to text
+
+Every AI API is going to be a little different in what it offers. Nearly all have some kind of text generation, image processing, and audio processing, but the limits of what exactly you can do with these will vary based on the API you're using. When you want to build an AI enabled feature, an early part of planning will be researching what is currently available from AI APIs and determining which of the APIs will support the needs of your application. 
+
+How you will interact with the API may also depend on language you're using or the platform you're programming for. AI APIs can be reached through RESTful endpoints, but some organizations may also publish language-specific libraries to make their AI offerings a little easier to work with.
 
 ## AI APIs vs Customized Products
 
