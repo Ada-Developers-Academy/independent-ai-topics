@@ -10,7 +10,7 @@ Our goals for this lesson are to:
 
 ## Vocabulary
 
-| Vocab | Definition |
+| <div style="min-width:100px;">Vocab</div> | Definition |
 | ----- | ---------- | 
 | AI Model | An AI program that has been trained on data sets to achieve a specific purpose. Depending on their purpose, generative AI models are able to create content from different types of data input, including text, images, and audio. At their most basic level, generative models operate like sophisticated autocomplete applications. |
 | AI API | An API that allows users to access and deploy capabilities of AI models through specific endpoints so they can enable AI features within their own applications. Several AI APIs exist, some more well known ones are: the OpenAI API, Google Gemini API, and Meta's Llama API. |
