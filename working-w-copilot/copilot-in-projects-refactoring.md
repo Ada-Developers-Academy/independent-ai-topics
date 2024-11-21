@@ -197,7 +197,7 @@ Since we want these test scenarios, and the tests bodies are pretty close to wha
 
 With `validate_book` we were lucky, and Copilot outlined all of the scenarios that we intended to test, but that will not always be the case. We won't go step by step for each dependency in this lesson, but let's apply the same approach we took with `validate_model` to testing our remaining dependencies `update_book` and `delete_book`.
 
-We'll start by using Copilot inline chat and the `/tests` shortcut to ask for help generating tests for the `update_book` function. Here's what Copilot suggested:
+We'll start by using Copilot inline chat and the `/tests` shortcut to ask for help generating tests for the `update_book` endpoint. Here's what Copilot suggested:
 ```py
 def test_update_book(client, two_saved_books):
     # Act
@@ -281,7 +281,7 @@ We are using the database now, but from these new changes we need to address tha
 
 The overall frame of the tests is looking good so we can press "Accept" and save the file. We could see about writing a fixture `db_session` like Copilot suggested, but we will choose to import `db` into the test file since we need to use both the `select` method and `session` attribute from `db` to query for a specific record. 
 
-If we import `Book` and `db` and change our querying syntax over to using `db.select` and `db.session` our invalid and deprecated syntax issues are solved, but if we try to run the tests, we'll see a `JSONDecodeError`. This is because the line `response.get_json()` will raise a `JSONDecodeError` when the `response` object has an empty body. We'll address this last issue by either manually or with Copilot's help replacing the `response_body` assert with one that checks if `response.content_length is None`. 
+If we import `Book` and `db` and change our querying syntax over to using `db.select` and `db.session`, our invalid and deprecated syntax issues are solved, but if we try to run the tests, we'll see a `JSONDecodeError`. This is because the line `response.get_json()` will raise a `JSONDecodeError` when the `response` object has an empty body. We'll address this last issue by, either manually or with Copilot's help, replacing the `response_body` assert with one that checks if `response.content_length is None`. 
 
 *Final `test_update_book`:*
 ```py
