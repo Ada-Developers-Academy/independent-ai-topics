@@ -8,6 +8,16 @@ Our goals for this lesson are to:
 - identify where Copilot can assist us with refactoring
 - get more experience adding and updating test cases with Copilot
 
+### !callout-info
+
+## Generative tools will give you different responses
+
+As you work through this lesson, you will likely get different results from the prompts you submit than what we show through the lesson. This is expected!
+
+We are working with a generative AI tool and they are not guaranteed to return the same or even a similar response for the same input. Part of adjusting to working with AI tools is getting comfortable with the variability of their responses and then fine tuning our prompts, regenerating responses, and manually updating generated code until we have something that meets our needs.
+
+### !end-callout
+
 ## Refactoring with Copilot
 
 Writing new code with Copilot is great, but a significant portion of software development involves refactoring and updating existing code. We got a little taste of updating code with the `Book` class, but we're going to revisit a scenario that we've seen before—refactoring the `validate_book` function into a more generic function that we can use for any model.

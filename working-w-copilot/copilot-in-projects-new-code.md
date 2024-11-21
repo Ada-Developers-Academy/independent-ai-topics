@@ -8,6 +8,17 @@ Our goals for this lesson are to show how we can use Copilot to:
 - quickly write new code that follows a consistent format
 - help us with generating test cases
 
+### !callout-info
+
+## Generative tools will give you different responses
+
+As you work through this lesson, you will likely get different results from the prompts you submit than what we show through the lesson. This is expected!
+
+We are working with a generative AI tool and they are not guaranteed to return the same or even a similar response for the same input. Part of adjusting to working with AI tools is getting comfortable with the variability of their responses and then fine tuning our prompts, regenerating responses, and manually updating generated code until we have something that meets our needs.
+
+### !end-callout
+
+
 ## Writing new code with Copilot
 
 We won't be following the same path as our previous visit with `hello-books`. To keep things shorter and focus on areas where we can benefit from Copilot, we will check out a couple branches and use the code at that state as an example to work from.
@@ -95,7 +106,9 @@ Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our 
 ![VS Code showing the book.py class and a temporary file where Copilot is previewing unit tests](assets/copilot-in-projects/book-slash-tests-suggestion.png)  
 *Fig. Copilot's UI to preview tests for the* `book.py` *file ([Full size image](assets/copilot-in-projects/book-slash-tests-suggestion.png))*
 
-If we feel like the tests presented are a good starting place, we can click "Accept" in the copilot chat to dismiss the chat window, then use `⌘S` (`CMD + S`) to save the new test file. We should see a pop up that allows us to choose the folder where we want to save the test file.
+If we feel like the tests presented are a good starting place, we can take steps to save the generated code. Since this branch doesn't have a `tests` folder yet, we should create a `tests` directory and an empty `__init__.py`. 
+
+Once we have our file structure set up, we should  click "Accept" in the copilot chat to dismiss the chat window, then use `⌘S` (`CMD + S`) to save the new test file. We should see a pop up that allows us to choose the folder where we want to save the test file.
 
 We must carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. In our case, Copilot came up with 3 tests that nearly have us covered:
 
