@@ -14,7 +14,13 @@ Our goals for this lesson are to:
 
 As you work through this lesson, you will likely get different results from the prompts you submit than what we show through the lesson. This is expected!
 
+<br>
+
 We are working with a generative AI tool and they are not guaranteed to return the same or even a similar response for the same input. Part of adjusting to working with AI tools is getting comfortable with the variability of their responses and then fine tuning our prompts, regenerating responses, and manually updating generated code until we have something that meets our needs.
+
+<br>
+
+Even the Copilot extension itself is updated regularly, so the way the UI looks or where certain features are located may differ from that shown in this lesson. So if a screenshot looks a little different from what you see in your own VS Code, try to find the equivalent feature in your version of the extension.
 
 ### !end-callout
 
