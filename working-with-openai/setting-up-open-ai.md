@@ -1,107 +1,107 @@
-# Setting up the OpenAI API
+# Getting Ready to Use an AI API
 
 ## Goals
-Now that we have a good idea of what the OpenAI API is and some of the ways we can use it, let's go ahead and get it set up. We'll create or configure our account and then confirm that everything is in place for us to start integrating the OpenAI API into our projects!
+Now that we have a good idea of what AI APIs are and some of the ways we can use them, let's get set up to work with one of them: Google Gemini. We'll create an account if necessary, get the permissions we need, and then confirm that everything is working for us to start integrating the Gemini API into our projects!
 
 Our goals for this lesson are to:
-- Create an OpenAI API account and login
+- Create an Google account and login if necessary
 - Generate an API Key
-- Verify credits have been granted to your account
+- Verify that we can make a call to the Gemini API with our API key
 
-### !callout-warning
+## Creating a Google Account
 
-## The OpenAI API is Not Free at this Time
-Unfortunately, the OpenAI API is not currently a free API. It is priced according to which AI model you are using and how often you are using it. New users do currently get $5 worth of credits to begin experimenting which is tied to the phone number you provide when signing up. 
+We will need a Google account to create an API key for the Gemini API. If you do not already have a Google account:
 
+1. Please visit this [Create a Google Account article](https://support.google.com/accounts/answer/27441)
 
-### !end-callout
+2. Under "Step 1: Choose a Google Account type" press the "For myself" button.
 
-## Creating Your OpenAI Account
-
-1. Access [OpenAI](https://openai.com) and click "Log In" in the upper right corner. Alternatively, click "Menu" followed by "Log In".  
-    ![OpenAI Menu with the "Login" section circled](assets/setting-up-openai/open-ai-login.png)  
-    *Fig. "Log In" section of the OpenAI Menu*
-
-2. Log in using the login page. 
-   - If you already have a ChatGPT account, you will be able to log in using your ChatGPT credentials.
-   - If you do not already have a ChatGPT account, go ahead and create one here.    
-    ![OpenAI Login Page](assets/setting-up-openai/open-ai-login-page.png)  
-    *Fig. Login page for OpenAI/ChatGPT*  
-3. You will be taken to a screen that allows you to choose whether you would like to access ChatGPT or the API. Go ahead and choose the API.  
-   ![Window to Choose ChatGPT or API](assets/setting-up-openai/open-ai-or-chat-gpt.png)  
-   *Fig. Screen that allows user to choose between ChatGPT or the OpenAI API*  
-4. You should be in to the OpenAI API home page! Feel free to look around!  
-    ![OpenAI API Home Page](assets/setting-up-openai/open-ai-api-home-page.png)  
-    *Fig. OpenAI API home page welcoming user to the developer platform*
+3. A new tab will open with guided prompts to create your Google account. Please follow these until you get a success message. 
+ 
+If you run into issues creating a Google account, please reach out in #study-hall on Slack or stop by office hours.
 
 ## Creating an API Key
 
-As with most APIs, you will be required to use an API key to authenticate API calls. Follow the steps below to create your API key.
+As with most APIs, we are required to use an API key to authenticate calls to the Gemini API. Follow the steps below to create your API key.
 
-### !callout-info
+1. Visit [Google Gemini's API key documentation](https://ai.google.dev/gemini-api/docs/api-key) and ensure you are signed in to your Google account by checking the upper right corner of the page. 
+   ![Google Gemini API Key documentation with signed in user showing in top right corner](assets/setting-up-ai-api/api_key_docs_check_signed_in.png) 
+   *Fig. Google Gemini API Key documentation with signed in user showing ([Full Size Image](assets/setting-up-ai-api/api_key_docs_check_signed_in.png))*  
 
-## Connecting a Phone Number
-When setting up your API key, you will be asked to verify a phone number. As mentioned earlier, $5.00 of free credits are added to each account verified with a new phone number. According to [OpenAI's Phone Verification FAQs:](https://help.openai.com/en/articles/6613520-phone-verification-faq)
-- One phone number can be used to verify up to 3 accounts.
-- Accounts cannot be verified with VoIP, Google Phone Numbers, Premium numbers or Landlines
-- Once a phone number has been used to verify an account, it cannot be removed or changed.
+2. Press the button labeled "Get a Gemini API key in Google AI Studio" to open the Google AI Studio API Key website in a new tab. 
+   ![Close up on the "Get a Gemini API key in Google AI Studio" button in the Google Gemini API Key documentation](assets/setting-up-ai-api/get_api_key_docs.png) 
+   *Fig. Close up on the "Get a Gemini API key in Google AI Studio" button ([Full Size Image](assets/setting-up-ai-api/get_api_key_docs.png))* 
 
-### !end-callout
+   We want to leave the current browser tab with the Gemini API Key documentation open because we will come back here to test our API key at the end. 
 
-1. Hover over the leftmost side of the OpenAI home page and the OpenAI menu should appear. Click on the tab for "API keys".  
-   ![OpenAI menu sidebar with "API keys" section circled](assets/setting-up-openai/open-ai-menu.png)  
-   *Fig. "API keys" section of the OpenAI sidebar menu*  
-2. You will be taken to a page for API keys. If this is your first time creating an API key for the OpenAI API, you will be asked to verify your phone number before creating a key. Click the button that says "Start verification".    
-   ![OpenAI API keys page with phone verification circled](assets/setting-up-openai/open-ai-api-keys-page-phone-verify.png) 
-   *Fig. OpenAI API keys page with phone verification highlighted*  
-3. Verify your phone numer. Once you enter your phone number, a text with a code will be sent to you. Enter the code in the corresponding area.  
-   ![OpenAI phone verification box](assets/setting-up-openai/open-ai-phone-verification.png)  
-   *Fig. OpenAI Phone verification*  
-   ![OpenAI code verification box](assets/setting-up-openai/open-ai-phone-verification-code-box.png)  
-   *Fig. OpenAI Phone verification code input*  
+3. When the Google AI Studio tab loads, we should see a pop up asking us to choose an environment. Since we want to make calls from Postman, VS Code, and maybe more, we will select "Get API key" next to "Develop in your own environment"   
+   ![Google AI Studio pop up to choose generating an API key or building inside Google AI studio](assets/setting-up-ai-api/api_key_choose_environment.png) 
+   *Fig. Google AI Studio pop up ([Full Size Image](assets/setting-up-ai-api/api_key_choose_environment.png))* 
 
-### !callout-warning
+4. After this we will be shown and need to accept the Google Gemini API's Terms of Service before we can proceed.
+   ![Google AI Studio pop up showing the Google Gemini API Terms of Service](assets/setting-up-ai-api/api_key_legal_notice.png) 
+   *Fig. Google AI Studio pop up showing the Google Gemini API Terms of Service ([Full Size Image](assets/setting-up-ai-api/api_key_legal_notice.png))* 
 
-## Credits Warning
+5. The pop up will dismiss and leave us on the Google AI Studio "Get API Key" page. We can now press the "Create API Key" button in the middle of the page to generate our Gemini API key. 
+   ![Google AI Studio "Get API Key" page with the "Create API Key" button highlighted](assets/setting-up-ai-api/create_api_key_button.png) 
+   *Fig. "Create API Key" button on the Google AI Studio "Get API Key" page ([Full Size Image](assets/setting-up-ai-api/create_api_key_button.png))* 
 
-If your phone number has already been used to verify an OpenAI account, you will receive the following warning:  
+6. A pop up will be displayed with a spinner while the API key is generating. Once the API key is created the pop up will display the API key with an option to copy it. 
 
-![OpenAI credits warning](assets/setting-up-openai/open-ai-credits-warning.png)  
-*Fig. OpenAI credits warning*
+   The webpage will also have updated to show our new API key underneath the button we just used to create our key. We may create multiple keys if we implement different AI features in different projects. All of the Gemini API keys we create will be listed here.
+   ![Pop up showing newly created API key in the foreground and page updated in the background to also list the new API key](assets/setting-up-ai-api/api_key_created.png) 
+   *Fig. Newly created API key showing in a pop up and listed on the page ([Full Size Image](assets/setting-up-ai-api/api_key_created.png))* 
 
-<br>
+## Verifying our API key
 
-If you do not have credits left on your account and do not have another phone number you can use for registrations, please reach out to instructional staff for assistance.
+We want to see our API key in action before trying to use it from a project, so how can we check it out? We'll look at testing and customizing prompts from Postman in a following section, but we can do a test API call with even less set up just to see if our key is working.
 
-### !end-callout
+1. Let's go back to the [Google Gemini's API key documentation](https://ai.google.dev/gemini-api/docs/api-key) page. Underneath the button we used to launch Google AI Studio, there's a section "Send your first Gemini API request" that contains a `curl` command that we can run from Terminal. 
 
-4. Create your secret key. 
-   - Now that you have verified your phone number, you can create a secret key. On the API Keys screen, press the button that says "+ Create new secret key" and a pop up will appear to prompt you to create a new secret key.  
-   ![Secret key pop up](assets/setting-up-openai/open-ai-secret-key-pop-up.png)  
-   *Fig. OpenAI secret key creation pop up*
+   ![Send your first Gemini API request section of Google's Gemini API Key documentation](assets/setting-up-ai-api/send_first_request_docs.png) 
+   *Fig. Send your first Gemini API request section ([Full Size Image](assets/setting-up-ai-api/send_first_request_docs.png))*
 
-   - Once you press "Create secret key", you will be taken to another pop up with a prompt to save your key in a secure location. This will be your only chance to copy your key, so make sure to copy it over somewhere safe so that you can use it later.  
-   ![Save secret key pop up](assets/setting-up-openai/open-ai-save-secret-key.png)  
-   *Fig. Pop up window with alert to save secret key*
+2. We will need to edit the end of this command to add our API key. The text box on the page allows us to change the placeholder text at the end of the command to add our API key, then copy the entire command. 
 
-## Verifying credits were added
-   - If you did not receive a warning about credits, you can verify your credits have been added by navigating to the "Usage" tab in the menu on the left side of the page.  
-   ![Usage tab in OpenAI menu](assets/setting-up-openai/open-ai-usage-tab.png)  
-   *Fig. OpenAI side menu with "usage" tab circled*  
+   ![Editable placeholder for your API key at the end of the `curl` command to test your API key](assets/setting-up-ai-api/editable_api_key_placeholder.png) 
+   *Fig. Editable placeholder for your API key ([Full Size Image](assets/setting-up-ai-api/editable_api_key_placeholder.png))*
 
-   - You will be taken to a page and the panel on the right side will have a list of the credits you have recieved and the credits you have used. Here you can verify that credits have been added to your account.     
-   ![OpenAI Usage statistics example](assets/setting-up-openai/open-ai-credits-verification.png)
-   *Fig. OpenAI usage page with lists of gredits granted and credits used.*  
-   - If you do not see credits associated with your account, feel free to reach out to an instructor for assistance.
+   Feel free to take a moment to read through the parts of the `curl` command and see what you can make sense of. We will talk more in-depth about the information we need to make requests to generate text with the Gemini API in following sections.
 
-### !callout-info
+3. Next we will paste the whole `curl` command into Terminal and press `Enter` to run it. In the JSON response we will see a key `"text"` that holds a large text description of "How AI works" from our request, along with data about the model used and the request that was made.
 
-## Credits Expiration
+   <br>
+   <details>
+      <summary>Open this section if you'd like to see the response we got when testing our API key</summary> 
 
-In the image above, you may notice that some of the credits have expired. The free credits granted from OpenAI expire after 3 months. You should have received $5.00 which will be more than enough to complete the coursework for the next few lessons with some left over to play around on your own. Information on the OpenAI pricing structure can be found [here](https://openai.com/pricing).
+   ```
+   {
+     "candidates": [
+       {
+         "content": {
+           "parts": [
+             {
+               "text": "AI, or Artificial Intelligence, doesn't work in a single, unified way.  Instead, it's a broad field encompassing many different approaches, all aiming to create systems that can perform tasks that typically require human intelligence. These tasks include things like learning, problem-solving, decision-making, speech recognition, and visual perception.\n\nHere's a breakdown of some key approaches:\n\n**1. Machine Learning (ML):** This is arguably the most dominant approach to AI today.  Instead of being explicitly programmed with rules, ML algorithms learn from data.  They identify patterns, relationships, and insights within the data to make predictions or decisions.  There are several types of ML:\n\n* **Supervised Learning:** The algorithm is trained on a labeled dataset, meaning each data point is tagged with the correct answer.  The algorithm learns to map inputs to outputs based on this labeled data.  Examples include image classification (identifying cats vs. dogs) and spam detection.\n* **Unsupervised Learning:** The algorithm is trained on an unlabeled dataset. It aims to discover hidden patterns, structures, or groupings within the data without any predefined answers. Examples include clustering (grouping similar data points together) and dimensionality reduction (reducing the number of variables while retaining important information).\n* **Reinforcement Learning:** The algorithm learns through trial and error by interacting with an environment. It receives rewards for desirable actions and penalties for undesirable actions. The goal is to learn a policy that maximizes the cumulative reward over time.  Examples include game playing (like AlphaGo) and robotics.\n\n**2. Deep Learning (DL):** This is a subfield of ML that uses artificial neural networks with multiple layers (hence \"deep\").  These networks are inspired by the structure and function of the human brain.  Deep learning excels at tasks involving complex patterns and large amounts of data, such as image recognition, natural language processing, and speech recognition.\n\n**3. Expert Systems:** These systems mimic the decision-making ability of a human expert in a specific domain.  They use a knowledge base containing rules and facts, along with an inference engine to reason and draw conclusions based on the input data.  Expert systems are often used in areas like medical diagnosis and financial analysis.\n\n**4. Natural Language Processing (NLP):** This focuses on enabling computers to understand, interpret, and generate human language.  Techniques include text analysis, machine translation, and chatbot development.  NLP heavily relies on ML and DL techniques.\n\n**5. Computer Vision:** This involves enabling computers to \"see\" and interpret images and videos.  It uses techniques like image recognition, object detection, and image segmentation.  Like NLP, computer vision relies heavily on ML and DL.\n\n\n**How it all works (simplified):**\n\nMost AI systems today involve:\n\n1. **Data Collection:** Gathering large amounts of relevant data.\n2. **Data Preprocessing:** Cleaning, transforming, and preparing the data for the algorithm.\n3. **Model Selection:** Choosing an appropriate algorithm (e.g., a specific type of neural network).\n4. **Training:** Feeding the data to the algorithm, allowing it to learn patterns and relationships.  This often involves adjusting parameters within the algorithm to minimize errors.\n5. **Evaluation:** Assessing the performance of the trained model on new, unseen data.\n6. **Deployment:** Putting the trained model into use to make predictions or decisions.\n\nIt's important to note that AI is still a developing field.  Many challenges remain, including the need for more robust and explainable AI systems, addressing biases in data, and ensuring ethical considerations are addressed.  The explanations above provide a high-level overview; each component involves considerable complexity and sophistication.\n"
+             }
+           ],
+           "role": "model"
+         },
+         "finishReason": "STOP",
+         "avgLogprobs": -0.16841320450644762
+       }
+     ],
+     "usageMetadata": {
+       "promptTokenCount": 4,
+       "candidatesTokenCount": 767,
+       "totalTokenCount": 771
+     },
+     "modelVersion": "gemini-1.5-flash-002"
+   }
+   ```
 
+   </details> 
 
-### !end-callout   
+   If you have an API key but are running into issues with this `curl` command, we recommend following along with the next lessons to see if you are able to make a request from Postman, then reach out in #study-hall or come by office hours with your findings to help get you unstuck.
 
 ## Check for Understanding
 
@@ -110,19 +110,19 @@ In the image above, you may notice that some of the credits have expired. The fr
 
 * type: tasklist
 * id: f441202f-319a-4f15-8cf1-2bc6419b7a4f
-* title: Setting up the OpenAI API
+* title: Setting up the Gemini API
 
 ##### !question
 
-Before moving on to the next section, make sure you have completed the three setps below:
+Before moving on to the next section, make sure you have completed the three steps below:
 
 ##### !end-question
 
 ##### !options
 
-* Log into OpenAI/Create an account
-* Generate API key
-* Verify credits
+* Log into/Create an account
+* Generate an API key
+* Verify the key works
 
 ##### !end-options
 ### !end-challenge
