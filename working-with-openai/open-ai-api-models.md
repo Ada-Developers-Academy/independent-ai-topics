@@ -1,46 +1,54 @@
-# OpenAI API's Models
+# More on AI Models
 
 ## Goals
 
-Now that we have OpenAI set up on Postman, we can start taking a look under the hood at how OpenAI works and how we can integrate it into the programs we create. We will start by looking at the OpenAI API Models.
+Now that we can make calls to an AI API in Postman, we can start digging a little deeper into the AI model we are interacting with and how we might integrate it into the programs we create.
 
 Our goals for this lesson are to:
-- Recognize several commonly used OpenAI Models, their specific capabilities, and how they can be used.
-- Understand some of the differences and limitations between the versions of GPT models.
+- Get exposure to more applications of AI models. 
+- Understand key features and limitations of the Google Gemini 1.5 Flash model at the free tier of service.
 
-## What is an OpenAI Model?
+## What is an AI Model?
 
-An OpenAI Model is a large language Model that used different data sets to perform Natural Language Processing. From answering questions to translating text, OpenAI has a variety of models that can perform different tasks depending on what your application needs. The original model upon which OpenAI was built was GPT-3. GPT stands for Generative Pre-Trained Transformer and GPT-3 was trained on 175 billion parameters. As OpenAI has grown, so have the models. GPT-3 has now been deprecated in favor of even larger models known as GPT-3.5 and GPT-4. That being said, OpenAI has a variety of models we can use depending on the needs of our projects:
+An AI Model is a large language Model that uses different data sets to perform Natural Language Processing. From answering questions to translating text, organizations that create and host AI APIs have a variety of models that can perform different tasks depending on what your application needs. Some common applications that AI APIs may have models for include:
 
-| Model | Description | Use Case |
-| ----- | ----------- | -------- |
-| GPT-3.5 | A model that improves upon GPT-3 and is used primarily for Natural Language Processing. It can be used to understand and process natural language in order to generate code or respond to questions. | Chatbots, content generation |
-| GPT-4/ GPT-4 Turbo | Models that further improve upon GPT-3.5. They perform the same functions but have been trained with even more data. They typically have a lower rate of hallucinations (but can still make mistakes!), and are considered one of the most powerful currently LLMs on the market. That being said, they are currently only available to use via both ChatGPT and the OpenAI API at an extra cost. | Chatbots, content generation |
-| DALL-E | Not to be confused with our favorite trash collecting robot, DALL-E can be used to generate or edit an image or images via a Natural Language prompt. | Image generation, Image Manipulation | 
-| TTS ("Text To Speech") | The TTS model converts text to natural sounding speech. When using the TTS model, the OpenAI API has a variety of pre-selected voices that can be used. These come in the form of a parameter within the API request. | Text to speech conversion | 
-| Whisper | The Whisper model converts audio to text | Audio transcription | 
-| Embeddings | The embeddings model converts text to its numerical equivalent in order to measure the "relatedness" of text strings. | Search queries, clustering text by similarity | 
-| Moderation | The moderation model can be used to check and see if content might be considered sensitive, unsafe or unsuitable for certain populations. | Content moderation |  
+| Description | Use Case |
+| ----------- | -------- | 
+| Natural Language Processing, which can be used to understand and process natural language like free form text or a document in order to generate code or respond to questions. | Chatbots, content generation |
+| Generating or editing an image or images via a Natural Language prompt. | Image generation, Image Manipulation |
+| Converting text to natural sounding speech.| Text to speech conversion | 
+| Converting audio to text or analyzing an audio clip guided by a text prompt. | Audio transcription, Audio descriptions, Captioning | 
+| Analyzing a video, image, or images guided by a text prompt. | Image or video descriptions, Image content analysis |
 
-If you are interested in learning about other models that are no longer widely used, OpenAI provides a list [here](https://platform.openai.com/docs/deprecations)  
+As an example, the original model upon which OpenAI was built was GPT-3. GPT stands for Generative Pre-Trained Transformer and GPT-3 was trained on 175 billion parameters. GPT-3 has now been deprecated in favor of even larger models known as GPT-3.5 and GPT-4. 
 
-### !callout-info
-
-## Where are OpenAI Models Used? 
-As we will see in the next lesson on endpoints, these models are most commonly used as query parameters within our API requests to tell OpenAI which model we would like to use when processing a specific request. 
-
-### !end-callout
+When choosing a model to work with we can start by asking ourselves, what kind of output do we need? Are we looking for text, audio, images, etc? That will narrow down which API providers could meet our needs. At that point we need to look at each model's limitations and pricing to see what fits both our budget and the kind of traffic we think we'll need to support for our feature. Most free tier limits are great for testing things out, but not scalable as a permanent solution if an AI feature becomes popular.  
 
 ### !callout-info
-  
-## OpenAI Models and Pricing
-  
-The OpenAI API is not a free service at this point in time, so each model has a different pricing structure that depends on the size of the request that is being made. Pricing information can be found [here](https://openai.com/api/pricing)  
+
+## Where is an AI Model Used? 
+These models are most commonly used as query parameters within our API requests to tell the AI API which model we would like to access when processing a specific request. 
 
 ### !end-callout
+ 
+## Google Gemini 1.5 Flash
+  
+While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because it's free tier fits our needs to show off some text-based use cases, while allowing for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
+
+**Gemini 1.5 Flash Model Facts**
+| Category | Detail |
+| -------- | ------ | 
+| Input Types | Text, Audio, Images, Video |
+| Output Types | Text |
+| Maximum Requests Per Minute | 15 Requests Per Minute |
+| Maximum Tokens Per Minute | 1 million Tokens Per Minute |
+| Maximum Requests Per Day | 1,500 Requests Per Day |
+| Supported Languages | 30+, see documentation for details |
+
+When thinking about tokens and our processing limits, a token is equivalent to about 4 characters for Gemini models. 100 tokens are about 60-80 English words. Token limits can creep up on us if we're doing a significant amount of work. A model needs to process the data we send it into tokens, and the model will put together tokens to create its text response, all of which count towards our total processing limits. If we are working and suddenly see requests failing, we may need to look at our usage and possibly wait for a bit until we can make requests again if we are out of processing resources.
 
 ## Summary
-OpenAI provides models for everything from Text to Speech to Image Generation. We've also seen some ideas of applications that could incorporate the OpenAI models. If you are curious to know even more about the OpenAI models, don't hesitate to do more research in the [OpenAI API Documentation](https://platform.openai.com/docs/guides/text-generation)!
+AI APIs provide models for everything from Text to Speech to Image Generation. We've also seen some ideas of applications that could incorporate various models. If you are curious to know even more about the Gemini models, don't hesitate to do more research in the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini)!
 
 ## Check for Understanding 
 
@@ -48,29 +56,29 @@ OpenAI provides models for everything from Text to Speech to Image Generation. W
 
 * type: multiple-choice
 * id: 143d8fd5-9070-4700-8ed0-58747edf997e
-* title: Understanding OpenAI Models
-<!-- * points: [1] (optional, the number of points for scoring as a checkpoint) -->
-<!-- * topics: [python, pandas] (Checkpoints only. optional the topics for analyzing points) -->
+* title: More on AI Models
 
 ##### !question
 
-Which of the following models is used primarily for image generation and analysis?
+Which of these actions typically contributes to token usage for an AI API? 
+Select one option.
 
 ##### !end-question
 
 ##### !options
 
-a| DALL-E
-b| TTS
-c| Whisper
-d| GPT-3.5 Turbo
-e| GPT-4.0
+a| Sending text to a model to process
+b| Sending audio to a model to process
+c| Sending images to a model to process
+d| Sending video to a model to process
+e| A model creating a response
+f| All of the above
 
 ##### !end-options
 
 ##### !answer
 
-a|
+f|
 
 ##### !end-answer
 
