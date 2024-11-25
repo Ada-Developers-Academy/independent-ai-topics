@@ -33,7 +33,7 @@ These models are most commonly used as query parameters within our API requests 
  
 ## Google Gemini 1.5 Flash
   
-While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because it's free tier fits our needs to show off some text-based use cases, while allowing for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
+While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because it's free tier fits our needs to show off some text-based request and response use cases, while allowing for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
 
 **Gemini 1.5 Flash Model Facts**
 | Category | Detail |
