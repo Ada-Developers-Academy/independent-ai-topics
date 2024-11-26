@@ -34,9 +34,17 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 *Fig. Creating an environment in Postman*
 
 2. Make your first AI API Call
-- Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`. Under the authorization tab, choose and set up the type of authorization your API requires. For Gemini, we'll use an API key. The key is `key` and the value is `{{GEMINI_API_KEY}}` which will grab the API key from our environment variables. We've also chosen to add the key to the query params. With some APIs, the key may be added to the header. 
-![Creating a POST Request in Postman](assets/postman-and-ai-apis/create-post-request-postman.png) 
-*Fig. Adding a POST request to our Postman Environment*
+1. Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: 
+ 
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent` 
+
+    Under the authorization tab, choose and set up the type of authorization your API requires. For Gemini, we'll use an API key. 
+    - The key is `key` 
+    - The value is `{{GEMINI_API_KEY}}` 
+
+    `{{GEMINI_API_KEY}}` will grab the API key from our environment variables. We've also chosen to add the key to the query params. With some APIs, the key may be added to the header. 
+    ![Creating a POST Request in Postman](assets/postman-and-ai-apis/create-post-request-postman.png) 
+    *Fig. Adding a POST request to our Postman Environment ([Full Size Image](assets/postman-and-ai-apis/create-post-request-postman.png))*
 
 - Feel free to make the request and see what happens. You will likely get an error because we haven't added anything to the request body. If the error does not mention the API key or authorization, that typically means the authorization has worked correctly!
 ![POST Request Error - no body](assets/postman-and-ai-apis/post-request-no-body-error.png)
