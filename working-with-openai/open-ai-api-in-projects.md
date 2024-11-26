@@ -20,7 +20,7 @@ This tutorial will walk you through how to integrate the Gemini API into your pr
 
 Take some time to explore the NPC Generator repo in its current state. For this project, we will be finishing an API for a role-playing style game. Our API creates NPCs (Non Playable Characters) that your player's character will interact with. 
 
-We currently have two models, "Character" and "Greeting". "Character" holds some basic information about a character and has a one to many relationship with "Greeting", which represents a stock phrase that particular character may say when interacting with the player. Each NPC can have multiple greetings but each greeting can only be connected to one character. We will use the Gemini API to generate those greetings which we will then store in our database.
+We currently have two models, "Character" and "Greeting". "Character" holds some basic information about a character and has a one to many relationship with "Greeting", which represents a stock phrase that a particular character may say when interacting with the player. Each NPC can have multiple greetings but each greeting can only be connected to one character. We will use the Gemini API to generate those greetings which we will then store in our database.
 
 Feel free to expand the sections below to see our model code.
 
@@ -351,7 +351,12 @@ def get_greetings(char_id):
 
 ## Summary
 In this lesson, we took a partially built API and expanded it to include AI generated content. This is just the tip of the iceberg when it comes to integrating the AI APIs into your code, so we encourage you as always to follow your curiosity and keep looking for new and exciting ways to bring AI into your projects!
+### !callout-info
 
+## Other AI APIs and Python
+As mentioned before, Gemini is just one of many AI APIs you can integrate into your Python projects. We encourage you to explore others as your time and resources allow. While they won't look exactly the same, the steps for integration should be similar. There will likely be a Python package you can install with functions that will allow you to designate a model, attach your API key, make a request and more! Make sure to follow the documentation for whichever API you end up using and try things out!
+
+### !end-callout  
 ## Check For Understanding
 
 ### !challenge
