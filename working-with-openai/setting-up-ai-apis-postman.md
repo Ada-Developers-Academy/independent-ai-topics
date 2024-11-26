@@ -73,7 +73,7 @@ Just a quick reminder that any API calls you make will count toward the API usag
 
 * type: tasklist
 * id: 57e2724d-774f-4012-8dc9-25e9ed044e7f
-* title: Setting up an AI API in Postman
+* title: Postman Environments and Practicing AI API calls
 
 ##### !question
 
