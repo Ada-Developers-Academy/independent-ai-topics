@@ -29,9 +29,11 @@ Where possible, the steps outlined below are going to be as generic as we can ma
     ![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
     *Fig. Environment creation tab in Postman*
 
-- When you click the plus sign, a window will open where you can start setting up your environment. This is the equivalent of setting up a `.env` file. There will be a place to give your environment a name. We've named ours "AI API Practice". There will also be a place to add variables to your environment. This is where you can add the API key for whichever AI API you are using. We've added a variable named "GEMINI_API_KEY". Make sure to change the type to "secret". Paste your key value in the columns labeled "Initial Value" and "current value".
-![Creating an Environment in Postman](assets/postman-and-ai-apis/create-postman-environment.png) 
-*Fig. Creating an environment in Postman*
+2. When you click the plus sign, a window will open where you can start setting up your environment. This is the equivalent of setting up a `.env` file. There will be a place to give your environment a name. We've named ours "AI API Practice". 
+
+    There will also be a place to add variables to your environment. This is where you can add the API key for whichever AI API you are using. We've added a variable named `GEMINI_API_KEY`. Make sure to change the type to `secret`. Paste your key value in the columns labeled "Initial value" and "Current value".
+    ![Creating an Environment in Postman](assets/postman-and-ai-apis/create-postman-environment.png) 
+    *Fig. Creating an environment in Postman ([Full Size Image](assets/postman-and-ai-apis/create-postman-environment.png))*
 
 ### Make your first AI API Call
 1. Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: 
