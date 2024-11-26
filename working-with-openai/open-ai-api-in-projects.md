@@ -2,7 +2,7 @@
 
 ## Goals
 
-Now that we know more about requests and responses to the `/gemini-1.5-flash:generateContent` endpoint, let's learn how to use it within our programs. To do so, we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the `[google-generativeai](https://pypi.org/project/google-generativeai/)` Python package and then leverage the `gemini-1.5-flash` model's `generateContent` function to generate dialogue for characters we create.
+Now that we know more about requests and responses to the `/gemini-1.5-flash:generateContent` endpoint, let's learn how to use it within our programs. To do so, we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the [`google-generativeai`](https://pypi.org/project/google-generativeai/) Python package and then leverage the `gemini-1.5-flash` model's `generateContent` function to generate dialogue for characters we create.
 
 Our goals for this lesson are to:
 - Integrate the `google-generativeai` library into a Python project.
@@ -95,7 +95,7 @@ Now let's take a look at the routes we currently have. If you examine the code b
   <summary><code>Character</code> routes </summary>
 
 ```python
-from flask import Blueprint, jsonify, request, abort, make_response
+from flask import Blueprint, request, abort, make_response
 from ..db import db
 from ..models.character import Character
 from ..models.greeting import Greeting
@@ -112,7 +112,7 @@ def create_character():
         db.session.add(new_character)
         db.session.commit()
 
-        return make_response(new_character.to_dict(), 201)
+        return new_character.to_dict(), 201
     
     except KeyError as e:
         abort(make_response({"message": f"missing required value: {e}"}, 400))
@@ -135,7 +135,7 @@ def get_characters():
             }
         )
 
-    return jsonify(response)
+    return response
 
 @bp.get("/<char_id>/greetings")
 def get_greetings(char_id):
@@ -149,7 +149,7 @@ def validate_model(cls,id):
     try:
         id = int(id)
     except:
-        response =  response = {"message": f"{cls.__name__} {id} invalid"}
+        response = {"message": f"{cls.__name__} {id} invalid"}
         abort(make_response(response , 400))
 
     query = db.select(cls).where(cls.id == id)
