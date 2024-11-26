@@ -46,9 +46,9 @@ Where possible, the steps outlined below are going to be as generic as we can ma
     ![Creating a POST Request in Postman](assets/postman-and-ai-apis/create-post-request-postman.png) 
     *Fig. Adding a POST request to our Postman Environment ([Full Size Image](assets/postman-and-ai-apis/create-post-request-postman.png))*
 
-- Feel free to make the request and see what happens. You will likely get an error because we haven't added anything to the request body. If the error does not mention the API key or authorization, that typically means the authorization has worked correctly!
-![POST Request Error - no body](assets/postman-and-ai-apis/post-request-no-body-error.png)
-*Fig. Error received when making a POST request with no body*
+2. Feel free to make the request and see what happens. You will likely get an error because we haven't added anything to the request body. If the error does not mention the API key or authorization, that typically means the authorization has worked correctly!
+    ![POST Request Error - no body](assets/postman-and-ai-apis/post-request-no-body-error.png)
+    *Fig. Error received when making a POST request with no body ([Full Size Image](assets/postman-and-ai-apis/post-request-no-body-error.png))*
 
 - Using the documentation provided for the API you use, add a request body to your request. We have elected to use raw JSON to do so. The body we have used is:
   
