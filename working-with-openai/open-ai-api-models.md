@@ -27,13 +27,13 @@ When choosing a model to work with we can start by asking ourselves, what kind o
 ### !callout-info
 
 ## Where is an AI Model Used? 
-These models are most commonly used as query parameters within our API requests to tell the AI API which model we would like to access when processing a specific request. 
+These models are commonly used as query parameters within our API requests to tell the AI API which model we would like to access when processing a specific request. The API model may also be defined on its own or as part of an endpoint.
 
 ### !end-callout
  
 ## Google Gemini 1.5 Flash
   
-While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because it's free tier fits our needs to show off some text-based request and response use cases, while allowing for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
+While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because its free tier fits our needs to show off some text-based request and response use cases and allows for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
 
 **Gemini 1.5 Flash Model Facts**
 | Category | Detail |
