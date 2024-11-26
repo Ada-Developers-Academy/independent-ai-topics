@@ -4,7 +4,7 @@
 Now that we have a good idea of what AI APIs are and some of the ways we can use them, let's get set up to work with one of them: Google Gemini. We'll create an account if necessary, get the permissions we need, and then confirm that everything is working for us to start integrating the Gemini API into our projects!
 
 Our goals for this lesson are to:
-- Create an Google account and login if necessary
+- Create a Google account and login if necessary
 - Generate an API Key
 - Verify that we can make a call to the Gemini API with our API key
 
