@@ -50,7 +50,7 @@ Where possible, the steps outlined below are going to be as generic as we can ma
     ![POST Request Error - no body](assets/postman-and-ai-apis/post-request-no-body-error.png)
     *Fig. Error received when making a POST request with no body ([Full Size Image](assets/postman-and-ai-apis/post-request-no-body-error.png))*
 
-- Using the documentation provided for the API you use, add a request body to your request. We have elected to use raw JSON to do so. The body we have used is:
+3. Using the documentation provided for the API you use, add a request body to your request. We have elected to use raw JSON to do so. The body we have used is:
   
 ```py
 {
