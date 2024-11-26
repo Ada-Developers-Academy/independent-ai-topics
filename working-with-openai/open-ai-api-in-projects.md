@@ -351,6 +351,7 @@ def get_greetings(char_id):
 
 ## Summary
 In this lesson, we took a partially built API and expanded it to include AI generated content. This is just the tip of the iceberg when it comes to integrating the AI APIs into your code, so we encourage you as always to follow your curiosity and keep looking for new and exciting ways to bring AI into your projects!
+
 ### !callout-info
 
 ## Other AI APIs and Python
