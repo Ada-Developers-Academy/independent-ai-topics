@@ -358,6 +358,7 @@ In this lesson, we took a partially built API and expanded it to include AI gene
 As mentioned before, Gemini is just one of many AI APIs you can integrate into your Python projects. We encourage you to explore others as your time and resources allow. While they won't look exactly the same, the steps for integration should be similar. There will likely be a Python package you can install with functions that will allow you to designate a model, attach your API key, make a request and more! Make sure to follow the documentation for whichever API you end up using and try things out!
 
 ### !end-callout  
+
 ## Check For Understanding
 
 ### !challenge
