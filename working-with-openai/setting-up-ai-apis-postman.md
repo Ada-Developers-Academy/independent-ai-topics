@@ -1,4 +1,4 @@
-# Postman Environments and Practicing AI API calls
+# Postman Environments and Practicing AI API Calls
 
 ## Goals
 Now that we've learned a bit about 
