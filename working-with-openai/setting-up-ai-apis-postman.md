@@ -1,11 +1,11 @@
 # Postman Environments and Practicing AI API Calls
 
 ## Goals
-Now that we've learned a bit about 
+Now that we have our API keys and tested them, let's look at how to try out AI API calls in Postman
 
 Our goals for this lesson are to:
-- Set up an environment in Postman with which to practice making some AI API requests
-- Make our first request to an AI API.
+- Set up an environment in Postman to handle authentication for our AI API requests
+- Make our first request from Postman to an AI API.
 
 ## AI APIs and Postman
 
@@ -24,25 +24,33 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 
 ## Setting up an Environment in Postman
 
-1. Create The Environment
-- Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
-![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
-*Fig. Environment creation tab in Postman*
+### Create The Environment
+1. Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
+    ![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
+    *Fig. Environment creation tab in Postman*
 
 - When you click the plus sign, a window will open where you can start setting up your environment. This is the equivalent of setting up a `.env` file. There will be a place to give your environment a name. We've named ours "AI API Practice". There will also be a place to add variables to your environment. This is where you can add the API key for whichever AI API you are using. We've added a variable named "GEMINI_API_KEY". Make sure to change the type to "secret". Paste your key value in the columns labeled "Initial Value" and "current value".
 ![Creating an Environment in Postman](assets/postman-and-ai-apis/create-postman-environment.png) 
 *Fig. Creating an environment in Postman*
 
-2. Make your first AI API Call
-- Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`. Under the authorization tab, choose and set up the type of authorization your API requires. For Gemini, we'll use an API key. The key is `key` and the value is `{{GEMINI_API_KEY}}` which will grab the API key from our environment variables. We've also chosen to add the key to the query params. With some APIs, the key may be added to the header. 
-![Creating a POST Request in Postman](assets/postman-and-ai-apis/create-post-request-postman.png) 
-*Fig. Adding a POST request to our Postman Environment*
+### Make your first AI API Call
+1. Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: 
+ 
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent` 
 
-- Feel free to make the request and see what happens. You will likely get an error because we haven't added anything to the request body. If the error does not mention the API key or authorization, that typically means the authorization has worked correctly!
-![POST Request Error - no body](assets/postman-and-ai-apis/post-request-no-body-error.png)
-*Fig. Error received when making a POST request with no body*
+    Under the authorization tab, choose and set up the type of authorization your API requires. For Gemini, we'll use an API key. 
+    - The key is `key` 
+    - The value is `{{GEMINI_API_KEY}}` 
 
-- Using the documentation provided for the API you use, add a request body to your request. We have elected to use raw JSON to do so. The body we have used is:
+    `{{GEMINI_API_KEY}}` will grab the API key from our environment variables. We've also chosen to add the key to the query params. With some APIs, the key may be added to the header. 
+    ![Creating a POST Request in Postman](assets/postman-and-ai-apis/create-post-request-postman.png) 
+    *Fig. Adding a POST request to our Postman Environment ([Full Size Image](assets/postman-and-ai-apis/create-post-request-postman.png))*
+
+2. Feel free to make the request and see what happens. You will likely get an error because we haven't added anything to the request body. If the error does not mention the API key or authorization, that typically means the authorization has worked correctly!
+    ![POST Request Error - no body](assets/postman-and-ai-apis/post-request-no-body-error.png)
+    *Fig. Error received when making a POST request with no body ([Full Size Image](assets/postman-and-ai-apis/post-request-no-body-error.png))*
+
+3. Using the documentation provided for the API you use, add a request body to your request. We have elected to use raw JSON to do so. The body we have used is:
   
 ```py
 {
@@ -53,11 +61,12 @@ Where possible, the steps outlined below are going to be as generic as we can ma
     }]
 }
 ```
-- Once your body is complete, make the POST request and you should get a response generated by your AI API!
-![POST Request body](assets/postman-and-ai-apis/post-request-body.png)
-*Fig. POST request body in Postman*
-![Postman Response body](assets/postman-and-ai-apis/postman-response-body.png)
-*Fig. POST response body in Postman*
+
+4. Once your body is complete, make the POST request and you should get a response generated by your AI API!
+   ![POST Request body](assets/postman-and-ai-apis/post-request-body.png)
+   *Fig. POST request body in Postman ([Full Size Image](assets/postman-and-ai-apis/post-request-body.png))*
+   ![Postman Response body](assets/postman-and-ai-apis/postman-response-body.png)
+   *Fig. POST response body in Postman ([Full Size Image](assets/postman-and-ai-apis/postman-response-body.png))*
 
 ### !callout-warn
 
@@ -73,11 +82,11 @@ Just a quick reminder that any API calls you make will count toward the API usag
 
 * type: tasklist
 * id: 57e2724d-774f-4012-8dc9-25e9ed044e7f
-* title: Setting up an AI API in Postman
+* title: Postman Environments and Practicing AI API calls
 
 ##### !question
 
-Before moving on to the next section, make sure you have completed the three setps below:
+Before moving on to the next section, make sure you have completed the three steps below:
 
 ##### !end-question
 
