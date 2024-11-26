@@ -25,9 +25,9 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 ## Setting up an Environment in Postman
 
 ### Create The Environment
-- Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
-![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
-*Fig. Environment creation tab in Postman*
+1. Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
+    ![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
+    *Fig. Environment creation tab in Postman*
 
 - When you click the plus sign, a window will open where you can start setting up your environment. This is the equivalent of setting up a `.env` file. There will be a place to give your environment a name. We've named ours "AI API Practice". There will also be a place to add variables to your environment. This is where you can add the API key for whichever AI API you are using. We've added a variable named "GEMINI_API_KEY". Make sure to change the type to "secret". Paste your key value in the columns labeled "Initial Value" and "current value".
 ![Creating an Environment in Postman](assets/postman-and-ai-apis/create-postman-environment.png) 
