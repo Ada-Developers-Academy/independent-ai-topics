@@ -210,7 +210,7 @@ Before we write our request to the Gemini API within the project, we need to ins
    | ------------- | ----------- | 
    | `import google.generativeai as genai` | Import the `google-generativeai` package and give it an alias of `genai`. |
    | `import os` | Import the `os` package so we can read our `GEMINI_API_KEY` from the `.env` file. |
-   | `genai.configure(api_key=...)` | This code creates a Gemini API environment with your secret key from the `.env` file. We will use `genai` to access the `gemini-1.5-flash` model and make requests to the `/gemini-1.5-flash:generateContent` endpoint. |
+   | `genai.configure(api_key=...)` | This code configures the Gemini API environment with your secret key from the `.env` file. We will use the `genai` import to access the `gemini-1.5-flash` model and make requests to the `/gemini-1.5-flash:generateContent` endpoint. |
 
 ## Make the API call
 
