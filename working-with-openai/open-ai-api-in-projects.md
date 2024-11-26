@@ -175,7 +175,7 @@ Create and connect your database using the steps below:
 <br />
 
 <details>
-  <summary>Expand for a sample request body to test the `Character` creation route in Postman</summary>
+  <summary>Expand for a sample request body to test the <code>Character</code> creation route in Postman</summary>
 
 ```JSON
 {
@@ -233,7 +233,7 @@ Once the prompt has been constructed we can use our `model` object to send our G
 response = model.generate_content(input_message)
 ```
 
-Remember that the chat completions endpoint returns a completion object. Let's pause here and recall what that object looks like. Using the example request data we shared to create the character Misty, we received the following response:
+Remember that the text completions endpoint returns a nested object. Let's pause here and recall what that object looks like. Using the example request data we shared to create the character Misty, we received the following response:
 
 ```JSON
 {
@@ -267,7 +267,7 @@ We have a list of generated greetings inside `text`, but they are all a single s
 response_split = response.text.split("\n")
 ```
 
-Since the response we're given ends with a newline character, this split operation will leave us with an empty string at the end of our list. Since we don;t want to save an empty string to our NPC sayings, we can slice off the last value before we return our list. That return statement may look something like:
+Since the response we're given ends with a newline character, this split operation will leave us with an empty string at the end of our list. Since we don't want to save an empty string to our NPC sayings, we can slice off the last value before we return our list. That return statement may look something like:
 ```python
 return response_split[:-1]
 ```
