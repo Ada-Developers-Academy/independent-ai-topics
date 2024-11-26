@@ -33,7 +33,7 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 ![Creating an Environment in Postman](assets/postman-and-ai-apis/create-postman-environment.png) 
 *Fig. Creating an environment in Postman*
 
-2. Make your first AI API Call
+### Make your first AI API Call
 1. Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: 
  
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent` 
