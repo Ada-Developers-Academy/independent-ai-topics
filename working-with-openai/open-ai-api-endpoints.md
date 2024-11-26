@@ -147,7 +147,7 @@ To read through the API's generated response to our prompt, we will need to:
 3. access the `parts` key and iterate over the content's `parts` list 
 4. for each element in `parts` read the `text` response and handle that string however we would like.  
 
-This might sound a little tedious, but in our upcoming case study we'll show how we can use Google's `google.generativeai` Python library to make accessing the response text a little easier.
+This might sound a little tedious, but in our upcoming case study we'll show how we can use Google's `[google-generativeai](https://pypi.org/project/google-generativeai/)` Python package to make accessing the response text a little easier.
 
 ## Summary
 We should now know the expected shape of requests and responses using Google's Gemini API. We should be able to identify required properties for a text completion endpoint. Feel free to play around with different request bodies and see how the response changes!
