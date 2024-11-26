@@ -77,7 +77,7 @@ Just a quick reminder that any API calls you make will count toward the API usag
 
 ##### !question
 
-Before moving on to the next section, make sure you have completed the three setps below:
+Before moving on to the next section, make sure you have completed the three steps below:
 
 ##### !end-question
 
