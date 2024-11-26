@@ -1,4 +1,4 @@
-# Calling the OpenAI API from Postman
+# Postman Environments and Practicing AI API calls
 
 ## Goals
 Now that we've learned a bit about 
