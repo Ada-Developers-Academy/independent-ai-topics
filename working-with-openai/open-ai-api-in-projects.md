@@ -2,7 +2,7 @@
 
 ## Goals
 
-Now that we know more about requests and responses to the `/gemini-1.5-flash:generateContent` endpoint, let's learn how to use it within our programs. To do so, we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the [google-generativeai](https://pypi.org/project/google-generativeai/)` Python package and then leverage the `gemini-1.5-flash` model's `generateContent` function to generate dialogue for characters we create.
+Now that we know more about requests and responses to the `/gemini-1.5-flash:generateContent` endpoint, let's learn how to use it within our programs. To do so, we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the `[google-generativeai](https://pypi.org/project/google-generativeai/)` Python package and then leverage the `gemini-1.5-flash` model's `generateContent` function to generate dialogue for characters we create.
 
 Our goals for this lesson are to:
 - Integrate the `google-generativeai` library into a Python project.
