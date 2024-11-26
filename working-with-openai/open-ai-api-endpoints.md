@@ -9,7 +9,7 @@ Our goals for this lesson are to:
 
 ## Anatomy of an Endpoint
 
-The full URL that we have been making `POST` requests to from Postman is:
+The full URL that we have been using to make `POST` requests from Postman is:
 ```
 https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$GOOGLE_API_KEY
 ```
@@ -23,7 +23,7 @@ From our prior learning, we should be able to recognize different parts of the U
 | `:generateContent` | States the function of the specified model that we would like to invoke |
 | `?key=$GOOGLE_API_KEY"` | Query parameter named `key` with a value containing our Google Gemini API key to authenticate our request |
 
-We will be focusing solely on using the `/gemini-1.5-flash:generateContent` endpoint and working with text input and output. Please feel free to follow your curiosity and check out the API documentation to explore other kinds of input you can use to create more complex features. Make sure you have an understanding of the shape of the request and response before jumping right in and test things out in Postman if it helps!
+We will be focusing solely on using the `/gemini-1.5-flash:generateContent` endpoint and working with text input and output. Please feel free to follow your curiosity and check out the API documentation to explore other kinds of input you can use to create more complex features. Make sure you have an understanding of the shape of the request and response before jumping right in. Test things out in Postman if it helps!
 
 ## Text Completion Requests and Responses
 
@@ -34,7 +34,7 @@ A text completion endpoint is used to mimic and then continue a piece of text or
 As mentioned earlier, the `/gemini-1.5-flash:generateContent` text completion endpoint takes a POST request at the URL:
 `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$GOOGLE_API_KEY`
 
-Like most POST endpoints, a request to the this completions endpoint is not complete itself without a request body. Let's go ahead and write a request body and then discuss its individual parts.
+Like most POST endpoints, a request to the text completions endpoint is not complete itself without a request body. Let's go ahead and write a request body and then discuss its individual parts.
 
 ```
 {
