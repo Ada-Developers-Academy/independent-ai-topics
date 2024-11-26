@@ -5,7 +5,7 @@ Now that we have our API keys and tested them, let's look at how to try out AI A
 
 Our goals for this lesson are to:
 - Set up an environment in Postman to handle authentication for our AI API requests
-- Make our first request to an AI API.
+- Make our first request from Postman to an AI API.
 
 ## AI APIs and Postman
 
