@@ -24,7 +24,7 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 
 ## Setting up an Environment in Postman
 
-1. Create The Environment
+### Create The Environment
 - Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
 ![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
 *Fig. Environment creation tab in Postman*
