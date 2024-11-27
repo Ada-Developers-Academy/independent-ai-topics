@@ -42,8 +42,8 @@ Standards:
         UID: ebd7c520-952b-11ee-b9d1-0242ac120002
         Path: /debugging-w-chatgpt/debugging-w-chatgpt.md
   -
-    Title: Using The OpenAI API
-    Description: How do we leverage the OpenAI API to introduce generative AI into our projects?
+    Title: Using The AI APIs
+    Description: How do we leverage the AI APIs to introduce generative AI into our projects?
     UID: 0182dc79-daa0-4cf6-bf14-ba0a98292f95
     SuccessCriteria:
       - success criteria
