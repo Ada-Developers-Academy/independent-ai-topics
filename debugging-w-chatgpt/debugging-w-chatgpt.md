@@ -325,27 +325,26 @@ Once we’ve found and fixed the bug, we need to test our code to make sure the 
 
 As stated before, we can’t wholeheartedly trust everything ChatGPT says. Evaluating a code response from ChatGPT should look pretty similar to evaluating any other information created by a generative AI - we need to look for verifiable pieces of information in the response and use other trustworthy sources to confirm if those pieces of information are true. Check out the lesson “Prompting Basics & Using ChatGPT - Verifying Information from ChatGPT” if you’d like to refresh yourself on strategies for verifying information.
 
-Let’s say that a student, Althea, is working on [the Adagrams project](https://github.com/AdaGold/adagrams-py) and is debugging an `IndexError` that sometimes appears in their `draw_letters` function:
+Let’s say that a student, Althea, is working on a game with a function that draws 7 random domino tiles from a pool. She is debugging an `IndexError` that sometimes appears in their `draw_tiles` function:
 
 ```
-def draw_letters():
-    distribution = {'A': 9, 'B': 2, 'O': 8, 'C': 2, 'P': 2, 
-                    'D': 4, 'Q': 1, 'E': 12, 'R': 6, 'F': 2, 
-                    'S': 4, 'G': 3, 'T': 6, 'H': 2, 'U': 4, 
-                    'I': 9, 'V': 2, 'J': 1, 'W': 2, 'K': 1, 
-                    'X': 1, 'L': 4, 'Y': 2, 'M': 2, 'Z': 1}
-    pool = []
-    for letter in distribution:
-        pool.extend([letter for _ in range(distribution[letter])])
+def draw_tiles():
+    HAND_SIZE = 7
+    pool = [
+        "[0|0]", "[0|1]", "[0|2]", "[0|3]", "[0|4]", "[0|5]", "[0|6]", 
+        "[1|1]", "[1|2]", "[1|3]", "[1|4]", "[1|5]", "[1|6]", "[2|2]",
+        "[2|3]", "[2|4]", "[2|5]", "[2|6]", "[3|3]", "[3|4]", "[3|5]", 
+        "[3|6]", "[4|4]", "[4|5]", "[4|6]", "[5|5]", "[5|6]", "[6|6]"
+    ]
+    drawn_tiles = []
 
-    hand = []
-    for _ in range(10):
+    for _ in range(HAND_SIZE):
         index = random.randint(0, len(pool))
-        letter = pool[index]
-        hand.append(letter)
-        pool.remove(letter)
+        tile = pool[index]
+        drawn_tiles.append(tile)
+        pool.remove(tile)
 
-    return hand
+    return drawn_tiles
 ```
 
 Althea has already taken steps to add print statements and step through their code with a debugger, and they are pretty sure the issue is somewhere in the for-loop. 
@@ -356,98 +355,87 @@ Let’s take a look at Althea’s conversation with ChatGPT and see how they use
 > You are a python expert who will help me debug python code. 
 
 > **ChatGPT**:  
-> Of course! I'd be happy to help you debug your Python code. Please provide the code that you're having trouble with, along with a description of the issue you're facing. If the code is long, you can share the relevant parts or the specific error messages you're encountering.
+> Got it! Send over your Python code, and I'll help you debug it.
 
 > **Althea**:  
-> Given this Python code:
+> I am facing an issue with a piece of code. The function should always successfully return a hand of seven tiles. In reality, I am seeing a bug where I am receiving an "IndexError" sometimes, but not every time. I think the bug is in the for loop, what are possible causes?
 >
-> '''  
+> The code with the issue is pasted below. Please describe what the code does and enumerate the lines of code below as part of your response.
+> 
 > ```   
-> def draw_letters():  
->     distribution = {'A': 9, 'B': 2, 'O': 8, 'C': 2, 'P': 2,   
->                     'D': 4, 'Q': 1, 'E': 12, 'R': 6, 'F': 2,   
->                     'S': 4, 'G': 3, 'T': 6, 'H': 2, 'U': 4,   
->                     'I': 9, 'V': 2, 'J': 1, 'W': 2, 'K': 1,   
->                     'X': 1, 'L': 4, 'Y': 2, 'M': 2, 'Z': 1}  
->     pool = []  
->     for letter in distribution:  
->         pool.extend([letter for _ in range(distribution[letter])])
-> 
->     hand = []  
->     for _ in range(10):  
->         index = random.randint(0, len(pool))  
->         letter = pool[index]  
->         hand.append(letter)  
->         pool.remove(letter)  
-> 
->     return hand  
-> ```
-> '''    
-> 
-> Respond with YES if you understand the code.
-
-> **ChatGPT**:  
-> Yes, I understand the provided Python code. It defines a function called `draw_letters` that simulates drawing 10 random letters from a pool of letters based on their distribution probabilities. The distribution of letters and their respective frequencies is specified in the `distribution` dictionary. The function uses the `random` module to randomly select letters from the pool and adds them to the hand, ensuring that the distribution is maintained.
-> 
-> If you have any specific questions or if there's something you'd like me to help you with regarding this code, please let me know!
-
-> **Althea**:  
-> Please enumerate the lines of code in the `draw_letters` function.
-
-> **ChatGPT**:  
-> Certainly! Here are the enumerated lines for the code within the `draw_letters` function:
-> 
-> 1. ```python
->    distribution = {'A': 9, 'B': 2, 'O': 8, 'C': 2, 'P': 2, 
->                    'D': 4, 'Q': 1, 'E': 12, 'R': 6, 'F': 2, 
->                    'S': 4, 'G': 3, 'T': 6, 'H': 2, 'U': 4, 
->                    'I': 9, 'V': 2, 'J': 1, 'W': 2, 'K': 1, 
->                    'X': 1, 'L': 4, 'Y': 2, 'M': 2, 'Z': 1}
->    ```
-> 2. ```python
->    pool = []
->    ```
-> 3. ```python
->    for letter in distribution:
->    ```
-> 4. ```python
->        pool.extend([letter for _ in range(distribution[letter])])
->    ```
-> 5. ```python
->    hand = []
->    ```
-> 6. ```python
->    for _ in range(10):
->    ```
-> 7. ```python
+> def draw_tiles():
+>    HAND_SIZE = 7
+>    pool = [
+>        "[0|0]", "[0|1]", "[0|2]", "[0|3]", "[0|4]", "[0|5]", "[0|6]", 
+>        "[1|1]", "[1|2]", "[1|3]", "[1|4]", "[1|5]", "[1|6]", "[2|2]",
+>        "[2|3]", "[2|4]", "[2|5]", "[2|6]", "[3|3]", "[3|4]", "[3|5]", 
+>        "[3|6]", "[4|4]", "[4|5]", "[4|6]", "[5|5]", "[5|6]", "[6|6]"
+>    ]
+>    drawn_tiles = []
+>
+>    for _ in range(HAND_SIZE):
 >        index = random.randint(0, len(pool))
->    ```
-> 8. ```python
->        letter = pool[index]
->    ```
-> 9. ```python
->        hand.append(letter)
->    ```
-> 10. ```python
->         pool.remove(letter)
->     ```
-> 11. ```python
->     return hand
->     ```
-
-> **Althea**:  
-> The function should always successfully return a hand of ten letters. In reality, I am seeing a bug where I am receiving an "IndexError" sometimes, but not every time. I think the bug is in the loop from lines 6-10, what are possible causes?
+>        tile = pool[index]
+>        drawn_tiles.append(tile)
+>        pool.remove(tile)
+>
+>    return drawn_tiles
+> ``` 
 
 > **ChatGPT**:  
-> The bug in your code is likely caused by the fact that `random.randint(0, len(pool))` can return the value `len(pool)`, which is one position beyond the last index in the list. Since Python uses zero-based indexing, this leads to an "index out of bounds" error when trying to access `pool[index]`.
-> 
-> To fix this issue, you should modify the range of the random index to exclude the upper bound, ensuring that it always generates a valid index. Update the line 7 in your code as follows:
-> 
-> ```python
+> 1. `def draw_tiles():`
+> - This defines the function draw_tiles with no parameters.
+> 2. `HAND_SIZE = 7`
+> - Defines a constant HAND_SIZE to specify that the hand should always contain 7 tiles.
+> 3. `pool = [...]`
+> - Initializes a list called pool that contains 28 tiles (each tile represented as a string with a pair of numbers like `"[0|0]"`, `"[1|2]"`, etc.).
+> 4. `drawn_tiles = []`
+> - Initializes an empty list drawn_tiles to store the tiles that are drawn.
+> 5. `for _ in range(HAND_SIZE):`
+> - A loop that will iterate HAND_SIZE (7) times. Each iteration represents one tile being drawn.
+> 6. `index = random.randint(0, len(pool))`
+> - This line generates a random integer index between 0 and the length of the pool list. This is where the bug happens. The issue is that random.randint(0, len(pool)) can generate an index equal to len(pool), which is an invalid index since list indices are 0-based (i.e., valid indices are from 0 to len(pool) - 1).
+> 7. `tile = pool[index]`
+> - The tile at the randomly chosen index is retrieved from the pool.
+> 8. `drawn_tiles.append(tile)`
+> - The drawn tile is ap`pended to the drawn_tiles list.
+> 9. `pool.remove(tile)`
+> - The drawn tile is removed from the pool to ensure it cannot be drawn again.
+> 10. `return drawn_tiles`
+> - After drawing seven tiles, the list drawn_tiles is returned, which contains the tiles drawn from the pool.
+> ### Root Cause of the Bug:
+> The issue lies in the line:
+> ```
+> index = random.randint(0, len(pool))
+> ```
+> Here, `random.randint(0, len(pool))` can return `len(pool)`, which is out of range for the list `pool` since valid indices for a list are from `0` to `len(pool) - 1`. When `len(pool)` is selected as the index, an `IndexError` will occur when trying to access `pool[index]`.
+> ### Solution:
+> To fix this, change the `random.randint` range to:
+> ```
 > index = random.randint(0, len(pool) - 1)
 > ```
-> 
-> This way, `random.randint` will generate an index from `0` to `len(pool) - 1`, inclusive, ensuring that you don't go beyond the bounds of the `pool` list.
+> This will ensure that the index is always within valid bounds.
+> ### Revised Code:
+> ```
+> def draw_tiles():
+>    HAND_SIZE = 7
+>    pool = [
+>        "[0|0]", "[0|1]", "[0|2]", "[0|3]", "[0|4]", "[0|5]", "[0|6]", 
+>        "[1|1]", "[1|2]", "[1|3]", "[1|4]", "[1|5]", "[1|6]", "[2|2]",
+>        "[2|3]", "[2|4]", "[2|5]", "[2|6]", "[3|3]", "[3|4]", "[3|5]", 
+>        "[3|6]", "[4|4]", "[4|5]", "[4|6]", "[5|5]", "[5|6]", "[6|6]"
+>    ]
+>    drawn_tiles = []
+>
+>    for _ in range(HAND_SIZE):
+>        index = random.randint(0, len(pool) - 1)  # Fix: len(pool) - 1
+>        tile = pool[index]
+>        drawn_tiles.append(tile)
+>        pool.remove(tile)
+>
+>    return drawn_tiles
+> ```
+> This change should prevent the IndexError from occurring.
 
 This is a great place to pause and ask further questions if we don’t understand any parts of what ChatGPT is suggesting. If we don’t have clarifications, we can move onto evaluating what ChatGPT shared with us.
 
@@ -465,33 +453,29 @@ This confirms the explanation that ChatGPT gave - since Althea’s second parame
 After completing the project, Althea has some time and wants to refactor their code. Just like with debugging help, if we ask for help refactoring, we want to use the same critical lens to check if ChatGPT’s response is truthful and solves what we are asking for. Althea came back to their chat above and asks:
 
 > **Althea**:  
-> Do you have suggestions for how I can simplify the code for choosing ten random elements from the list `pool`?
+> Do you have suggestions for how I can simplify the code for choosing seven random tiles from the list `pool`?
 
 > *ChatGPT*:  
-> Certainly! You can simplify the code for choosing ten random elements from the `pool` list using the `random.sample` function. The `random.sample` function is designed for this purpose and ensures that you get unique elements from the population.
+> Certainly! You can simplify the code for choosing seven random tiles from the `pool` list using the `random.sample` function. The `random.sample` function is designed for this purpose and ensures that you get unique elements from the population.
 >
-> Here's the updated code:
+> Simplified Version:
 > 
 > ```python
-> import random
-> 
-> def draw_letters():
->     distribution = {'A': 9, 'B': 2, 'O': 8, 'C': 2, 'P': 2, 
->                     'D': 4, 'Q': 1, 'E': 12, 'R': 6, 'F': 2, 
->                     'S': 4, 'G': 3, 'T': 6, 'H': 2, 'U': 4, 
->                     'I': 9, 'V': 2, 'J': 1, 'W': 2, 'K': 1, 
->                     'X': 1, 'L': 4, 'Y': 2, 'M': 2, 'Z': 1}
->     
->     pool = []
->     for letter in distribution:
->         pool.extend([letter] * distribution[letter])
-> 
->     hand = random.sample(pool, 10)
-> 
->     return hand
+>import random
+>
+> def draw_tiles():
+>    HAND_SIZE = 7
+>    pool = [
+>        "[0|0]", "[0|1]", "[0|2]", "[0|3]", "[0|4]", "[0|5]", "[0|6]", 
+>        "[1|1]", "[1|2]", "[1|3]", "[1|4]", "[1|5]", "[1|6]", "[2|2]",
+>        "[2|3]", "[2|4]", "[2|5]", "[2|6]", "[3|3]", "[3|4]", "[3|5]", 
+>        "[3|6]", "[4|4]", "[4|5]", "[4|6]", "[5|5]", "[5|6]", "[6|6]"
+>    ]
+>    
+>    return random.sample(pool, HAND_SIZE)  # Select 7 unique tiles
 > ```
 > 
-> This code uses `random.sample(pool, 10)` to directly obtain a list of 10 unique elements from the `pool` list, eliminating the need for the loop and manual removal of elements.
+> This code uses `random.sample(pool, HAND_SIZE)` to directly obtain a list of 7 unique elements from the `pool` list, eliminating the need for the loop and manual removal of elements.
 
 We can see that ChatGPT is suggesting that Althea uses a separate function `sample` from the `random` module. Before copy/pasting the suggestion into their project, they go back to the random module documentation or other trusted resources to ensure: 
 - Does the `random.sample` function exist? 
