@@ -134,7 +134,7 @@ To make it easy for ourselves and ChatGPT to refer to specific lines of the code
 > Please enumerate the lines of the code I just gave you.
 
 <details>
-   <summary>Try out the prompt above with the `main.py` and `dog_actions.py` files, then expand this section to see the prompts we used to share the code and enumerate it along with ChatGPT's responses.</summary> 
+   <summary>Try out the prompt above with the <code>main.py</code> and <code>dog_actions.py</code> files, then expand this section to see the prompts we used to share the code and enumerate it along with ChatGPT's responses.</summary> 
 
 Our Prompt:
 ```
@@ -325,7 +325,7 @@ Once we’ve found and fixed the bug, we need to test our code to make sure the 
 
 As stated before, we can’t wholeheartedly trust everything ChatGPT says. Evaluating a code response from ChatGPT should look pretty similar to evaluating any other information created by a generative AI - we need to look for verifiable pieces of information in the response and use other trustworthy sources to confirm if those pieces of information are true. Check out the lesson “Prompting Basics & Using ChatGPT - Verifying Information from ChatGPT” if you’d like to refresh yourself on strategies for verifying information.
 
-Let’s say that a student, Althea, is working on a game with a function that draws 7 random domino tiles from a pool. She is debugging an `IndexError` that sometimes appears in their `draw_tiles` function:
+Let’s say that a student, Althea, is working on a game with a function that draws 7 random domino tiles from a pool. They are debugging an `IndexError` that sometimes appears in their `draw_tiles` function:
 
 ```
 def draw_tiles():
