@@ -18,7 +18,7 @@ Our goals for this lesson are to:
 | Shot | When talking about generative AI and prompting, a “shot” is an example of how we want the AI to respond or transform the final result. | | “I provided a shot in my prompt to show the AI how I wanted it to format the response.” |
 | Instruction prompting | A prompt that provides just the instructions for an AI, without any examples |  Zero shot prompting | “I started with an instruction prompt to see what it returned before applying other prompt engineering techniques.” |
 | single shot | A prompt that includes only one shot. | | “The formatting is complicated but consistent, so I wrote a single shot prompt.” |
-| few shot | A prompt that includes two or more shots. | | “There are edge cases in my data, so I included a few shots in the prompt to make sure the AI knew how to handle all scenarios.” |
+| few shot | A prompt that includes two or more shots. | | “Since there are edge cases in my data, I used few shot prompting to include a few examples in the prompt to improve the likelihood the AI would be able to handle all of my scenarios.” |
 | role prompting | A technique where we tell the AI to behave as if it is a particular person or has a particular role. Role prompting can also be used to tell the AI to behave as if it is interacting with someone in a specific role. | | “I was having trouble with a concept, so I applied some role prompting techniques and asked the tool to ‘Act as if it were a history professor and explain the concept to me as if I were five’” |
 
 ## Instruction Prompting
@@ -175,98 +175,6 @@ You're likely to see a much longer response to this prompt, one which includes t
 > I apologize for the confusion in my previous response. After a careful examination, it appears that 6113 is indeed a prime number.
 
 </details>  
-
-**Tell the AI to provide pointers without code** 
-
-We can ask generative AI tools to provide us pointers without code when we are looking for help with technical questions so that we can write the implementation ourselves. We can refine our prompt to let ChatGPT know we do not want responses with code. We can do this by including a sentence like this in our prompt, “Please provide me with pointers for solving the problem, but do not include any code or code examples in your response.” Feel free to refine your prompts by asking the AI to omit code in other ways too.
-
-<details>
-   <summary>Expand this section to see an example prompt asking for help without code in the answer and the response ChatGPT provided (from July 2025).</summary>
-
-> I’m working on a problem to find the first unique character in a string. The problem statement says:
-Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return -1.
-> Please provide me with pointers for solving the problem, but do not include any code or code examples in your response.
-
-> Certainly! Here are some structured pointers to help you approach and solve the problem of finding the first non-repeating character in a string:
->
-> 1. Understand the Problem Requirements
-> * You're looking for the first character that appears only once in the string.
-> * You need to return its index, not the character itself.
-> * If no such character exists, return -1.
->
-> 2. Think About Character Frequency
-> * To determine if a character is unique, you'll need to count how many times it appears in the string.
-> * A character frequency map (e.g., using a dictionary or hash map) is helpful here.
->
-> 3. Order Matters
-> * Since you need the first non-repeating character, you'll need to maintain or check the original order of characters.
-> * Consider how you'll preserve or iterate over the string in its original sequence after computing the frequencies.
->
-> 4. Consider Time and Space Complexity
-> * Think about whether your approach is efficient:
->     * Can you do it in one pass?
->     * Would a two-pass approach still be acceptable?
-> * Consider the trade-off between speed and memory usage (e.g., storing character frequencies requires space).
->
-> 5. Edge Cases to Watch For
-> * An empty string.
-> * All characters repeating.
-> * A string with only one character.
-> * Case sensitivity (should 'a' and 'A' be treated the same or different? Depends on the problem definition).
->
-> Once you walk through these steps logically, you’ll be well-prepared to translate that into code. If you'd like help reviewing your implementation afterward, feel free to share it!
-</details> 
-
-***Steps to provide custom instructions for ChatGPT***
-
-If you would like to prevent ChatGPT from generating code for all responses to questions you ask, you can provide specific instructions within the "Custom Instructions" feature. After updating Custom Instructions, you will not need to modify each prompt to tell the AI to omit code in its responses.
-
-- Click on your account in the bottom left-hand corner of the application when you're logged in. Select "Customize ChatGPT".
-
-![Customize Instructions](./assets/customize-chatgpt-menu.png)  
-*Fig. Account options to customize ChatGPT ([Full size image](assets/customize-chatgpt-menu.png))*
-
-- Click "OK" if you see a dialogue box introducing Custom Instructions
-
-![Custom Instructions Dialogue Box](./assets/custom-instructions-intro.png)  
-*Fig. Dialogue box introducing Custom Instructions for ChatGPT ([Full size image](assets/custom-instructions-intro.png))*
-
-- Provide details for Custom Instructions. 
-   - Add a response to the question "What do you do?". 
-      - A response could look like: "I am a full-stack software engineering student at a full-time coding program."
-   - Add a response to the question "What traits should ChatGPT have?"
-      - A response could look like: "I would like ChatGPT to provide me with pointers when I ask for help with coding problems, but I do not want ChatGPT responses to contain code or code examples because I would like to write the code solution myself. If a request could be interpreted as needing code, please explain the solution in plain language without writing any code."
-   - Add a response to the question "Anything else ChatGPT should know about you?"
-      - A response could look like: "I do not want responses from ChatGPT to provide solutions with code in them because I want to get more practice writing code by myself."
-
-
-
-![Custom Instructions Details Example](./assets/custom-instructions-without-code.png)  
-*Fig. Example of Custom Instructions for ChatGPT ([Full size image](assets/custom-instructions-without-code.png))*
-
-<details>
-   <summary>Expand this section to see an example prompt asking for help after providing Custom Instructions to not provide code in responses (from July 2025).</summary>
-
-> Please provide me a solution for the following problem: Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return -1.
-
-> Since you asked earlier to write code yourself and only want pointers when solving problems, here’s how you can approach this one without giving away the code:
-> 
-> Problem-Solving Strategy:
-> 1. Understand the goal:
->     * You need to find the first character in the string that appears only once.
->     * If no such character exists, return -1.
-> 2. Break it into steps:
->     * Traverse the string and count the frequency of each character.
->     * Then iterate again through the string and find the first character with a count of 1.
->     * Return the index of that character.
-> 3. Tools to use:
->     * A dictionary or collections.Counter can help you count frequencies.
->     * A second loop helps you check for the first character that meets the criteria.
-> 4. Edge Cases to consider:
->     * Empty string → should return -1.
->     * All repeating characters → should return -1.
->     * The first character is unique → should return index 0.
-</details> 
 
 **Frame questions in an open-ended manner**  
 Questions phrased as "Yes"/"No" or single-word answer questions such as "`Can I run a marathon with no experience?`" often lead to short answers without much explanation. 
@@ -547,6 +455,103 @@ Let's take a look at one more example prompt for inspiration, one that puts all 
 > 8. Odesa: 1
 
 </details> 
+
+## Learning Approaches with Prompting
+
+**Tell the AI to provide pointers without code**  
+More and more, new coders use AI to accelerate the pace of their studies. While this can be useful, it is paramount that we take measures to prevent the AI from undercutting our own practice with coding and learning. While AI can solve most problems that new coders work on, and will rarely make mistakes, we might develop a false sense of security about how much to trust AI coding results and end up missing out on opportunities to build our own coding skills. Using guard rails with AI while we are learning can help us understand concepts more deeply. This will enable us to work effectively with AI in more complex situations that we will encounter on the job where it is more likely to make mistakes, and where we will need to justify any code in the work that we submit, whether written manually by us, or in concert with an AI.
+
+We can ask generative AI tools to provide us pointers without code when we are looking for help with technical questions so that we can write the implementation ourselves. We can refine our prompt to let ChatGPT know we do not want responses with code. We might include a sentence like this in our prompt, “Please outline key ideas or steps I should consider as I approach this problem without getting into specific code syntax or examples because I want to develop the solution myself.” Feel free to refine your prompts by asking the AI to omit code in other ways too.
+
+<details>
+   <summary>Expand this section to see an example prompt asking for help without code in the answer and the response ChatGPT provided (from July 2025).</summary>
+
+> I’m working on a problem to find the first unique character in a string. The problem statement says:
+> Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+> I’d like to develop the solution myself, so please help me think through the problem conceptually. Could you outline the key ideas or steps I should consider as I approach this, without getting into specific code syntax or examples?
+
+> Certainly! Here are some structured pointers to help you approach and solve the problem of finding the first non-repeating character in a string:
+>
+> 1. Understand the Problem Requirements
+> * You're looking for the first character that appears only once in the string.
+> * You need to return its index, not the character itself.
+> * If no such character exists, return -1.
+>
+> 2. Think About Character Frequency
+> * To determine if a character is unique, you'll need to count how many times it appears in the string.
+> * A character frequency map (e.g., using a dictionary or hash map) is helpful here.
+>
+> 3. Order Matters
+> * Since you need the first non-repeating character, you'll need to maintain or check the original order of characters.
+> * Consider how you'll preserve or iterate over the string in its original sequence after computing the frequencies.
+>
+> 4. Consider Time and Space Complexity
+> * Think about whether your approach is efficient:
+>     * Can you do it in one pass?
+>     * Would a two-pass approach still be acceptable?
+> * Consider the trade-off between speed and memory usage (e.g., storing character frequencies requires space).
+>
+> 5. Edge Cases to Watch For
+> * An empty string.
+> * All characters repeating.
+> * A string with only one character.
+> * Case sensitivity (should 'a' and 'A' be treated the same or different? Depends on the problem definition).
+>
+> Once you walk through these steps logically, you’ll be well-prepared to translate that into code. If you'd like help reviewing your implementation afterward, feel free to share it!
+</details> 
+
+**Steps to provide custom instructions for ChatGPT**  
+If you would like to prevent ChatGPT from generating code for all responses to questions you ask, you can provide specific instructions within the "Custom Instructions" feature. After updating Custom Instructions, you will not need to modify each prompt to tell the AI to omit code in its responses.
+
+- Click on your account in the bottom left-hand corner of the application when you're logged in. Select "Customize ChatGPT".
+
+![Customize Instructions](./assets/customize-chatgpt-menu.png)  
+*Fig. Account options to customize ChatGPT ([Full size image](assets/customize-chatgpt-menu.png))*
+
+- Click "OK" if you see a dialogue box introducing Custom Instructions
+
+![Custom Instructions Dialogue Box](./assets/custom-instructions-intro.png)  
+*Fig. Dialogue box introducing Custom Instructions for ChatGPT ([Full size image](assets/custom-instructions-intro.png))*
+
+- Provide details for Custom Instructions. 
+   - Add a response to the question "What do you do?"
+      - A response could look like: "I am a full-stack software engineering student at a full-time coding program."
+   - Add a response to the question "What traits should ChatGPT have?"
+      - A response could look like: "I would like ChatGPT to provide me with key ideas or steps that I should consider without getting into specific code syntax or examples when I ask for help with coding problems because I want to get practice developing the solution myself. If a request could be interpreted as needing code, please explain the solution in plain language without writing any code."
+   - Add a response to the question "Anything else ChatGPT should know about you?"
+      - A response could look like: "It is very important to me that I come up with code solutions without looking at examples first. I want responses to my questions to provide overarching ideas without code examples that I can review so I can get more practice writing code by myself."
+
+![Custom Instructions Details Example](./assets/custom-instructions-without-code.png)  
+*Fig. Example of Custom Instructions for ChatGPT ([Full size image](assets/custom-instructions-without-code.png))*
+
+<details>
+   <summary>Expand this section to see an example prompt asking for help after providing Custom Instructions to not provide code in responses (from July 2025).</summary>
+
+> Please provide me a solution for the following problem: Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+> To solve this problem, here's a step-by-step approach in plain language, without code:
+> 
+> Count Occurrences:
+> Go through each character in the string and count how many times it appears. You can use a dictionary-like structure to map each character to its count.
+> 
+> Identify First Unique Character:
+> After counting, go through the string a second time—character by character—and check the count for each one.
+> 
+> Return the Index:
+> As soon as you find a character that appears only once, return its index.
+> 
+> If None Found:
+> If you finish checking and none of the characters are unique, return -1.
+> 
+> Let me know if you'd like a hint on how to structure the count or loop logic.
+</details> 
+
+**Reviewing AI responses**  
+If we do get code results (intentionally or unintentionally) in responses to our questions, we should still carefully review the response to make sure we understand not just the syntax of what is being suggested, but also the reason *why* each step is in a solution. 
+
+If there are areas of the AI response that are unclear, we should ask for further clarification and engage in a conversation to gain additional understanding before using any solution provided by an AI. While we could ask additional questions to the AI, it can also be very productive to engage with other Adies in #study-hall in Slack or with instructors and volunteers during office hours to learn different perspectives.
+
+Ideally, after reviewing the AI response, we should be able to write approximately the same approach on our own without referring back to the output from the AI, and be able to explain what the code does from both a syntax perspective, and a logcial perspective.
 
 ## Summary 
 Let’s review the common pieces of a prompt:
