@@ -458,10 +458,16 @@ Let's take a look at one more example prompt for inspiration, one that puts all 
 
 ## Learning Approaches with Prompting
 
-**Tell the AI to provide pointers without code**  
-More and more, new coders use AI to accelerate the pace of their studies. While this can be useful, it is paramount that we take measures to prevent the AI from undercutting our own practice with coding and learning. While AI can solve most problems that new coders work on, and will rarely make mistakes, we might develop a false sense of security about how much to trust AI coding results and end up missing out on opportunities to build our own coding skills. Using guard rails with AI while we are learning can help us understand concepts more deeply. This will enable us to work effectively with AI in more complex situations that we will encounter on the job where it is more likely to make mistakes, and where we will need to justify any code in the work that we submit, whether written manually by us, or in concert with an AI.
+More and more, new coders use AI to accelerate the pace of their studies. While this can be useful, it is paramount that we take measures to prevent the AI from undercutting our own practice with coding and learning. While AI can solve most problems that new coders work on, and will rarely make mistakes, we might develop a false sense of security about how much to trust AI coding results and end up missing out on opportunities to build our own coding skills. 
 
-We can ask generative AI tools to provide us pointers without code when we are looking for help with technical questions so that we can write the implementation ourselves. We can refine our prompt to let ChatGPT know we do not want responses with code. We might include a sentence like this in our prompt, “Please outline key ideas or steps I should consider as I approach this problem without getting into specific code syntax or examples because I want to develop the solution myself.” Feel free to refine your prompts by asking the AI to omit code in other ways too.
+Using guard rails with AI while we are learning can help us understand concepts more deeply. This will enable us to work effectively with AI in more complex situations that we will encounter on the job where it is more likely to make mistakes, and where we will need to justify any code in the work that we submit, whether written manually by us, or in concert with an AI.
+
+### Tell the AI to provide pointers without code
+We can ask generative AI tools to provide us pointers without code when we are looking for help with technical questions so that we can write the implementation ourselves. We can refine our prompt to let ChatGPT know we do not want responses with code. We might include a sentence like this in our prompt.
+	
+> Please outline key ideas or steps I should consider as I approach this problem without getting into specific code syntax or examples because I want to develop the solution myself.
+
+Feel free to refine your prompts by asking the AI to omit code in other ways too.
 
 <details>
    <summary>Expand this section to see an example prompt asking for help without code in the answer and the response ChatGPT provided (from July 2025).</summary>
@@ -500,7 +506,7 @@ We can ask generative AI tools to provide us pointers without code when we are l
 > Once you walk through these steps logically, you’ll be well-prepared to translate that into code. If you'd like help reviewing your implementation afterward, feel free to share it!
 </details> 
 
-**Steps to provide custom instructions for ChatGPT**  
+### Steps to provide custom instructions for ChatGPT
 If you would like to prevent ChatGPT from generating code for all responses to questions you ask, you can provide specific instructions within the "Custom Instructions" feature. After updating Custom Instructions, you will not need to modify each prompt to tell the AI to omit code in its responses.
 
 - Click on your account in the bottom left-hand corner of the application when you're logged in. Select "Customize ChatGPT".
@@ -546,12 +552,12 @@ If you would like to prevent ChatGPT from generating code for all responses to q
 > Let me know if you'd like a hint on how to structure the count or loop logic.
 </details> 
 
-**Reviewing AI responses**  
+### Reviewing AI responses
 If we do get code results (intentionally or unintentionally) in responses to our questions, we should still carefully review the response to make sure we understand not just the syntax of what is being suggested, but also the reason *why* each step is in a solution. 
 
 If there are areas of the AI response that are unclear, we should ask for further clarification and engage in a conversation to gain additional understanding before using any solution provided by an AI. While we could ask additional questions to the AI, it can also be very productive to engage with other Adies in #study-hall in Slack or with instructors and volunteers during office hours to learn different perspectives.
 
-Ideally, after reviewing the AI response, we should be able to write approximately the same approach on our own without referring back to the output from the AI, and be able to explain what the code does from both a syntax perspective, and a logcial perspective.
+Ideally, after reviewing the AI response, we should be able to write approximately the same approach on our own without referring back to the output from the AI, and be able to explain what the code does from both a syntax perspective, and a logical perspective.
 
 ## Summary 
 Let’s review the common pieces of a prompt:
