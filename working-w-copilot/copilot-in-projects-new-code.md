@@ -5,7 +5,7 @@
 We know how to generate code, start a chat, and work with Copilot's tools in VS Code, so now let's see what it looks like to apply what we've learned in a project. We'll take a look at a new project, [the Mastermind puzzle game in Python](https://github.com/Ada-Activities/mastermind-copilot), to see how we can use Copilot to increase our productivity.
 
 Our goals for this lesson are to show how we can use Copilot to:
-- quickly write new code that follows a consistent format
+- quickly write new code that follows best practices
 - help us with generating test cases
 
 ### !callout-info
@@ -24,7 +24,7 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 
 ### !end-callout
 
-## Writing new code with Copilot
+## Getting Started with `Mastermind`
 
 There is a lot we could do with the Mastermind project, but to keep us focused on areas where we can benefit from Copilot, we will use the project scaffold on the `main` branch as a starting point. 
 
@@ -37,18 +37,22 @@ To get started:
 
 Since `main` is the default branch of the repo, it should already be checked out when we clone the project down. 
 
-Our plan in this section of the lesson is to:
-- Complete Waves 1-3 of the project directions 
-    - We will do this by adding the functions described in the README to the file `game.py`
+There are 4 Waves of the Mastermind project
+- These Copilot lessons will walk through Wave 1
+- Completing Wave 2 is left as practice for the reader. 
+- We will tackle Wave 3 together during class
+- We will work on Wave 4 in small groups to complete the `mastermind` function in `mastermind.py` and finish our game!
+
+Our plan in this lesson is to:
+- Write new code to complete Wave 1 of the project directions 
+    - We will do this by adding the functions described in Wave 1 of the `README.md` to the file `app/game.py`
 - Write new tests for our functions to cover missing edge cases
 
-Completing the `mastermind` function to run the game in `mastermind.py` will be left as an exercise for the reader.
+## Wave 1: `generate_code`, `validate_guess`, and `check_win_or_lose`
 
-### Wave 1: `generate_code`, `validate_guess`, and `check_win_or_lose`
+Opening `app/game.py`, we have a mostly empty file with some markers for adding our functions for each wave. Our first step will be to create the `generate_code` function.
 
-Opening `game.py`, we have a mostly empty file with some markers for adding our functions. Our first step will be to create the `generate_code` function.
-
-#### Implement `generate_code`
+### Implement `generate_code`
 
 Based on the README, our function should generate a random 4 letter code for the user to guess. The function should:
 - take no parameters
@@ -56,7 +60,9 @@ Based on the README, our function should generate a random 4 letter code for the
     - each element in the list should be a single character 
     - the characters in the list must be one of the following letters: "R", "O", "Y", "G", "B", "P"
 
-To get Copilot's help, let's write a comment that summarizes this information. Add the following comment to your `game.py` file then press enter to see what Copilot suggests:
+To get Copilot's help, let's write a comment that summarizes this information. This step of taking in the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching to an AI tool. We need this understanding as developers to be able to check if the code produced by Copilot actually meets our needs. In theory we could copy & paste the text of the README into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for?
+
+To start generating our function, add the following comment to `app/game.py` then press enter to see what Copilot suggests:
 
 ```py
 # generate_code 
@@ -85,7 +91,7 @@ To wrap up this function, let's:
 
 ## Running the test files as we work
 
-The test files for each wave import all of the functions for the wave at the top of the file. Until we impement all the functions for a wave, we'll see test discovery errors in the VS Code testing Panel. To run our tests, as we complete functions we will need to comment out and uncomment some imports and tests in the wave files so we can see our relevant tests passing.
+The test files for each wave import all of the functions for the wave at the top of the file. Until we impement all the functions for a wave, we'll see test discovery errors in the VS Code testing Panel. To run our tests as we complete functions, we will need to comment out and uncomment some imports and tests in the wave files so we can see our relevant tests passing.
 
 <br>
 
@@ -95,166 +101,66 @@ Since `validate_guess` and `check_win_or_lose` have not been implemented yet, in
 
 At this point, both `generate_code` tests should pass and we can move on to the `validate_guess` function!
 
-#### Implement `validate_guess`
+### Implement `validate_guess`
 
-We could use a comment to try generating our `validate_guess` class method, but instead we'll use the inline chat to prompt Copilot. Let's use `⌘I` (`CMD + i`) to open an inline chat and enter the following:
+We could use a comment to try generating our `validate_guess` class method, but instead we'll use the inline chat to prompt Copilot. Let's use `⌘I` (`CMD + i`) to open an inline chat and enter the following prompt that summarizes our function requirements:
 
-> Please write a class function that takes in a dictionary and returns a new Book instance created from the input dictionary's contents
+> Please write a function named validate_guess that takes in 1 parameter named guess. The input guess is a list of single characters. The function should return True if guess has a length of 4 and every element is one of the following letters: R, O, Y, G, B, P. If these conditions are not true, the function should return False. The function should be case insensitive, both the inputs ['R','Y','G','B'] and ['r','y','g','b'] should return True.
 
 When we submit the prompt, we are likely to receive a response similar to the following:
 
-![VS Code showing the Copilot inline chat with the prompt above entered and a function suggestion below](assets/copilot-in-projects/book-from-dict-initial-suggestion.png)  
-*Fig. Our prompt entered in the Copilot inline chat with a suggestion for the `from_dict` function from Copilot in a temporary window below ([Full size image](assets/copilot-in-projects/book-from-dict-initial-suggestion.png))*
+![VS Code showing the Copilot inline chat with the prompt above entered and a function suggestion below](assets/new-code-copilot/inline_prompt_validate_guess.png)  
+*Fig. Our prompt entered in the Copilot inline chat with a suggestion for the `validate_code` function from Copilot displayed below ([Full size image](assets/new-code-copilot/inline_prompt_validate_guess.png))*
 
-The suggestion is succinct and will create a new class instance for us from a dictionary, but is this what we actually want? What happens if the dictionary is missing `title` or `description` keys? Does this take advantage of the `autoincrement` feature of SQLAlchemy that we're using for the `id`?
+The suggestion is succinct! The function checks `guess` for length and exits early if it can, then it uses `all` and a comprehension to check if the elements of the list are valid. But is there anything about the suggestion that is incorrect or breaking best practices? 
+
+If we take a close look, what is the indentation like for the function? For some reason Copilot indented the function one tab further than it should have. This would create a nested function inside of `generate_code`, rather than the stand alone function we're looking for. 
+
+Let's also take a look at the return line. The return line is 76 characters total, so it isn't breaking the PEP8 guideline of 79 characters or less for length, but we are doing a lot in that one line. We could make the function easier to read by breaking it apart. 
+
+We could use the regenerate button to request a new response and see if Copilot fixes those issues. In our case, running the prompt a couple more times didn't fix any issues, it only moved the lines around:
+
+![VS Code showing the Copilot inline chat with the prompt above entered and a function suggestion below](assets/new-code-copilot/inline_prompt_validate_guess_regenerated.png)  
+*Fig. Our prompt entered in the Copilot inline chat with a new suggestion for the `validate_code` function from Copilot displayed below. ([Full size image](assets/new-code-copilot/inline_prompt_validate_guess_regenerated.png))*
+
+We could add a follow up to our original request in the inline prompt to try to get the fixes desired:
+
+> Please update the function so that the function definition is not indented. Please break up the last line so that it is easier to read and we are not doing so much work on one line.
+
+Once we submit the prompt we may see something like:
+
+![VS Code showing the Copilot inline chat with the prompt and follow up shared above entered and a function suggestion below](assets/new-code-copilot/inline_prompt_follow_up_validate_guess.png)  
+*Fig. Our update to the prompt entered in the Copilot inline chat with a new suggestion for the `validate_code` function from Copilot displayed below. ([Full size image](assets/new-code-copilot/inline_prompt_follow_up_validate_guess.png))*
+
+The last line was broken up as we asked for, but the function is still indented inside of `generate_code`! We could take more time going back and forth with Copilot, but since we know the changes we want to see, this is a case where maytbe it wasn't worth regenerating the response or trying to ask Copilot to make the changes for us. The starting point was close enough to what we wanted that we would have been done by now if we made the changes ourselves at the start. 
+
+As we work with tools like Copilot, it's important for us to consistently evaluate where we are spending our time. If we are spending more time trying to get a tool to do what we want than it would take for us to make the change and move on, then we are not using our time or the tool to our best advantage. Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
+
+To wrap up this function, let's:
+1. accept the change
+2. highlight the `validate_guess` function 
+3. use `⌘[` (`CMD + [`) to move the function one tab left
+4. run the tests for `validate_guess` in `tests/test_wave_1.py`
+
+At this point, the tests for `validate_guess` should be passing! 
 
 ### !callout-info
 
-## Reviewing the `**` operator
+## Potential Refactoring
 
-The Python `**` operator unpacks the contents of a `dict` so that its keys and values can be used as named arguments to a function. In this case, Copilot has suggested a function that takes in a dictionary and uses the `**` operator to unpack the dictionary's contents into arguments to the `Book` class's `__init__` method, which will be called through the `cls` reference.
+We'll talk more in-depth about refactoring with Copilot in the next lesson, but we want to note something worth observing now. Both of the functions we wrote so far need access to a representation of the valid letters for the game (R, O, Y, G, B, P). 
 
-### !end-callout
+<br>
 
-No, this isn't what we want! We have no error handling for missing properties, and this one-liner will set a Book's `id` to whatever value is in the `id` key of the dictionary if any—the `id` property's `autoincrement` flag will be ignored.
-
-We need a more robust function, so let's update our prompt. There are 2 significant features missing: error handling and utilizing `autoincrement`.
-
-<br />
-
-<details>
-  <summary>
-    Take a moment to try adding to the original prompt yourself, then expand this section to see our updated prompt and what Copilot suggested.
-  </summary>
-
-**Updated prompt:**
-> Please write a class function that takes in a dictionary and returns a new Book instance created from the input dictionary's contents. The function should include error handling for missing values and should take advantage of the autoincrement feature.
-
-
-**Suggestion from Copilot:** 
-```py
-@classmethod
-def from_dict(cls, data):
-    if 'title' not in data or 'description' not in data:
-        raise ValueError("Missing required fields: title or description")
-    return cls(title=data['title'], description=data['description'])
-```
-
-Our final prompt doesn't change our initial sentence; we were able to add one new sentence that encapsulated our requirements, and all of a sudden we have a suggestion that meets our current needs!
-
-The method might not look exactly as we would have written it, but if it bothers us or doesn't follow our team or project's conventions, we can always update the code after accepting the suggestion. For example, we may need to modify the generated error string. Or perhaps seeing this code reminds us that we could watch for a `KeyError` rather than checking for individual keys in the dictionary. Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
-</details>
-
-### Testing the Book class
-
-These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
-
-In our `book.py` file, highlight the whole text, bring up the inline Copilot chat with `⌘I` (`CMD + i`), then type in the shortcut `/tests`.
-
-![VS Code showing the full book.py file contents highlighted with the Copilot inline chat bar showing and "/tests" typed in](assets/copilot-in-projects/book-slash-tests-start.png)  
-*Fig. Selected text in* `book.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/copilot-in-projects/book-slash-tests-start.png))*
-
-Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our copilot chat at the top and a temporary file with unit tests that we can review.
-
-![VS Code showing the book.py class and a temporary file where Copilot is previewing unit tests](assets/copilot-in-projects/book-slash-tests-suggestion.png)  
-*Fig. Copilot's UI to preview tests for the* `book.py` *file ([Full size image](assets/copilot-in-projects/book-slash-tests-suggestion.png))*
-
-If we feel like the tests presented are a good starting place, we can take steps to save the generated code. Since this branch doesn't have a `tests` folder yet, we should create a `tests` directory and an empty `__init__.py`. 
-
-Once we have our file structure set up, we should  click "Accept" in the copilot chat to dismiss the chat window, then use `⌘S` (`CMD + S`) to save the new test file. We should see a pop up that allows us to choose the folder where we want to save the test file.
-
-We must carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. In our case, Copilot came up with 3 tests that nearly have us covered:
-
-```py
-import pytest
-from .book import Book
-
-def test_to_dict():
-    book = Book(id=1, title="Test Title", description="Test Description")
-    expected = {
-        'id': 1,
-        'title': "Test Title",
-        'description': "Test Description"
-    }
-    assert book.to_dict() == expected
-
-def test_from_dict_success():
-    data = {
-        'title': "Test Title",
-        'description': "Test Description"
-    }
-    book = Book.from_dict(data)
-    assert book.title == "Test Title"
-    assert book.description == "Test Description"
-
-def test_from_dict_missing_title():
-    data = {
-        'description': "Test Description"
-    }
-    with pytest.raises(ValueError, match="Missing required fields: title or description"):
-        Book.from_dict(data)
-```
-
-### !callout-warning
-
-## Creating `Book` instances in tests
-In our first test, `test_book_to_dict`, the `Book` class is instantiated from a dictionary with an explicit `id`, even though we discussed avoiding setting `id`s ourselves when creating the `from_dict` method. 
-
-<br />
-
-In this specific case, we're testing the `to_dict` method, which is isolated from our routes code or other database access. However we arrange the `Book` for testing this particular method is fine, but there are many instances where we need to use our fixtures to create Book instances that are tracked by SQLAlchemy and exist in our database for routes to retrieve. 
-
-<br />
-
-When we use Copilot to create tests, we should always evaluate if the data is being set up correctly in the `Arrange` step for all of the actions we will be taking.
+Rather than sharing that list through a global variable, that information is duplicated in both a list and a set. Especially if there are more functions that need access to this data, we should consider D.R.Ying our code!
 
 ### !end-callout
 
-We have tests to ensure that for a given book model, the dictionary that `to_dict` creates contains the right data, and that a book created by `from_dict` stores the title and description from the input dictionary into the right properties. Our last test ensures that if the `"title"` key is missing from the input dictionary, we raise an error. But what if the `"description"` key is missing instead?
+### Implement `check_win_or_lose`
 
-To make our test suite as complete as possible, we can add one more test `test_book_from_dict_missing_description` to make sure that we have this edge case covered. We can write the additional test by hand, but we can also try highlighting the last test and asking Copilot to do that work for us!
+We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In addition to the function description in the README, we also have a table of example inputs and outputs we can share to help guide Copilot's response.
 
-<br />
-
-<details>
-  <summary>
-    Try it out yourself, then expand this section to see how we asked Copilot to handle the test updates.
-  </summary>
-
-  **Prompt:**
-  > Please add a new test for the from_dict function that tests the scenario where the description is missing but the title is present
-
-  **Newly added test:**
-  ```py
-  def test_from_dict_missing_description():
-    data = {
-        'title': "Test Title"
-    }
-    with pytest.raises(ValueError, match="Missing required fields: title or description"):
-        Book.from_dict(data)
-  ```
-</details>
-
-### Creating `Author`, `Genre`, and `BookGenre` models
-
-We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. Here, we have a `Book` model that we can use as a pattern when asking Copilot to help us create the `Author`, `Genre`, and `BookGenre` models.
-
-Before we ask Copilot for help, the first thing we need to do is gather the requirements for our new classes. In our previous work with these models, we gave them the following properties:
-
-**Author**
-- autoincrementing `id`
-- string `name`
-- a property to access `Books` associated with a particular `Author` instance
-
-**Genre**
-- autoincrementing `id`
-- string `name`
-
-**BookGenre**
-- foreign key connection to the `Book` model
-- foreign key connection to the `Genre` model
-
-Now that we've reminded ourselves of what the classes need to do, we can use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. We can type directly in the chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines.
+Before we ask Copilot for help, the first thing we need to do is gather the requirements and examples for our last Wave 1 function. We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. We can type directly in the chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines.
 
 <br />
 
@@ -469,6 +375,97 @@ We could make the changes manually after moving the code to a file, but we can a
 </details>
 
 There may yet be further things to consider, one we can see is that the `Book` model's `from_dict` method could be updated to handle an `author_id` or `genre_id` value. However, once we are happy with the presented code we can copy our updated `Book`, and new `Author`, `Genre`, and `BookGenre` classes from the Copilot chat to their own files. From there we should wrap up our changes by updating the tests for our Book model with our new scenarios, and create tests for our new models—all on our own or with Copilot's assistance!
+
+### Testing the Book class
+
+These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
+
+In our `book.py` file, highlight the whole text, bring up the inline Copilot chat with `⌘I` (`CMD + i`), then type in the shortcut `/tests`.
+
+![VS Code showing the full book.py file contents highlighted with the Copilot inline chat bar showing and "/tests" typed in](assets/copilot-in-projects/book-slash-tests-start.png)  
+*Fig. Selected text in* `book.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/copilot-in-projects/book-slash-tests-start.png))*
+
+Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our copilot chat at the top and a temporary file with unit tests that we can review.
+
+![VS Code showing the book.py class and a temporary file where Copilot is previewing unit tests](assets/copilot-in-projects/book-slash-tests-suggestion.png)  
+*Fig. Copilot's UI to preview tests for the* `book.py` *file ([Full size image](assets/copilot-in-projects/book-slash-tests-suggestion.png))*
+
+If we feel like the tests presented are a good starting place, we can take steps to save the generated code. Since this branch doesn't have a `tests` folder yet, we should create a `tests` directory and an empty `__init__.py`. 
+
+Once we have our file structure set up, we should  click "Accept" in the copilot chat to dismiss the chat window, then use `⌘S` (`CMD + S`) to save the new test file. We should see a pop up that allows us to choose the folder where we want to save the test file.
+
+We must carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. In our case, Copilot came up with 3 tests that nearly have us covered:
+
+```py
+import pytest
+from .book import Book
+
+def test_to_dict():
+    book = Book(id=1, title="Test Title", description="Test Description")
+    expected = {
+        'id': 1,
+        'title': "Test Title",
+        'description': "Test Description"
+    }
+    assert book.to_dict() == expected
+
+def test_from_dict_success():
+    data = {
+        'title': "Test Title",
+        'description': "Test Description"
+    }
+    book = Book.from_dict(data)
+    assert book.title == "Test Title"
+    assert book.description == "Test Description"
+
+def test_from_dict_missing_title():
+    data = {
+        'description': "Test Description"
+    }
+    with pytest.raises(ValueError, match="Missing required fields: title or description"):
+        Book.from_dict(data)
+```
+
+### !callout-warning
+
+## Creating `Book` instances in tests
+In our first test, `test_book_to_dict`, the `Book` class is instantiated from a dictionary with an explicit `id`, even though we discussed avoiding setting `id`s ourselves when creating the `from_dict` method. 
+
+<br />
+
+In this specific case, we're testing the `to_dict` method, which is isolated from our routes code or other database access. However we arrange the `Book` for testing this particular method is fine, but there are many instances where we need to use our fixtures to create Book instances that are tracked by SQLAlchemy and exist in our database for routes to retrieve. 
+
+<br />
+
+When we use Copilot to create tests, we should always evaluate if the data is being set up correctly in the `Arrange` step for all of the actions we will be taking.
+
+### !end-callout
+
+We have tests to ensure that for a given book model, the dictionary that `to_dict` creates contains the right data, and that a book created by `from_dict` stores the title and description from the input dictionary into the right properties. Our last test ensures that if the `"title"` key is missing from the input dictionary, we raise an error. But what if the `"description"` key is missing instead?
+
+To make our test suite as complete as possible, we can add one more test `test_book_from_dict_missing_description` to make sure that we have this edge case covered. We can write the additional test by hand, but we can also try highlighting the last test and asking Copilot to do that work for us!
+
+<br />
+
+<details>
+  <summary>
+    Try it out yourself, then expand this section to see how we asked Copilot to handle the test updates.
+  </summary>
+
+  **Prompt:**
+  > Please add a new test for the from_dict function that tests the scenario where the description is missing but the title is present
+
+  **Newly added test:**
+  ```py
+  def test_from_dict_missing_description():
+    data = {
+        'title': "Test Title"
+    }
+    with pytest.raises(ValueError, match="Missing required fields: title or description"):
+        Book.from_dict(data)
+  ```
+</details>
+
 
 ## Summary
 
