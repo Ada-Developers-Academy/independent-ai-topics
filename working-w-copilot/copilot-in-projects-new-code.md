@@ -358,27 +358,134 @@ For this lesson's example, we will accept the updated code as-is and make these 
   ```
 </details>
 
-From here we should wrap up our Wave 1 changes by updating the Wave 1 test file with missing scenarios or edge cases. We'll see how one of Copilot's shortcuts can help with that work!
+From here we should wrap up our Wave 1 changes by updating the Wave 1 test file with missing scenarios or edge cases!
 
 ### Increasing Wave 1 Testing
 
 These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We already have some test in `tests/test_wave_1.py`, so we're looking to make sure we aren't missing important nominal or edge cases. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
 
-In our `app/game.py` file, highlight the functions we've created so far, bring up the inline Copilot chat with `⌘I` (`CMD + i`), then type in the shortcut `/tests`.
+#### Testing `generate_code` with `/tests`
 
-![VS Code showing the full book.py file contents highlighted with the Copilot inline chat bar showing and "/tests" typed in](assets/copilot-in-projects/book-slash-tests-start.png)  
-*Fig. Selected text in* `book.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/copilot-in-projects/book-slash-tests-start.png))*
+For `generate_code` we'll use the `/tests` shortcut from Copilot to help us expand our test suite.
 
-Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our copilot chat at the top and a temporary file with unit tests that we can review.
+In our `app/game.py` file: 
+1. highlight the first function we created `generate_code`
+2. bring up the inline Copilot chat with `⌘I` (`CMD + i`)
+3. type in the shortcut `/tests`
 
-![VS Code showing the book.py class and a temporary file where Copilot is previewing unit tests](assets/copilot-in-projects/book-slash-tests-suggestion.png)  
-*Fig. Copilot's UI to preview tests for the* `book.py` *file ([Full size image](assets/copilot-in-projects/book-slash-tests-suggestion.png))*
+![VS Code showing generate_code highlighted inside of app/game.py with the Copilot inline chat bar showing and "/tests" typed in](assets/new-code-copilot/slash_tests_generate_code_unsubmitted.png)  
+*Fig. `generate_code` selected in* `app/game.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/new-code-copilot/slash_tests_generate_code_unsubmitted.png))*
 
-If we feel like the tests presented are a good starting place, we can take steps to save the generated code. Since this branch doesn't have a `tests` folder yet, we should create a `tests` directory and an empty `__init__.py`. 
+Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our copilot chat at the top and a temporary file filled with unit tests for `generate_code` that we can review.
 
-Once we have our file structure set up, we should  click "Accept" in the copilot chat to dismiss the chat window, then use `⌘S` (`CMD + S`) to save the new test file. We should see a pop up that allows us to choose the folder where we want to save the test file.
+![VS Code showing the game.py file in one pane and a temporary file where Copilot is previewing unit tests in another pane](assets/new-code-copilot/slash_tests_generate_code_submitted.png)  
+*Fig. Copilot's UI to preview tests for the* `generate_code` *function ([Full size image](assets/new-code-copilot/slash_tests_generate_code_submitted.png))*
 
-We must carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. In our case, Copilot came up with 3 tests that nearly have us covered:
+This is a great way to look at many ideas for test scenarios, but it doesn't take into account the tests that already exist. If we were starting our testing from scratch, we might want to save this whole file in our `tests` folder. For this lesson and function, let's review the suggested unit tests and see if there are any that we want to copy over to the existing `tests/test_wave_1.py` file.
+
+Let's refresh ourselves on the existing tests for `generate_code`:
+- `test_generate_code_length_four`, which confirms the code returns is 4 characters in length
+- `test_generate_code_uses_valid_letters` - which confirms the code only uses valid letters: "R", "O", "Y", "G", "B", and "P".
+
+Copilot suggested four tests: 
+```py
+def test_generate_code_returns_list():
+    result = generate_code()
+    assert isinstance(result, list)
+
+def test_generate_code_length_is_four():
+    result = generate_code()
+    assert len(result) == 4
+
+def test_generate_code_contains_only_valid_letters():
+    valid_letters = {'R', 'O', 'Y', 'G', 'B', 'P'}
+    result = generate_code()
+    for letter in result:
+        assert letter in valid_letters
+
+def test_generate_code_randomness():
+    # Run generate_code multiple times and check for different outputs
+    codes = {tuple(generate_code()) for _ in range(10)}
+    # There should be more than one unique code generated
+    assert len(codes) > 1
+```
+
+Two of the Copilot suggestions, `test_generate_code_length_is_four` and `test_generate_code_contains_only_valid_letters` cover the same scenarios that we mentioned above. However, there is an optimization from one of the duplicate scenarios that we could implement! 
+- The existing test `test_generate_code_uses_valid_letters` uses a list to hold the valid letters that we check the new code against. Searching this list is an `O(n)` operation that we need to take for every letter in the generated code. 
+- Copilot's suggested test for the same scenario, `test_generate_code_contains_only_valid_letters`, uses a `set` to hold the valid letters instead. Since `set`s have an `O(1)` look up time, we could make our test more efficient by updating our test with this improvement! 
+
+Let's make that change in `tests/test_wave_1.py` and keep moving!
+
+The new test cases from Copilot are:
+- `test_generate_code_returns_list`, which confirms the return value from `generate_code` is a list data type
+- `test_generate_code_randomness`, which calls `generate_code` 10 times and checks that all the results are not identical.
+
+Since the `README` does require that `generate_code` returns a list, we can bring the first new test into our `tests/test_wave_1.py` file as-is. The second test, `test_generate_code_randomness` requires a little more investigation.
+- Does `test_generate_code_randomness` actually guarantee randomness?
+- Would this test pass if we hardcoded 2 different codes that the program randomly chose between?
+
+If we contemplate questions like this, we'll find that `test_generate_code_randomness` doesn't quite do what the title says. 
+- It cannot guarantee randomness like the title implies
+- It only checks if the `set` of created codes is larger than 1. This means that we could oscillate between two hardcoded values and the test would still pass. 
+- It could be updated to be more stringent, but if we say the code must be different every run, the test might fail unexpectedly. 
+    - We are randomly generating a code from a small pool of values, so there is a real chance we will see duplicates. 
+
+Depending on our scenario and requirements, it could still be worth checking if across several tries the function generates different codes, but we would want the test contents and title to reflect that purpose, and to know we wouldn't get random failures if chance happened to mean that there were some duplicate code generated. For our example, we will keep this test, but update it in a couple ways:
+- Rename the test to `test_generate_code_half_or_less_duplicates_over_10_runs`
+- Change the assertion to expect the set to be at least length 5
+
+<br>
+
+<details>
+  <summary>
+    Feel free to try out the `/tests` shortcut with `generate_code` and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated tests for `generate_code`!
+  </summary>
+
+  ```py
+  # --------------------------test generate_code------------------------------------
+
+  def test_generate_code_returns_list():
+      #Arrange/Act
+      result = generate_code()
+
+      #Assert
+      assert isinstance(result, list)
+
+
+  def test_generate_code_length_four():
+      #Arrange/Act
+      result = generate_code()
+
+      #Assert
+      assert len(result) == 4
+
+
+  def test_generate_code_uses_valid_letters():
+      #Arrange
+      valid_letters = {'R', 'O', 'Y', 'G', 'B', 'P'}
+
+      #Act
+      result = generate_code()
+
+      #Assert
+      for letter in result:
+          assert letter in valid_letters
+
+
+  def test_generate_code_half_or_less_duplicates_over_10_runs():
+      #Arrange/Act
+      # Run generate_code multiple times and check for different outputs
+      codes = {tuple(generate_code()) for _ in range(10)}
+
+      #Assert
+      # At least half of the codes generated should be unique
+      assert len(codes) > 5
+  ```
+</details>
+
+
+
+
 
 ```py
 import pytest
@@ -453,7 +560,9 @@ To make our test suite as complete as possible, we can add one more test `test_b
 
 ## Summary
 
-Copilot can help make many code tasks move faster, as long as we use it with caution. There are many ways to prompt Copilot to suggest code, but no matter how we access Copilot in the UI, we need to make sure that we give Copilot enough context to meaningfully help us. That might mean making sure we have files open that Copilot can use as examples, or writing detailed prompts that cover the requirements of the code we want to generate. Copilot can help us with brainstorming test cases, but there is no guarantee that Copilot will suggest a complete suite that covers all of our important edge cases, so we need to review what's presented critically and expand the suite if necessary.
+Copilot can help make many code tasks move faster, as long as we use it with caution. There are many ways to prompt Copilot to suggest code, but no matter how we access Copilot in the UI, we need to make sure that we give Copilot enough context to meaningfully help us. That might mean making sure we have files open that Copilot can use as examples, or writing detailed prompts that cover the requirements of the code we want to generate. 
+
+We must carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. There is no guarantee that Copilot will suggest a complete suite that covers all of our important edge cases, so we need to review what's presented critically and update or expand the suite if necessary.
 
 ## Check for Understanding
 
