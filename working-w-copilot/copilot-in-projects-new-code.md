@@ -144,6 +144,18 @@ To wrap up this function, let's:
 
 At this point, the tests for `validate_guess` should be passing! 
 
+Our final code for `validate_guess` looks like:
+```py
+def validate_guess(guess):
+    valid_letters = {'R', 'O', 'Y', 'G', 'B', 'P'}
+    if len(guess) != 4:
+        return False
+    for letter in guess:
+        if str(letter).upper() not in valid_letters:
+            return False
+    return True
+```
+
 ### !callout-info
 
 ## Potential Refactoring
@@ -158,28 +170,22 @@ Rather than sharing that list through a global variable, that information is dup
 
 ### Implement `check_win_or_lose`
 
-We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In addition to the function description in the README, we also have a table of example inputs and outputs we can share to help guide Copilot's response.
+We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_win_or_lose` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
 
 Before we ask Copilot for help, the first thing we need to do is gather the requirements and examples for our last Wave 1 function. We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. We can type directly in the chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines.
 
-<br />
+<br>
 
 <details>
   <summary>
-    Before continuing, pause for a moment and try to write a prompt that uses our class requirements to describe what we want from Copilot. When you're done, expand this section to see the prompt we used.
+    Before continuing, pause for a moment and try to write a prompt that uses our function requirements and examples to describe what we want from Copilot. When you're done, expand this section to see the prompt we used.
   </summary>
 
   **Our Prompt:**
-  > I would like help creating three more model classes that follow the same pattern as the Book class.
-  >
-  > The first new model should be named Author and have 3 properties: an auto incrementing `id`, a string `name`, and a relationship to the Book model that back populates a property named `author`.
-  >
-  > The second new model should be named Genre and have 2 properties: an auto incrementing `id` and a string `name`.
-  >
-  > The last new model should be named BookGenre and act as a join table between the Book and Genre models.
+  > 
 </details>
 
-Being an AI tool, we will likely see slightly different responses, even with the same prompt. When we submit our prompt, Copilot will create suggestions for us in the chat pane, and we are given some controls of what to do with that code. In the screenshot below, the controls from left to right are:
+Being an AI tool, we will likely see slightly different responses, even with the same prompt. When we submit our prompt, Copilot will create suggestions for us in the chat pane, and we are given some controls for what to do with that code. In the screenshot below, the controls from left to right are:
 - **Apply In Editor** - replaces the contents of the current file with the generated code
 - **Insert at Cursor** - adds the code directly to an open file where the cursor currently is
 - **Copy** - adds all the code to the clipboard to paste where you'd like
