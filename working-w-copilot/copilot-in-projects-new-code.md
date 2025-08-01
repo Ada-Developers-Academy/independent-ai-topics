@@ -175,7 +175,10 @@ Before we ask Copilot for help, the first thing we need to do is gather informat
 
 We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_win_or_lose` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
 
- We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. We can type directly in the chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines.
+We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. While we do this, we want to make sure that `app/game.py` is still open. 
+- The Copilot chat window will use open files as context to help inform its response, so we want that file open to help Copilot place the code where we want it.
+ 
+For this next step, we can type directly in the Copilot chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines. 
 
 <br>
 
@@ -385,7 +388,7 @@ This is a great way to look at many ideas for test scenarios, but it doesn't tak
 
 Let's refresh ourselves on the existing tests for `generate_code`:
 - `test_generate_code_length_four`, which confirms the code returns is 4 characters in length
-- `test_generate_code_uses_valid_letters` - which confirms the code only uses valid letters: "R", "O", "Y", "G", "B", and "P".
+- `test_generate_code_uses_valid_letters`, which confirms the code only uses valid letters: "R", "O", "Y", "G", "B", and "P".
 
 Copilot suggested four tests: 
 ```py
@@ -412,11 +415,11 @@ def test_generate_code_randomness():
 
 Two of the Copilot suggestions, `test_generate_code_length_is_four` and `test_generate_code_contains_only_valid_letters` cover the same scenarios that we mentioned above. However, there is an optimization from one of the duplicate scenarios that we could implement! 
 - The existing test `test_generate_code_uses_valid_letters` uses a list to hold the valid letters that we check the new code against. Searching this list is an `O(n)` operation that we need to take for every letter in the generated code. 
-- Copilot's suggested test for the same scenario, `test_generate_code_contains_only_valid_letters`, uses a `set` to hold the valid letters instead. Since `set`s have an `O(1)` look up time, we could make our test more efficient by updating our test with this improvement! 
+- Copilot's suggested test for the same scenario, `test_generate_code_contains_only_valid_letters`, uses a `set` to hold the valid letters instead. 
 
-Let's make that change in `tests/test_wave_1.py` and keep moving!
+Since `set`s have an `O(1)` look up time, we could make our test more efficient by updating our test with this improvement! Let's make that change in `tests/test_wave_1.py` and keep moving!
 
-The new test cases from Copilot are:
+The two new test cases from Copilot are:
 - `test_generate_code_returns_list`, which confirms the return value from `generate_code` is a list data type
 - `test_generate_code_randomness`, which calls `generate_code` 10 times and checks that all the results are not identical.
 
@@ -430,15 +433,17 @@ If we contemplate questions like this, we'll find that `test_generate_code_rando
 - It could be updated to be more stringent, but if we say the code must be different every run, the test might fail unexpectedly. 
     - We are randomly generating a code from a small pool of values, so there is a real chance we will see duplicates. 
 
-Depending on our scenario and requirements, it could still be worth checking if across several tries the function generates different codes, but we would want the test contents and title to reflect that purpose, and to know we wouldn't get random failures if chance happened to mean that there were some duplicate code generated. For our example, we will keep this test, but update it in a couple ways:
+Depending on our scenario and requirements, it could still be worth checking if across several tries the function generates different codes, but we would want the test contents and title to reflect that purpose, and to know we wouldn't get random failures if chance happened to mean that there were some duplicate codes generated. For our example, we will keep this test, but update it in a couple ways:
 - Rename the test to `test_generate_code_half_or_less_duplicates_over_10_runs`
 - Change the assertion to expect the set to be at least length 5
+
+Once we bring these updates and new tests into `tests/test_wave_1.py`, we can close the suggestion pane that Copilot opened since we do not want to create a new file for the `generate_code` tests.
 
 <br>
 
 <details>
   <summary>
-    Feel free to try out the `/tests` shortcut with `generate_code` and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated tests for `generate_code`!
+    Feel free to try out the `/tests` shortcut with `generate_code` and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated test suite for `generate_code`!
   </summary>
 
   ```py
@@ -483,39 +488,12 @@ Depending on our scenario and requirements, it could still be worth checking if 
   ```
 </details>
 
+#### Testing `validate_guess` and `generate_code` 
+
+We saw an issue with using `/tests` from the inline chat when we already have a test suite. Rather than taking our existing tests into account and only suggesting new scenarios, we were given some duplicate test cases for `generate_code`. 
+- To help us save time and avoid reviewing test cases that won't be helpful, we want a way to interact with Copilot that ensures it has context about what we are working on and what already exists in the project. 
 
 
-
-
-```py
-import pytest
-from .book import Book
-
-def test_to_dict():
-    book = Book(id=1, title="Test Title", description="Test Description")
-    expected = {
-        'id': 1,
-        'title': "Test Title",
-        'description': "Test Description"
-    }
-    assert book.to_dict() == expected
-
-def test_from_dict_success():
-    data = {
-        'title': "Test Title",
-        'description': "Test Description"
-    }
-    book = Book.from_dict(data)
-    assert book.title == "Test Title"
-    assert book.description == "Test Description"
-
-def test_from_dict_missing_title():
-    data = {
-        'description': "Test Description"
-    }
-    with pytest.raises(ValueError, match="Missing required fields: title or description"):
-        Book.from_dict(data)
-```
 
 ### !callout-warning
 
