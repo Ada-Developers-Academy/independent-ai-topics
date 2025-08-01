@@ -233,7 +233,7 @@ Before we make any decisions about keeping or removing the code, let's examine w
 > - ['R','P','Y','G'] not matching ['R','R','R','R'] with 9 guesses → False
 > - ['R','O','Y','G'] not matching ['R','R','R','R'] with 3 guesses → None
 
-**Updated `game.py`**
+**`game.py` with Suggested Code**
 ```py
 import random
 
@@ -286,9 +286,7 @@ The initial code that Copilot displays looks okay, but it doesn't quite meet our
 
 Additionally, we didn't tell Copilot where in the file to place `check_win_or_lose`. Rather than placing the function in Wave 1 where we want it, Copilot placed the code in Wave 2.
 
-We could make the changes manually after moving the code to a file, but we can also ask Copilot to make these updates. Let's continue our conversation with Copilot in the chat pane to try to fix these issues. Submit the follow up prompt below:
-
-> Please move the check_win_or_lose function in game.py up to the section for Wave 1 functions. Please also update check_win_or_lose to use a case insensitive comparison for guess and code.
+We could make the changes manually after moving the code to a file, but we can also ask Copilot to make these updates. Let's continue our conversation with Copilot in the chat pane to try to fix these issues.
 
 <br>
 
@@ -332,6 +330,8 @@ As we often will when reviewing generated code, we have a few things to consider
 - At the very end of the suggestion, can remove the newly added comment `# Wave 2` which duplicates a comment that already exists.
 
 For this lesson's example, we will accept the updated code as-is and make these last changes manually. Once we make these updates, we can run our full Wave 1 test suite to ensure the existing tests are passing.
+
+<br>
 
 <details>
   <summary>
