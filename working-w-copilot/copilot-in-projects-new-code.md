@@ -61,7 +61,7 @@ Based on the README, our function should generate a random 4 letter code for the
     - the characters in the list must be one of the following letters: "R", "O", "Y", "G", "B", "P"
 
 To get Copilot's help, let's write a comment that summarizes this information. This step of taking in the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching to an AI tool. We need this understanding as developers to be able to check if the code produced by Copilot actually meets our needs. 
-- In theory we could copy & paste the text of the `README` into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for?
+- In theory we could copy & paste the text of the `README` into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for? Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
 
 To start generating our function, add the following comment to `app/game.py` then press enter to see what Copilot suggests:
 
@@ -135,7 +135,7 @@ Once we submit the prompt we may see something like:
 
 The last line was broken up as we asked for, but the function is still indented inside of `generate_code`! We could take more time going back and forth with Copilot, but since we know the changes we want to see, this is a case where maybe it wasn't worth regenerating the response or trying to ask Copilot to make the changes for us. The starting point was close enough to what we wanted that we would have been done by now if we made the changes ourselves at the start. 
 
-As we work with tools like Copilot, it's important for us to consistently evaluate where we are spending our time. If we are spending more time trying to get a tool to do what we want than it would take for us to make the change and move on, then we are not using our time or the tool to our best advantage. Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
+As we work with tools like Copilot, it's important for us to consistently evaluate where we are spending our time. If we are spending more time trying to get a tool to do what we want than it would take for us to make the change and move on, then we are not using our time or the tool to our best advantage. 
 
 To wrap up this function, let's:
 1. accept the change
