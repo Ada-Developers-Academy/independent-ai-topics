@@ -60,7 +60,8 @@ Based on the README, our function should generate a random 4 letter code for the
     - each element in the list should be a single character 
     - the characters in the list must be one of the following letters: "R", "O", "Y", "G", "B", "P"
 
-To get Copilot's help, let's write a comment that summarizes this information. This step of taking in the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching to an AI tool. We need this understanding as developers to be able to check if the code produced by Copilot actually meets our needs. In theory we could copy & paste the text of the README into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for?
+To get Copilot's help, let's write a comment that summarizes this information. This step of taking in the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching to an AI tool. We need this understanding as developers to be able to check if the code produced by Copilot actually meets our needs. 
+- In theory we could copy & paste the text of the `README` into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for?
 
 To start generating our function, add the following comment to `app/game.py` then press enter to see what Copilot suggests:
 
@@ -74,12 +75,12 @@ To start generating our function, add the following comment to `app/game.py` the
 In our case, Copilot immediately suggests some additions to our comment as well as a function signature and body that _nearly_ matches our needs for the moment:
 
 ![VS Code window showing the comment above along with a function suggested by copilot](assets/new-code-copilot/generate_code_first_suggestion.png)
-*Fig. Our function description comment above with a suggestion for the `generate_code` function from Copilot in grey below ([Full size image](assets/new-code-copilot/generate_code_first_suggestion.png))*
+*Fig. Our function description comment above with a suggestion for the `generate_code` function from Copilot highlighted below ([Full size image](assets/new-code-copilot/generate_code_first_suggestion.png))*
 
 If we accept this suggestion, the function itself looks good, but for some reason `random` is underlined by VS Code. Why might that be?
 
 ![VS Code window showing the suggestion above accepted into the file with the symbol random underlined](assets/new-code-copilot/generate_code_random_underlined.png)
-*Fig. Our function description comment with the suggestions from Copilot accepted into the file. ([Full size image](assets/new-code-copilot/generate_code_random_underlined.png))*
+*Fig. Our function description comment with the suggestion from Copilot accepted into the file. ([Full size image](assets/new-code-copilot/generate_code_random_underlined.png))*
 
 Copilot suggested that we use `choice` from the `random` module, but Copilot didn't add code to import the `random` module. If we tried to run this code we would get an error until we add the import statement `import random` to the file. 
 
@@ -132,7 +133,7 @@ Once we submit the prompt we may see something like:
 ![VS Code showing the Copilot inline chat with the prompt and follow up shared above entered and a function suggestion below](assets/new-code-copilot/inline_prompt_follow_up_validate_guess.png)  
 *Fig. Our update to the prompt entered in the Copilot inline chat with a new suggestion for the `validate_code` function from Copilot displayed below. ([Full size image](assets/new-code-copilot/inline_prompt_follow_up_validate_guess.png))*
 
-The last line was broken up as we asked for, but the function is still indented inside of `generate_code`! We could take more time going back and forth with Copilot, but since we know the changes we want to see, this is a case where maytbe it wasn't worth regenerating the response or trying to ask Copilot to make the changes for us. The starting point was close enough to what we wanted that we would have been done by now if we made the changes ourselves at the start. 
+The last line was broken up as we asked for, but the function is still indented inside of `generate_code`! We could take more time going back and forth with Copilot, but since we know the changes we want to see, this is a case where maybe it wasn't worth regenerating the response or trying to ask Copilot to make the changes for us. The starting point was close enough to what we wanted that we would have been done by now if we made the changes ourselves at the start. 
 
 As we work with tools like Copilot, it's important for us to consistently evaluate where we are spending our time. If we are spending more time trying to get a tool to do what we want than it would take for us to make the change and move on, then we are not using our time or the tool to our best advantage. Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
 
