@@ -170,9 +170,11 @@ Rather than sharing that list through a global variable, that information is dup
 
 ### Implement `check_win_or_lose`
 
+Before we ask Copilot for help, the first thing we need to do is gather information for our last Wave 1 function prompt.
+
 We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_win_or_lose` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
 
-Before we ask Copilot for help, the first thing we need to do is gather the requirements and examples for our last Wave 1 function. We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. We can type directly in the chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines.
+ We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. We can type directly in the chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines.
 
 <br>
 
@@ -182,207 +184,182 @@ Before we ask Copilot for help, the first thing we need to do is gather the requ
   </summary>
 
   **Our Prompt:**
-  > 
+  > Create a function named check_win_or_lose in app/game.py. The function will determine if the user making a guess has won or lost the game. should take in 3 parameters:
+  >     - guess, a 4 element list representing the user's guess
+  >     - code, a 4 element list representing the code the user is guessing
+  >     - num_guesses, an integer that represents how many guesses a user has already made
+  >
+  > The function should return:
+  >     - True if num_guesses is 8 or less and the inputs guess and code are identical lists.
+  >     - False if num_guesses greater than 8 and the inputs guess and code are not identical lists.
+  >     - None if the game is still in progress
+  >
+  > Here are some example inputs and outputs for the function:
+  > ```
+  > | guess | code | num_guesses | output |
+  > |:-----:|:----:| :---------: | :----: |
+  > | ['R','P','Y','G'] | ['R','P','Y','G'] | 3 | True |
+  > | ['R','P','Y','G'] | ['R','P','Y','G'] | 8 | True |
+  > | ['R','P','Y','G'] | ['R','P','Y','G'] | 9 | False |
+  > | ['R','P','Y','G'] | ['R','R','R','R'] | 9 | False |
+  > | ['R','O','Y','G'] | ['R','R','R','R'] | 3 | None |
+  > ```
 </details>
 
-Being an AI tool, we will likely see slightly different responses, even with the same prompt. When we submit our prompt, Copilot will create suggestions for us in the chat pane, and we are given some controls for what to do with that code. In the screenshot below, the controls from left to right are:
-- **Apply In Editor** - replaces the contents of the current file with the generated code
-- **Insert at Cursor** - adds the code directly to an open file where the cursor currently is
-- **Copy** - adds all the code to the clipboard to paste where you'd like
-- **More Actions** - shows a dropdown with the options below
-  - **Insert into Terminal**
-  - **Insert into New File**
+Being an AI tool, we will likely see slightly different responses, even with the same prompt. When we submit our prompt, Copilot will create a suggestion for us in the file we identified, `app/game.py`, and we have a couple buttons to decide if we want to keep this option or remove it from this file. In the screenshot below, the controls from left to right are:
+- **Keep** - Adds the suggested content to the `app/game.py` file
+- **Undo** - Removes the suggestion from `app/game.py`
+- **View Diff** - Moves to a view where we can see just the changed lines of `app/game.py`. This can be handy in larger files where there might be more code to sift through to see Copilot's changes.
 
-![A section of the Copilot chat pane in VS Code showing the controls for code suggestions](assets/copilot-in-projects/copilot-chat-pane-code-controls.png)  
-*Fig. Copilot Chat's controls for code suggestions ([Full size image](assets/copilot-in-projects/copilot-chat-pane-code-controls.png))*
+![A section of the Copilot chat pane in VS Code showing the controls for code suggestions](assets/new-code-copilot/chat_pane_check_win_lose_first_pass.png)  
+*Fig. Copilot Chat's controls for code suggestions ([Full size image](assets/new-code-copilot/chat_pane_check_win_lose_first_pass.png))*
 
-Before we make any decisions about where we want to put the code, let's examine what Copilot suggested for us.
+Before we make any decisions about keeping or removing the code, let's examine what Copilot suggested for us.
 
-> Sure, here are the three new model classes following the same pattern as the Book class:
+**Copilot's response**
+> I'll create the check_win_or_lose function in the game.py file based on your specifications. Let me add it to the Wave 2 section.
+> game.py+16-0
 > 
-> ```py
-> from sqlalchemy.orm import Mapped, mapped_column, relationship
-> from ..db import db
+> I've successfully added the check_win_or_lose function to your game.py file. The function implements the logic you specified:
+> 1. Returns True when the guess matches the code AND the number of guesses is 8 or less (player wins)
+> 2. Returns False when either:
+>     - The guess matches the code but the number of guesses is greater than 8 (player loses due to too many guesses)
+>     - The guess doesn't match the code and the number of guesses is greater than 8 (player loses)
+> 3. Returns None when the guess doesn't match the code but the number of guesses is 8 or less (game continues)
 > 
-> class Author(db.Model):
->     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
->     name: Mapped[str]
->     books: Mapped[list["Book"]] = relationship("Book", back_populates="author")
-> 
->     def to_dict(self):
->         return {
->             'id': self.id,
->             'name': self.name,
->             'books': [book.to_dict() for book in self.books]
->         }
-> 
->     @classmethod
->     def from_dict(cls, data):
->         if 'name' not in data:
->             raise ValueError("Missing required field: name")
->         return cls(name=data['name'])
-> 
-> 
-> class Genre(db.Model):
->     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
->     name: Mapped[str]
-> 
->     def to_dict(self):
->         return {
->             'id': self.id,
->             'name': self.name
->         }
-> 
->     @classmethod
->     def from_dict(cls, data):
->         if 'name' not in data:
->             raise ValueError("Missing required field: name")
->         return cls(name=data['name'])
-> 
-> 
-> class BookGenre(db.Model):
->     book_id: Mapped[int] = mapped_column(db.ForeignKey('book.id'), primary_key=True)
->     genre_id: Mapped[int] = mapped_column(db.ForeignKey('genre.id'), primary_key=True)
-> 
->     book: Mapped["Book"] = relationship("Book", back_populates="genres")
->     genre: Mapped["Genre"] = relationship("Genre", back_populates="books")
-> 
->     def to_dict(self):
->         return {
->             'book_id': self.book_id,
->             'genre_id': self.genre_id
->         }
-> 
->     @classmethod
->     def from_dict(cls, data):
->         if 'book_id' not in data or 'genre_id' not in data:
->             raise ValueError("Missing required fields: book_id or genre_id")
->         return cls(book_id=data['book_id'], genre_id=data['genre_id'])
-> ```
-> Please note that you need to add a foreign key field in the `Book` model to reference the `Author` model. Also, the `BookGenre` model is a many-to-many relationship table between `Book` and `Genre`. It has two primary keys, `book_id` and `genre_id`, which are foreign keys referencing `Book` and `Genre` respectively.
+> The function handles all the example cases you provided:
+> - ['R','P','Y','G'] matching ['R','P','Y','G'] with 3 or 8 guesses → True
+> - ['R','P','Y','G'] matching ['R','P','Y','G'] with 9 guesses → False
+> - ['R','P','Y','G'] not matching ['R','R','R','R'] with 9 guesses → False
+> - ['R','O','Y','G'] not matching ['R','R','R','R'] with 3 guesses → None
 
-Overall, this is a solid start! The classes all meet the property requirements we outlined, the `Author` and `Genre` classes have the `to_dict` and `from_dict` convenience functions defined, and Copilot even gave us a heads up about the changes we'll need to make to the `Book` class for everything to work.
+**Updated `game.py`**
+```py
+import random
 
-We could implement those changes ourselves, but we can get help from Copilot with this task with a prompt like:
+# Wave 1
+# generate_code 
+# - takes no arguments  
+# - returns a list of 4 letters
+# - each letter must be one of: R, O, Y, G, B, P
+# - letters can be repeated
+# - the list is randomly generated
 
-> Please update the Book model class to add foreign keys and relationship attributes to create the one to many relationship between Authors and Books and to create the many to many relationship between books and genres.
+def generate_code():
+    valid_letters = ['R', 'O', 'Y', 'G', 'B', 'P']
+    return [random.choice(valid_letters) for _ in range(4)]
 
-**Copilot's response:**
-> Sure, here is the updated `Book` model class with the necessary foreign keys and relationship attributes:
-> ```py
-> from sqlalchemy.orm import Mapped, mapped_column, relationship
-> from ..db import db
-> 
-> class Book(db.Model):
->     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
->     title: Mapped[str]
->     description: Mapped[str]
->     author_id: Mapped[int] = mapped_column(db.ForeignKey('author.id'))
->     author: Mapped["Author"] = relationship("Author", back_populates="books")
->     genres: Mapped[list["BookGenre"]] = relationship("BookGenre", back_populates="book")
-> 
->     def to_dict(self):
->         return {
->             'id': self.id,
->             'title': self.title,
->             'description': self.description,
->             'author': self.author.to_dict() if self.author else None,
->             'genres': [genre.to_dict() for genre in self.genres]
->         }    
-> 
->     @classmethod
->     def from_dict(cls, data):
->         if 'title' not in data or 'description' not in data:
->             raise ValueError("Missing required fields: title or description")
->         return cls(title=data['title'], description=data['description'])
-> ```
-> This code adds the `author_id` foreign key and the relationships to the `Author` and `BookGenre` models, establishing the one-to-many relationship between `Author` and `Book` and the many-to-many relationship between `Book` and `Genre`.
 
-The updated code that Copilot displays is looking pretty good, the `Book` suggestion has all the new properties we needed to create our one-to-many `Author` relationship and many-to-many `Genre` relationship.
+def validate_guess(guess):
+    valid_letters = {'R', 'O', 'Y', 'G', 'B', 'P'}
+    if len(guess) != 4:
+        return False
+    for letter in guess:
+        if str(letter).upper() not in valid_letters:
+            return False
+    return True
 
-We can accept the code as is, but there is still some room for improvement depending on our needs. In the `to_dict` functions for `Book` and `Author`, we may want to limit what information is sent forward about our newly added relationships. Right now, `to_dict` is called on the new relationship objects so all of their information including ids and information about _their_ relationships gets packaged up in the response. 
-- For the `Book` class, it would be nice to include only the author's name and the names of the genres associated with the book in the return dictionary.
-- For `Author`, it could be handy if the return dictionary included only the `title`s of the `Book` instances that the Author is associated with. 
+# Wave 2
+# Add your Wave 2 functions here
 
-### !callout-warning
+def check_win_or_lose(guess, code, num_guesses):
+    # Check if the guess and code are identical (win condition)
+    if guess == code:
+        # Player wins if they haven't exceeded 8 guesses
+        if num_guesses <= 8:
+            return True
+        else:
+            return False
+    else:
+        # If guess doesn't match code, check if game should end
+        if num_guesses > 8:
+            return False
+        else:
+            # Game is still in progress
+            return None
 
-## Consider Including List Values Carefully
+# Wave 3
+# Add your Wave 3 functions here
+```
 
-In this case, we're expecting that a particular book will have only a few genres related to it, and any given author will have written only so many books. If we were working with data where we expected a large number of related items, we might not want to include them in the basic `to_dict` function, which primarily serves the purpose of making it easier to return data for a GET request.
+The initial code that Copilot displays looks okay, but it doesn't quite meet our needs. We forgot to mention that the comparision should be case insensitive, and we didn't include examples that would guide the tool to that information. As-is, the function does not meet the requirements of the project. 
 
-<br />
+Additionally, we didn't tell Copilot where in the file to place `check_win_or_lose`. Rather than placing the function in Wave 1 where we want it, Copilot placed the code in Wave 2.
 
-Instead, we might wait to return those lists until we're specifically asked for them from a related endpoint. In the GET response, we might include a count of the number of related items, and then the client could make a separate request to get the full list of related items if they wanted to.
+We could make the changes manually after moving the code to a file, but we can also ask Copilot to make these updates. Let's continue our conversation with Copilot in the chat pane to try to fix these issues. Submit the follow up prompt below:
 
-### !end-callout
+> Please move the check_win_or_lose function in game.py up to the section for Wave 1 functions. Please also update check_win_or_lose to use a case insensitive comparison for guess and code.
 
-We could make the changes manually after moving the code to a file, but we can also ask Copilot to make these updates.
-
-<br />
+<br>
 
 <details>
   <summary>
-    Feel free to try out asking Copilot to help with the changes to the <code>Book</code> and <code>Author</code> <code>to_dict</code> functions. When you're done, expand this section to see the prompt we used and what Copilot suggested.
+    Feel free to try out asking Copilot to help with the changes to the <code>check_win_or_lose</code> function. When you're done, expand this section to see the prompt we used.
   </summary>
 
-  **Updated Prompt:**
-  > Please update the Book to_dict function to include only the name of the author and a list of the names of the genres associated in the return dictionary, if those pieces of data exist. Please update the Author to_dict function to include only the title of each item in the list books.
-
-  **Copilot's Suggested Code:**
-  > ```py
-  > from sqlalchemy.orm import Mapped, mapped_column, relationship
-  > from ..db import db
-  > 
-  > class Book(db.Model):
-  >     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-  >     title: Mapped[str]
-  >     description: Mapped[str]
-  >     author_id: Mapped[int] = mapped_column(db.ForeignKey('author.id'))
-  >     author: Mapped["Author"] = relationship("Author", back_populates="books")
-  >     genres: Mapped[list["BookGenre"]] = relationship("BookGenre", back_populates="book")
-  > 
-  >     def to_dict(self):
-  >         return {
-  >             'id': self.id,
-  >             'title': self.title,
-  >             'description': self.description,
-  >             'author': self.author.name if self.author else None,
-  >             'genres': [genre.genre.name for genre in self.genres] if self.genres else []
-  >         }    
-  >     
-  >     @classmethod
-  >     def from_dict(cls, data):
-  >         if 'title' not in data or 'description' not in data:
-  >             raise ValueError("Missing required fields: title or description")
-  >         return cls(title=data['title'], description=data['description'])
-  > ```
-  > ```py
-  > from sqlalchemy.orm import Mapped, mapped_column, relationship
-  > from ..db import db
-  > 
-  > class Author(db.Model):
-  >     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-  >     name: Mapped[str]
-  >     books: Mapped[list["Book"]] = relationship("Book", back_populates="author")
-  > 
-  >     def to_dict(self):
-  >         return {
-  >             'id': self.id,
-  >             'name': self.name,
-  >             'books': [book.title for book in self.books]
-  >         }
-  > 
-  >     @classmethod
-  >     def from_dict(cls, data):
-  >         if 'name' not in data:
-  >             raise ValueError("Missing required field: name")
-  >         return cls(name=data['name'])
-  > ```
+  **Follow Up Prompt:**
+  > Please move the check_win_or_lose function in game.py up to the section for Wave 1 functions. Please also update check_win_or_lose to use a case insensitive comparison for guess and code.
 </details>
 
-There may yet be further things to consider, one we can see is that the `Book` model's `from_dict` method could be updated to handle an `author_id` or `genre_id` value. However, once we are happy with the presented code we can copy our updated `Book`, and new `Author`, `Genre`, and `BookGenre` classes from the Copilot chat to their own files. From there we should wrap up our changes by updating the tests for our Book model with our new scenarios, and create tests for our new models—all on our own or with Copilot's assistance!
+Once we submit our prompt, we have a new version of code to examine:
+```py
+ def check_win_or_lose(guess, code, num_guesses):
+    # Convert both guess and code to uppercase for case-insensitive comparison
+    guess_upper = [str(letter).upper() for letter in guess]
+    code_upper = [str(letter).upper() for letter in code]
 
-### Testing the Book class
+    # Check if the guess and code are identical (win condition)
+    if guess_upper == code_upper:
+        # Player wins if they haven't exceeded 8 guesses
+        if num_guesses <= 8:
+            return True
+        else:
+            return False
+    else:
+        # If guess doesn't match code, check if game should end
+        if num_guesses > 8:
+            return False
+        else:
+            # Game is still in progress
+            return None
+ 
+# Wave 2
+```
+
+As we often will when reviewing generated code, we have a few things to consider. 
+- One optimization we could make is to remove converting `code` to uppercase if we know `code` will always be created and stored in uppercase. 
+- We could also restructure `check_win_or_lose` to use a guard clause and exit as early as possible if the number of guesses is too large _before_ we convert `guess` to uppercase and iterate through `guess` and `code` to compare them.
+- At the very end of the suggestion, can remove the newly added comment `# Wave 2` which duplicates a comment that already exists.
+
+For this lesson's example, we will accept the updated code as-is and make these last changes manually. Once we make these updates, we can run our full Wave 1 test suite to ensure the existing tests are passing.
+
+<details>
+  <summary>
+    Try out making the final updates to `check_win_or_lose` yourself! When you're done, expand this section to see our final version of the function.
+  </summary>
+
+  ```py
+  def check_win_or_lose(guess, code, num_guesses):
+      # Exit early if the number of guesses exceeds 8
+      if num_guesses > 8:
+          return False
+      
+      # Convert guess to uppercase for case-insensitive comparison
+      guess_upper = [letter.upper() for letter in guess]
+      
+      # Check if the guess and code are identical (win condition)
+      # The guard clause guarantees the number of guesses is 8 or less
+      if guess_upper == code:
+          return True
+      
+      # Game is still in progress
+      return None
+  ```
+</details>
+
+From here we should wrap up our Wave 1 changes by updating the Wave 1 test file with missing scenarios or edge cases. We'll see how one of Copilot's shortcuts can help with that work!
+
+### Increasing Wave 1 Testing
 
 These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
 
