@@ -2,7 +2,7 @@
 
 ## Goals
 
-We know how to generate code, start a chat, and work with Copilot's tools in VS Code, so now let's see what it looks like to apply what we've learned in a project. We'll mosey back to the [hello-books example project](https://github.com/AdaGold/hello-books-api) to see how we can use Copilot to increase our productivity.
+We know how to generate code, start a chat, and work with Copilot's tools in VS Code, so now let's see what it looks like to apply what we've learned in a project. We'll take a look at a new project, [the Mastermind puzzle game in Python](https://github.com/Ada-Activities/mastermind-copilot), to see how we can use Copilot to increase our productivity.
 
 Our goals for this lesson are to show how we can use Copilot to:
 - quickly write new code that follows a consistent format
@@ -24,33 +24,80 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 
 ### !end-callout
 
-
 ## Writing new code with Copilot
 
-We won't be following the same path as our previous visit with `hello-books`. To keep things shorter and focus on areas where we can benefit from Copilot, we will check out a couple branches and use the code at that state as an example to work from.
+There is a lot we could do with the Mastermind project, but to keep us focused on areas where we can benefit from Copilot, we will use the project scaffold on the `main` branch as a starting point. 
 
-For now, we're going to start at the branch [`03a-models-setup`](https://github.com/AdaGold/hello-books-api/tree/03a-models-setup) so that the database connection is set up for us in our `__init__.py` and we have a single model class `Book` already existing.
+To get started:
+- Fork the [`mastermind-copilot` repo](https://github.com/Ada-Activities/mastermind-copilot)
+- Clone the repo down
+- Create and activate a virtual environment
+- Use `pip` to install `requirements.txt`
+- Read through the `README.md` to get an understanding of the requirements of the functions we will write
+
+Since `main` is the default branch of the repo, it should already be checked out when we clone the project down. 
 
 Our plan in this section of the lesson is to:
-- Add the convenience methods `from_dict` and `to_dict` to the existing `Book` model
-- Write tests for our new functions
-- Create the `Author`, `Genre`, and `BookGenre` model classes.
+- Complete Waves 1-3 of the project directions 
+    - We will do this by adding the functions described in the README to the file `game.py`
+- Write new tests for our functions to cover missing edge cases
 
-### Adding convenience functions to `Book`
+Completing the `mastermind` function to run the game in `mastermind.py` will be left as an exercise for the reader.
 
-Opening the `Book` class, we have the bare bones of a model defining 3 properties: `id`, `title`, and `description`. Our first step will be to add our `to_dict` function. To make GET requests easier, we know that we want a function that takes a `Book` model and converts it to a dictionary for us, so let's write a comment to that effect. Add the following comment to your `book.py` file then press enter to see what Copilot suggests:
+### Wave 1: `generate_code`, `validate_guess`, and `check_win_or_lose`
+
+Opening `game.py`, we have a mostly empty file with some markers for adding our functions. Our first step will be to create the `generate_code` function.
+
+#### Implement `generate_code`
+
+Based on the README, our function should generate a random 4 letter code for the user to guess. The function should:
+- take no parameters
+- return a list data structure with 4 elements
+    - each element in the list should be a single character 
+    - the characters in the list must be one of the following letters: "R", "O", "Y", "G", "B", "P"
+
+To get Copilot's help, let's write a comment that summarizes this information. Add the following comment to your `game.py` file then press enter to see what Copilot suggests:
 
 ```py
-# An instance function that returns a  
-# dictionary which represents the book model
+# generate_code 
+# - takes no arguments  
+# - returns a list of 4 letters
+# - each letter must be one of: R, O, Y, G, B, P
 ```
 
-In our case, Copilot immediately suggests a function signature and body that matches our needs for the moment:
+In our case, Copilot immediately suggests some additions to our comment as well as a function signature and body that _nearly_ matches our needs for the moment:
 
-![VS Code window showing the comment above along with a function suggested by copilot](assets/copilot-in-projects/book-to-dict-suggestion.png)  
-*Fig. Our function description comment above with a suggestion for the `to_dict` function from Copilot in grey below ([Full size image](assets/copilot-in-projects/book-to-dict-suggestion.png))*
+![VS Code window showing the comment above along with a function suggested by copilot](assets/new-code-copilot/generate_code_first_suggestion.png)
+*Fig. Our function description comment above with a suggestion for the `generate_code` function from Copilot in grey below ([Full size image](assets/new-code-copilot/generate_code_first_suggestion.png))*
 
-We could use a comment to try generating our `from_dict` class method, but instead we'll use the inline chat to prompt Copilot. Let's use `⌘I` (`CMD + i`) to open an inline chat and enter the following:
+If we accept this suggestion, the function itself looks good, but for some reason `random` is underlined by VS Code. Why might that be?
+
+![VS Code window showing the suggestion above accepted into the file with the symbol random underlined](assets/new-code-copilot/generate_code_random_underlined.png)
+*Fig. Our function description comment with the suggestions from Copilot accepted into the file. ([Full size image](assets/new-code-copilot/generate_code_random_underlined.png))*
+
+Copilot suggested that we use `choice` from the `random` module, but Copilot didn't add code to import the `random` module. If we tried to run this code we would get an error until we add the import statement `import random` to the file. 
+
+To wrap up this function, let's:
+1. add `import random` to the top of the file so we see the issue marker resolve
+2. run our Wave 1 tests in `tests/test_wave_1.py` to ensure that the tests for `generate_code` are now passing.
+
+### !callout-info
+
+## Running the test files as we work
+
+The test files for each wave import all of the functions for the wave at the top of the file. Until we impement all the functions for a wave, we'll see test discovery errors in the VS Code testing Panel. To run our tests, as we complete functions we will need to comment out and uncomment some imports and tests in the wave files so we can see our relevant tests passing.
+
+<br>
+
+Since `validate_guess` and `check_win_or_lose` have not been implemented yet, in `tests/test_wave_1.py` we will need to comment out those names in the import line and comment out their tests in order to run the `generate_code` tests.
+
+### !end-callout
+
+At this point, both `generate_code` tests should pass and we can move on to the `validate_guess` function!
+
+#### Implement `validate_guess`
+
+We could use a comment to try generating our `validate_guess` class method, but instead we'll use the inline chat to prompt Copilot. Let's use `⌘I` (`CMD + i`) to open an inline chat and enter the following:
 
 > Please write a class function that takes in a dictionary and returns a new Book instance created from the input dictionary's contents
 
