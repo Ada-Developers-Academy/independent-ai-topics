@@ -328,7 +328,7 @@ Once we submit our prompt, we have a new version of code to examine:
 As we often will when reviewing generated code, we have a few things to consider. 
 - One optimization we could make is to remove converting `code` to uppercase if we know `code` will always be created and stored in uppercase. 
 - We could also restructure `check_win_or_lose` to use a guard clause and exit as early as possible if the number of guesses is too large _before_ we convert `guess` to uppercase and iterate through `guess` and `code` to compare them.
-- At the very end of the suggestion, can remove the newly added comment `# Wave 2` which duplicates a comment that already exists.
+- At the very end of the suggestion, we can remove the newly added comment `# Wave 2` which duplicates a comment that already exists.
 
 For this lesson's example, we will accept the updated code as-is and make these last changes manually. Once we make these updates, we can run our full Wave 1 test suite to ensure the existing tests are passing.
 
@@ -362,9 +362,9 @@ From here we should wrap up our Wave 1 changes by updating the Wave 1 test file 
 
 ### Increasing Wave 1 Testing
 
-These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
+These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We already have some test in `tests/test_wave_1.py`, so we're looking to make sure we aren't missing important nominal or edge cases. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
 
-In our `book.py` file, highlight the whole text, bring up the inline Copilot chat with `⌘I` (`CMD + i`), then type in the shortcut `/tests`.
+In our `app/game.py` file, highlight the functions we've created so far, bring up the inline Copilot chat with `⌘I` (`CMD + i`), then type in the shortcut `/tests`.
 
 ![VS Code showing the full book.py file contents highlighted with the Copilot inline chat bar showing and "/tests" typed in](assets/copilot-in-projects/book-slash-tests-start.png)  
 *Fig. Selected text in* `book.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/copilot-in-projects/book-slash-tests-start.png))*
