@@ -491,54 +491,360 @@ Once we bring these updates and new tests into `tests/test_wave_1.py`, we can cl
 #### Testing `validate_guess` and `generate_code` 
 
 We saw an issue with using `/tests` from the inline chat when we already have a test suite. Rather than taking our existing tests into account and only suggesting new scenarios, we were given some duplicate test cases for `generate_code`. 
-- To help us save time and avoid reviewing test cases that won't be helpful, we want a way to interact with Copilot that ensures it has context about what we are working on and what already exists in the project. 
 
+To help us save time and avoid reviewing test cases that won't be helpful, we want a way to interact with Copilot that ensures it has context about what we are working on and what already exists in the project. This time we'll open the Copilot Chat pane and use the "Add Context" feature to provide Copilot with more information. 
 
+Before we jump into prompting, the first thing we should do is review our tests so we know what we have and can get an idea of what we might be missing. 
 
-### !callout-warning
-
-## Creating `Book` instances in tests
-In our first test, `test_book_to_dict`, the `Book` class is instantiated from a dictionary with an explicit `id`, even though we discussed avoiding setting `id`s ourselves when creating the `from_dict` method. 
-
-<br />
-
-In this specific case, we're testing the `to_dict` method, which is isolated from our routes code or other database access. However we arrange the `Book` for testing this particular method is fine, but there are many instances where we need to use our fixtures to create Book instances that are tracked by SQLAlchemy and exist in our database for routes to retrieve. 
-
-<br />
-
-When we use Copilot to create tests, we should always evaluate if the data is being set up correctly in the `Arrange` step for all of the actions we will be taking.
-
-### !end-callout
-
-We have tests to ensure that for a given book model, the dictionary that `to_dict` creates contains the right data, and that a book created by `from_dict` stores the title and description from the input dictionary into the right properties. Our last test ensures that if the `"title"` key is missing from the input dictionary, we raise an error. But what if the `"description"` key is missing instead?
-
-To make our test suite as complete as possible, we can add one more test `test_book_from_dict_missing_description` to make sure that we have this edge case covered. We can write the additional test by hand, but we can also try highlighting the last test and asking Copilot to do that work for us!
-
-<br />
+<br>
 
 <details>
   <summary>
-    Try it out yourself, then expand this section to see how we asked Copilot to handle the test updates.
+    Check out the tests in VS Code, or open this drop down to see the current test suites for <code>validate_guess</code> and <code>generate_code</code>.
   </summary>
 
-  **Prompt:**
-  > Please add a new test for the from_dict function that tests the scenario where the description is missing but the title is present
-
-  **Newly added test:**
   ```py
-  def test_from_dict_missing_description():
-    data = {
-        'title': "Test Title"
-    }
-    with pytest.raises(ValueError, match="Missing required fields: title or description"):
-        Book.from_dict(data)
+  # --------------------------test validate_guess------------------------------------
+
+def test_validate_guess_false_length_greater_than_four():
+    #Arrange
+    guess = ['R','R','R','R','R']
+
+    #Act
+    result = validate_guess(guess)
+
+    #Assert
+    assert result is False
+
+
+def test_validate_guess_true_valid_letters_rygp():
+    #Arrange
+    guess = ['R','Y','G','P']
+
+    #Act
+    result = validate_guess(guess)
+
+    #assert
+    assert result is True
+
+
+def test_validate_guess_true_valid_letters_bp():
+    #Arrange
+    guess = ['B','B','P','P']
+
+    #Act
+    result = validate_guess(guess)
+
+    #assert
+    assert result is True
+
+
+def test_validate_guess_false_invalid_letters():
+    #Arrange
+    guess = ['R','S','Y','P']
+
+    #Act
+    result = validate_guess(guess)
+
+    #assert
+    assert result is False
+
+
+def test_validate_guess_true_lowercase_letters():
+    #Arrange
+    guess = ['b','b','p','p']
+
+    #Act
+    result = validate_guess(guess)
+
+    #assert
+    assert result is True
+
+# --------------------------test check_win_or_lose------------------------------------
+
+def test_check_win_or_lose_both_conditions_true():
+    #Arrange
+    guess = ['R','B','B','P']
+    code = ['R','B','B','P']
+    num_guesses = 3
+
+    #Act
+    result = check_win_or_lose(guess, code, num_guesses)
+
+    #Assert
+    assert result is True
+
+
+def test_check_win_or_lose_false_if_exceeds_max_guesses():
+    #Arrange
+    guess = ['R','B','B','P']
+    code = ['R','B','B','P']
+    num_guesses = 9
+
+    #Act
+    result = check_win_or_lose(guess, code, num_guesses)
+
+    #Assert
+    assert result is False
+
+
+def test_check_win_or_lose_none_if_game_ongoing():
+    #Arrange
+    guess = ['R','B','B','P']
+    code = ['R','B','B','O']
+    num_guesses = 2
+
+    #Act
+    result = check_win_or_lose(guess, code, num_guesses)
+
+    #Assert
+    assert result is None
   ```
 </details>
 
+Reviewing the test suite, something that stands out is that `validate_guess` should be case insensitive and though we have tests with all capitalized and all lowercased letters, we don't have a test for a mixed case guess. Let's keep this in mind as we work with Copilot to explore possible additional tests!
+
+Now that we are refreshed on our test suites, let's use the "`+`" button at the top of the Copilot chat pane to start a new chat.
+
+![The top of the Copilot chat panel highlighting the plus button](assets/new-code-copilot/chat_pane_new_chat.png)  
+*Fig. The "New Chat" button in the Copilot chat pane's UI ([Full size image](assets/new-code-copilot/chat_pane_new_chat.png))*
+
+By default, the Copilot chat adds the currently focused file as context for the conversation. Even if you have multiple panes and tabs open, only the file with current editing focus will be added to the chat context. 
+
+![VS Code with both app/game.py and tests/test_wave_1.py open in one panel and Copilot's chat open in another panel. app/game.py has editor focus. The file name app/game.py is circled with an arrow that points to the Current File context bubble in the Copilot chat pane showing the same file name.](assets/new-code-copilot/chat_pane_tests_default_context.png)  
+*Fig. By default, only the open file with editor focus is added as context to a new Copilot chat. ([Full size image](assets/new-code-copilot/chat_pane_tests_default_context.png))*
+
+This is great when you are only asking questions about a single file, however, we want the chat to know about the functions in `app/game.py` _and_ our existing tests in `tests/test_wave_1.py`. Under "Add Context" Copilot's chat has an "Open Editors" option that will add all currently open files as context, even if they are not in editor focus. Let's use this to our advantage!
+
+1. With our new chat open, open both `app/game.py` and `tests/test_wave_1.py` in the editor pane.
+2. In the Copilot chat window, press "Add Context".
+3. From the dropdown that appears, select "Open Editors".
+
+![VS Code with the select context menu for Copilot's chat pane. The Add Context button and Open Editors option are ciricled.](assets/new-code-copilot/chat_pane_add_context_open_editor.png)  
+*Fig. VS Code's UI for adding all open editors as context to Copilot Chat. ([Full size image](assets/new-code-copilot/chat_pane_add_context_open_editor.png))*
+
+Once "Open Editors" is selected, we'll see both `app/game.py` and `tests/test_wave_1.py`show up in the context section of the Copilot chat. 
+- In the Copilot chat UI, the "`X`" button next to each file name in the context section will let you remove a file from context. 
+- Whichever file has focus will show up twice in the list, since there is always a "`Current File`" context bubble. 
+
+![VS Code's Copilot chat pane with app/game.py and tests/test_wave_1.py ciricled in the context section.](assets/new-code-copilot/tests_chat_pane_after_adding_context.png)  
+*Fig. `app/game.py` and `tests/test_wave_1.py` added as context to Copilot Chat. ([Full size image](assets/new-code-copilot/tests_chat_pane_after_adding_context.png))*
+
+Now that Copilot can see our code and tests, let's start prompting! We can write a shorter prompt and may still get okay results, but to be effective with our time we can be clear with Copilot instructions for:
+- What we want help with
+- Where specific relevant code exists
+- Where we want changes made
+- Explaining suggestions to ensure we grow our understanding and have that knowledge for the future 
+
+<br>
+
+<details>
+  <summary>
+    Using what we've learned about prompting so far and the points above as a template, try out writing a prompt to update the test suites for <code>validate_guess</code> and <code>generate_code</code>. When you're done, expand this section to see our prompt.
+  </summary>
+
+  **Prompt:**
+  > I would like to expand the test suites for the functions validate_guess and check_win_or_lose in game.py to cover missing edge or nominal test cases. 
+  > 
+  > The current tests live in test_wave_1.py. I would like any new tests added to test_wave_1.py in the relevant sections of the file. 
+  > 
+  > What other test cases would be useful? For any suggested tests, please describe why they would be useful and what specific missing scenario they are accounting for.
+
+</details>
+
+Once we press enter, exact responses will vary, but Copilot should respond with information around:
+- analyzing `validate_guess` and `generate_code` in `app/game.py`
+- analyzing current test coverage or cases for each function in `tests/test_wave_1.py`
+- describing what the current tests cover and what scenarios are missing
+
+Copilot will also generate the unit tests for the new tests cases it identified inside `tests/test_wave_1.py` for us to preview. 
+
+![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane discussing the newly added scenarios](assets/new-code-copilot/tests_chat_pane_review_suggestions.png)  
+*Fig. Copilot previewing new tests for `validate_guess` and `generate_code` in `tests/test_wave_1.py`. ([Full size image](assets/new-code-copilot/tests_chat_pane_review_suggestions.png))*
+
+If we have testing set up in VS Code, Copilot may offer to run the new tests so we can see if they pass. We want to run the tests since Copilot will give us some more information based on the results. In fact, when working on this lesson, we didn't get a full breakdown of why the new test cases were useful until we took this step.
+- We can allow the tests to run with the "`Continue`" button, or use the drop down to explore permissions options for this feature. 
+  - Feel free to follow your curiosity around how you can customize aspects of Copilot! 
+  ![Copilot UI in the Copilot chat pane to run the generated tests during preview.](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png)  
+  *Fig. Copilot UI in the Copilot chat pane to run the generated tests during preview. ([Full size image](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png))*
+
+Once we've ran the new tests and receive a desciption of the missing scenarios and why they would be useful, we can review that information and check it against our needs and the requirements in the `README.md`. We should review:
+- the data and assertions for each test to ensure they are testing what we expect
+- the names of each test to ensure they truly reflect the scenario in the test function
+
+This process also helps to reinforce the kinds of test cases we might want to keep top of mind for the future. With this in mind, let's review into the tests Copilot suggested for us.
+
+<details>
+  <summary>
+    Expand this section to see the response we got from Copilot explaining the new scenarios after running the tests, and the full code for the new tests Copilot suggested.
+  </summary>
+
+  **Copilot Response:**
+  > New Test Cases Added
+  > 
+  > For validate_guess:
+  > 1. test_validate_guess_false_empty_list
+  >    - Why useful: Tests edge case of completely empty input
+  >    - Scenario covered: Ensures function handles empty lists gracefully
+  >
+  > 2. test_validate_guess_false_length_less_than_four
+  >    - Why useful: Current tests only checked length > 4, not < 4
+  >    - Scenario covered: Validates that guesses shorter than required length are rejected
+  > 
+  > 3. test_validate_guess_true_mixed_case_letters
+  >    - Why useful: Current tests only covered all lowercase; this tests mixed case
+  >    - Scenario covered: Ensures case insensitivity works with mixed case input
+  > 
+  > 4. test_validate_guess_false_non_string_types
+  >    - Why useful: Tests robustness against invalid data types
+  >    - Scenario covered: Ensures function handles non-string elements (like integers) properly
+  > 
+  > 5. test_validate_guess_false_with_none_value
+  >    - Why useful: Tests handling of None values which could cause runtime errors
+  >    - Scenario covered: Validates that None values in the guess list are rejected
+  > 
+  > For check_win_or_lose:
+  > 1. test_check_win_or_lose_true_at_max_guesses
+  >    - Why useful: Tests the boundary condition at exactly 8 guesses
+  >    - Scenario covered: Ensures player can still win on the 8th (final) guess
+  >
+  > 2. test_check_win_or_lose_true_with_mixed_case_guess
+  >    - Why useful: Verifies case insensitivity in win condition
+  >    - Scenario covered: Ensures mixed case guesses can still result in wins
+  >
+  > 3. test_check_win_or_lose_true_at_first_guess
+  >    - Why useful: Tests minimum boundary (first guess win)
+  >    - Scenario covered: Validates that players can win immediately on their first try
+  >
+  > 4. test_check_win_or_lose_false_exceeds_max_with_wrong_guess
+  >    - Why useful: Clarifies behavior when exceeding guesses with wrong answer
+  >    - Scenario covered: Ensures that exceeding guess limit always returns False, regardless of guess content
+
+  **Suggested Tests:**
+  ```py
+  # ----validate_guess tests----
+
+  def test_validate_guess_false_empty_list():
+      #Arrange
+      guess = []
+
+      #Act
+      result = validate_guess(guess)
+
+      #Assert
+      assert result is False
+
+
+  def test_validate_guess_false_length_less_than_four():
+      #Arrange
+      guess = ['R','O','Y']
+
+      #Act
+      result = validate_guess(guess)
+
+      #Assert
+      assert result is False
+
+
+  def test_validate_guess_true_mixed_case_letters():
+      #Arrange
+      guess = ['R','o','Y','p']
+
+      #Act
+      result = validate_guess(guess)
+
+      #Assert
+      assert result is True
+
+
+  def test_validate_guess_false_non_string_types():
+      #Arrange
+      guess = ['R', 1, 'Y', 'P']
+
+      #Act
+      result = validate_guess(guess)
+
+      #Assert
+      assert result is False
+
+
+  def test_validate_guess_false_with_none_value():
+      #Arrange
+      guess = ['R', None, 'Y', 'P']
+
+      #Act
+      result = validate_guess(guess)
+
+      #Assert
+      assert result is False
+
+  # ----check_win_or_lose tests----
+
+  def test_check_win_or_lose_true_at_max_guesses():
+      #Arrange
+      guess = ['R','B','B','P']
+      code = ['R','B','B','P']
+      num_guesses = 8
+
+      #Act
+      result = check_win_or_lose(guess, code, num_guesses)
+
+      #Assert
+      assert result is True
+
+
+  def test_check_win_or_lose_true_with_mixed_case_guess():
+      #Arrange
+      guess = ['r','B','b','P']
+      code = ['R','B','B','P']
+      num_guesses = 3
+
+      #Act
+      result = check_win_or_lose(guess, code, num_guesses)
+
+      #Assert
+      assert result is True
+
+
+  def test_check_win_or_lose_true_at_first_guess():
+      #Arrange
+      guess = ['R','B','B','P']
+      code = ['R','B','B','P']
+      num_guesses = 1
+
+      #Act
+      result = check_win_or_lose(guess, code, num_guesses)
+
+      #Assert
+      assert result is True
+
+
+  def test_check_win_or_lose_false_exceeds_max_with_wrong_guess():
+      #Arrange
+      guess = ['R','B','B','O']  # Wrong guess
+      code = ['R','B','B','P']
+      num_guesses = 9
+
+      #Act
+      result = check_win_or_lose(guess, code, num_guesses)
+
+      #Assert
+      assert result is False
+  ```
+</details>
+
+As we noted earlier in the lesson when reviewing our existing test suite, we have no mixed casing test for `validate_guess`. Copilot created a test for that scenario along with a host of other edge cases to consider. Overall, the test cases Copilot presented help reinforce that our project works at the boundaries of our game, especially tests like `test_check_win_or_lose_true_at_max_guesses` and `test_check_win_or_lose_true_at_first_guess` that confirm we don't have unexpected behavior in `check_win_or_lose` at the start or end of a game.
+
+These test scenarios have value, their names reflect what they are doing, and they even follow a similar layout to our existing tests in the file with our Arrange, Act, and Assert sections. We can use the keep button in either the `tests/test_wave_1.py` preview or the Copilot chat pane to accept the changes, and we are wrapped up with Wave 1!
+
+![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane with the keeps buttons on each pane circled](assets/new-code-copilot/tests_keep_generated_suggestions.png)  
+*Fig. Vs Code editor and Copilot Chat buttons for accepting code suggestions. ([Full size image](assets/new-code-copilot/tests_keep_generated_suggestions.png))*
+
+To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`new_code_completed`](https://github.com/Ada-Activities/mastermind-copilot/tree/new_code_completed)
 
 ## Summary
 
-Copilot can help make many code tasks move faster, as long as we use it with caution. There are many ways to prompt Copilot to suggest code, but no matter how we access Copilot in the UI, we need to make sure that we give Copilot enough context to meaningfully help us. That might mean making sure we have files open that Copilot can use as examples, or writing detailed prompts that cover the requirements of the code we want to generate. 
+Copilot can help make many code tasks move faster, as long as we use it with caution. There are many ways to prompt Copilot to suggest code, but no matter how we access Copilot in the UI, we need to make sure that we give Copilot enough context to meaningfully help us. That might mean adding files to Copilot's context in chat and writing detailed prompts that cover the requirements of the code we want to generate. 
 
 We must carefully review the tests that Copilot generates for things like missing cases or tricky edge cases. We may get lucky and have all of our bases covered, but we'll often want to add or update the tests slightly. There is no guarantee that Copilot will suggest a complete suite that covers all of our important edge cases, so we need to review what's presented critically and update or expand the suite if necessary.
 
@@ -547,26 +853,69 @@ We must carefully review the tests that Copilot generates for things like missin
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: checkbox
-* id: 9100b9a2-b806-4b0c-94d2-5f1af5acf54b
+* id: 9100b9a2-b806-4b0c-94d2-5f1af5ac7dj
 * title: Copilot in Projects Pt. 1 - Writing New Code
-
 ##### !question
-What are some points to look out for when using the `/tests` shortcut.
+
+What are some points to look out for when reviewing code suggested by Copilot?
+
+Select all that apply.
+
 ##### !end-question
-
 ##### !options
-a| Do the tests cover all of the edge cases we need?
-b| Are the right imports included when referencing other classes or files?
-c| Was the test file generated in the source folder instead of the test folder?
-d| Do the test assertions assume the correct kind of data?
-##### !end-options
 
+a| Can I read and explain the code generated?
+b| Does the implementation of the function meet the requirements for what was requested?
+c| Does the function name reflect the actions taken in the function body?
+d| Are the right imports included when referencing other code such as modules, classes, or files?
+e| Is the code generated in the right file and correct location within the file?
+
+##### !end-options
 ##### !answer
+
 a|
 b|
 c|
 d|
-##### !end-answer
+e|
 
+##### !end-answer
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: 9100b9a2-b806-4b0c-94d2-5f1af5acf54b
+* title: Copilot in Projects Pt. 1 - Writing New Code
+##### !question
+
+What are some points to look out for when asking Copilot for help with tests?
+
+Select all that apply.
+
+##### !end-question
+##### !options
+
+a| Do I understand why these tests were suggested and what makes them useful? 
+b| Do the tests cover all of the edge cases that are relevant to our problem space?
+c| Are the necessary imports included for functions, classes, etc. being tested?
+d| Does the test suite provide 100% code coverage?
+e| Do the test assertions assume the correct kind of data?
+
+##### !end-options
+##### !answer
+
+a|
+b|
+c|
+e|
+
+##### !end-answer
+##### !hint
+
+Does testing our main scenarios and edge cases mean that we will definitely exercise 100% of the lines of code in our project?
+
+##### !end-hint
 ### !end-challenge
 <!-- prettier-ignore-end -->
