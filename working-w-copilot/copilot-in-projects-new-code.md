@@ -840,7 +840,7 @@ These test scenarios have value, their names reflect what they are doing, and th
 ![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane with the keeps buttons on each pane circled](assets/new-code-copilot/tests_keep_generated_suggestions.png)  
 *Fig. Vs Code editor and Copilot Chat buttons for accepting code suggestions. ([Full size image](assets/new-code-copilot/tests_keep_generated_suggestions.png))*
 
-To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`new_code_completed`](https://github.com/Ada-Activities/mastermind-copilot/tree/new_code_completed)
+To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`wave_1_complete`](https://github.com/Ada-Activities/mastermind-copilot/tree/wave_1_complete)
 
 ## Summary
 
