@@ -2,7 +2,9 @@
 
 ## Goals
 
-We've used Copilot to generate new code in a project. Now we're going to see how Copilot can help us refactor existing code. Let's continue our trip back the [hello-books example project](https://github.com/AdaGold/hello-books-api) for a look at some additional ways we can use Copilot to increase our productivity.
+We've used Copilot to generate new code in a project. Now we're going to see how Copilot can help us refactor existing code. 
+
+Last time we started out on the `main` branch with an empty project, but this time we're going to start from a branch with Wave 1 already filled out. We will checkout the branch [refactoring-start](https://github.com/Ada-Activities/mastermind-copilot/tree/refactoring-start) for a look at some additional ways we can use Copilot to increase our productivity.
 
 Our goals for this lesson are to:
 - identify where Copilot can assist us with refactoring
@@ -26,7 +28,7 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 
 ## Refactoring with Copilot
 
-Writing new code with Copilot is great, but a significant portion of software development involves refactoring and updating existing code. We got a little taste of updating code with the `Book` class, but we're going to revisit a scenario that we've seen before—refactoring the `validate_book` function into a more generic function that we can use for any model.
+Writing new code with Copilot is great, but a significant portion of software development involves refactoring and updating existing code. We're going to revisit Wave 1 of `mastermind-copilot`, but we're going to be looking at a slightly different implementation than before.
 
 For this section of the lesson, we're going to check out a different `hello-books` branch, [`07b-to-dict-refactor`](https://github.com/AdaGold/hello-books-api/tree/07b-to-dict-refactor), as the starting point.
 

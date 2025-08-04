@@ -30,6 +30,9 @@ There is a lot we could do with the Mastermind project, but to keep us focused o
 
 To get started:
 - Fork the [`mastermind-copilot` repo](https://github.com/Ada-Activities/mastermind-copilot)
+  - When forking, uncheck "Copy the main branch only" to ensure that all banches are copied to your fork
+    ![An excerpt from the page to fork projects showing Copy the main branch only is unchecked](assets/new-code-copilot/new_code_fork_repo_uncheck_main_only.png)
+    *Fig. An excerpt from the page to fork projects showing "Copy the main branch only" is unchecked. ([Full size image](assets/new-code-copilot/new_code_fork_repo_uncheck_main_only.png))*
 - Clone the repo down
 - Create and activate a virtual environment
 - Use `pip` to install `requirements.txt`
