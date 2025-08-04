@@ -37,11 +37,11 @@ To get started:
 
 Since `main` is the default branch of the repo, it should already be checked out when we clone the project down. 
 
-There are 4 Waves of the Mastermind project
-- These Copilot lessons will walk through Wave 1
-- Completing Wave 2 is left as practice for the reader. 
-- We will tackle Wave 3 together during class
-- We will work on Wave 4 in small groups to complete the `mastermind` function in `mastermind.py` and finish our game!
+There are 4 Waves of the Mastermind project.
+- Wave 1 will be covered in these Copilot lessons.
+- Wave 2 is left as practice for the reader. 
+- Wave 3 will be tackled together during class
+- Wave 4 we'll try out in small groups to complete the `mastermind` function in `mastermind.py` and finish our game!
 
 Our plan in this lesson is to:
 - Write new code to complete Wave 1 of the project directions 
@@ -176,7 +176,7 @@ Before we ask Copilot for help, the first thing we need to do is gather informat
 We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_win_or_lose` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
 
 We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. While we do this, we want to make sure that `app/game.py` is still open. 
-- The Copilot chat window will use open files as context to help inform its response, so we want that file open to help Copilot place the code where we want it.
+- The Copilot chat window will use the file currently focused in the editor as context to help inform its response, so we want that file open to help Copilot place the code where we want it.
  
 For this next step, we can type directly in the Copilot chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines. 
 
@@ -339,7 +339,7 @@ For this lesson's example, we will accept the updated code as-is and make these 
 
 <details>
   <summary>
-    Try out making the final updates to `check_win_or_lose` yourself! When you're done, expand this section to see our final version of the function.
+    Try out making the final updates to <code>check_win_or_lose</code> yourself! When you're done, expand this section to see our final version of the function.
   </summary>
 
   ```py
@@ -365,7 +365,7 @@ From here we should wrap up our Wave 1 changes by updating the Wave 1 test file 
 
 ### Increasing Wave 1 Testing
 
-These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We already have some test in `tests/test_wave_1.py`, so we're looking to make sure we aren't missing important nominal or edge cases. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
+These functions aren't very long, but it's still a good idea to test them as a baseline for any future changes to this class or related code. We already have some tests in `tests/test_wave_1.py`, so we're looking to make sure we aren't missing important nominal or edge cases. We'll use Copilot to help us get started on brainstorming unit tests from the inline chat.
 
 #### Testing `generate_code` with `/tests`
 
@@ -431,7 +431,7 @@ If we contemplate questions like this, we'll find that `test_generate_code_rando
 - It cannot guarantee randomness like the title implies
 - It only checks if the `set` of created codes is larger than 1. This means that we could oscillate between two hardcoded values and the test would still pass. 
 - It could be updated to be more stringent, but if we say the code must be different every run, the test might fail unexpectedly. 
-    - We are randomly generating a code from a small pool of values, so there is a real chance we will see duplicates. 
+    - We are randomly generating a code from a small pool of values, so there is a real chance we will see duplicates! 
 
 Depending on our scenario and requirements, it could still be worth checking if across several tries the function generates different codes, but we would want the test contents and title to reflect that purpose, and to know we wouldn't get random failures if chance happened to mean that there were some duplicate codes generated. For our example, we will keep this test, but update it in a couple ways:
 - Rename the test to `test_generate_code_half_or_less_duplicates_over_10_runs`
@@ -443,7 +443,7 @@ Once we bring these updates and new tests into `tests/test_wave_1.py`, we can cl
 
 <details>
   <summary>
-    Feel free to try out the `/tests` shortcut with `generate_code` and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated test suite for `generate_code`!
+    Feel free to try out the `/tests` shortcut with `generate_code` and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated test suite for <code>generate_code</code>!
   </summary>
 
   ```py
@@ -602,7 +602,7 @@ def test_check_win_or_lose_none_if_game_ongoing():
   ```
 </details>
 
-Reviewing the test suite, something that stands out is that `validate_guess` should be case insensitive and though we have tests with all capitalized and all lowercased letters, we don't have a test for a mixed case guess. Let's keep this in mind as we work with Copilot to explore possible additional tests!
+Reviewing the test suite, something that stands out is that `validate_guess` should be case insensitive – though we have tests with all capitalized and all lowercased letters, we don't have a test for a mixed case guess. Let's keep this in mind as we work with Copilot to explore possible additional tests!
 
 Now that we are refreshed on our test suites, let's use the "`+`" button at the top of the Copilot chat pane to start a new chat.
 
@@ -630,7 +630,7 @@ Once "Open Editors" is selected, we'll see both `app/game.py` and `tests/test_wa
 ![VS Code's Copilot chat pane with app/game.py and tests/test_wave_1.py ciricled in the context section.](assets/new-code-copilot/tests_chat_pane_after_adding_context.png)  
 *Fig. `app/game.py` and `tests/test_wave_1.py` added as context to Copilot Chat. ([Full size image](assets/new-code-copilot/tests_chat_pane_after_adding_context.png))*
 
-Now that Copilot can see our code and tests, let's start prompting! We can write a shorter prompt and may still get okay results, but to be effective with our time we can be clear with Copilot instructions for:
+Now that Copilot can see our code and tests, let's start prompting! We can write a shorter prompt and may still get okay results, but to be effective with our time we can be clear with instructions for:
 - What we want help with
 - Where specific relevant code exists
 - Where we want changes made
@@ -665,8 +665,8 @@ Copilot will also generate the unit tests for the new tests cases it identified 
 If we have testing set up in VS Code, Copilot may offer to run the new tests so we can see if they pass. We want to run the tests since Copilot will give us some more information based on the results. In fact, when working on this lesson, we didn't get a full breakdown of why the new test cases were useful until we took this step.
 - We can allow the tests to run with the "`Continue`" button, or use the drop down to explore permissions options for this feature. 
   - Feel free to follow your curiosity around how you can customize aspects of Copilot! 
-  ![Copilot UI in the Copilot chat pane to run the generated tests during preview.](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png)  
-  *Fig. Copilot UI in the Copilot chat pane to run the generated tests during preview. ([Full size image](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png))*
+  ![UI in the Copilot chat pane asking to run the generated tests during preview.](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png)  
+  *Fig. UI in the Copilot chat pane asking to run the generated tests during preview. ([Full size image](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png))*
 
 Once we've ran the new tests and receive a desciption of the missing scenarios and why they would be useful, we can review that information and check it against our needs and the requirements in the `README.md`. We should review:
 - the data and assertions for each test to ensure they are testing what we expect
@@ -835,12 +835,12 @@ This process also helps to reinforce the kinds of test cases we might want to ke
 
 As we noted earlier in the lesson when reviewing our existing test suite, we have no mixed casing test for `validate_guess`. Copilot created a test for that scenario along with a host of other edge cases to consider. Overall, the test cases Copilot presented help reinforce that our project works at the boundaries of our game, especially tests like `test_check_win_or_lose_true_at_max_guesses` and `test_check_win_or_lose_true_at_first_guess` that confirm we don't have unexpected behavior in `check_win_or_lose` at the start or end of a game.
 
-These test scenarios have value, their names reflect what they are doing, and they even follow a similar layout to our existing tests in the file with our Arrange, Act, and Assert sections. We can use the keep button in either the `tests/test_wave_1.py` preview or the Copilot chat pane to accept the changes, and we are wrapped up with Wave 1!
+These test scenarios have value, their names reflect what they are doing, and they even follow a similar layout to our existing tests in the file with our "Arrange", "Act", and "Assert" sections. We can use the keep button in either the `tests/test_wave_1.py` preview or the Copilot chat pane to accept the changes, and we are wrapped up with Wave 1!
 
 ![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane with the keeps buttons on each pane circled](assets/new-code-copilot/tests_keep_generated_suggestions.png)  
 *Fig. Vs Code editor and Copilot Chat buttons for accepting code suggestions. ([Full size image](assets/new-code-copilot/tests_keep_generated_suggestions.png))*
 
-To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`wave_1_complete`](https://github.com/Ada-Activities/mastermind-copilot/tree/wave_1_complete)
+To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`wave_1_complete`](https://github.com/Ada-Activities/mastermind-copilot/tree/wave_1_complete).
 
 ## Summary
 
