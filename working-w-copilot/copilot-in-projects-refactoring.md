@@ -1,14 +1,10 @@
-#  Copilot in Projects Pt. 2 - Refactoring
+#  Copilot in Projects Pt. 2 - D.R.Y.ing Wave 1
 
 ## Goals
 
-We've used Copilot to generate new code in a project. Now we're going to see how Copilot can help us refactor existing code. 
+Our goal for this lesson is to identify where Copilot can assist us with better following best practices, particularly the D.R.Y. (Don't Repeat Yourself) principle.
 
-Last time we started out on the `main` branch with an empty project, but this time we're going to start from a branch with Wave 1 already filled out. We will checkout the branch [refactoring-start](https://github.com/Ada-Activities/mastermind-copilot/tree/refactoring-start) for a look at some additional ways we can use Copilot to increase our productivity.
-
-Our goals for this lesson are to:
-- identify where Copilot can assist us with refactoring
-- get more experience adding and updating test cases with Copilot
+We've used Copilot to generate new code in a project, but we saw examples where the code generated wasn't following best practices, particularly around avoiding repetition. We're going to see how Copilot can help the Wave 1 functions in the `mastermind-copilot` repo to better follow the D.R.Y. principle. 
 
 ### !callout-info
 
@@ -26,11 +22,16 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 
 ### !end-callout
 
-## Refactoring with Copilot
+## Set Up & Running the Tests
 
-Writing new code with Copilot is great, but a significant portion of software development involves refactoring and updating existing code. We're going to revisit Wave 1 of `mastermind-copilot`, but we're going to be looking at a slightly different implementation than before.
+Writing new code with Copilot is great, but a significant portion of software development involves reviewing and updating existing code. We're going to revisit Wave 1 of `mastermind-copilot`, starting from a branch with Wave 1 completed. 
+- We have the same test suite in `tests/test_wave_1.py` that we ended with in the prior lesson, but the function implementations in `app/game.py` are slightly different.
 
-For this lesson we're going to check out the branch [refactoring-start](https://github.com/Ada-Activities/mastermind-copilot/tree/refactoring-start) as our starting point.
+As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before we start a conversation with Copilot or change any code, we should ensure that we can run all the Wave 1 tests and and see them pass.
+
+To get started:
+1. checkout the branch [refactoring-start](https://github.com/Ada-Activities/mastermind-copilot/tree/refactoring-start) 
+2. ensure you can run the wave 1 tests and see them pass
 
 ### !callout-info
 
@@ -40,23 +41,90 @@ If we want to keep any local changes that we made in the previous lesson, we rec
 
 ### !end-callout
 
-### !callout-info
+## Identifying Code to D.R.Y.
 
-## Running the Project and Tests
+Let's review the implementation of the functions for Wave 1 to get familiar with any changes and start looking for places where effort is duplicated.
 
-In this branch, Wave 1 has been completed. We have the same test suite in `tests/test_wave_1.py` that we ended with in the prior lesson, but the function implementations in `app/game.py` are slightly different then what we've seen previously
 
-As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before continuing, we should ensure that we can run and see all the Wave 1 tests pass. 
+```py
+import random
 
-### !end-callout
 
-### Planning the Refactors
+# Wave 1
+def generate_code():
+    valid_letters = ['R', 'O', 'Y', 'G', 'B', 'P']
+    code = []
+    
+    # Generate a code of 4 random letters from valid_letters
+    for _ in range(4):
+        code.append(random.choice(valid_letters))
 
-Our steps to plan a refactor with Copilot stay the same: we first need to identify our dependencies, then check if we have tests for code that will be affected. We will be refactoring the `validate_book` function in the `book_routes.py` file, so we should search the project for where the function is used to remind ourselves of our dependencies.
+    return code
+
+
+def validate_guess(guess):
+    valid_letters = {'R', 'O', 'Y', 'G', 'B', 'P'}
+
+    # Exit early if guess is not exactly 4 elements long
+    if len(guess) != 4:
+        return False
+    
+    # Convert guess to uppercase for case-insensitive comparison
+    uppercased_guess = []
+    for letter in guess:
+        uppercased_guess.append(str(letter).upper())
+
+    # Return False if we find an invalid element of guess
+    for letter in uppercased_guess:
+        if letter not in valid_letters:
+            return False
+        
+    return True
+
+
+def check_win_or_lose(guess, code, num_guesses):
+    # Exit early if the number of guesses exceeds 8
+    if num_guesses > 8:
+        return False
+
+    # Convert guess to uppercase for case-insensitive comparison
+    uppercased_guess = []
+    for letter in guess:
+        uppercased_guess.append(str(letter).upper())
+
+    # Check if the guess and code are identical (win condition)
+    # The guard clause guarantees the number of guesses is 8 or less
+    if code == uppercased_guess:
+        return True
+    else: # Game is still in progress
+        return None
+```
+
+Taking a look at these implementations, they work as they are supposed to – our tests pass after all! – but there are areas where we could better follow best practices.
+
+<br>
+
+<details>
+  <summary>
+    Take a few minutes to examine the functions above, and create a list of areas you see that could be improved to better follow best practices or increase readability. Expand this section to see the issues we noted.
+  </summary>
+
+  **Issues in the `refactoring-start` implementations:**
+  1. `generate_code` and `validate_guess` require similar data, but it duplicated in each function instad of being shared.
+  2. `validate_guess` and `check_win_or_lose` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
+  3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions, which are considered more pythonic, and better practice when working in Python 
+
+</details>
+
+We will investigate and update the 3 issues we found through this lesson. If you came up with more items than we listed, feel free to explore those as practice!
+
+## D.R.Y. - Sharing Data Structures in `generate_code` and `validate_guess`
+
+
 
 This is a scenario where Copilot shouldn't be used. By default Copilot doesn't have access to all of the files in our project, and VS Code already has a built-in project wide search. Indeed, if we ask Copilot for help, it may warn us about this lack of access and give us suggestions on how to search the project for dependencies.
 
-<br />
+<br>
 
 <details>
   <summary>
