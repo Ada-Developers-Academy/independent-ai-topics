@@ -30,13 +30,13 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 
 Writing new code with Copilot is great, but a significant portion of software development involves refactoring and updating existing code. We're going to revisit Wave 1 of `mastermind-copilot`, but we're going to be looking at a slightly different implementation than before.
 
-For this section of the lesson, we're going to check out a different `hello-books` branch, [`07b-to-dict-refactor`](https://github.com/AdaGold/hello-books-api/tree/07b-to-dict-refactor), as the starting point.
+For this lesson we're going to check out the branch [refactoring-start](https://github.com/Ada-Activities/mastermind-copilot/tree/refactoring-start) as our starting point.
 
 ### !callout-info
 
 ## Saving Project Changes
 
-If we forked the `hello-books` repo and want to keep any local changes that we made in the previous part of the lesson, we recommend pausing to create a new branch from the current one then pushing that code up before checking out the `07b-to-dict-refactor` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
+If we want to keep any local changes that we made in the previous lesson, we recommend pausing to create a new branch from `main` and commit your changes before checking out the `refactoring-start` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
 
 ### !end-callout
 
@@ -44,31 +44,17 @@ If we forked the `hello-books` repo and want to keep any local changes that we m
 
 ## Running the Project and Tests
 
-In this branch, the startup code in `app/__init__.py` has been updated to read its connection string from an environment variable. If we are working in a new cloned repo and don't have a `.env`, the following file can be used:
+In this branch, Wave 1 has been completed. We have the same test suite in `tests/test_wave_1.py` that we ended with in the prior lesson, but the function implementations in `app/game.py` are slightly different then what we've seen previously
 
-<br />
-
-<details>
-<summary><code>.env</code></summary>
-
-```bash
-SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:postgres@localhost:5432/hello_books_development
-SQLALCHEMY_TEST_DATABASE_URI=postgresql+psycopg2://postgres:postgres@localhost:5432/hello_books_test
-```
-
-</details>
-
-<br />
-
-Be sure that the `hello_books_development` and `hello_books_test` databases exist, and that the migrations have been run to create the tables in the development database. If there are already tables there, dropping and recreating the database will allow us to re-run the migrations if we're unsure of the current state of the database.
+As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before continuing, we should ensure that we can run and see all the Wave 1 tests pass. 
 
 ### !end-callout
 
-### Planning the `validate_book` Refactor
+### Planning the Refactors
 
 Our steps to plan a refactor with Copilot stay the same: we first need to identify our dependencies, then check if we have tests for code that will be affected. We will be refactoring the `validate_book` function in the `book_routes.py` file, so we should search the project for where the function is used to remind ourselves of our dependencies.
 
-This is a scenario where Copilot shouldn't be used, since Copilot has access to open files, but not all of the files in your project. Indeed, if we ask Copilot for help, it may warn us about this lack of access and give us suggestions on how to search the project for dependencies.
+This is a scenario where Copilot shouldn't be used. By default Copilot doesn't have access to all of the files in our project, and VS Code already has a built-in project wide search. Indeed, if we ask Copilot for help, it may warn us about this lack of access and give us suggestions on how to search the project for dependencies.
 
 <br />
 
