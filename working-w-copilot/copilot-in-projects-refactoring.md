@@ -1,10 +1,12 @@
-#  Copilot in Projects Pt. 2 - D.R.Y.ing Wave 1
+#  Copilot in Projects Pt. 2 - Best Practices in Wave 1
 
 ## Goals
 
-Our goal for this lesson is to identify where Copilot can assist us with better following best practices, particularly the D.R.Y. (Don't Repeat Yourself) principle.
+We've used Copilot to generate new code in a project, but we saw examples where the code generated wasn't following best practices, especially around avoiding repetition. 
 
-We've used Copilot to generate new code in a project, but we saw examples where the code generated wasn't following best practices, particularly around avoiding repetition. We're going to see how Copilot can help the Wave 1 functions in the `mastermind-copilot` repo to better follow the D.R.Y. principle. 
+Our goals for this lesson are to identify where Copilot can assist us to better follow best practices, specifically:
+- writing cleaner code with the the D.R.Y. (Don't Repeat Yourself) principle
+- writing more Pythonic code by using patterns like list comprehensions 
 
 ### !callout-info
 
@@ -112,6 +114,10 @@ Taking a look at these implementations, they work as they are supposed to – ou
   1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
   2. `validate_guess` and `check_win_or_lose` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
+  
+  We could choose to note one other potential area for improvement: 
+  - `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
+  Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, we can handle this change during the updates to share the letter data. 
 
 </details>
 
