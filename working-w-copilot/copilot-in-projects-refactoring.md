@@ -32,6 +32,7 @@ Writing new code with Copilot is great, but a significant portion of software de
 Before we make changes to working code, we want to make sure that we have tests for any code that could be affected by our updates. 
 - Running the tests before and after we make changes gives us confidence that our functions still behave as expected. 
 - If anything does go wrong, we can debug the functions using our tests to help us identify what broke. 
+
 Happily, we not only have tests for each function in Wave 1, but we added more test scenarios in the last lesson to cover missing edge cases! We can move forward with our code changes using the existing test suite to give us some security.
 
 As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before we start a conversation with Copilot or change any code, we should ensure that we can run all the Wave 1 tests and see them pass.
@@ -124,7 +125,7 @@ Taking a look at these implementations, they work as they are supposed to – ou
 
   We could choose to note one other potential area for improvement: 
   - `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
-  Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, we can handle this change during the updates to share the letter data. 
+  Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
 
 </details>
 
@@ -151,7 +152,10 @@ Before we send anything to Copilot, let's organize our information. We know:
   <br>
 
   We specifically chose to add _"Do not make any other changes to the functions."_ to our prompt because in testing, we saw that Copilot would often try to make several changes to the function at the same time. This makes it less clear which changes are related to our initial ask vs what Copilot thought would improve the code. 
-  - Changing code is an error-prone process. To avoid potential confusion and bugs, we want to focus on a single change at a time and see it successfully completed before updating another aspect of the code. 
+
+  <br>
+
+  Changing code is an error-prone process. To avoid potential confusion and bugs, we want to focus on a single change at a time and see it successfully completed before updating another aspect of the code. 
 
 </details>
 
@@ -197,12 +201,13 @@ This is close to what we want!
 - We have a shared data structure that's a set like we wanted
 - No unrelated sections of code were changed
 
-As we look at this code, we need to ask ourselves, "Is this new code following best practices and acting efficiently?" Examining how the loops were changed, `validate_guess` looks fine, but how does Copilot's code use the shared data structure `VALID_LETTERS` in `generate_code`'s loop? 
+As we look at this code, we need to ask ourselves, "Is this new code following best practices and acting efficiently?" 
+- Examining how the loops were changed, `validate_guess` looks fine, but how does Copilot's code use the shared data structure `VALID_LETTERS` in `generate_code`'s loop? 
 
 There's something interesting happenning with the changes in `generate_code`. `random.choice` does not work with set data structures, so in the code Copilot generated, every iteration of the loop creates a new list from the `VALID_LETTERS` set. 
-- The loop would be much more efficient if the function only created a list from `VALID_LETTERS` once before the loop starts. 
+- The loop would be more efficient if the function only created a list from `VALID_LETTERS` once before the loop starts. 
 
-We could ask Copilot to make this change for us, but it would be quicker to accept the code as-is, then make this small adjustment ourselves. We'll do just that, then run our Wave 1 test suite to ensure both of our functions still work as expected.
+We could ask Copilot to make this change for us, but it would be quicker to accept the code as-is, then make this small adjustment ourselves. We'll do just that, then run our Wave 1 test suite to ensure we see the tests pass and both of our functions still work as expected.
 
 Our final version of `generate_code` will look like:
 
@@ -221,6 +226,14 @@ def generate_code():
 ```
 
 ## D.R.Y. - Helper Function for `validate_guess` and `check_win_or_lose`
+
+
+
+
+
+
+
+
 
 <br>
 
