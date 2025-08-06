@@ -197,7 +197,7 @@ Copilot can take some of the tedium out of writing commit messages when using th
 
 This has been a dash through the Copilot UI, focusing mostly on how we can generate and work with code suggestions and use the chat to our benefit. The biggest takeaway is that, like so much in coding, there are multiple ways we can perform most actions, and we need to explore and try things out to see what fits best with our workflow.
 
-Even after looking at some potential ways to interact with Copilot, it might still feel unclear how or where Copilot can help us in our daily coding work. In our next lesson, we'll use a project as a practical example for generating new code and refactoring existing code with Copilot.
+Even after looking at some potential ways to interact with Copilot, it might still feel unclear how or where Copilot can help us in our daily coding work. In our next lesson, we'll use a project as a practical example for generating new code and improving existing code with Copilot.
 
 ## Check for Understanding
 
