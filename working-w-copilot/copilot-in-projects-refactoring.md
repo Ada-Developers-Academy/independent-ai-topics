@@ -213,7 +213,7 @@ There's something interesting happenning with the changes in `generate_code`. `r
 
 We could ask Copilot to make this change for us, but it would be quicker to accept the code as-is, then make this small adjustment ourselves. We'll do just that, then run our Wave 1 test suite to ensure we see the tests pass and both of our functions still work as expected.
 
-Our final version of `generate_code` will look like:
+Our new version of `generate_code` will look like:
 
 ```py
 VALID_LETTERS = {'R', 'O', 'Y', 'G', 'B', 'P'}
@@ -323,7 +323,7 @@ Now that our code is looking how we'd like, let's wrap up these changes by runni
 
 ## Pythonic Code - Using List Comprehensions
 
-For code to be considered "Pythonic" it should use the features of the Python language to be concise, readable, and performant. This reasoning is a large part of why list conprehensions have been widely accepted by the Python community as the preferred way to create and fill a list as long as the code still meets other style and readability best practices. 
+For code to be considered "Pythonic" it should use the features of the Python language to be concise, readable, and performant. This reasoning is a large part of why list conprehensions have been widely accepted by the Python community as the preferred way to create and fill a list, as long as the code still meets other style and readability best practices. 
 
 After our improvements, we still have two places in `app/game.py` where we create and fill a list, and neither function is using a list comprehension:
 - `generate_code`
@@ -378,13 +378,13 @@ Comprehensions can take some adjusting to, but once comfortable with them, they 
 
 These comprehensions faithfully represent the loops we had before, nothing else was changed or added, so we will accept these changes, then run our Wave 1 test suite for the last time (in this lesson 😉).
 
-To check out the final version of our code all in one place, take a look at the [`improvements-end`](https://github.com/Ada-Activities/mastermind-copilot/tree/improvements-end) branch of the `mastermind-copilot` repo.
+To check out the final version of our Wave 1 code all in one place, take a look at the [`improvements-end`](https://github.com/Ada-Activities/mastermind-copilot/tree/improvements-end) branch of the `mastermind-copilot` repo.
 
 ## Summary
 
 This hands-on experience in a project wraps up our whirlwind tour of GitHub's Copilot! Whether we're writing new code or working in an existing codebase, Copilot can help us with tasks like generating ideas for tests, surfacing scenarios we may have missed, and generally writing code more quickly. Even when Copilot's suggestions look good at a glance, we always need to carefully proofread them both for correctness and completeness. Just because a code suggestion works does not mean it fits all of our needs, so we need to remain vigilant and critical of what Copilot provides.
 
-For more practice with Copilot, think about revisiting familiar projects! When we already have a reasonable idea of what the end product could look like, we can focus on practicing new skills.
+For more practice with Copilot, think about revisiting familiar projects! When we already have a reasonable idea of what the end product could look like, we can devote more focus to practicing new skills.
 
 ## Check for Understanding
 
@@ -418,5 +418,20 @@ Based on the process we follwed for updating code with Copilot in this lesson, p
     - Is there a step that would have to occur first to get that data?
 
 ##### !end-hint
+##### !explanation
+
+1. Before we make any changes to working code, we should ensure we have tests that confirm the expected behavior of the code and those tests should be passing. 
+2. If we don't have tests or the tests are not passing, it's harder for us to make changes and be confident that the results are what we intended.
+3. Before we write a prompt, we need to be clear on what we are asking for so Copilot has the greatest change to suggest relevant and useful code with minimal back and forth discussion.
+4. Once the requirements are clearly understood we can summarize them in a prompt 
+5. We need to interact with Copilot & submit our prompt to get suggestions.
+6. Copilot will not always generate code that meets our needs or that is as efficient as we would like. We need to consider if the code suggestions:
+    - meet our requirements
+    - are following best practices
+    - impact the overall time and space complexity
+7. Using the analysis from step 6, we can update the code. Depending on the scope of what needs to be changed, it might be quicker to accept the changes and update them manually.
+8. Once we've updated the code, we need to run our test suite at the end to ensure all tests are still passing after our changes. 
+
+##### !end-explanation
 ### !end-challenge
 <!-- prettier-ignore-end -->
