@@ -27,24 +27,23 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 Writing new code with Copilot is great, but a significant portion of software development involves reviewing and updating existing code. We're going to revisit Wave 1 of `mastermind-copilot`, starting from a branch with Wave 1 completed. 
 - We have the same test suite in `tests/test_wave_1.py` that we ended with in the prior lesson, but the function implementations in `app/game.py` are slightly different.
 
-As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before we start a conversation with Copilot or change any code, we should ensure that we can run all the Wave 1 tests and and see them pass.
+As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before we start a conversation with Copilot or change any code, we should ensure that we can run all the Wave 1 tests and see them pass.
 
 To get started:
-1. checkout the branch [refactoring-start](https://github.com/Ada-Activities/mastermind-copilot/tree/refactoring-start) 
+1. using your fork of the repo, checkout the branch [improvements-start](https://github.com/Ada-Activities/mastermind-copilot/tree/improvements-start) 
 2. ensure you can run the wave 1 tests and see them pass
 
 ### !callout-info
 
 ## Saving Project Changes
 
-If we want to keep any local changes that we made in the previous lesson, we recommend pausing to create a new branch from `main` and commit your changes before checking out the `refactoring-start` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
+If we want to keep any local changes that we made in the previous lesson, we recommend pausing to create a new branch from `main` and commit your changes before checking out the `improvements-start` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
 
 ### !end-callout
 
 ## Identifying Code to D.R.Y.
 
-Let's review the implementation of the functions for Wave 1 to get familiar with any changes and start looking for places where effort is duplicated.
-
+Let's review the implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with any changes and start looking for places where effort is duplicated.
 
 ```py
 import random
@@ -106,13 +105,13 @@ Taking a look at these implementations, they work as they are supposed to – ou
 
 <details>
   <summary>
-    Take a few minutes to examine the functions above, and create a list of areas you see that could be improved to better follow best practices or increase readability. Expand this section to see the issues we noted.
+    Take a few minutes to examine the functions above, and identify areas of code that could be improved to better follow best practices or increase readability. Expand this section to see the issues we noted.
   </summary>
 
-  **Issues in the `refactoring-start` implementations:**
-  1. `generate_code` and `validate_guess` require similar data, but it duplicated in each function instad of being shared.
+  **Areas for Improvement**
+  1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
   2. `validate_guess` and `check_win_or_lose` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
-  3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions, which are considered more pythonic, and better practice when working in Python 
+  3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
 
 </details>
 
