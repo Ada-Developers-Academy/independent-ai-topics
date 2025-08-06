@@ -24,10 +24,15 @@ Even the Copilot extension itself is updated regularly, so the way the UI looks 
 
 ### !end-callout
 
-## Set Up & Running the Tests
+## Set Up & Tests
 
 Writing new code with Copilot is great, but a significant portion of software development involves reviewing and updating existing code. We're going to revisit Wave 1 of `mastermind-copilot`, starting from a branch with Wave 1 completed. 
 - We have the same test suite in `tests/test_wave_1.py` that we ended with in the prior lesson, but the function implementations in `app/game.py` are slightly different.
+
+Before we make changes to working code, we want to make sure that we have tests for any code that could be affected by our updates. 
+- Running the tests before and after we make changes gives us confidence that our functions still behave as expected. 
+- If anything does go wrong, we can debug the functions using our tests to help us identify what broke. 
+Happily, we not only have tests for each function in Wave 1, but we added more test scenarios in the last lesson to cover missing edge cases! We can move forward with our code changes using the existing test suite to give us some security.
 
 As with the `main` branch, only the tests in `tests/test_wave_1.py` should be discoverable and running currently, since we do not have placeholders in `app/game.py` for the remaining waves. Before we start a conversation with Copilot or change any code, we should ensure that we can run all the Wave 1 tests and see them pass.
 
@@ -43,9 +48,9 @@ If we want to keep any local changes that we made in the previous lesson, we rec
 
 ### !end-callout
 
-## Identifying Code to D.R.Y.
+## Identifying Code for Improvement
 
-Let's review the implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with any changes and start looking for places where effort is duplicated.
+Let's review the implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with the changes and start looking for places where we could better follow best practices.
 
 ```py
 import random
@@ -115,120 +120,109 @@ Taking a look at these implementations, they work as they are supposed to – ou
   2. `validate_guess` and `check_win_or_lose` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
   
+  <br>
+
   We could choose to note one other potential area for improvement: 
   - `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
   Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, we can handle this change during the updates to share the letter data. 
 
 </details>
 
-We will investigate and update the 3 issues we found through this lesson. If you came up with more items than we listed, feel free to explore those as practice!
+We will investigate and update the 3 issues we identified through this lesson. If you came up with more items than we listed, feel free to explore those as practice!
 
 ## D.R.Y. - Sharing Data Structures in `generate_code` and `validate_guess`
 
+Once we see our Wave 1 tests passing using the current implementations of `generate_code` and `validate_guess`, we can move over to `app/game.py`. 
 
-
-This is a scenario where Copilot shouldn't be used. By default Copilot doesn't have access to all of the files in our project, and VS Code already has a built-in project wide search. Indeed, if we ask Copilot for help, it may warn us about this lack of access and give us suggestions on how to search the project for dependencies.
+Before we send anything to Copilot, let's organize our information. We know:
+- `generate_code` and `validate_guess` require similar data about valid letters
+- we want to move the similar data structures out of each function and share them through something like a global variable
 
 <br>
 
 <details>
   <summary>
-    If curious, feel free to try asking Copilot to identify dependencies for <code>validate_book</code> or expand this section to see our prompt and what Copilot suggested.
+    Take a moment to write up a prompt that requests the changes for these functions. When you're done, expand this section to see the prompt we will use.
   </summary>
 
   **Prompt:**
-  > What code in this project is dependent on the validate_book function?
+  > Please update the generate_code and validate_guess functions to share a single data structure to represent valid_letters. The data structure should be a set type and should be placed where both functions have access to it. Do not make any other changes to the functions.
 
-  **Copilot's Response:**
-  > As an AI, I don't have access to your entire project's codebase, so I can't directly identify all the places where `validate_book` function is used. However, typically, such a function would be used in routes that require a book ID as a parameter.
-  >  
-  > For example, you might have routes like `@books_bp.get("/<book_id>")`, `@books_bp.put("/<book_id>")`, or `@books_bp.delete("/<book_id>")` where you would use `validate_book(book_id)` to ensure the provided book ID is valid before proceeding with the GET, PUT, or DELETE operation.
-  >  
-  > Please search your codebase for `validate_book` to find all its usages. In Visual Studio Code, you can do this by pressing `Ctrl+Shift+F` and typing `validate_book` in the search bar.
+  <br>
+
+  We specifically chose to add _"Do not make any other changes to the functions."_ to our prompt because in testing, we saw that Copilot would often try to make several changes to the function at the same time. This makes it less clear which changes are related to our initial ask vs what Copilot thought would improve the code. 
+  - Changing code is an error-prone process. To avoid potential confusion and bugs, we want to focus on a single change at a time and see it successfully completed before updating another aspect of the code. 
+
 </details>
 
-Searching our project, we find 4 dependencies:
-- the `validate_book` function definition
-- usage in `read_one_book`
-- usage in `update_book`
-- usage in `delete_book`
+Let's use the inline Copilot chat again, this time highlighting both `generate_code` and `validate_guess` then pressing `⌘I` (`CMD + i`) to bring up the Copilot textbox.
 
-Peeking at our test suite in `test_book_routes.py`, we do have tests for `read_one_book`, but we need to write tests for the remaining untested dependencies: `validate_book`, `update_book`, and `delete_book`.
+![VS Code with app/game.py open highlighting both functions generate_code and validate_guess. The inline Copilot text box is displayed above the functions with nothing entered.](assets/improving-code-copilot/dry-inline-chat-select-generate-code-and-validate-guess.png)  
+*Fig. Inline Copilot chat opened with both `generate_code` and `validate_guess` highlighted ([Full size image](assets/improving-code-copilot/dry-inline-chat-select-generate-code-and-validate-guess.png))*
 
-### Updating Our Test Suite
+Once we submit our prompt, we have some changes to review. Let's take a closer look at the revised code from Copilot:
 
-#### Testing `validate_book`
-
-We'll start with testing the `validate_book` function. Before we begin, we're going to open several files to ensure Copilot has plenty of context around our code and test set up. Take a moment to ensure the following files are open in VS Code:
-- `book.py`
-- `book_routes.py`
-- `conftest.py`
-- `test_book_model.py`
-- `test_book_routes.py`
-
-Start in `book_routes.py` and use the cursor to highlight the entire `validate_book` function. Next, bring up the inline Copilot chat and invoke the `/tests` shortcut. When Copilot is done thinking, we may see a slightly different UI than in previous scenarios.
-
-This time, Copilot has opened a pane to the right with our existing `test_book_routes.py` file. At the end of the file's original content we have a Copilot chat box that we can interact with and below that are the tests that Copilot is suggesting to us.
-
-![A VS Code window with a temporary file that contains the original contents of test_book_routes.py along with suggested changes to test the validate_book function](assets/copilot-in-projects/test-routes-validate-book-refactor-preview.png)  
-*Fig. Temporary file in VS Code showing the test suggestions from Copilot ([Full size image](assets/copilot-in-projects/test-routes-validate-book-refactor-preview.png))*
-
-Here we can review the test cases Copilot generated and see if there are changes or further tests we need. In the Copilot chat box we have "Apply", "Discard", and "Regenerate" controls to accept, reject, or ask Copilot to retry writing the tests, but we can also use the chat to ask for specific changes.
-
-Examining the code created by Copilot, the scenarios identified are great: we have tests for the nominal case and a couple edge cases of invalid or non-existent book ids. However, there is a significant issue with all of the tests. Instead of testing the `validate_book` function by importing and invoking it directly, the tests are all making requests to the `GET` "`books/<book_id>`" endpoint. These tests aren't confirming that the `validate_book` function returns a specific value, they are testing a route which uses the function and which could have other side effects. Let's use the prompt below in the chat window to ask Copilot to rewrite these tests to invoke `validate_book` directly:
-
-> Please rewrite the validate_book tests to import and directly invoke the validate_book function
-
-Copilot's response is looking better, in our case Copilot added the import for `validate_book` at the top of the file and generated the following tests:
 ```py
-from app.routes import validate_book
+VALID_LETTERS = {'R', 'O', 'Y', 'G', 'B', 'P'}
 
-...
+def generate_code():
+    code = []
+    
+    # Generate a code of 4 random letters from VALID_LETTERS
+    for _ in range(4):
+        code.append(random.choice(list(VALID_LETTERS)))
 
-def test_validate_book_succeeds(client, two_saved_books):
-    # Act
-    book = validate_book(1)
+    return code
 
-    # Assert
-    assert book.id == 1
-    assert book.title == "Ocean Book"
-    assert book.description == "watr 4evr"
 
-def test_validate_book_missing_record(client, two_saved_books):
-    # Act & Assert
-    with pytest.raises(NotFound):
-        validate_book(3)
+def validate_guess(guess):
+    # Exit early if guess is not exactly 4 elements long
+    if len(guess) != 4:
+        return False
+    
+    # Convert guess to uppercase for case-insensitive comparison
+    uppercased_guess = []
+    for letter in guess:
+        uppercased_guess.append(str(letter).upper())
 
-def test_validate_book_invalid_id(client, two_saved_books):
-    # Act & Assert
-    with pytest.raises(BadRequest):
-        validate_book("cat")
+    # Return False if we find an invalid element of guess
+    for letter in uppercased_guess:
+        if letter not in VALID_LETTERS:
+            return False
+        
+    return True
 ```
 
-These tests are getting closer to what we need, but still won't work for us. The main issues are that:
-- The `validate_book` import path at the top of the file is slightly wrong
-- The tests require `pytest` to use `with pytest.raises`
-- The symbols `NotFound` and `BadRequest` used in the edge case tests do not exist
-- The status code isn't being checked on the edge cases where the request should have been aborted
-- The `client` fixture is not required on any of the tests since we aren't making a request to an endpoint
+This is close to what we want! 
+- We have a shared data structure that's a set like we wanted
+- No unrelated sections of code were changed
 
-Fixing the imports is a couple lines of code, but for our edge cases, we may need to do some research to be sure of the error we expect to be raised by our functions and ensure that our tests are looking for that particular error to be raised. In this case, we know from the Building an API series that the `validate_book` function will raise an `HTTPException` that we need to import from `werkzeug.exceptions` to access in our tests.
+As we look at this code, we need to ask ourselves, "Is this new code following best practices and acting efficiently?" Examining how the loops were changed, `validate_guess` looks fine, but how does Copilot's code use the shared data structure `VALID_LETTERS` in `generate_code`'s loop? 
 
-### !callout-info
+There's something interesting happenning with the changes in `generate_code`. `random.choice` does not work with set data structures, so in the code Copilot generated, every iteration of the loop creates a new list from the `VALID_LETTERS` set. 
+- The loop would be much more efficient if the function only created a list from `VALID_LETTERS` once before the loop starts. 
 
-## Be Sure to Review Your Own Output
+We could ask Copilot to make this change for us, but it would be quicker to accept the code as-is, then make this small adjustment ourselves. We'll do just that, then run our Wave 1 test suite to ensure both of our functions still work as expected.
 
-Remember, the tests generated during the Copilot run in this lesson may not match what you see when trying on your own. Always closely review any suggestions from Copilot or any other AI tool to ensure they meet your needs and are correct for your project.
+Our final version of `generate_code` will look like:
 
-### !end-callout
+```py
+VALID_LETTERS = {'R', 'O', 'Y', 'G', 'B', 'P'}
 
-Since we want these test scenarios, and the tests bodies are pretty close to what we're looking for, let's use the "Apply" button in the `Refactor Preview` tab to accept the changes. We'll address the issues listed above by:
-- adjusting the imports 
-- removing the client fixture from the tests' parameters
-- changing the expected error in the `with pytest.raises` statements
-- updating the assertions to check for a status where applicable
+def generate_code():
+    code = []
+    
+    # Generate a code of 4 random letters from VALID_LETTERS
+    letters_list = list(VALID_LETTERS)
+    for _ in range(4):
+        code.append(random.choice(letters_list))
 
-<br />
+    return code
+```
+
+## D.R.Y. - Helper Function for `validate_guess` and `check_win_or_lose`
+
+<br>
 
 <details>
   <summary>
