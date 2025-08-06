@@ -413,7 +413,7 @@ Based on the process we follwed for updating code with Copilot in this lesson, p
 ##### !hint
 
 - Can we start making any changes confidently if we don't have tests?
-- It is intentional that `Run the test suite and ensure that tests pass` is included twice
+- It is intentional that `Run the test suite and ensure that tests pass` is included twice.
 - What information does each step need? 
     - Is there a step that would have to occur first to get that data?
 
