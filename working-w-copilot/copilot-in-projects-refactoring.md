@@ -398,7 +398,7 @@ For more practice with Copilot, think about revisiting familiar projects! When w
 Based on the process we follwed for updating code with Copilot in this lesson, place the steps below for updating code with Copilot in order.
 
 ##### !end-question
-##### !options
+##### !answer
 
 1. Ensure tests exist for code that will change
 2. Run the test suite and ensure that tests pass
@@ -409,7 +409,7 @@ Based on the process we follwed for updating code with Copilot in this lesson, p
 7. Update suggested code as necessary either manually or through the Copilot interface
 8. Run the test suite and ensure that tests pass
 
-##### !end-options
+##### !end-answer
 ##### !hint
 
 - Can we start making any changes confidently if we don't have tests?
