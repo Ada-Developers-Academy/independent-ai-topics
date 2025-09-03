@@ -9,4 +9,4 @@ This problem set uses the `mastermind-copilot` repo, which we saw in the "Copilo
     - As you go, it may be helpful to note what parts of the Copilot UI works best for you, what you are finding most helpful, and where you are spending your time. 
     - Remember that Copilot can be very useful, but we can also lose time if we get too invested in forcing the tool to make changes for us over manually making some changes ourselves.
 
-There is no submission for this problem set.
+There is no submission for this problem set, but you should complete this prior to class, as this functionality will be needed so that we can continue on to the following waves in a group setting.
