@@ -26,7 +26,7 @@ There is a lot we could do with the Mastermind project, but to keep us focused o
 
 To get started:
 - Fork the [`mastermind-copilot` repo](https://github.com/Ada-Activities/mastermind-copilot)
-  - When forking, uncheck "Copy the main branch only" to ensure that all banches are copied to your fork
+  - When forking, uncheck "Copy the main branch only" to ensure that all branches are copied to your fork
     ![An excerpt from the page to fork projects showing Copy the main branch only is unchecked](assets/new-code-copilot/new_code_fork_repo_uncheck_main_only.png)
     *Fig. An excerpt from the page to fork projects showing "Copy the main branch only" is unchecked. ([Full size image](assets/new-code-copilot/new_code_fork_repo_uncheck_main_only.png))*
 - Clone the repo down
@@ -36,11 +36,19 @@ To get started:
 
 Since `main` is the default branch of the repo, it should already be checked out when we clone the project down. 
 
-There are 4 Waves of the Mastermind project.
+There are 4 waves of the Mastermind project.
 - Wave 1 will be covered in these Copilot lessons.
-- Wave 2 is left as practice for the reader. 
-- Wave 3 will be tackled together during class
+- Wave 2 is designated as the Problem Set for this topic, and should be completed prior to class.
+- Wave 3 will be tackled together during class.
 - Wave 4 we'll try out in small groups to complete the `mastermind` function in `mastermind.py` and finish our game!
+
+### !callout-info
+
+## Preparing for Collaborative Classwork
+
+The project accompanying this lesson has some portions to be done on your own, and some to be done in class in collaboration with others. There is no expectation that you will have prepared any materials for waves 3 or 4 prior to class, but feel free to do so if that helps you feel more ready. However, please leave space during class for others to think through how to tackle those waves in the classroom setting and be cooperative in how you share your own ideas about how to approach the challenge! ✨
+
+### !end-callout
 
 Our plan in this lesson is to:
 - Write new code to complete Wave 1 of the project directions 
