@@ -29,7 +29,7 @@ def convert_f_to_c(temp):
 Copilot will suggest the body `return (temp - 32) * 5 / 9`, which in this case is exactly what we wanted. We can use `Tab` to accept the presented code, which moves it from a greyed-out suggestion to code in the file that we can navigate and edit.  
 
 ![The function definition "def convert_f_to_c(temp):" with a greyed out suggestion from Copilot that reads "return (temp - 32) * 5 / 9"](assets/copilot-interface-shortcuts/copilot-temperature-example.png)  
-*Fig. A function definition we wrote, with a suggestion from Copilot in grey below*  
+*Fig. A function definition we wrote, with a suggestion from Copilot in grey below ([Full size image](assets/copilot-interface-shortcuts/copilot-temperature-example.png))*  
 
 ### Using a comment as a prompt
 
@@ -44,28 +44,28 @@ Let's try out another example to show off creating code from a comment. This tim
 If we expect to immediately see code, we might be a little surprised by how Copilot reacts. While our cursor is still on the line with the comment and when we create a new line, copilot will try adding more to our comment, typically to describe edge cases for our function description. Why might this be happening?  
 
 ![A comment in a Python file describing a function where Copilot is suggesting to add more to the comment](assets/copilot-interface-shortcuts/copilot-comment-prompt-adds-to-comment.png)  
-*Fig. A comment describing a function where Copilot is suggesting to add more to the comment*
+*Fig. A comment describing a function where Copilot is suggesting to add more to the comment ([Full size image](assets/copilot-interface-shortcuts/copilot-comment-prompt-adds-to-comment.png))*
 
 ![A comment in a Python file describing a function where Copilot is suggesting to add another commented line](assets/copilot-interface-shortcuts/copilot-comment-prompt-newline-adds-to-comment.png)  
-*Fig. A comment describing a function where Copilot is suggesting to add another commented line*
+*Fig. A comment describing a function where Copilot is suggesting to add another commented line ([Full size image](assets/copilot-interface-shortcuts/copilot-comment-prompt-newline-adds-to-comment.png))*
 
 We're going to travel back in time to our first readings about LLMs. There, we learned that LLMs are, in many ways, incredibly powerful predictive text engines. When our cursor is on a line with a comment, Copilot has determined that the most likely thing we're going to do is continue writing the comment, so that's what it suggests. It isn't until we've created a few new lines from the comment that Copilot will reach a probability that we want code rather than descriptive information. Let's continue with this example until we see some code!
 
 When we create another new line, copilot tries to generate example inputs and outputs for us as comments. These comment additions can be really handy for thinking about edge cases we missed or tests we may need to write. Feel free to try it out and see what examples you get!
 
 ![A comment in a Python file describing a function where Copilot is suggesting to add an example to the comment](assets/copilot-interface-shortcuts/copilot-comment-prompt-example-text.png)  
-*Fig. Copilot suggesting to add an example to the comment*
+*Fig. Copilot suggesting to add an example to the comment ([Full size image](assets/copilot-interface-shortcuts/copilot-comment-prompt-example-text.png))*
 
-![A comment in a Python file describing a function where Copilot has added an example input and output to the comment](assets/copilot-interface-shortcuts/copilot-comment-prompt-example-completed.png.png)  
-*Fig. An example input and output suggested by Copilot*
+![A comment in a Python file describing a function where Copilot has added an example input and output to the comment](assets/copilot-interface-shortcuts/copilot-comment-prompt-example-completed.png)  
+*Fig. An example input and output suggested by Copilot ([Full size image](assets/copilot-interface-shortcuts/copilot-comment-prompt-example-completed.png))*
 
 If we create yet one more new line, that is when copilot realizes we aren't trying to add any further description and provides us with a function definition. Once we press `Tab` to accept the function definition suggested, Copilot will suggest an implementation for the function. 
 
 ![A comment in a Python file describing a function where Copilot has then suggested a function definition](assets/copilot-interface-shortcuts/copilot-comment-prompt-function-definition.png)  
-*Fig. A function definition suggested by Copilot for the function described in our comment*
+*Fig. A function definition suggested by Copilot for the function described in our comment ([Full size image](assets/copilot-interface-shortcuts/copilot-comment-prompt-function-definition.png))*
 
 ![A comment in a Python file describing a function and the function definition itself followed by a suggestion from Copilot for the body of the function](assets/copilot-interface-shortcuts/copilot-comment-prompt-full-function.png)  
-*Fig. A function body suggested by Copilot for the function described in our comment*
+*Fig. A function body suggested by Copilot for the function described in our comment ([Full size image](assets/copilot-interface-shortcuts/copilot-comment-prompt-full-function.png))*
 
 ### Editing Code: "Next Edit Suggestions"
 
@@ -136,8 +136,8 @@ There are 2 ways we can interact with the Copilot chat:
    ![A menu in VS Code that shows the Copilot options and where to open the inline chat](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
    *Fig. The right-click menu in VS Code showing the Copilot options ([Full size image](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png))*
 
-   ![The Copilot icon drop down menu in VS Code that shows the Copilot chat options with the inline chat option highlighted.](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
-   *Fig. The Copilot icon drop down menu in VS Code that shows the Copilot chat options with the inline chat option highlighted. ([Full size image](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png))*
+   ![The Copilot icon drop down menu in VS Code that shows the Copilot chat options with the inline chat option highlighted.](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-copilot-menu.png)  
+   *Fig. The Copilot icon drop down menu in VS Code that shows the Copilot chat options with the inline chat option highlighted. ([Full size image](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-copilot-menu.png))*
 
    ![A blank Python file with an empty inline Copilot chat showing.](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png)  
    *Fig. A blank Python file with an empty inline Copilot chat showing. ([Full size image](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png))*
@@ -145,7 +145,7 @@ There are 2 ways we can interact with the Copilot chat:
 2. Through the Copilot chat pane. 
    - We can click the Copilot icon in the top of the VS Code window to open the chat pane. 
    - The keyboard shortcut to open the chat pane is `⌃⌘I` (`CTRL + CMD + i`).  
-   - The chat pane will default to "Agent" mode, we recommend swapping to "Ask" or "Edit" modes before starting to prompt.
+   - The chat pane will default to "Agent" mode. If we want to ask more general coding questions you may find responses more useful in "Ask" mode.
 
    ![Copilot icon in VS Code highlighted and the Copilot chat pane showing. There is a warning that generated code may be incorrect.](assets/copilot-interface-shortcuts/vscode-open-chat-from-copilot-icon.png)  
    *Fig. Copilot icon in VS Code highlighted and the Copilot chat pane showing. Note the warning that generated code may be incorrect. ([Full size image](assets/copilot-interface-shortcuts/vscode-open-chat-from-copilot-icon.png))*
@@ -160,17 +160,14 @@ In an empty Python file, let's bring up the inline chat then type in the prompt:
 > Write a function that takes in a list of file names and returns the file names sorted by the sizes of the files.
 
 ![An empty Python file with the Copilot inline chat view up](assets/copilot-interface-shortcuts/inline-chat-prompt-not-submitted.png)  
-*Fig. The inline Copilot chat with a prompt written but not submitted*
+*Fig. The inline Copilot chat with a prompt written but not submitted ([Full size image](assets/copilot-interface-shortcuts/inline-chat-prompt-not-submitted.png))*
 
 Copilot will fetch a response and we are given some tools in the UI that we may find similar to ChatGPT's response tools.
 
 ![The VS Code UI after submitting a prompt in the inline Copilot chat](assets/copilot-interface-shortcuts/inline-chat-response-ui.png)  
-*Fig. The updated UI after submitting a prompt in the inline chat*
+*Fig. The updated UI after submitting a prompt in the inline chat ([Full size image](assets/copilot-interface-shortcuts/inline-chat-response-ui.png))*
 
-We see that on the right side of the UI, we have thumbs up and down buttons for rating whether the response was useful. On the left side, we have options to accept the response, discard the response, or regenerate it. If we don't want to use the response but we want to save it to look at later, the "Discard" button has us covered—pressing it will open a drop down with choices to discard the code from this file and save it to the clipboard, or discard and paste the code in a new file.  
-
-![A dropdown menu showing the discard options of the Copilot inline chat UI](assets/copilot-interface-shortcuts/inline-chat-response-discard-options.png)  
-*Fig. The discard options after submitting a code prompt in the inline chat*
+If we hover over the inline chat UI, we see that on the right side, we have thumbs up and down buttons for rating whether the response was useful. On the left side, we have options to accept the response, close the UI and discard the response, or regenerate it. 
 
 We'll go ahead and use the "Accept" button which will add the function to the file and dismiss the inline chat. 
 
@@ -182,10 +179,10 @@ Let's open the Copilot Chat window and use the same prompt as before:
 
 > Write a function that takes in a list of file names and returns the file names sorted by the sizes of the files.
 
-We get a very different response than we got from the Inline Chat.
+In this scenario, we received a very similar response to what the inline chat generated, but this may not always be the case.
 
 ![Copilot's response for a prompt showing an implementation and explanation](assets/copilot-interface-shortcuts/chat-pane-function-prompt.png)  
-*Fig. Copilot's response for our prompt showing an implementation and explanation*
+*Fig. Copilot's response for our prompt showing an implementation and explanation ([Full size image](assets/copilot-interface-shortcuts/chat-pane-function-prompt.png))*
 
 From here we can ask further questions in the chat, requesting changes or a deeper explanation, or copy and paste the suggested function into a code file and update it as desired. We'll look at examples of other ways we can use the chat later in this lesson.
 
@@ -198,7 +195,7 @@ It turns out that we have a lot of control! We can accept an entire suggestion, 
 If we want to accept suggestions line-by-line we either need to set up our own shortcut in VS Code, or hover over the suggestion to bring up the suggestion menu. In the image below we've clicked on the '3 dots' icon at the right of the suggestion menu to show all the available options, which includes "Accept Line". 
 
 ![The suggestion options UI that is shown when you hover over a Copilot suggestion](assets/copilot-interface-shortcuts/copilot-suggestion-menu-overflow-open.png)  
-*Fig. Copilot's suggestion options UI with the overflow menu open so we can see all options*
+*Fig. Copilot's suggestion options UI with the overflow menu open so we can see all options ([Full size image](assets/copilot-interface-shortcuts/copilot-suggestion-menu-overflow-open.png))*
 
 ## Seeing alternate suggestions
 
@@ -211,7 +208,7 @@ We can also use `⌥]` (`OPTION + ]`) to view the next suggestion, or `⌥[` (`O
 To see all of the suggestions from Copilot next to each other for comparison, we can use the shortcut `⌃Enter` (`CTRL + Enter`). This will open a new tab that Copilot will fill with suggestions, along with "Accept Solution" buttons above each suggestion that we can use to bring a specific suggestion back to our code file.
 
 ![VS Code with 2 tabs open, a Python file, and a window of suggestions from Copilot](assets/copilot-interface-shortcuts/copilot-multiple-suggestions-new-tab.png)  
-*Fig. Copilot's suggestions opened in a new tab*
+*Fig. Copilot's suggestions opened in a new tab ([Full size image](assets/copilot-interface-shortcuts/copilot-multiple-suggestions-new-tab.png))*
 
 ## Other uses for Copilot Chat
 
@@ -245,14 +242,14 @@ Copilot chat provides a number of shortcut options to streamline our interaction
 | /tests | Generate unit tests for the selected code. If a test file doesn't exist already, this will create a new file you can review and modify. |
 
 ![Copilot's inline chat with a `/` entered and showing a dropdown of shortcut options](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png)  
-*Fig. Shortcut options showing on an inline chat after entering `/`*
+*Fig. Shortcut options showing on an inline chat after entering `/` ([Full size image](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png))**
 
 ### Commit Messages
 
 Copilot can take some of the tedium out of writing commit messages when using the integrated Source Control tools in VS Code! With the Copilot extension installed, the text box where we write our commit message now has a button to the right with a sparkles icon—hover over it and we'll see a message "Generate Commit Message with Copilot". When clicked, Copilot will generate a summary based on the changed files that we can review and update as needed to fit our own or our team's standards.
 
 ![Close up view of the source control tab of VS Code with the Copilot commit message button circled in red](assets/copilot-interface-shortcuts/vscode-source-control-copilot-button.png)  
-*Fig. VS Code's Source Control tab with the Copilot commit message button circled*
+*Fig. VS Code's Source Control tab with the Copilot commit message button circled ([Full size image](assets/copilot-interface-shortcuts/vscode-source-control-copilot-button.png))**
 
 ## Summary
 
