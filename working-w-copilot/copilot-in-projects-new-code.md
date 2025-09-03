@@ -451,14 +451,18 @@ Since the `README` does require that `generate_code` returns a list, we can brin
 - Would this test pass if we hardcoded 2 different codes that the program randomly chose between?
 
 If we contemplate questions like this, we'll find that `test_generate_code_randomness` doesn't quite do what the title says. 
-- It cannot guarantee randomness like the title implies
+- It cannot guarantee randomness like the title implies.
 - It only checks if the `set` of created codes is larger than 1. This means that we could oscillate between two hardcoded values and the test would still pass. 
 - It could be updated to be more stringent, but if we say the code must be different every run, the test might fail unexpectedly. 
     - We are randomly generating a code from a small pool of values, so there is a real chance we will see duplicates! 
 
 Depending on our scenario and requirements, it could still be worth checking if across several tries the function generates different codes, but we would want the test contents and title to reflect that purpose, and to know we wouldn't get random failures if chance happened to mean that there were some duplicate codes generated. For our example, we will keep this test, but update it in a couple ways:
 - Rename the test to `test_generate_code_half_or_less_duplicates_over_10_runs`
-- Change the assertion to expect the set to be at least length 5
+- Add a variable to track the number of runs we perform in the test
+- Update the comprehension expression to use the run count variable rather than a hard coded number
+- Change the assertion to expect the `set` length to be at half the number of runs
+
+Using a variable to hold the number of runs enables the test to be written so that the runs and assertion check will always remain in sync, even if we come back and change the number of runs at some later date!
 
 Once we bring these updates and new tests into `tests/test_wave_1.py`, we can close the suggestion pane that Copilot opened since we do not want to create a new file for the `generate_code` tests.
 
@@ -466,7 +470,7 @@ Once we bring these updates and new tests into `tests/test_wave_1.py`, we can cl
 
 <details>
   <summary>
-    Feel free to try out the `/tests` shortcut with `generate_code` and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated test suite for <code>generate_code</code>!
+    Feel free to try out the <code>/tests</code> shortcut with <code>generate_code</code> and examine the tests it generates to see which would be valuable to take as-is or update. When you're done, expand this section to see our updated test suite for <code>generate_code</code>!
   </summary>
 
   ```py
@@ -501,13 +505,14 @@ Once we bring these updates and new tests into `tests/test_wave_1.py`, we can cl
 
 
   def test_generate_code_half_or_less_duplicates_over_10_runs():
-      #Arrange/Act
+      # Arrange/Act
       # Run generate_code multiple times and check for different outputs
-      codes = {tuple(generate_code()) for _ in range(10)}
-
-      #Assert
+      runs = 10
+      codes = {tuple(generate_code()) for _ in range(runs)}
+      
+      # Assert
       # At least half of the codes generated should be unique
-      assert len(codes) > 5
+      assert len(codes) > runs / 2
   ```
 </details>
 
@@ -523,7 +528,7 @@ Before we jump into prompting, the first thing we should do is review our tests 
 
 <details>
   <summary>
-    Check out the tests in VS Code, or open this drop down to see the current test suites for <code>validate_guess</code> and <code>generate_code</code>.
+    Check out the tests in VS Code, or open this drop down to see the current test suites for <code>validate_guess</code> and <code>check_win_or_lose</code>.
   </summary>
 
   ```py
@@ -632,10 +637,10 @@ Now that we are refreshed on our test suites, let's use the "`+`" button at the 
 ![The top of the Copilot chat panel highlighting the plus button](assets/new-code-copilot/chat_pane_new_chat.png)  
 *Fig. The "New Chat" button in the Copilot chat pane's UI ([Full size image](assets/new-code-copilot/chat_pane_new_chat.png))*
 
-By default, the Copilot chat adds the currently focused file as context for the conversation. Even if you have multiple panes and tabs open, only the file with current editing focus will be added to the chat context. 
+Depending on the mode, the Copilot chat may select the currently focused file as context for the conversation, or it may only suggest it. Even if you have multiple panes and tabs open, only the file with current editing focus will be given this treatment. 
 
 ![VS Code with both app/game.py and tests/test_wave_1.py open in one panel and Copilot's chat open in another panel. app/game.py has editor focus. The file name app/game.py is circled with an arrow that points to the Current File context bubble in the Copilot chat pane showing the same file name.](assets/new-code-copilot/chat_pane_tests_default_context.png)  
-*Fig. By default, only the open file with editor focus is added as context to a new Copilot chat. ([Full size image](assets/new-code-copilot/chat_pane_tests_default_context.png))*
+*Fig. By default, only the open file with editor focus is considered for context in a new Copilot chat. ([Full size image](assets/new-code-copilot/chat_pane_tests_default_context.png))*
 
 This is great when you are only asking questions about a single file, however, we want the chat to know about the functions in `app/game.py` _and_ our existing tests in `tests/test_wave_1.py`. Under "Add Context" Copilot's chat has an "Open Editors" option that will add all currently open files as context, even if they are not in editor focus. Let's use this to our advantage!
 
@@ -643,14 +648,14 @@ This is great when you are only asking questions about a single file, however, w
 2. In the Copilot chat window, press "Add Context".
 3. From the dropdown that appears, select "Open Editors".
 
-![VS Code with the select context menu for Copilot's chat pane. The Add Context button and Open Editors option are ciricled.](assets/new-code-copilot/chat_pane_add_context_open_editor.png)  
+![VS Code with the select context menu for Copilot's chat pane. The Add Context button and Open Editors option are circled.](assets/new-code-copilot/chat_pane_add_context_open_editor.png)  
 *Fig. VS Code's UI for adding all open editors as context to Copilot Chat. ([Full size image](assets/new-code-copilot/chat_pane_add_context_open_editor.png))*
 
-Once "Open Editors" is selected, we'll see both `app/game.py` and `tests/test_wave_1.py`show up in the context section of the Copilot chat. 
+Once "Open Editors" is selected, we'll see both `app/game.py` and `tests/test_wave_1.py` show up in the context section of the Copilot chat. 
 - In the Copilot chat UI, the "`X`" button next to each file name in the context section will let you remove a file from context. 
 - Whichever file has focus will show up twice in the list, since there is always a "`Current File`" context bubble. 
 
-![VS Code's Copilot chat pane with app/game.py and tests/test_wave_1.py ciricled in the context section.](assets/new-code-copilot/tests_chat_pane_after_adding_context.png)  
+![VS Code's Copilot chat pane with app/game.py and tests/test_wave_1.py circled in the context section.](assets/new-code-copilot/tests_chat_pane_after_adding_context.png)  
 *Fig. `app/game.py` and `tests/test_wave_1.py` added as context to Copilot Chat. ([Full size image](assets/new-code-copilot/tests_chat_pane_after_adding_context.png))*
 
 Now that Copilot can see our code and tests, let's start prompting! We can write a shorter prompt and may still get okay results, but to be effective with our time we can be clear with instructions for:
@@ -663,7 +668,7 @@ Now that Copilot can see our code and tests, let's start prompting! We can write
 
 <details>
   <summary>
-    Using what we've learned about prompting so far and the points above as a template, try out writing a prompt to update the test suites for <code>validate_guess</code> and <code>generate_code</code>. When you're done, expand this section to see our prompt.
+    Using what we've learned about prompting so far and the points above as a template, try out writing a prompt to update the test suites for <code>validate_guess</code> and <code>check_win_or_lose</code>. When you're done, expand this section to see our prompt.
   </summary>
 
   **Prompt:**
@@ -680,18 +685,18 @@ Once we press enter, exact responses will vary, but Copilot should respond with 
 - analyzing current test coverage or cases for each function in `tests/test_wave_1.py`
 - describing what the current tests cover and what scenarios are missing
 
-Copilot will also generate the unit tests for the new tests cases it identified inside `tests/test_wave_1.py` for us to preview. 
+Copilot might also generate the unit tests for the new tests cases it identified inside `tests/test_wave_1.py` for us to preview, but we might need to direct it to do so after reviewing the scenarios it proposes.
 
 ![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane discussing the newly added scenarios](assets/new-code-copilot/tests_chat_pane_review_suggestions.png)  
 *Fig. Copilot previewing new tests for `validate_guess` and `generate_code` in `tests/test_wave_1.py`. ([Full size image](assets/new-code-copilot/tests_chat_pane_review_suggestions.png))*
 
-If we have testing set up in VS Code, Copilot may offer to run the new tests so we can see if they pass. We want to run the tests since Copilot will give us some more information based on the results. In fact, when working on this lesson, we didn't get a full breakdown of why the new test cases were useful until we took this step.
+If we have testing set up in VS Code, Copilot may offer to run the new tests so we can see whether they pass. We want to run the tests since Copilot will give us some more information based on the results. In fact, when working on this lesson, we didn't get a full breakdown of why the new test cases were useful until we took this step.
 - We can allow the tests to run with the "`Continue`" button, or use the drop down to explore permissions options for this feature. 
   - Feel free to follow your curiosity around how you can customize aspects of Copilot! 
   ![UI in the Copilot chat pane asking to run the generated tests during preview.](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png)  
   *Fig. UI in the Copilot chat pane asking to run the generated tests during preview. ([Full size image](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png))*
 
-Once we've ran the new tests and receive a desciption of the missing scenarios and why they would be useful, we can review that information and check it against our needs and the requirements in the `README.md`. We should review:
+Once we've ran the new tests and receive a description of the missing scenarios and why they would be useful, we can review that information and check it against our needs and the requirements in the `README.md`. We should review:
 - the data and assertions for each test to ensure they are testing what we expect
 - the names of each test to ensure they truly reflect the scenario in the test function
 
@@ -861,7 +866,7 @@ As we noted earlier in the lesson when reviewing our existing test suite, we hav
 These test scenarios have value, their names reflect what they are doing, and they even follow a similar layout to our existing tests in the file with our "Arrange", "Act", and "Assert" sections. We can use the keep button in either the `tests/test_wave_1.py` preview or the Copilot chat pane to accept the changes, and we are wrapped up with Wave 1!
 
 ![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane with the keeps buttons on each pane circled](assets/new-code-copilot/tests_keep_generated_suggestions.png)  
-*Fig. Vs Code editor and Copilot Chat buttons for accepting code suggestions. ([Full size image](assets/new-code-copilot/tests_keep_generated_suggestions.png))*
+*Fig. VS Code editor and Copilot Chat buttons for accepting code suggestions. ([Full size image](assets/new-code-copilot/tests_keep_generated_suggestions.png))*
 
 To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`wave_1_complete`](https://github.com/Ada-Activities/mastermind-copilot/tree/wave_1_complete).
 
