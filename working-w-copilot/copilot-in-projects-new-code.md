@@ -430,6 +430,18 @@ Two of the Copilot suggestions, `test_generate_code_length_is_four` and `test_ge
 
 Since `set`s have an `O(1)` look up time, we could make our test more efficient by updating our test with this improvement! Let's make that change in `tests/test_wave_1.py` and keep moving!
 
+### !callout-info
+
+## Building an Efficiency Mindset
+
+In this test case, will it really matter whether the valid letters are stored in a `list` or a `set`? Absolutely not!
+
+We can also recall that from a Big O standpoint, while the general time complexity to search a list is `O(n)`, if a list is always fixed size, we can consider that search to be a fixed cost, effectively becoming `O(1)`. Of course, the _absolute_ performance of using a `set` could be faster, but it's also possible that it could run slower! We must remember that Big O only tells us how performance changes with the input size, not the absolute performance for a particular size. But for code the size of the test, we're not really going to notice a difference.
+
+We pointed out this change to highlight that complexity and performance is something that we should be thinking about no matter what code we're writing, whether application logic or tests. It's possible we could consider this case and still decide to leave it as a `list`, but it's important that we notice that this situation is something to think about in the first place.
+
+### !end-callout
+
 The two new test cases from Copilot are:
 - `test_generate_code_returns_list`, which confirms the return value from `generate_code` is a list data type
 - `test_generate_code_randomness`, which calls `generate_code` 10 times and checks that all the results are not identical.
