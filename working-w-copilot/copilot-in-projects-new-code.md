@@ -67,8 +67,14 @@ Based on the README, our function should generate a random 4 letter code for the
     - each element in the list should be a single character 
     - the characters in the list must be one of the following letters: "R", "O", "Y", "G", "B", "P"
 
-To get Copilot's help, let's write a comment that summarizes this information. This step of taking in the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching to an AI tool. We need this understanding as developers to be able to check if the code produced by Copilot actually meets our needs. 
-- In theory we could copy & paste the text of the `README` into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for? Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
+To get Copilot's help, let's write a comment that summarizes this information. This step of taking the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching for an AI tool. We need this understanding as developers to be able to check whether the code produced by Copilot actually meets our needs. 
+### !callout-info
+
+## Copilot Doesn't Replace Critical Thinking
+
+In theory we could copy & paste the text of the `README` into the comment without ever reading it and we _might_ get something that works, but how could we even be certain if we don't have a full understanding of what is being asked for? Copilot is not meant to replace our critical thinking, but it can help us get started on the right path!
+
+### !end-callout
 
 To start generating our function, add the following comment to `app/game.py` then press enter to see what Copilot suggests:
 
@@ -100,10 +106,11 @@ To wrap up this function, let's:
 
 ## Running the test files as we work
 
-The test files for each wave import all of the functions for the wave at the top of the file. Until we impement all the functions for a wave, we'll see test discovery errors in the VS Code testing Panel. To run our tests as we complete functions, we will need to comment out and uncomment some imports and tests in the wave files so we can see our relevant tests passing.
+The test files for each wave import all of the functions for the wave at the top of the file. Until we implement all the functions for a wave, we'll see test discovery errors in the VS Code testing Panel. To run our tests as we complete functions, we will need to comment out and uncomment some imports and tests in the wave files so we can see our relevant tests passing.
 
 Since `validate_guess` and `check_win_or_lose` have not been implemented yet, in `tests/test_wave_1.py` we will need to comment out those names in the import line and comment out their tests in order to run the `generate_code` tests.
 
+Note that even with those tests commented out, if we run our tests through VS Code it will still show some test discovery errors due to the tests for waves 2 and 3. As long as the wave 1 tests are shown, you can run them and ignore the other test discovery issues. Or to avoid the errors, you can either temporarily comment out the contents of the wave 2 and 3 test files (you'll need to remember to uncomment them when you reach those waves), or stick to running the tests using `pytest`.
 ### !end-callout
 
 At this point, both `generate_code` tests should pass and we can move on to the `validate_guess` function!
