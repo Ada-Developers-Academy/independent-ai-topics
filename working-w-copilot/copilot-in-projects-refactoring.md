@@ -14,11 +14,7 @@ Our goals for this lesson are to identify where Copilot can assist us to better 
 
 As you work through this lesson, you will likely get different results from the prompts you submit than what we show through the lesson. This is expected!
 
-<br>
-
 We are working with a generative AI tool and they are not guaranteed to return the same or even a similar response for the same input. Part of adjusting to working with AI tools is getting comfortable with the variability of their responses and then fine tuning our prompts, regenerating responses, and manually updating generated code until we have something that meets our needs.
-
-<br>
 
 Even the Copilot extension itself is updated regularly, so the way the UI looks or where certain features are located may differ from that shown in this lesson. So if a screenshot looks a little different from what you see in your own VS Code, try to find the equivalent feature in your version of the extension.
 
@@ -125,8 +121,6 @@ Taking a look at these implementations, they work as they are supposed to – ou
   2. `validate_guess` and `check_win_or_lose` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
   
-  <br>
-
   We could choose to note one other potential area for improvement: 
   - `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
   Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
@@ -155,11 +149,7 @@ Before we send anything to Copilot, let's organize our information. We know:
   **Prompt:**
   > Please update the generate_code and validate_guess functions to share a single data structure to represent valid_letters. The data structure should be a set type and should be placed where both functions have access to it. Do not make any other changes to the functions.
 
-  <br>
-
   We specifically chose to add _"Do not make any other changes to the functions."_ to our prompt because in testing, we saw that Copilot would often try to make several changes to the function at the same time. This makes it less clear which changes are related to our initial ask vs what Copilot thought would improve the code. 
-
-  <br>
 
   Changing code is an error-prone process. To avoid potential confusion and bugs, we want to focus on a single change at a time and see it successfully completed before updating another aspect of the code. 
 
