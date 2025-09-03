@@ -75,7 +75,8 @@ To start generating our function, add the following comment to `app/game.py` the
 # - each letter must be one of: R, O, Y, G, B, P
 ```
 
-In our case, Copilot immediately suggests some additions to our comment as well as a function signature and body that _nearly_ matches our needs for the moment:
+While writing the lesson, Copilot suggested some additions to our comment as well as a function signature and body that _nearly_ matches our needs for the moment. 
+- In further experimenting, Copilot didn't always start generating suggestions with this example and folks may find that they need to start writing the function definition to get Copilot to kick in.
 
 ![VS Code window showing the comment above along with a function suggested by copilot](assets/new-code-copilot/generate_code_first_suggestion.png)
 *Fig. Our function description comment above with a suggestion for the `generate_code` function from Copilot highlighted below ([Full size image](assets/new-code-copilot/generate_code_first_suggestion.png))*

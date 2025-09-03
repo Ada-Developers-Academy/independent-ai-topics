@@ -47,6 +47,10 @@ To get started:
 
 If we want to keep any local changes that we made in the previous lesson, we recommend pausing to create a new branch from `main` and commit your changes before checking out the `improvements-start` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
 
+1. To create a new branch from the current branch we are on, we can run the command: `$ git checkout -b new-branch-name`
+2. From there we can commit and push changes to the new branch the same way we have in prior projects. 
+3. Once we're ready to switch to the branch for this lesson, we can run" `$ git checkout improvements-start`
+
 ### !end-callout
 
 ## Identifying Code for Improvement

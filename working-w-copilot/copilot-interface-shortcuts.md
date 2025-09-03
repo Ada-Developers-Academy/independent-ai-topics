@@ -121,8 +121,6 @@ Something important to note, is that Copilot chats have 3 modes they can run in:
 | Edit | Optimized for making code edits across multiple files in your project. |
 | Agent | Optimized for acting autonomously to fulfill high level requirements that may include code edits across multiple files and complex tasks requiring invoking other tools. |
 
-At this point of our learning journey, we should get comfortable with using the `Ask` and `Edit` modes to explain code and concepts, and to help us make changes before following our curiosity with the `Agent` mode.
-
 Depending on how we invoke Copilot chat, certain modes will be accessible to us. Let's take a look at a couple ways to start a chat!
 
 #### Starting a chat
