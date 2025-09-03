@@ -4,8 +4,8 @@
 
 We've used Copilot to generate new code in a project, but we saw examples where the code generated wasn't following best practices, especially around avoiding repetition. 
 
-Our goals for this lesson are to identify where Copilot can assist us to better follow best practices, specifically:
-- writing cleaner code with the the D.R.Y. (Don't Repeat Yourself) principle
+Our goal for this lesson is to identify where Copilot can help us more closely follow coding best practices, specifically:
+- writing cleaner code with the D.R.Y. (Don't Repeat Yourself) principle
 - writing more Pythonic code by using patterns like list comprehensions 
 
 ### !callout-info
@@ -51,7 +51,7 @@ If we want to keep any local changes that we made in the previous lesson, we rec
 
 ## Identifying Code for Improvement
 
-Let's review the implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with the changes and start looking for places where we could better follow best practices.
+Let's review the implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with the changes and start looking for places where we could be more mindful of best practices.
 
 ```py
 import random
@@ -107,13 +107,13 @@ def check_win_or_lose(guess, code, num_guesses):
         return None
 ```
 
-Taking a look at these implementations, they work as they are supposed to – our tests pass after all! – but there are areas where we could better follow best practices.
+Taking a look at these implementations, they work as they are supposed to – our tests pass after all! – but there are areas that could use some polish.
 
 <br>
 
 <details>
   <summary>
-    Take a few minutes to examine the functions above, and identify areas of code that could be improved to better follow best practices or increase readability. Expand this section to see the issues we noted.
+    Take a few minutes to examine the functions above, and identify areas of code that could be improved with respect to best practices or readability. Expand this section to see the issues we noted.
   </summary>
 
   **Areas for Improvement**
@@ -127,7 +127,7 @@ Taking a look at these implementations, they work as they are supposed to – ou
 
 </details>
 
-We will investigate and update the 3 issues we identified through this lesson. If you came up with more items than we listed, feel free to explore those as practice!
+We will investigate and update the 3 issues we identified throughout the rest this lesson. If you came up with more items than we listed, feel free to explore those as practice!
 
 ## D.R.Y. - Sharing Data Structures in `generate_code` and `validate_guess`
 
@@ -202,7 +202,7 @@ This is close to what we want!
 As we look at this code, we need to ask ourselves, "Is this new code following best practices and acting efficiently?" 
 - Examining how the loops were changed, `validate_guess` looks fine, but how does Copilot's code use the shared data structure `VALID_LETTERS` in `generate_code`'s loop? 
 
-There's something interesting happenning with the changes in `generate_code`. `random.choice` does not work with set data structures, so in the code Copilot generated, every iteration of the loop creates a new list from the `VALID_LETTERS` set. 
+There's something interesting happening with the changes in `generate_code`. `random.choice` does not work with set data structures, so in the code Copilot generated, every iteration of the loop creates a new list from the `VALID_LETTERS` set. 
 - The loop would be more efficient if the function only created a list from `VALID_LETTERS` once before the loop starts. 
 
 We could ask Copilot to make this change for us, but it would be quicker to accept the code as-is, then make this small adjustment ourselves. We'll do just that, then run our Wave 1 test suite to ensure we see the tests pass and both of our functions still work as expected.
@@ -232,7 +232,7 @@ We will:
 2. Ensure `app/game.py` is open and has editor focus so it is added to the Copilot chat's context
 3. Press `⌃⌘I` (`CTRL + CMD + i`) to bring up the Copilot Chat pane 
 4. Start a new chat and enter our prompt
-5. Critcally review the code Copilot generates 
+5. Critically review the code Copilot generates 
 6. Make updates as necessary manually or through the Copilot interface until the code meets our needs
 7. Run our Wave 1 test suite and ensure we see all tests passing
 
@@ -317,7 +317,7 @@ Now that our code is looking how we'd like, let's wrap up these changes by runni
 
 ## Pythonic Code - Using List Comprehensions
 
-For code to be considered "Pythonic" it should use the features of the Python language to be concise, readable, and performant. This reasoning is a large part of why list conprehensions have been widely accepted by the Python community as the preferred way to create and fill a list, as long as the code still meets other style and readability best practices. 
+For code to be considered "Pythonic" it should use the features of the Python language to be concise, readable, and performant. We should also focus on using Python language features in a way that the majority of other Python programmers would expect to see them used. This reasoning is a large part of why list conprehensions have been widely accepted by the Python community as the preferred way to create and fill a list, as long as the code still meets other style and readability best practices. 
 
 After our improvements, we still have two places in `app/game.py` where we create and fill a list, and neither function is using a list comprehension:
 - `generate_code`
@@ -389,7 +389,7 @@ For more practice with Copilot, think about revisiting familiar projects! When w
 * title: Copilot in Projects Pt. 2 - Improving Wave 1
 ##### !question
 
-Based on the process we follwed for updating code with Copilot in this lesson, place the steps below for updating code with Copilot in order.
+Based on the process we followed for updating code with Copilot in this lesson, place the steps below for updating code with Copilot in order.
 
 ##### !end-question
 ##### !answer
@@ -399,7 +399,7 @@ Based on the process we follwed for updating code with Copilot in this lesson, p
 3. Gather requirements for the code changes
 4. Write a prompt that represents our requirements
 5. Open the Copilot UI and submit our prompt
-6. Critcally review the code Copilot generates
+6. Critically review the code Copilot generates
 7. Update suggested code as necessary either manually or through the Copilot interface
 8. Run the test suite and ensure that tests pass
 
