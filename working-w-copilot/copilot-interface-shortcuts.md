@@ -67,30 +67,93 @@ If we create yet one more new line, that is when copilot realizes we aren't tryi
 ![A comment in a Python file describing a function and the function definition itself followed by a suggestion from Copilot for the body of the function](assets/copilot-interface-shortcuts/copilot-comment-prompt-full-function.png)  
 *Fig. A function body suggested by Copilot for the function described in our comment*
 
+### Editing Code: "Next Edit Suggestions"
+
+In addition to writing new code, Copilot has features to help us out when we need to update code. Let's take a look at how Copilot's "Next Edit Suggestion" feature can improve editing code. 
+
+Let's say that we have a class, `Student`:
+
+```py
+class Student:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def display_info(self):
+        return f"Name: {self.name}, Age: {self.age}"
+```
+
+Right now there is a single `name` variable, but we want to separate that out into a `first_name` and `last_name` to prepare for future enhancements. 
+
+If we edit the function definition and change `name` to `first_name` Copilot will jump in with some slightly different UI than we've seen previously:
+![Copilot's Next Edit Suggestion UI in VS Code suggesting changing an occurrence of the variable `name` to `first_name`.](assets/copilot-interface-shortcuts/next_edit_suggestion_first_name_1.png)  
+*Fig. Copilot's "Next Edit Suggestion" UI in VS Code suggesting changing an occurrence of the variable `name` to `first_name`. ([Full size image](assets/copilot-interface-shortcuts/next_edit_suggestion_first_name_1.png))*
+
+If we hover over the blue marker on the line number, we can see the options for this edit suggestion:
+![The Next Edit Suggestion menu for Copilot in VS Code.](assets/copilot-interface-shortcuts/next_edit_suggestion_first_name_1_menu.png)  
+*Fig. The "Next Edit Suggestion" menu for Copilot in VS Code. ([Full size image](assets/copilot-interface-shortcuts/next_edit_suggestion_first_name_1_menu.png))*
+
+Our options are:
+| Option | Shortcut | Action |
+| ------ | -------- | ------ |
+| Accept | `Tab` | Adds the edit suggestion to our code. |
+| Reject | `Esc` | Ignore the suggestion and dismiss the Next Edit Suggestion UI. |
+| Show Collapsed | N/A | Hide the suggestion from view without dismissing the suggestion. |
+| Settings | N/A | Takes us to the VS Code Settings page for Next Edit Suggestions. Feel free to follow your curiosity about the options here! |
+| Feedback | N/A | Provide feedback on the "Next Edit Suggestion" feature. |
+| Learn More | N/A | Takes you to [the "Next Edit Suggestions" documentation](https://code.visualstudio.com/docs/copilot/ai-powered-suggestions#_next-edit-suggestions). |
+
+Let's use `Tab` to accept this change. When we do, the Copilot UI will move down to the next occurrence of `name` and offer to update that as well:
+
+![Copilot's Next Edit Suggestion UI in VS Code suggesting changing the second occurrence of the variable `name` to `first_name`.](assets/copilot-interface-shortcuts/next_edit_suggestion_first_name_2.png)
+*Fig. Copilot's "Next Edit Suggestion" UI in VS Code suggesting changing the second occurrence of the variable `name` to `first_name`. ([Full size image](assets/copilot-interface-shortcuts/next_edit_suggestion_first_name_2.png))*
+
+We changed `name` to `first_name`, but we still want a `last_name` variable. Feel free to try this out yourself by adding a new variable `last_name` to the function definition and seeing what Copilot suggests!
+
 ### Asking in a chat
 
 Copilot has a chat feature where we can write out questions or code prompts to Copilot, similarly to how we've interacted with ChatGPT for code. We'll see how we can use it to create a function, walk us through how the function works, and help us test it.
+
+Something important to note, is that Copilot chats have 3 modes they can run in:
+| Mode | Purpose |
+| ---- | ------- |
+| Ask | Optimized for answering questions about your codebase, coding, and general technology concepts. |
+| Edit | Optimized for making code edits across multiple files in your project. |
+| Agent | Optimized for acting autonomously to fulfill high level requirements that may include code edits across multiple files and complex tasks requiring invoking other tools. |
+
+At this point of our learning journey, we should get comfortable with using the `Ask` and `Edit` modes to explain code and concepts, and to help us make changes before following our curiosity with the `Agent` mode.
+
+Depending on how we invoke Copilot chat, certain modes will be accessible to us. Let's take a look at a couple ways to start a chat!
 
 #### Starting a chat
 
 There are 2 ways we can interact with the Copilot chat:
 
-1. Through inline chat. We can right click inside a file then select "Copilot > Start Inline Chat" to open a chat box at the location we clicked. `⌘I` (`CMD + i`) accomplishes the same thing at the current cursor location. 
-   - Note that in the second image below, Copilot itself displays a warning that generated code may be inaccurate—a nice reminder for us to carefully review what it presents!   
+1. Through inline chat. 
+   - We can right click inside a file then select "Copilot > Start Inline Chat" to open a chat box at the location we clicked. 
+   - `⌘I` (`CMD + i`) accomplishes the same thing at the current cursor location. 
+   - We can also use the drop down menu next to the Copilot icon at the top of VS Code.
+   - For our own knowledge, the inline chat only uses the "Ask" and "Edit" modes described previously. At the time of writing this lesson, there is no option in the UI to use "Agent" mode from the inline chat.   
 
    ![A menu in VS Code that shows the Copilot options and where to open the inline chat](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
-   *Fig. The right-click menu in VS Code showing the Copilot options*
+   *Fig. The right-click menu in VS Code showing the Copilot options ([Full size image](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png))*
 
-   ![A blank Python file with an empty inline Copilot chat showing. A warning is displayed that generated code may be incorrect.](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png)  
-   *Fig. A blank Python file with an empty inline Copilot chat showing. Note the warning that generated code may be incorrect.*
+   ![The Copilot icon drop down menu in VS Code that shows the Copilot chat options with the inline chat option highlighted.](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
+   *Fig. The Copilot icon drop down menu in VS Code that shows the Copilot chat options with the inline chat option highlighted. ([Full size image](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png))*
 
-2. Through the Copilot chat pane. We can click either the chat tab icon in the activity bar on the left or the Copilot icon in the status bar at the bottom. The keyboard shortcut to open the chat pane is `⌃⌘I` (`CTRL + CMD + i`).  
+   ![A blank Python file with an empty inline Copilot chat showing.](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png)  
+   *Fig. A blank Python file with an empty inline Copilot chat showing. ([Full size image](assets/copilot-interface-shortcuts/vscode-empty-inline-chat.png))*
 
-   ![The left menu in VS Code with a chat icon highlighted and the Copilot chat pane showing](assets/copilot-interface-shortcuts/vscode-empty-chat-panel.png)  
-   *Fig. Opening the Copilot chat pane from the left menu in VS Code*
+2. Through the Copilot chat pane. 
+   - We can click the Copilot icon in the top of the VS Code window to open the chat pane. 
+   - The keyboard shortcut to open the chat pane is `⌃⌘I` (`CTRL + CMD + i`).  
+   - The chat pane will default to "Agent" mode, we recommend swapping to "Ask" or "Edit" modes before starting to prompt.
 
-   ![VS Code open on an empty Python file with the Copilot status menu showing and the option to open the chat pane circled in red](assets/copilot-interface-shortcuts/vscode-open-copilot-chat-bottom-bar.png)  
-   *Fig. Opening the Copilot chat pane from the Copilot Status Menu*
+   ![Copilot icon in VS Code highlighted and the Copilot chat pane showing. There is a warning that generated code may be incorrect.](assets/copilot-interface-shortcuts/vscode-open-chat-from-copilot-icon.png)  
+   *Fig. Copilot icon in VS Code highlighted and the Copilot chat pane showing. Note the warning that generated code may be incorrect. ([Full size image](assets/copilot-interface-shortcuts/vscode-open-chat-from-copilot-icon.png))*
+
+   ![Copilot chat panel with the modes menu open and the "Ask" option highlighted. ](assets/copilot-interface-shortcuts/copilot_chat_mode_menu.png)  
+   *Fig. Copilot chat panel with the modes menu open and the "Ask" option highlighted. ([Full size image](assets/copilot-interface-shortcuts/copilot_chat_mode_menu.png))*
 
 #### Using the Inline Chat
 
