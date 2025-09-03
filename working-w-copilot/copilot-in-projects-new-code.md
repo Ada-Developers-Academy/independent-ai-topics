@@ -126,9 +126,9 @@ When we submit the prompt, we are likely to receive a response similar to the fo
 ![VS Code showing the Copilot inline chat with the prompt above entered and a function suggestion below](assets/new-code-copilot/inline_prompt_validate_guess.png)  
 *Fig. Our prompt entered in the Copilot inline chat with a suggestion for the `validate_code` function from Copilot displayed below ([Full size image](assets/new-code-copilot/inline_prompt_validate_guess.png))*
 
-The suggestion is succinct! The function checks `guess` for length and exits early if it can, then it uses `all` and a comprehension to check if the elements of the list are valid. But is there anything about the suggestion that is incorrect or breaking best practices? 
+The suggestion is succinct! The function checks `guess` for length and exits early if it can, then it uses `all` and a comprehension to check whether the elements of the list are valid. But is there anything about the suggestion that is incorrect or breaking best practices? 
 
-If we take a close look, what is the indentation like for the function? For some reason Copilot indented the function one tab further than it should have. This would create a nested function inside of `generate_code`, rather than the stand alone function we're looking for. 
+If we take a close look, we might notice something odd about the function's indentation. For some reason Copilot indented the function one tab further than it should have. This would create a nested function inside of `generate_code`, rather than the standalone function we're looking for. 
 
 Let's also take a look at the return line. The return line is 76 characters total, so it isn't breaking the PEP8 guideline of 79 characters or less for length, but we are doing a lot in that one line. We could make the function easier to read by breaking it apart. 
 
@@ -153,12 +153,12 @@ As we work with tools like Copilot, it's important for us to consistently evalua
 To wrap up this function, let's:
 1. accept the change
 2. highlight the `validate_guess` function 
-3. use `⌘[` (`CMD + [`) to move the function one tab left
+3. use `⌘[` (`CMD` + `[`) or `Shift` + `Tab` to move the function one tab left
 4. run the tests for `validate_guess` in `tests/test_wave_1.py`
 
 At this point, the tests for `validate_guess` should be passing! 
 
-Our final code for `validate_guess` looks like:
+While your version may look different, our final code for `validate_guess` looks like:
 ```py
 def validate_guess(guess):
     valid_letters = {'R', 'O', 'Y', 'G', 'B', 'P'}
@@ -297,7 +297,7 @@ def check_win_or_lose(guess, code, num_guesses):
 # Add your Wave 3 functions here
 ```
 
-The initial code that Copilot displays looks okay, but it doesn't quite meet our needs. We forgot to mention that the comparision should be case insensitive, and we didn't include examples that would guide the tool to that information. As-is, the function does not meet the requirements of the project. 
+The initial code that Copilot displays looks okay, but it doesn't quite meet our needs. We forgot to mention that the comparison should be case insensitive, and we didn't include examples that would guide the tool to that information. As-is, the function does not meet the requirements of the project. 
 
 Additionally, we didn't tell Copilot where in the file to place `check_win_or_lose`. Rather than placing the function in Wave 1 where we want it, Copilot placed the code in Wave 2.
 
@@ -390,7 +390,7 @@ In our `app/game.py` file:
 ![VS Code showing generate_code highlighted inside of app/game.py with the Copilot inline chat bar showing and "/tests" typed in](assets/new-code-copilot/slash_tests_generate_code_unsubmitted.png)  
 *Fig. `generate_code` selected in* `app/game.py` *with the Copilot inline chat up to enter "/tests" ([Full size image](assets/new-code-copilot/slash_tests_generate_code_unsubmitted.png))*
 
-Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our copilot chat at the top and a temporary file filled with unit tests for `generate_code` that we can review.
+Once we hit `Enter`, Copilot will add a new pane in the VS Code window with our Copilot chat at the top and a temporary file filled with unit tests for `generate_code` that we can review.
 
 ![VS Code showing the game.py file in one pane and a temporary file where Copilot is previewing unit tests in another pane](assets/new-code-copilot/slash_tests_generate_code_submitted.png)  
 *Fig. Copilot's UI to preview tests for the* `generate_code` *function ([Full size image](assets/new-code-copilot/slash_tests_generate_code_submitted.png))*
