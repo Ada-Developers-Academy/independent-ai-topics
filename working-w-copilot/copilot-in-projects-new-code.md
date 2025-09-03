@@ -68,6 +68,7 @@ Based on the README, our function should generate a random 4 letter code for the
     - the characters in the list must be one of the following letters: "R", "O", "Y", "G", "B", "P"
 
 To get Copilot's help, let's write a comment that summarizes this information. This step of taking the function description and synthesizing our own summary helps ensure that we truly understand the problem and requirements before reaching for an AI tool. We need this understanding as developers to be able to check whether the code produced by Copilot actually meets our needs. 
+
 ### !callout-info
 
 ## Copilot Doesn't Replace Critical Thinking
@@ -186,7 +187,7 @@ Before we ask Copilot for help, the first thing we need to do is gather informat
 
 We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_win_or_lose` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
 
-We will use these details to craft a prompt for Copilot. This time, let's use `⌃⌘I` (`CTRL + CMD + i`) to open up the Copilot chat pane. While we do this, we want to make sure that `app/game.py` is still open. 
+We will use these details to craft a prompt for Copilot. This time, let's use `⇧⌘I` (`Shift + CMD + i`) to open up the Copilot chat pane in "Agent" mode. While we do this, we want to make sure that `app/game.py` is still open. 
 - The Copilot chat window will use the file currently focused in the editor as context to help inform its response, so we want that file open to help Copilot place the code where we want it.
  
 For this next step, we can type directly in the Copilot chat box, but it can be helpful to write up prompts in a text editor first, especially if they span multiple lines. 
@@ -220,6 +221,8 @@ For this next step, we can type directly in the Copilot chat box, but it can be 
   > | ['R','O','Y','G'] | ['R','R','R','R'] | 3 | None |
   > ```
 </details>
+
+**Note:** The table in the prompt uses Markdown (MD) formatting. AI agents tend to be able to understand MD formatting in inputs, so if you can get at the raw markdown for a table of examples (such as by using the raw view of a MD file in Github), that can be an easy and convenient way to provide examples in a way that preserves their structure. 
 
 Being an AI tool, we will likely see slightly different responses, even with the same prompt. When we submit our prompt, Copilot will create a suggestion for us in the file we identified, `app/game.py`, and we have a couple buttons to decide if we want to keep this option or remove it from this file. In the screenshot below, the controls from left to right are:
 - **Keep** - Adds the suggested content to the `app/game.py` file
