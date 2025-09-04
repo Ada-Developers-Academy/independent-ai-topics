@@ -701,6 +701,8 @@ Taking a look at the options presented for `check_code_guessed`:
 
 We will ask Copilot to generate just theses tests that we identified as useful and relevant to their functions.
 
+<br>
+
 <details>
   <summary>
     Expand this section to see the full code for the new tests Copilot generated for the test cases we want to keep.
@@ -779,15 +781,15 @@ We will ask Copilot to generate just theses tests that we identified as useful a
 
 
   def test_check_code_guessed_all_letters_in_wrong_order_false():
-  # Arrange
-  guess = ['R', 'B', 'P', 'B']
-  code = ['R', 'B', 'B', 'P']
+      # Arrange
+      guess = ['R', 'B', 'P', 'B']
+      code = ['R', 'B', 'B', 'P']
 
-  # Act
-  result = check_code_guessed(guess, code)
+      # Act
+      result = check_code_guessed(guess, code)
 
-  # Assert
-  assert not result
+      # Assert
+      assert not result
   ```
 </details>
 

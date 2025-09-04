@@ -43,9 +43,11 @@ To get started:
 
 If we want to keep any local changes that we made in the previous lesson, we recommend pausing to create a new branch from `main` and commit your changes before checking out the `improvements-start` branch. Git will not allow us to switch branches if we have uncommitted changes that would be overwritten by the destination branch.
 
-1. To create a new branch from the current branch we are on, we can run the command: `$ git checkout -b new-branch-name`
+1. To create a new branch from the current branch we are on, we can run the command: 
+    `$ git checkout -b new-branch-name`
 2. From there we can commit and push changes to the new branch the same way we have in prior projects. 
-3. Once we're ready to switch to the branch for this lesson, we can run" `$ git checkout improvements-start`
+3. Once we're ready to switch to the branch for this lesson, we can run: 
+    `$ git checkout improvements-start`
 
 ### !end-callout
 
@@ -89,11 +91,7 @@ def validate_guess(guess):
     return True
 
 
-def check_code_guessed(guess, code, num_guesses):
-    # Exit early if the number of guesses exceeds 8
-    if num_guesses > 8:
-        return False
-
+def check_code_guessed(guess, code):
     # Convert guess to uppercase for case-insensitive comparison
     uppercased_guess = []
     for letter in guess:
@@ -121,9 +119,8 @@ Taking a look at these implementations, they work as they are supposed to – ou
   2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
   
-  We could choose to note one other potential area for improvement: 
-  - `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
-  Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
+  We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
+      - Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
 
 </details>
 
@@ -230,7 +227,7 @@ In this next change, we'll follow a similar pattern as before, but this time we'
 We will:
 1. Gather our information and create a prompt
 2. Ensure `app/game.py` is open and has editor focus so it is added to the Copilot chat's context
-3. Press `⌃⌘I` (`CTRL + CMD + i`) to bring up the Copilot Chat pane 
+3. Press `⇧⌘I` (`Shift + CMD + i`) to open up the Copilot chat pane in "Agent" mode 
 4. Start a new chat and enter our prompt
 5. Critically review the code Copilot generates 
 6. Make updates as necessary manually or through the Copilot interface until the code meets our needs
@@ -261,12 +258,12 @@ First, we need to gather the information we have about our next update. For this
 Next we're going to bring up the Copilot Chat UI and submit our prompt. 
 
 ![VS Code previewing suggested code for validate_guess and check_code_guessed in the editor pane next to the Copilot Chat pane discussing the code updates](assets/improving-code-copilot/dry-copilot-chat-create-helper-function.png)  
-*Fig. Copilot previewing a helper function and updates for `validate_guess` and `generate_code`. ([Full size image](assets/improving-code-copilot/dry-copilot-chat-create-helper-function.png))*
+*Fig. Copilot previewing a helper function and updates for `validate_guess` and `check_code_guessed`. ([Full size image](assets/improving-code-copilot/dry-copilot-chat-create-helper-function.png))*
 
 When Copilot has finished generating suggestions, we can examine the updated code:
 
 ```py
-def uppercase_list(char_list):
+def uppercased_list(char_list):
     """Convert a list of characters to uppercase."""
     uppercased_list = []
     for letter in char_list:
@@ -280,7 +277,7 @@ def validate_guess(guess):
         return False
     
     # Convert guess to uppercase for case-insensitive comparison
-    uppercased_guess = uppercase_list(guess)
+    uppercased_guess = uppercased_list(guess)
 
     # Return False if we find an invalid element of guess
     for letter in uppercased_guess:
@@ -290,16 +287,11 @@ def validate_guess(guess):
     return True
 
 
-def check_code_guessed(guess, code, num_guesses):
-    # Exit early if the number of guesses exceeds 8
-    if num_guesses > 8:
-        return False
-
+def check_code_guessed(guess, code):
     # Convert guess to uppercase for case-insensitive comparison
-    uppercased_guess = uppercase_list(guess)
+    uppercased_guess = uppercased_list(guess)
 
     # Check if the guess and code are identical (win condition)
-    # The guard clause guarantees the number of guesses is 8 or less
     if code == uppercased_guess:
         return True
     else: # Game is still in progress
@@ -307,18 +299,18 @@ def check_code_guessed(guess, code, num_guesses):
 ```
 
 Copilot generated exactly what we asked for in this case!
-- We have a new helper function `uppercase_list` that creates an uppercased list from the input
-- Both functions now call `uppercase_list` instead of duplicating list creation code
+- We have a new helper function `uppercased_list` that creates an uppercased list from the input
+- Both functions now call `uppercased_list` instead of duplicating list creation code
 
-There are a couple clean up steps that we might choose to take:
-1. Rename the new function `uppercase_list` to something that represents its responsibility in the project. The current name `uppercase_list` describes *what* the function does, but not its role in the system.
+There are a few clean up steps that we will choose to take:
+1. Rename the new function `uppercased_list` to something that represents its responsibility in the project. The current name `uppercased_list` describes *what* the function does, but not its role in the system.
     - Here we will choose a new function name `normalize_code` since the role of that function is to "normalize" our input by taking in a code using any mixture of letter casings and returning the code with all capital letters. 
     - We will also update the name of variables to better describe what's happening in our specific context. We will change the parameter from `char_list` to `code` and `uppercased_list` to `normalized_code`.
     - We should also update the function description to describe the function's role. Feel free to come up with your own description!
-2. Move `normalize_code` down in the file to below `validate_guess` and `check_code_guessed`. Different engineering teams will have different style guides that might define where helper functions go. 
+2. Move `normalize_code` down in the file to below `validate_guess` and `check_code_guessed`. Different engineering teams will have different style guides that might define where helper functions are placed. 
     - For our example, we want to keep the functions required by the project in the README together, so we will accept the changes as-is and manually move `normalize_code` down where we want it.
 
-Our cleaned up functions now look like:
+If we perform these actions, our cleaned up functions now look like:
 ```py
 def validate_guess(guess):
     ... # Unchanged lines truncated
@@ -347,55 +339,55 @@ Now that our code is looking how we'd like, let's wrap up these changes by runni
 
 ## Pythonic Code - Using List Comprehensions
 
-For code to be considered "Pythonic" it should use the features of the Python language to be concise, readable, and performant. We should also focus on using Python language features in a way that the majority of other Python programmers would expect to see them used. This reasoning is a large part of why list conprehensions have been widely accepted by the Python community as the preferred way to create and fill a list, as long as the code still meets other style and readability best practices. 
+For code to be considered "Pythonic" it should use the features of the Python language to be concise, readable, and performant. We should also focus on using Python language features in a way that the majority of other Python programmers would expect to see them used. This reasoning is a large part of why list comprehensions have been widely accepted by the Python community as the preferred way to create and fill a list, as long as the code still meets other style and readability best practices. 
 
 After our improvements, we still have two places in `app/game.py` where we create and fill a list, and neither function is using a list comprehension:
 - `generate_code`
-- `uppercase_list`
+- `normalize_code`
 
 Since we already have the Copilot Chat pane open, we'll use it to ask for Copilot's help on this last update.
 
 ### Organizing the Prompt
 
-Our final update needs to replace the for loops in `generate_code` and `uppercase_list` with a list comprehension.
+Our final update needs to replace the for loops in `generate_code` and `normalize_code` with a list comprehension.
 
 <br>
 
 <details>
   <summary>
-    Take a moment to write up a prompt that requests the changes for <code>generate_code</code> and <code>uppercase_list</code>. When you're done, expand this section to see the prompt we used.
+    Take a moment to write up a prompt that requests the changes for <code>generate_code</code> and <code>normalize_code</code>. When you're done, expand this section to see the prompt we used.
   </summary>
 
   **Prompt:**
-  > Please update the functions generate_code and uppercase_list to use list comprehensions over for loops where appropriate.
+  > Please update the functions generate_code and normalize_code to use list comprehensions over for loops where appropriate.
 
 </details>
 
-### Updating `generate_code` and `uppercase_list`
+### Updating `generate_code` and `normalize_code`
 
 In the past, we've opened new chats with Copilot when starting a significant new ask. This time we're working in the same file and on one of the same functions that was created in the current Copilot chat, so we'll continue to work in the existing chat.
 
 We'll submit our prompt and take a look at our last suggested updates for Wave 1!
 
-![VS Code previewing suggested code for generate_code and uppercase_list in the editor pane next to the Copilot Chat pane discussing the code updates](assets/improving-code-copilot/comprehensions-copilot-chat-generate-code-validate-guess.png)  
-*Fig. Copilot previewing changes to use list comprehensions in `generate_code` and `uppercase_list`. ([Full size image](assets/improving-code-copilot/comprehensions-copilot-chat-generate-code-validate-guess.png))*
+![VS Code previewing suggested code for generate_code and normalize_code in the editor pane next to the Copilot Chat pane discussing the code updates](assets/improving-code-copilot/comprehensions-copilot-chat-generate-code-validate-guess.png)  
+*Fig. Copilot previewing changes to use list comprehensions in `generate_code` and `normalize_code`. ([Full size image](assets/improving-code-copilot/comprehensions-copilot-chat-generate-code-validate-guess.png))*
 
-The suggested updates for `generate_code` and `uppercase_list` look like:
+The suggested updates for `generate_code` and `normalize_code` look like:
 
 ```py
 def generate_code():
-    # Generate a code of 4 random letters from VALID_LETTERS
+    # Generate a code of 4 random letters from VALID_LETTERS using a list comprehension
     letters_list = list(VALID_LETTERS)
-    code = [random.choice(letters_list) for _ in range(4)]
-
-    return code
+    return [random.choice(letters_list) for _ in range(4)]
 
 ...
 
-def uppercase_list(char_list):
-    """Convert a list of characters to uppercase."""
-    uppercased_list = [str(letter).upper() for letter in char_list]
-    return uppercased_list
+def normalize_code(code):
+    """
+    Normalizes the casing for a code by converting 
+    the list of characters to uppercase.
+    """    
+    return [str(letter).upper() for letter in code]
 ```
 
 Comprehensions can take some adjusting to, but once comfortable with them, they provide a great way to concisely perform the same work we do in a loop! Here we can see that our code is shorter, but we are still following PEP8 best practices like keeping our line lengths 79 characters or less. 
