@@ -89,7 +89,7 @@ def validate_guess(guess):
     return True
 
 
-def check_win_or_lose(guess, code, num_guesses):
+def check_code_guessed(guess, code, num_guesses):
     # Exit early if the number of guesses exceeds 8
     if num_guesses > 8:
         return False
@@ -118,7 +118,7 @@ Taking a look at these implementations, they work as they are supposed to – ou
 
   **Areas for Improvement**
   1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
-  2. `validate_guess` and `check_win_or_lose` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
+  2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
   
   We could choose to note one other potential area for improvement: 
@@ -223,7 +223,7 @@ def generate_code():
     return code
 ```
 
-## D.R.Y. - Helper Function for `validate_guess` and `check_win_or_lose`
+## D.R.Y. - Helper Function for `validate_guess` and `check_code_guessed`
 
 In this next change, we'll follow a similar pattern as before, but this time we'll work from the Copilot Chat pane.
 
@@ -242,25 +242,25 @@ First, we need to gather the information we have about our next update. For this
 1. Create a helper function that: 
     - takes in a list of characters
     - returns a list characters in the same order as the input, but in all uppercase
-2. Replace the identical loops in `validate_guess` and `check_win_or_lose` with a call to the new helper function
+2. Replace the identical loops in `validate_guess` and `check_code_guessed` with a call to the new helper function
 
 <br>
 
 <details>
   <summary>
-    Take a moment to write up a prompt that requests the changes for <code>validate_guess</code> and <code>check_win_or_lose</code>. When you're done, expand this section to see the prompt we will use.
+    Take a moment to write up a prompt that requests the changes for <code>validate_guess</code> and <code>check_code_guessed</code>. When you're done, expand this section to see the prompt we will use.
   </summary>
 
   **Prompt:**
-  > Please create a function that takes in a list of characters and returns a new list in the same order, but with uppercased letters. Update the validate_guess and check_win_or_lose functions to remove repeated code that handles creating an uppercased list and use the new helper function instead. Do not make any other changes to the functions.
+  > Please create a function that takes in a list of characters and returns a new list in the same order, but with uppercased letters. Update the validate_guess and check_code_guessed functions to remove repeated code that handles creating an uppercased list and use the new helper function instead. Do not make any other changes to the functions.
 
 </details>
 
-### Updating `validate_guess` and `check_win_or_lose`
+### Updating `validate_guess` and `check_code_guessed`
 
 Next we're going to bring up the Copilot Chat UI and submit our prompt. 
 
-![VS Code previewing suggested code for validate_guess and check_win_or_lose in the editor pane next to the Copilot Chat pane discussing the code updates](assets/improving-code-copilot/dry-copilot-chat-create-helper-function.png)  
+![VS Code previewing suggested code for validate_guess and check_code_guessed in the editor pane next to the Copilot Chat pane discussing the code updates](assets/improving-code-copilot/dry-copilot-chat-create-helper-function.png)  
 *Fig. Copilot previewing a helper function and updates for `validate_guess` and `generate_code`. ([Full size image](assets/improving-code-copilot/dry-copilot-chat-create-helper-function.png))*
 
 When Copilot has finished generating suggestions, we can examine the updated code:
@@ -290,7 +290,7 @@ def validate_guess(guess):
     return True
 
 
-def check_win_or_lose(guess, code, num_guesses):
+def check_code_guessed(guess, code, num_guesses):
     # Exit early if the number of guesses exceeds 8
     if num_guesses > 8:
         return False
@@ -310,8 +310,38 @@ Copilot generated exactly what we asked for in this case!
 - We have a new helper function `uppercase_list` that creates an uppercased list from the input
 - Both functions now call `uppercase_list` instead of duplicating list creation code
 
-One change that we might choose to make, is to move `uppercase_list` down in the file to below `validate_guess` and `check_win_or_lose`. Different engineering teams will have different style guides that might define where helper functions go. 
-- For our example, we want to keep the functions required by the project in the README together, so we will accept the changes as-is and manually move `uppercase_list` down where we want it.
+There are a couple clean up steps that we might choose to take:
+1. Rename the new function `uppercase_list` to something that represents its responsibility in the project. The current name `uppercase_list` describes *what* the function does, but not its role in the system.
+    - Here we will choose a new function name `normalize_code` since the role of that function is to "normalize" our input by taking in a code using any mixture of letter casings and returning the code with all capital letters. 
+    - We will also update the name of variables to better describe what's happening in our specific context. We will change the parameter from `char_list` to `code` and `uppercased_list` to `normalized_code`.
+    - We should also update the function description to describe the function's role. Feel free to come up with your own description!
+2. Move `normalize_code` down in the file to below `validate_guess` and `check_code_guessed`. Different engineering teams will have different style guides that might define where helper functions go. 
+    - For our example, we want to keep the functions required by the project in the README together, so we will accept the changes as-is and manually move `normalize_code` down where we want it.
+
+Our cleaned up functions now look like:
+```py
+def validate_guess(guess):
+    ... # Unchanged lines truncated
+    # Convert guess to uppercase for case-insensitive comparison
+    uppercased_guess = normalize_code(guess)
+
+
+def check_code_guessed(guess, code):
+    # Convert guess to uppercase for case-insensitive comparison
+    uppercased_guess = normalize_code(guess)
+    ... # Unchanged lines truncated
+
+
+def normalize_code(code):
+    """
+    Normalizes the casing for a code by converting 
+    the list of characters to uppercase.
+    """    
+    normalized_code = []
+    for letter in code:
+        normalized_code.append(str(letter).upper())
+    return normalized_code
+```
 
 Now that our code is looking how we'd like, let's wrap up these changes by running the Wave 1 test suite and seeing those checkmarks stay green!
 

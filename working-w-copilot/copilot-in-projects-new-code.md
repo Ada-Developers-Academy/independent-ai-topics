@@ -55,7 +55,7 @@ Our plan in this lesson is to:
     - We will do this by adding the functions described in Wave 1 of the `README.md` to the file `app/game.py`
 - Write new tests for our functions to cover missing edge cases
 
-## Wave 1: `generate_code`, `validate_guess`, and `check_win_or_lose`
+## Wave 1: `generate_code`, `validate_guess`, and `check_code_guessed`
 
 Opening `app/game.py`, we have a mostly empty file with some markers for adding our functions for each wave. Our first step will be to create the `generate_code` function.
 
@@ -109,7 +109,7 @@ To wrap up this function, let's:
 
 The test files for each wave import all of the functions for the wave at the top of the file. Until we implement all the functions for a wave, we'll see test discovery errors in the VS Code testing Panel. To run our tests as we complete functions, we will need to comment out and uncomment some imports and tests in the wave files so we can see our relevant tests passing.
 
-Since `validate_guess` and `check_win_or_lose` have not been implemented yet, in `tests/test_wave_1.py` we will need to comment out those names in the import line and comment out their tests in order to run the `generate_code` tests.
+Since `validate_guess` and `check_code_guessed` have not been implemented yet, in `tests/test_wave_1.py` we will need to comment out those names in the import line and comment out their tests in order to run the `generate_code` tests.
 
 Note that even with those tests commented out, if we run our tests through VS Code it will still show some test discovery errors due to the tests for waves 2 and 3. As long as the wave 1 tests are shown, you can run them and ignore the other test discovery issues. Or to avoid the errors, you can either temporarily comment out the contents of the wave 2 and 3 test files (you'll need to remember to uncomment them when you reach those waves), or stick to running the tests using `pytest`.
 ### !end-callout
@@ -120,7 +120,7 @@ At this point, both `generate_code` tests should pass and we can move on to the 
 
 We could use a comment to try generating our `validate_guess` class method, but instead we'll use the inline chat to prompt Copilot. Let's use `⌘I` (`CMD + i`) to open an inline chat and enter the following prompt that summarizes our function requirements:
 
-> Please write a function named validate_guess that takes in 1 parameter named guess. The input guess is a list of single characters. The function should return True if guess has a length of 4 and every element is one of the following letters: R, O, Y, G, B, P. If these conditions are not true, the function should return False. The function should be case insensitive, both the inputs ['R','Y','G','B'] and ['r','y','g','b'] should return True.
+> Please write a function named validate_guess that takes in 1 parameter named guess. The input guess is a list of single characters. The function should return True if guess has a length of 4 and every element is one of the following letters: R, O, Y, G, B, P. If these conditions are not true, the function should return False. The function should be case insensitive, both the inputs ['R', 'Y', 'G', 'B'] and ['r', 'y', 'g', 'b'] should return True.
 
 When we submit the prompt, we are likely to receive a response similar to the following:
 
@@ -181,11 +181,11 @@ Rather than sharing that list through a global variable, that information is dup
 
 ### !end-callout
 
-### Implement `check_win_or_lose`
+### Implement `check_code_guessed`
 
 Before we ask Copilot for help, the first thing we need to do is gather information for our last Wave 1 function prompt.
 
-We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_win_or_lose` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
+We can ask Copilot to help us write something even if we don't have a template or example, but Copilot tends to produce more relevant results if we have samples to show. In the `README`, the section for `check_code_guessed` contains a table of example inputs and outputs in addition to the function description, all of which we can share to help guide Copilot's response.
 
 We will use these details to craft a prompt for Copilot. This time, let's use `⇧⌘I` (`Shift + CMD + i`) to open up the Copilot chat pane in "Agent" mode. While we do this, we want to make sure that `app/game.py` is still open. 
 - The Copilot chat window will use the file currently focused in the editor as context to help inform its response, so we want that file open to help Copilot place the code where we want it.
@@ -200,59 +200,52 @@ For this next step, we can type directly in the Copilot chat box, but it can be 
   </summary>
 
   **Our Prompt:**
-  > Create a function named check_win_or_lose in app/game.py. The function will determine if the user making a guess has won or lost the game. should take in 3 parameters:
-  >     - guess, a 4 element list representing the user's guess
-  >     - code, a 4 element list representing the code the user is guessing
-  >     - num_guesses, an integer that represents how many guesses a user has already made
+  > Create a function named check_code_guessed in app/game.py. The function will determine if the user making a guess has won the game. It should take in 2 parameters:
+  > - guess, a 4 element list representing the user's guess
+  > - code, a 4 element list representing the code the user is guessing
   >
   > The function should return:
-  >     - True if num_guesses is 8 or less and the inputs guess and code are identical lists.
-  >     - False if num_guesses greater than 8 and the inputs guess and code are not identical lists.
-  >     - None if the game is still in progress
-  >
+  > - True if the inputs guess and code match
+  > - False otherwise
+  > 
   > Here are some example inputs and outputs for the function:
   > ```
-  > | guess | code | num_guesses | output |
-  > |:-----:|:----:| :---------: | :----: |
-  > | ['R','P','Y','G'] | ['R','P','Y','G'] | 3 | True |
-  > | ['R','P','Y','G'] | ['R','P','Y','G'] | 8 | True |
-  > | ['R','P','Y','G'] | ['R','P','Y','G'] | 9 | False |
-  > | ['R','P','Y','G'] | ['R','R','R','R'] | 9 | False |
-  > | ['R','O','Y','G'] | ['R','R','R','R'] | 3 | None |
+  > | guess | code | output |
+  > |:-----:|:----:| :----: |
+  > | ['R', 'P', 'Y', 'G'] | ['R', 'P', 'Y', 'G'] | True |
+  > | ['R', 'P', 'Y', 'G'] | ['R', 'R', 'R', 'R'] | False |
   > ```
-</details>
 
-**Note:** The table in the prompt uses Markdown (MD) formatting. AI agents tend to be able to understand MD formatting in inputs, so if you can get at the raw markdown for a table of examples (such as by using the raw view of a MD file in Github), that can be an easy and convenient way to provide examples in a way that preserves their structure. 
+  **Note:** The table in the prompt uses Markdown (MD) formatting. AI agents tend to be able to understand MD formatting in inputs, so if you can get at the raw markdown for a table of examples (such as by using the raw view of a MD file in Github), that can be an easy and convenient way to provide examples in a way that preserves their structure. 
+
+</details>
 
 Being an AI tool, we will likely see slightly different responses, even with the same prompt. When we submit our prompt, Copilot will create a suggestion for us in the file we identified, `app/game.py`, and we have a couple buttons to decide if we want to keep this option or remove it from this file. In the screenshot below, the controls from left to right are:
 - **Keep** - Adds the suggested content to the `app/game.py` file
 - **Undo** - Removes the suggestion from `app/game.py`
 - **View Diff** - Moves to a view where we can see just the changed lines of `app/game.py`. This can be handy in larger files where there might be more code to sift through to see Copilot's changes.
 
-![A section of the Copilot chat pane in VS Code showing the controls for code suggestions](assets/new-code-copilot/chat_pane_check_win_lose_first_pass.png)  
-*Fig. Copilot Chat's controls for code suggestions ([Full size image](assets/new-code-copilot/chat_pane_check_win_lose_first_pass.png))*
+![A section of the Copilot chat pane in VS Code showing the controls for code suggestions](assets/new-code-copilot/chat_pane_check_code_guessed_first_pass.png)  
+*Fig. Copilot Chat's controls for code suggestions ([Full size image](assets/new-code-copilot/chat_pane_check_code_guessed_first_pass.png))*
 
 Before we make any decisions about keeping or removing the code, let's examine what Copilot suggested for us.
 
 **Copilot's response**
-> I'll create the check_win_or_lose function in the game.py file based on your specifications. Let me add it to the Wave 2 section.
-> game.py+16-0
-> 
-> I've successfully added the check_win_or_lose function to your game.py file. The function implements the logic you specified:
-> 1. Returns True when the guess matches the code AND the number of guesses is 8 or less (player wins)
-> 2. Returns False when either:
->     - The guess matches the code but the number of guesses is greater than 8 (player loses due to too many guesses)
->     - The guess doesn't match the code and the number of guesses is greater than 8 (player loses)
-> 3. Returns None when the guess doesn't match the code but the number of guesses is 8 or less (game continues)
-> 
-> The function handles all the example cases you provided:
-> - ['R','P','Y','G'] matching ['R','P','Y','G'] with 3 or 8 guesses → True
-> - ['R','P','Y','G'] matching ['R','P','Y','G'] with 9 guesses → False
-> - ['R','P','Y','G'] not matching ['R','R','R','R'] with 9 guesses → False
-> - ['R','O','Y','G'] not matching ['R','R','R','R'] with 3 guesses → None
+> The function `check_code_guessed` has been added to `game.py`. It returns `True` if the `guess` and `code` lists match, and `False` otherwise, as specified. Let me know if you want to add tests or need further changes.
 
 **`game.py` with Suggested Code**
 ```py
+# Function to check if the guess matches the code
+def check_code_guessed(guess, code):
+    """
+    Determines if the user's guess matches the code.
+    Args:
+        guess (list): A 4-element list representing the user's guess.
+        code (list): A 4-element list representing the code to guess.
+    Returns:
+        bool: True if guess matches code, False otherwise.
+    """
+    return guess == code
 import random
 
 # Wave 1
@@ -262,7 +255,6 @@ import random
 # - each letter must be one of: R, O, Y, G, B, P
 # - letters can be repeated
 # - the list is randomly generated
-
 def generate_code():
     valid_letters = ['R', 'O', 'Y', 'G', 'B', 'P']
     return [random.choice(valid_letters) for _ in range(4)]
@@ -277,24 +269,9 @@ def validate_guess(guess):
             return False
     return True
 
+
 # Wave 2
 # Add your Wave 2 functions here
-
-def check_win_or_lose(guess, code, num_guesses):
-    # Check if the guess and code are identical (win condition)
-    if guess == code:
-        # Player wins if they haven't exceeded 8 guesses
-        if num_guesses <= 8:
-            return True
-        else:
-            return False
-    else:
-        # If guess doesn't match code, check if game should end
-        if num_guesses > 8:
-            return False
-        else:
-            # Game is still in progress
-            return None
 
 # Wave 3
 # Add your Wave 3 functions here
@@ -302,7 +279,7 @@ def check_win_or_lose(guess, code, num_guesses):
 
 The initial code that Copilot displays looks okay, but it doesn't quite meet our needs. We forgot to mention that the comparison should be case insensitive, and we didn't include examples that would guide the tool to that information. As-is, the function does not meet the requirements of the project. 
 
-Additionally, we didn't tell Copilot where in the file to place `check_win_or_lose`. Rather than placing the function in Wave 1 where we want it, Copilot placed the code in Wave 2.
+Additionally, we didn't tell Copilot where in the file to place `check_code_guessed`. Rather than placing the function in Wave 1 where we want it, Copilot placed the code at the top of the file above the existing import.
 
 We could make the changes manually after moving the code to a file, but we can also ask Copilot to make these updates. Let's continue our conversation with Copilot in the chat pane to try to fix these issues.
 
@@ -310,42 +287,31 @@ We could make the changes manually after moving the code to a file, but we can a
 
 <details>
   <summary>
-    Feel free to try out asking Copilot to help with the changes to the <code>check_win_or_lose</code> function. When you're done, expand this section to see the prompt we used.
+    Feel free to try out asking Copilot to help with the changes to the <code>check_code_guessed</code> function. When you're done, expand this section to see the prompt we used.
   </summary>
 
   **Follow Up Prompt:**
-  > Please move the check_win_or_lose function in game.py up to the section for Wave 1 functions. Please also update check_win_or_lose to use a case insensitive comparison for guess and code.
+  > Please move the check_code_guessed function in game.py down below validate_guess in the section for Wave 1 functions. Please also update check_code_guessed to use a case insensitive comparison for guess and code.
 </details>
 
 Once we submit our prompt, we have a new version of code to examine:
 ```py
- def check_win_or_lose(guess, code, num_guesses):
-    # Convert both guess and code to uppercase for case-insensitive comparison
-    guess_upper = [str(letter).upper() for letter in guess]
-    code_upper = [str(letter).upper() for letter in code]
-
-    # Check if the guess and code are identical (win condition)
-    if guess_upper == code_upper:
-        # Player wins if they haven't exceeded 8 guesses
-        if num_guesses <= 8:
-            return True
-        else:
-            return False
-    else:
-        # If guess doesn't match code, check if game should end
-        if num_guesses > 8:
-            return False
-        else:
-            # Game is still in progress
-            return None
- 
-# Wave 2
+# Function to check if the guess matches the code (case-insensitive)
+def check_code_guessed(guess, code):
+    """
+    Determines if the user's guess matches the code (case-insensitive).
+    Args:
+        guess (list): A 4-element list representing the user's guess.
+        code (list): A 4-element list representing the code to guess.
+    Returns:
+        bool: True if guess matches code (case-insensitive), False otherwise.
+    """
+    return [str(g).upper() for g in guess] == [str(c).upper() for c in code] 
 ```
 
 As we often will when reviewing generated code, we have a few things to consider. 
 - One optimization we could make is to remove converting `code` to uppercase if we know `code` will always be created and stored in uppercase. 
-- We could also restructure `check_win_or_lose` to use a guard clause and exit as early as possible if the number of guesses is too large _before_ we convert `guess` to uppercase and iterate through `guess` and `code` to compare them.
-- At the very end of the suggestion, we can remove the newly added comment `# Wave 2` which duplicates a comment that already exists.
+- The function is a single line with a lot happening that makes it harder to parse quickly. It also uses single letter variable names to try to stay under 79 characters. This makes it harder to read and understand, so we can break up the line.
 
 For this lesson's example, we will accept the updated code as-is and make these last changes manually. Once we make these updates, we can run our full Wave 1 test suite to ensure the existing tests are passing.
 
@@ -353,25 +319,22 @@ For this lesson's example, we will accept the updated code as-is and make these 
 
 <details>
   <summary>
-    Try out making the final updates to <code>check_win_or_lose</code> yourself! When you're done, expand this section to see our final version of the function.
+    Try out making the final updates to <code>check_code_guessed</code> yourself! When you're done, expand this section to see our final version of the function.
   </summary>
 
   ```py
-  def check_win_or_lose(guess, code, num_guesses):
-      # Exit early if the number of guesses exceeds 8
-      if num_guesses > 8:
-          return False
-      
-      # Convert guess to uppercase for case-insensitive comparison
-      guess_upper = [letter.upper() for letter in guess]
-      
-      # Check if the guess and code are identical (win condition)
-      # The guard clause guarantees the number of guesses is 8 or less
-      if guess_upper == code:
-          return True
-      
-      # Game is still in progress
-      return None
+  # Function to check if the guess matches the code (case-insensitive)
+  def check_code_guessed(guess, code):
+      """
+      Determines if the user's guess matches the code (case-insensitive).
+      Args:
+          guess (list): A 4-element list representing the user's guess.
+          code (list): A 4-element list representing the code to guess.
+      Returns:
+          bool: True if guess matches code (case-insensitive), False otherwise.
+      """
+      upper_guess = [letter.upper() for letter in guess]
+      return upper_guess == code
   ```
 </details>
 
@@ -531,105 +494,90 @@ Before we jump into prompting, the first thing we should do is review our tests 
 
 <details>
   <summary>
-    Check out the tests in VS Code, or open this drop down to see the current test suites for <code>validate_guess</code> and <code>check_win_or_lose</code>.
+    Check out the tests in VS Code, or open this drop down to see the current test suites for <code>validate_guess</code> and <code>check_code_guessed</code>.
   </summary>
 
   ```py
-  # --------------------------test validate_guess------------------------------------
+# --------------------------test validate_guess------------------------------------
 
 def test_validate_guess_false_length_greater_than_four():
-    #Arrange
-    guess = ['R','R','R','R','R']
+    # Arrange
+    guess = ['R', 'R', 'R', 'R', 'R']
 
-    #Act
+    # Act
     result = validate_guess(guess)
 
-    #Assert
+    # Assert
     assert result is False
 
 
 def test_validate_guess_true_valid_letters_rygp():
-    #Arrange
-    guess = ['R','Y','G','P']
+    # Arrange
+    guess = ['R', 'Y', 'G', 'P']
 
-    #Act
+    # Act
     result = validate_guess(guess)
 
-    #assert
+    # Assert
     assert result is True
 
 
 def test_validate_guess_true_valid_letters_bp():
-    #Arrange
-    guess = ['B','B','P','P']
+    # Arrange
+    guess = ['B', 'B', 'P', 'P']
 
-    #Act
+    # Act
     result = validate_guess(guess)
 
-    #assert
+    # Assert
     assert result is True
 
 
 def test_validate_guess_false_invalid_letters():
-    #Arrange
-    guess = ['R','S','Y','P']
+    # Arrange
+    guess = ['R', 'S', 'Y', 'P']
 
-    #Act
+    # Act
     result = validate_guess(guess)
 
-    #assert
+    # Assert
     assert result is False
 
 
 def test_validate_guess_true_lowercase_letters():
-    #Arrange
-    guess = ['b','b','p','p']
+    # Arrange
+    guess = ['b', 'b', 'p', 'p']
 
-    #Act
+    # Act
     result = validate_guess(guess)
 
-    #assert
+    # Assert
     assert result is True
 
 # --------------------------test check_win_or_lose------------------------------------
 
-def test_check_win_or_lose_both_conditions_true():
-    #Arrange
-    guess = ['R','B','B','P']
-    code = ['R','B','B','P']
-    num_guesses = 3
+def test_check_code_guessed_true():
+    # Arrange
+    guess = ['R', 'B', 'B', 'P']
+    code = ['R', 'B', 'B', 'P']
 
-    #Act
-    result = check_win_or_lose(guess, code, num_guesses)
+    # Act
+    result = check_code_guessed(guess, code)
 
-    #Assert
-    assert result is True
-
-
-def test_check_win_or_lose_false_if_exceeds_max_guesses():
-    #Arrange
-    guess = ['R','B','B','P']
-    code = ['R','B','B','P']
-    num_guesses = 9
-
-    #Act
-    result = check_win_or_lose(guess, code, num_guesses)
-
-    #Assert
-    assert result is False
+    # Assert
+    assert result
 
 
-def test_check_win_or_lose_none_if_game_ongoing():
-    #Arrange
-    guess = ['R','B','B','P']
-    code = ['R','B','B','O']
-    num_guesses = 2
+def test_check_code_guessed_false_if_game_ongoing():
+    # Arrange
+    guess = ['R', 'B', 'B', 'P']
+    code = ['R', 'B', 'B', 'O']
 
-    #Act
-    result = check_win_or_lose(guess, code, num_guesses)
+    # Act
+    result = check_code_guessed(guess, code)
 
-    #Assert
-    assert result is None
+    # Assert
+    assert not result
   ```
 </details>
 
@@ -671,11 +619,11 @@ Now that Copilot can see our code and tests, let's start prompting! We can write
 
 <details>
   <summary>
-    Using what we've learned about prompting so far and the points above as a template, try out writing a prompt to update the test suites for <code>validate_guess</code> and <code>check_win_or_lose</code>. When you're done, expand this section to see our prompt.
+    Using what we've learned about prompting so far and the points above as a template, try out writing a prompt to update the test suites for <code>validate_guess</code> and <code>check_code_guessed</code>. When you're done, expand this section to see our prompt.
   </summary>
 
   **Prompt:**
-  > I would like to expand the test suites for the functions validate_guess and check_win_or_lose in game.py to cover missing edge or nominal test cases. 
+  > I would like to expand the test suites for the functions validate_guess and check_code_guessed in game.py to cover missing edge or nominal test cases. 
   > 
   > The current tests live in test_wave_1.py. I would like any new tests added to test_wave_1.py in the relevant sections of the file. 
   > 
@@ -688,68 +636,75 @@ Once we press enter, exact responses will vary, but Copilot should respond with 
 - analyzing current test coverage or cases for each function in `tests/test_wave_1.py`
 - describing what the current tests cover and what scenarios are missing
 
-Copilot might also generate the unit tests for the new tests cases it identified inside `tests/test_wave_1.py` for us to preview, but we might need to direct it to do so after reviewing the scenarios it proposes.
+Copilot might also generate the unit tests for the new tests cases it identified inside `tests/test_wave_1.py` for us to preview, but we might need to direct it to do so after reviewing the scenarios it proposes. In our case, we were shown a list of cases and explanations to review.
 
-![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane discussing the newly added scenarios](assets/new-code-copilot/tests_chat_pane_review_suggestions.png)  
-*Fig. Copilot previewing new tests for `validate_guess` and `generate_code` in `tests/test_wave_1.py`. ([Full size image](assets/new-code-copilot/tests_chat_pane_review_suggestions.png))*
+We should carefully look through this information and check it against our needs and the requirements in the `README.md`. We should keep in mind the data and expectations for each scenario to ensure they are useful and testing what we expect.
+- This process also helps to reinforce the kinds of test cases we might want to keep top of mind for the future. 
 
-If we have testing set up in VS Code, Copilot may offer to run the new tests so we can see whether they pass. We want to run the tests since Copilot will give us some more information based on the results. In fact, when working on this lesson, we didn't get a full breakdown of why the new test cases were useful until we took this step.
-- We can allow the tests to run with the "`Continue`" button, or use the drop down to explore permissions options for this feature. 
-  - Feel free to follow your curiosity around how you can customize aspects of Copilot! 
-  ![UI in the Copilot chat pane asking to run the generated tests during preview.](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png)  
-  *Fig. UI in the Copilot chat pane asking to run the generated tests during preview. ([Full size image](assets/new-code-copilot/tests_chat_pane_run_tests_ui.png))*
+With this in mind, let's review into the tests Copilot suggested for us.
 
-Once we've ran the new tests and receive a description of the missing scenarios and why they would be useful, we can review that information and check it against our needs and the requirements in the `README.md`. We should review:
-- the data and assertions for each test to ensure they are testing what we expect
-- the names of each test to ensure they truly reflect the scenario in the test function
+  **Copilot's Response**
+  > Here are some useful additional test cases for `validate_guess` and `check_code_guessed`, along with explanations for each:
+  > 
+  > ### For `validate_guess`
+  > 
+  > 1. **Empty Guess List**
+  >    - Test: `validate_guess([])`
+  >    - Why: Ensures the function returns `False` for an empty input, which is an invalid guess.
+  > 
+  > 2. **Guess with Length Less Than Four**
+  >    - Test: `validate_guess(['R', 'O', 'Y'])`
+  >    - Why: Ensures the function returns `False` for guesses that are too short.
+  > 
+  > 3. **Guess with Mixed Case Letters**
+  >    - Test: `validate_guess(['R', 'o', 'Y', 'p'])`
+  >    - Why: Confirms that the function is case-insensitive and accepts valid letters in any case.
+  > 
+  > 4. **Guess with Non-String Elements**
+  >    - Test: `validate_guess(['R', 1, 'Y', 'P'])`
+  >    - Why: Checks that the function handles non-string input gracefully and returns `False`.
+  >
+  > 5. **Guess with None**
+  >    - Test: `validate_guess(['R', None, 'Y', 'P'])`
+  >    - Why: Ensures the function rejects guesses containing `None`.
+  > 
+  > ### For `check_code_guessed`
+  > 
+  > 1. **Guess and Code with Different Cases**
+  >    - Test: `check_code_guessed(['r', 'b', 'b', 'p'], ['R', 'B', 'B', 'P'])`
+  >    - Why: Verifies that the function is case-insensitive and matches guesses regardless of letter case.
+  > 
+  > 2. **Guess and Code with Same Letters, Different Order**
+  >    - Test: `check_code_guessed(['R', 'B', 'P', 'B'], ['R', 'B', 'B', 'P'])`
+  >    - Why: Ensures the function only returns `True` for exact order matches, not just matching letters.
+  > 
+  > 3. **Guess and Code with Different Lengths**
+  >    - Test: `check_code_guessed(['R', 'B', 'B'], ['R', 'B', 'B', 'P'])`
+  >    - Why: Checks that the function handles mismatched lengths and returns `False`.
+  > 
+  > 4. **Guess and Code Both Empty**
+  >    - Test: `check_code_guessed([], [])`
+  >    - Why: Ensures the function returns `False` (or possibly `True` if empty is considered a match, but this should be clarified) for empty inputs.
+  > 
+  > 5. **Guess with Non-String Elements**
+  >    - Test: `check_code_guessed([1, 2, 3, 4], ['R', 'B', 'B', 'P'])`
+  >    - Why: Checks robustness against non-string input.
+  >
+  > Would you like me to add these tests to `test_wave_1.py`? If so, I will place them in the relevant sections and ensure they are clearly labeled as edge or nominal cases.
 
-This process also helps to reinforce the kinds of test cases we might want to keep top of mind for the future. With this in mind, let's review into the tests Copilot suggested for us.
+As we noted earlier in the lesson when reviewing our existing test suite, we have no mixed casing test for `validate_guess`. Copilot created a scenario for that, along with a host of other edge cases to consider. 
+- Since this function is meant to provide a layer of validation for us before we try to take other actions with a guess, these test scenarios have value and help reinforce that our project works at the boundaries of our game. 
+
+Taking a look at the options presented for `check_code_guessed`: 
+- The first two tests would provide some extra security since we did not have a mixed case test or one for the edge case where all correct letters are present in the guess, but in the wrong order. 
+- We wouldn't necessarily need options 3-6 since they handle validation that does not belong to this function's responsibilities. We should be validating a guess with our `validate_guess` function before calling `check_code_guessed`.
+
+We will ask Copilot to generate just theses tests that we identified as useful and relevant to their functions.
 
 <details>
   <summary>
-    Expand this section to see the response we got from Copilot explaining the new scenarios after running the tests, and the full code for the new tests Copilot suggested.
+    Expand this section to see the full code for the new tests Copilot generated for the test cases we want to keep.
   </summary>
-
-  **Copilot Response:**
-  > New Test Cases Added
-  > 
-  > For validate_guess:
-  > 1. test_validate_guess_false_empty_list
-  >    - Why useful: Tests edge case of completely empty input
-  >    - Scenario covered: Ensures function handles empty lists gracefully
-  >
-  > 2. test_validate_guess_false_length_less_than_four
-  >    - Why useful: Current tests only checked length > 4, not < 4
-  >    - Scenario covered: Validates that guesses shorter than required length are rejected
-  > 
-  > 3. test_validate_guess_true_mixed_case_letters
-  >    - Why useful: Current tests only covered all lowercase; this tests mixed case
-  >    - Scenario covered: Ensures case insensitivity works with mixed case input
-  > 
-  > 4. test_validate_guess_false_non_string_types
-  >    - Why useful: Tests robustness against invalid data types
-  >    - Scenario covered: Ensures function handles non-string elements (like integers) properly
-  > 
-  > 5. test_validate_guess_false_with_none_value
-  >    - Why useful: Tests handling of None values which could cause runtime errors
-  >    - Scenario covered: Validates that None values in the guess list are rejected
-  > 
-  > For check_win_or_lose:
-  > 1. test_check_win_or_lose_true_at_max_guesses
-  >    - Why useful: Tests the boundary condition at exactly 8 guesses
-  >    - Scenario covered: Ensures player can still win on the 8th (final) guess
-  >
-  > 2. test_check_win_or_lose_true_with_mixed_case_guess
-  >    - Why useful: Verifies case insensitivity in win condition
-  >    - Scenario covered: Ensures mixed case guesses can still result in wins
-  >
-  > 3. test_check_win_or_lose_true_at_first_guess
-  >    - Why useful: Tests minimum boundary (first guess win)
-  >    - Scenario covered: Validates that players can win immediately on their first try
-  >
-  > 4. test_check_win_or_lose_false_exceeds_max_with_wrong_guess
-  >    - Why useful: Clarifies behavior when exceeding guesses with wrong answer
-  >    - Scenario covered: Ensures that exceeding guess limit always returns False, regardless of guess content
 
   **Suggested Tests:**
   ```py
@@ -768,7 +723,7 @@ This process also helps to reinforce the kinds of test cases we might want to ke
 
   def test_validate_guess_false_length_less_than_four():
       #Arrange
-      guess = ['R','O','Y']
+      guess = ['R', 'O', 'Y']
 
       #Act
       result = validate_guess(guess)
@@ -779,7 +734,7 @@ This process also helps to reinforce the kinds of test cases we might want to ke
 
   def test_validate_guess_true_mixed_case_letters():
       #Arrange
-      guess = ['R','o','Y','p']
+      guess = ['R', 'o', 'Y', 'p']
 
       #Act
       result = validate_guess(guess)
@@ -809,67 +764,32 @@ This process also helps to reinforce the kinds of test cases we might want to ke
       #Assert
       assert result is False
 
-  # ----check_win_or_lose tests----
+  # ----check_code_guessed tests----
 
-  def test_check_win_or_lose_true_at_max_guesses():
-      #Arrange
-      guess = ['R','B','B','P']
-      code = ['R','B','B','P']
-      num_guesses = 8
+  def test_check_code_guessed_true_with_mixed_case_guess():
+      # Arrange
+      guess = ['r', 'B', 'b', 'P']
+      code = ['R', 'B', 'B', 'P']
 
-      #Act
-      result = check_win_or_lose(guess, code, num_guesses)
+      # Act
+      result = check_code_guessed(guess, code)
 
-      #Assert
-      assert result is True
-
-
-  def test_check_win_or_lose_true_with_mixed_case_guess():
-      #Arrange
-      guess = ['r','B','b','P']
-      code = ['R','B','B','P']
-      num_guesses = 3
-
-      #Act
-      result = check_win_or_lose(guess, code, num_guesses)
-
-      #Assert
-      assert result is True
+      # Assert
+      assert result
 
 
-  def test_check_win_or_lose_true_at_first_guess():
-      #Arrange
-      guess = ['R','B','B','P']
-      code = ['R','B','B','P']
-      num_guesses = 1
+  def test_check_code_guessed_all_letters_in_wrong_order_false():
+  # Arrange
+  guess = ['R', 'B', 'P', 'B']
+  code = ['R', 'B', 'B', 'P']
 
-      #Act
-      result = check_win_or_lose(guess, code, num_guesses)
+  # Act
+  result = check_code_guessed(guess, code)
 
-      #Assert
-      assert result is True
-
-
-  def test_check_win_or_lose_false_exceeds_max_with_wrong_guess():
-      #Arrange
-      guess = ['R','B','B','O']  # Wrong guess
-      code = ['R','B','B','P']
-      num_guesses = 9
-
-      #Act
-      result = check_win_or_lose(guess, code, num_guesses)
-
-      #Assert
-      assert result is False
+  # Assert
+  assert not result
   ```
 </details>
-
-As we noted earlier in the lesson when reviewing our existing test suite, we have no mixed casing test for `validate_guess`. Copilot created a test for that scenario along with a host of other edge cases to consider. Overall, the test cases Copilot presented help reinforce that our project works at the boundaries of our game, especially tests like `test_check_win_or_lose_true_at_max_guesses` and `test_check_win_or_lose_true_at_first_guess` that confirm we don't have unexpected behavior in `check_win_or_lose` at the start or end of a game.
-
-These test scenarios have value, their names reflect what they are doing, and they even follow a similar layout to our existing tests in the file with our "Arrange", "Act", and "Assert" sections. We can use the keep button in either the `tests/test_wave_1.py` preview or the Copilot chat pane to accept the changes, and we are wrapped up with Wave 1!
-
-![VS Code previewing new tests for validate_guess and check_win_or_lose in the editor pane next to the Copilot chat pane with the keeps buttons on each pane circled](assets/new-code-copilot/tests_keep_generated_suggestions.png)  
-*Fig. VS Code editor and Copilot Chat buttons for accepting code suggestions. ([Full size image](assets/new-code-copilot/tests_keep_generated_suggestions.png))*
 
 To see our version of the `mastermind-copilot` repo with Wave 1 completed, check out the branch [`wave_1_complete`](https://github.com/Ada-Activities/mastermind-copilot/tree/wave_1_complete).
 
