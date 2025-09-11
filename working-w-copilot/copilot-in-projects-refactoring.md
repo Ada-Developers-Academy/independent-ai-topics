@@ -119,9 +119,8 @@ Taking a look at these implementations, they work as they are supposed to – ou
   2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
 
-  We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
-
-      - Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
+We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used.  
+- Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
 
 </details>
 
@@ -296,7 +295,7 @@ def check_code_guessed(guess, code):
     if code == uppercased_guess:
         return True
     else: # Game is still in progress
-        return None
+        return False
 ```
 
 Copilot generated exactly what we asked for in this case!
