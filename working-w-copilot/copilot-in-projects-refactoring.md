@@ -53,7 +53,7 @@ If we want to keep any local changes that we made in the previous lesson, we rec
 
 ## Identifying Code for Improvement
 
-Let's review the implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with the changes and start looking for places where we could be more mindful of best practices.
+Let's review these altered implementations of the functions for Wave 1 on the `improvements-start` branch to get familiar with what has changed and start looking for places where we could be more mindful of best practices.
 
 ```py
 import random
@@ -101,8 +101,8 @@ def check_code_guessed(guess, code):
     # The guard clause guarantees the number of guesses is 8 or less
     if code == uppercased_guess:
         return True
-    else: # Game is still in progress
-        return None
+    else: # Code has not been guessed
+        return False
 ```
 
 Taking a look at these implementations, they work as they are supposed to – our tests pass after all! – but there are areas that could use some polish.
@@ -118,8 +118,9 @@ Taking a look at these implementations, they work as they are supposed to – ou
   1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
   2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
   3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
-  
+
   We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used. 
+
       - Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
 
 </details>
