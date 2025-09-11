@@ -565,7 +565,7 @@ def test_check_code_guessed_true():
     result = check_code_guessed(guess, code)
 
     # Assert
-    assert result
+    assert result is True
 
 
 def test_check_code_guessed_false_if_game_ongoing():
@@ -577,7 +577,7 @@ def test_check_code_guessed_false_if_game_ongoing():
     result = check_code_guessed(guess, code)
 
     # Assert
-    assert not result
+    assert result is False
   ```
 </details>
 
@@ -692,8 +692,9 @@ With this in mind, let's review into the tests Copilot suggested for us.
   >
   > Would you like me to add these tests to `test_wave_1.py`? If so, I will place them in the relevant sections and ensure they are clearly labeled as edge or nominal cases.
 
-As we noted earlier in the lesson when reviewing our existing test suite, we have no mixed casing test for `validate_guess`. Copilot created a scenario for that, along with a host of other edge cases to consider. 
-- Since this function is meant to provide a layer of validation for us before we try to take other actions with a guess, these test scenarios have value and help reinforce that our project works at the boundaries of our game. 
+As we noted earlier in the lesson when reviewing our existing test suite, we have no mixed casing test for `validate_guess`. Copilot created a scenario for that, along with a host of other edge cases to consider.
+- Since this function is meant to provide a layer of validation for us before we try to take other actions with a guess, these test scenarios have value and help reinforce that our project works at the boundaries of our game.
+- That being said, since we know that our game will run by asking users to type input, which will be received as a string (even typing a number key produces a numeric _character_ rather than a number value), we might have decided to reject the suggested tests containing mixed inputs. _How would a user have typed the special Python value `None`?_ Taking into account the context of the system a function will be used in could lead us to include or reject suggestions. It's not always a clear case of one or the other.
 
 Taking a look at the options presented for `check_code_guessed`: 
 - The first two tests would provide some extra security since we did not have a mixed case test or one for the edge case where all correct letters are present in the guess, but in the wrong order. 
@@ -777,7 +778,7 @@ We will ask Copilot to generate just theses tests that we identified as useful a
       result = check_code_guessed(guess, code)
 
       # Assert
-      assert result
+      assert result is True
 
 
   def test_check_code_guessed_all_letters_in_wrong_order_false():
@@ -789,7 +790,7 @@ We will ask Copilot to generate just theses tests that we identified as useful a
       result = check_code_guessed(guess, code)
 
       # Assert
-      assert not result
+      assert result is False
   ```
 </details>
 
