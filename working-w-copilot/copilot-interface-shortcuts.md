@@ -146,7 +146,7 @@ There are 2 ways we can interact with the Copilot chat:
    - We can right click inside a file then select "Copilot > Start Inline Chat" to open a chat box at the location we clicked. 
    - `⌘I` (`CMD + i`) accomplishes the same thing at the current cursor location. 
    - We can also use the drop down menu next to the Copilot icon at the top of VS Code.
-   - For our own knowledge, the inline chat only uses the "Ask" and "Edit" modes described previously. At the time of writing this lesson, there is no option in the UI to use "Agent" mode from the inline chat.   
+      - For our own knowledge, the inline chat only uses the "Ask" and "Edit" modes described previously. At the time of writing this lesson, there is no option in the UI to use "Agent" mode from the inline chat.   
 
    ![A menu in VS Code that shows the Copilot options and where to open the inline chat](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png)  
    *Fig. The right-click menu in VS Code showing the Copilot options ([Full size image](assets/copilot-interface-shortcuts/vscode-open-inline-chat-from-menu.png))*
