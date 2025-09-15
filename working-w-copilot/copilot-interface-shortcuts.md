@@ -121,6 +121,21 @@ Something important to note, is that Copilot chats have 3 modes they can run in:
 | Edit | Optimized for making code edits across multiple files in your project. |
 | Agent | Optimized for acting autonomously to fulfill high level requirements that may include code edits across multiple files and complex tasks requiring invoking other tools. |
 
+### !callout-info
+
+## Find the Mode that Works Best For You
+
+Everyone's work flow and style is a little different, so we recommend that students try out these modes to see which feels like the best match for them. The goal is to choose a mode that centers your learning over completing things quickly. 
+
+Folks will notice slight differences in the scope and depth of answers as they try out the modes. We recommend using time boxing: 
+1. Try out a mode for a set period of time.
+2. Note what does and does not work well for you.
+3. Repeat the first couple steps with a new mode, then compare your notes on the modes to see what mode best supports your learning.
+
+We will often use the Agent mode in our examples, but that does not mean it is the best mode for your work flow!
+
+### !end-callout
+
 Depending on how we invoke Copilot chat, certain modes will be accessible to us. Let's take a look at a couple ways to start a chat!
 
 #### Starting a chat
@@ -145,7 +160,9 @@ There are 2 ways we can interact with the Copilot chat:
 2. Through the Copilot chat pane. 
    - We can click the Copilot icon in the top of the VS Code window to open the chat pane. 
    - The keyboard shortcut to open the chat pane is `⌃⌘I` (`CTRL + CMD + i`).  
-   - The chat pane will default to "Agent" mode. If we want to ask more general coding questions you may find responses more useful in "Ask" mode.
+      - This shortcut will open the chat pane with the most recently used mode active. If it has never been opened the chat pane will initially default to "Agent" mode. 
+      - If we want to ask more general coding questions we may find responses more useful in "Ask" mode over "Edit" or "Agent" modes.
+   - To open the chat pane exclusively in "Agent" mode we can use the shortcut `⇧⌘I` (`Shift + CMD + i`)
 
    ![Copilot icon in VS Code highlighted and the Copilot chat pane showing. There is a warning that generated code may be incorrect.](assets/copilot-interface-shortcuts/vscode-open-chat-from-copilot-icon.png)  
    *Fig. Copilot icon in VS Code highlighted and the Copilot chat pane showing. Note the warning that generated code may be incorrect. ([Full size image](assets/copilot-interface-shortcuts/vscode-open-chat-from-copilot-icon.png))*
