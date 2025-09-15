@@ -242,14 +242,14 @@ Copilot chat provides a number of shortcut options to streamline our interaction
 | /tests | Generate unit tests for the selected code. If a test file doesn't exist already, this will create a new file you can review and modify. |
 
 ![Copilot's inline chat with a `/` entered and showing a dropdown of shortcut options](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png)  
-*Fig. Shortcut options showing on an inline chat after entering `/` ([Full size image](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png))**
+*Fig. Shortcut options showing on an inline chat after entering `/` ([Full size image](assets/copilot-interface-shortcuts/inline-chat-shortcut-dropdown.png))*
 
 ### Commit Messages
 
 Copilot can take some of the tedium out of writing commit messages when using the integrated Source Control tools in VS Code! With the Copilot extension installed, the text box where we write our commit message now has a button to the right with a sparkles icon—hover over it and we'll see a message "Generate Commit Message with Copilot". When clicked, Copilot will generate a summary based on the changed files that we can review and update as needed to fit our own or our team's standards.
 
 ![Close up view of the source control tab of VS Code with the Copilot commit message button circled in red](assets/copilot-interface-shortcuts/vscode-source-control-copilot-button.png)  
-*Fig. VS Code's Source Control tab with the Copilot commit message button circled ([Full size image](assets/copilot-interface-shortcuts/vscode-source-control-copilot-button.png))**
+*Fig. VS Code's Source Control tab with the Copilot commit message button circled ([Full size image](assets/copilot-interface-shortcuts/vscode-source-control-copilot-button.png))*
 
 ## Summary
 
