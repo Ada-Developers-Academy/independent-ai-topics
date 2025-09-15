@@ -117,15 +117,15 @@ Taking a look at these implementations, they work as they are supposed to – ou
   **Areas for Improvement**
   1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
   2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
-  3. `check_code_guessed` is using an antipattern to decide what we return. The functions uses an if/else to decide whether we return `True` or `False`, when we should directly return the result of comparing the `guess` and `code`
-  4. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
+  3. `check_code_guessed` is using an antipattern to decide what we return. The functions uses an if/else to decide whether we return `True` or `False`, when we should directly return the result of comparing the `guess` and `code`.
+  4. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python.
 
 We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used.  
 - Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
 
 </details>
 
-We will investigate and update the 3 issues we identified throughout the rest this lesson. If you came up with more items than we listed, feel free to explore those as practice!
+We will investigate and update the issues we identified in the drop down above throughout the rest of this lesson. If you came up with more items than we listed, feel free to explore those as practice!
 
 ## D.R.Y. - Sharing Data Structures in `generate_code` and `validate_guess`
 
