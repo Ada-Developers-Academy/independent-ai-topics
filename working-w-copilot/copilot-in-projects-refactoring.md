@@ -117,7 +117,8 @@ Taking a look at these implementations, they work as they are supposed to – ou
   **Areas for Improvement**
   1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
   2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
-  3. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
+  3. `check_code_guessed` is using an antipattern to decide what we return. The functions uses an if/else to decide whether we return `True` or `False`, when we should directly return the result of comparing the `guess` and `code`
+  4. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python 
 
 We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used.  
 - Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
@@ -309,6 +310,9 @@ There are a few clean up steps that we will choose to take:
     - We should also update the function description to describe the function's role. Feel free to come up with your own description!
 2. Move `normalize_code` down in the file to below `validate_guess` and `check_code_guessed`. Different engineering teams will have different style guides that might define where helper functions are placed. 
     - For our example, we want to keep the functions required by the project in the README together, so we will accept the changes as-is and manually move `normalize_code` down where we want it.
+3. While we're cleaning up the functions, we can address the return value antipattern in `check_code_guessed` that we noted in the potential improvements. 
+    - Instead of using an if/else, we can return the result of comparing the uppercased guess and the code: `return code == uppercased_guess`
+    - Since this is a small fix, we can perform this change faster than describing what we want in a prompt and asking Copilot to make the change.
 
 If we perform these actions, our cleaned up functions now look like:
 ```py
@@ -321,7 +325,8 @@ def validate_guess(guess):
 def check_code_guessed(guess, code):
     # Convert guess to uppercase for case-insensitive comparison
     uppercased_guess = normalize_code(guess)
-    ... # Unchanged lines truncated
+    # Check if the guess and code are identical (win condition)
+    return code == uppercased_guess
 
 
 def normalize_code(code):
