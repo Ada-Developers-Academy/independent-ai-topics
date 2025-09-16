@@ -95,3 +95,7 @@ Standards:
         Type: Lesson
         UID: d02d6d74-c6cd-11ee-a506-0242ac120002
         Path: /working-w-copilot/copilot-in-projects-refactoring.md
+      -
+        Type: Lesson
+        UID: aa500fcb-374f-42b3-ae0b-31f8191cbb3c
+        Path: /working-w-copilot/problem-set-using-github-copilot.md
