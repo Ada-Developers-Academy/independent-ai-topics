@@ -41,6 +41,33 @@ Standards:
         Type: Lesson
         UID: ebd7c520-952b-11ee-b9d1-0242ac120002
         Path: /debugging-w-chatgpt/debugging-w-chatgpt.md
+  - 
+    Title: Using GitHub's Copilot
+    Description: How do we work with code-specific AI Assistants like GitHub's Copilot?
+    UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
+        Path: /working-w-copilot/setting-up-copilot.md
+      -
+        Type: Lesson
+        UID: e3e38130-72f1-4695-8aa9-e9f4a2d14c58
+        Path: /working-w-copilot/copilot-interface-shortcuts.md
+      -
+        Type: Lesson
+        UID: d070c172-d08a-4548-93da-ba629a15d766
+        Path: /working-w-copilot/copilot-in-projects-new-code.md
+      -
+        Type: Lesson
+        UID: d02d6d74-c6cd-11ee-a506-0242ac120002
+        Path: /working-w-copilot/copilot-in-projects-refactoring.md
+      -
+        Type: Lesson
+        UID: aa500fcb-374f-42b3-ae0b-31f8191cbb3c
+        Path: /working-w-copilot/problem-set-using-github-copilot.md
   -
     Title: Using AI APIs
     Description: How do we leverage the AI APIs to introduce generative AI into our projects?
@@ -72,30 +99,3 @@ Standards:
         Type: Lesson
         UID: 08cc5b97-3408-4e71-8b47-aecbde2cb458
         Path: /working-with-ai-apis/ai-apis-in-projects.md
-  - 
-    Title: Using GitHub's Copilot
-    Description: How do we work with code-specific AI Assistants like GitHub's Copilot?
-    UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
-    SuccessCriteria:
-      - success criteria
-    ContentFiles:
-      -
-        Type: Lesson
-        UID: 3b2a1fa7-b684-47f8-a465-fbcc278b4a9b
-        Path: /working-w-copilot/setting-up-copilot.md
-      -
-        Type: Lesson
-        UID: e3e38130-72f1-4695-8aa9-e9f4a2d14c58
-        Path: /working-w-copilot/copilot-interface-shortcuts.md
-      -
-        Type: Lesson
-        UID: d070c172-d08a-4548-93da-ba629a15d766
-        Path: /working-w-copilot/copilot-in-projects-new-code.md
-      -
-        Type: Lesson
-        UID: d02d6d74-c6cd-11ee-a506-0242ac120002
-        Path: /working-w-copilot/copilot-in-projects-refactoring.md
-      -
-        Type: Lesson
-        UID: aa500fcb-374f-42b3-ae0b-31f8191cbb3c
-        Path: /working-w-copilot/problem-set-using-github-copilot.md
