@@ -117,15 +117,41 @@ Taking a look at these implementations, they work as they are supposed to – ou
   **Areas for Improvement**
   1. `generate_code` and `validate_guess` require similar data about valid letters, but that data is duplicated in each function instead of being shared.
   2. `validate_guess` and `check_code_guessed` duplicate work by creating uppercased versions of the input in each function without using a shared helper function.
-  3. `check_code_guessed` is using an antipattern to decide what we return. The functions uses an if/else to decide whether we return `True` or `False`, when we should directly return the result of comparing the `guess` and `code`.
+  3. `check_code_guessed` is using an antipattern to decide what we return. The function uses an if/else to decide whether we return `True` or `False`, when we should directly return the result of comparing the `guess` and `code`.
   4. All of the functions create lists of data that do not require significant processing or data manipulation, but they are not using list comprehensions. List comprehensions are considered more pythonic, and better practice when working in Python.
 
 We could choose to note one other potential area for improvement: `validate_guess` declares the `valid_letters` set before the guard clause that checks the length of `guess`, so the set is created even if it will never be used.  
 - Since we already identified that we want `generate_code` and `validate_guess` to share a list of valid letters, this change will already be handled during the updates to share the letter data. 
 
+### !callout-info
+
+## Avoiding Antipatterns
+
+There are many patterns that we will learn to recognize and use in our code. But there are also patterns that have been observed to cause problems in the long run, even if the code is technically correct. The antipattern listed in our areas of improvement, sometimes called the "redundant conditional" is one such antipattern.
+
+In most programming languages, `if` statements take a Boolean conditional. Using comparison operations, such as `==`, `<`, `>`, etc., produce a Boolean value expressing the relationship between the values being compared. If we need to return `True` when our conditional is `True`, and `False` when our conditional is `False`, it's redundant to actually write a full `if` statement. Rather than performing the comparison and then returning a Boolean based on the result of the comparison, we can return the result of the comparison directly.
+
+Coders with less experience tend to use comparison operators only in `if` conditionals. But just like more familiar mathematical operators, they produce a value result (in this case, a Boolean value) that we can use in other expressions, or even `return`. 
+
+What this means is that where we might be tempted to write code such as:
+```py
+    if a == b:
+        return True
+    else:
+        return False
+```
+
+Once we stop thinking about comparison operators as something special, we would prefer to write that as:
+```py
+    return a == b  # comparison result is already either True or False
+```
+
+### !end-callout
+
 </details>
 
 We will investigate and update the issues we identified in the drop down above throughout the rest of this lesson. If you came up with more items than we listed, feel free to explore those as practice!
+
 
 ## D.R.Y. - Sharing Data Structures in `generate_code` and `validate_guess`
 
