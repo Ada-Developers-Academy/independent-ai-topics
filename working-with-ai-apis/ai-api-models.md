@@ -6,7 +6,7 @@ Now that we can make calls to an AI API in Postman, we can start digging a littl
 
 Our goals for this lesson are to:
 - Get exposure to more applications of AI models. 
-- Understand key features and limitations of the Google Gemini 1.5 Flash model at the free tier of service.
+- Understand key features and limitations of the Google Gemini 2.5 Flash model at the free tier of service.
 
 ## What is an AI Model?
 
@@ -31,17 +31,17 @@ These models are commonly used as query parameters within our API requests to te
 
 ### !end-callout
  
-## Google Gemini 1.5 Flash
+## Google Gemini 2.5 Flash
   
-While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because its free tier fits our needs to show off some text-based request and response use cases and allows for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
+While we work with the Google Gemini API, we will be using the Gemini Flash 2.5 model specifically. We are using this model because its free tier fits our needs to show off some text-based request and response use cases and allows for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
 
-**Gemini 1.5 Flash Model Facts**
+**Gemini 2.5 Flash Model Facts**
 | Category | Detail |
 | -------- | ------ | 
 | Input Types | Text, Audio, Images, Video |
 | Output Types | Text |
-| Maximum Requests Per Minute | 15 Requests Per Minute |
-| Maximum Tokens Per Minute | 1 million Tokens Per Minute |
+| Maximum Requests Per Minute | 10 Requests Per Minute |
+| Maximum Tokens Per Minute | 250,000 Tokens Per Minute |
 | Maximum Requests Per Day | 1,500 Requests Per Day |
 | Supported Languages | 30+, see documentation for details |
 
