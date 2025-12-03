@@ -375,7 +375,7 @@ Mark off each step that you have completed
 ##### !options
 
 * Set up NPC Generator
-* Install the `google-generativeai` package
+* Install the `google-genai` package
 * Complete generate_greetings
 * Complete add_greetings
 * Complete get_greetings
