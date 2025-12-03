@@ -100,7 +100,7 @@ Every prompt we send to a model includes parameters that control how the model g
 | `topP` | changes how the model selects tokens for output. Tokens are selected from the most to least probable until the sum of their probabilities equals the `topP` value. The default `topP` value is 0.95. |
 | `topK` | changes how the model selects tokens for output. A `topK` of 1 means the selected token is the most probable among all the tokens in the model's vocabulary, while a `topK` of 3 means that the next token is selected from among the 3 most probable using the temperature. Tokens are further filtered based on `topP` with the final token selected using temperature sampling. |
 
-For more information and examples, check out the ["Configure text generation"](https://ai.google.dev/gemini-api/docs/text-generation?lang=rest#configure) section of the Text Generation Gemini API documentation.
+For more information and examples, check out the ["System instructions and other configurations"](https://ai.google.dev/gemini-api/docs/text-generation) section of the Text Generation Gemini API documentation.
 
 Now, let's open up Postman, enter the POST endpoint from above, and set the `x-goog-api-key` API key authorization value to our Google Gemini API key. Once that is ready, navigate to set a raw JSON body. In the window, copy and paste the conversation body example from above, then run the request so we can check out the response body!
 
@@ -147,7 +147,7 @@ To read through the API's generated response to our prompt, we will need to:
 3. access the `parts` key and iterate over the content's `parts` list 
 4. for each element in `parts` read the `text` response and handle that string however we would like.  
 
-This might sound a little tedious, but in our upcoming case study we'll show how we can use Google's `[google-genai](https://pypi.org/project/google-genai/)` Python package to make accessing the response text a little easier.
+This might sound a little tedious, but in our upcoming case study we'll show how we can use Google's [`google-genai`](https://pypi.org/project/google-genai/) Python package to make accessing the response text a little easier.
 
 ## Summary
 We should now know the expected shape of requests and responses using Google's Gemini API. We should be able to identify required properties for a text completion endpoint. Feel free to play around with different request bodies and see how the response changes!
