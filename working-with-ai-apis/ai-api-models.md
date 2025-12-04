@@ -42,7 +42,7 @@ While we work with the Google Gemini API, we will be using the Gemini Flash 2.5 
 | Output Types | Text |
 | Maximum Requests Per Minute | 10 Requests Per Minute |
 | Maximum Tokens Per Minute | 250,000 Tokens Per Minute |
-| Maximum Requests Per Day | 1,500 Requests Per Day |
+| Maximum Requests Per Day | 250 Requests Per Day |
 | Supported Languages | 30+, see documentation for details |
 
 When thinking about tokens and our processing limits, a token is equivalent to about 4 characters for Gemini models. 100 tokens are about 60-80 English words. Token limits can creep up on us if we're doing a significant amount of work. A model needs to process the data we send it into tokens, and the model will put together tokens to create its text response, all of which count towards our total processing limits. If we are working and suddenly see requests failing, we may need to look at our usage and possibly wait for a bit until we can make requests again if we are out of processing resources.
