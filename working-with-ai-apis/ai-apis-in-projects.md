@@ -344,6 +344,18 @@ def get_greetings(char_id):
             "greeting" : greeting.greeting_text
         })
     
+    character = validate_model(Character, char_id)
+    
+    if not character.greetings:
+        return {"message": f"No greetings found for {character.name}"}, 201
+    
+    response = {"character_name": character.name,
+                "greetings": []}
+    for greeting in character.greetings:
+        response["greetings"].append({
+            "greeting" : greeting.greeting_text
+        })
+    
     return response
 ```
 </details>
