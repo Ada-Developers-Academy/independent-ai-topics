@@ -197,7 +197,7 @@ Before we write our request to the Gemini API within the project, we need to ins
 2. Run `pip freeze > requirements.txt` to add the `google-genai` package and dependencies to your requirements.
 3. In your `.env` file, add the variable `GEMINI_API_KEY` and assign it the value of your secret key: 
     `GEMINI_API_KEY=<Your Secret Key>`
-4. In the `character_routes.py` file, import the `google-generativeai` package and configure the Gemini API environment using the code below:
+4. In the `character_routes.py` file, import the `google-genai` package and configure the Gemini API environment using the code below:
    
     ```python
     from google import genai
