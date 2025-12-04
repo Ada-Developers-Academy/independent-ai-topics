@@ -21,7 +21,6 @@ From our prior learning, we should be able to recognize different parts of the U
 | `/models` | Identifies that we want to access a `models` resource |
 | `/gemini-2.5-flash` | Names that we are specifically requesting the `gemini-2.5-flash` model |
 | `:generateContent` | States the function of the specified model that we would like to invoke |
-| `?key=$GEMINI_API_KEY"` | Query parameter named `key` with a value containing our Google Gemini API key to authenticate our request |
 
 We will be focusing solely on using the `/gemini-2.5-flash:generateContent` endpoint and working with text input and output. Please feel free to follow your curiosity and check out the API documentation to explore other kinds of input you can use to create more complex features. Make sure you have an understanding of the shape of the request and response before jumping right in. Test things out in Postman if it helps!
 
