@@ -31,7 +31,7 @@ A text completion endpoint is used to mimic and then continue a piece of text or
 ### Text Completion Request Body
 
 As mentioned earlier, the `/gemini-2.5-flash:generateContent` text completion endpoint takes a POST request at the URL:
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$GOOGLE_API_KEY`
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`
 
 Like most POST endpoints, a request to the text completions endpoint is not complete itself without a request body. Let's go ahead and write a request body and then discuss its individual parts.
 
