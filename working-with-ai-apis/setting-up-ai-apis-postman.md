@@ -62,7 +62,7 @@ Creating an Environment in Postman requires that you have a Workspace created. Y
 {
     "contents" : [{
         "parts": [{
-            "text": "Write me a list of 10 flighless birds."
+            "text": "Write me a list of 10 flightless birds."
         }]
     }]
 }
