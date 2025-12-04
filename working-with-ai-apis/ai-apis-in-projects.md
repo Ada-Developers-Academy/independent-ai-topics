@@ -201,7 +201,6 @@ Before we write our request to the Gemini API within the project, we need to ins
    
     ```python
     from google import genai
-    import os
 
     client = genai.Client()
     ```
