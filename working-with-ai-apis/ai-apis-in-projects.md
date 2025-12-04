@@ -208,7 +208,6 @@ Before we write our request to the Gemini API within the project, we need to ins
    | <div style="min-width:300px;">Part of Code</div> | Description |
    | ------------- | ----------- | 
    | `from google import genai` | Import the `google-genai` package . |
-   | `import os` | Import the `os` package so we can read our `GEMINI_API_KEY` from the `.env` file. |
    | `client = genai.Client()` | This code creates a Gemini API client with your secret key from the `.env` file. It looks specifically for a key named `GEMINI_API_KEY`. We will use the `genai` import to access the `gemini-2.5-flash` model and make requests to the `/gemini-2.5-flash:generateContent` endpoint. |
 
 ## Make the API call
