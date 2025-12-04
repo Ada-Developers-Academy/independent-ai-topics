@@ -24,6 +24,8 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 
 ## Setting up an Environment in Postman
 
+Creating an Environment in Postman requires that you have a Workspace created. You must be logged in to Postman to create a Workspace. If you try to select a Workspace without being logged in, Postman will open a browser window prompting you to log in or create an account. After doing so, your Workspace should be available, including the Environments tab needed below!
+
 ### Create The Environment
 1. Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
     ![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
