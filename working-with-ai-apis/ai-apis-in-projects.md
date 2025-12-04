@@ -212,7 +212,7 @@ Before we write our request to the Gemini API within the project, we need to ins
 
 ## Make the API call
 
-To make an API call, we'll create a helper function called `generate_greetings` that will take a `Character` in as a parameter. The first thing we will do is construct a prompt for our request body that uses the `Character`'s attributes to describe what we are looking for. use the aliased `google.generativeai` import to get a reference to the AI model we want to use. To do this, we'll call the constructor for the `GenerativeModel` class and pass it the name of the model as an string argument `"gemini-1.5-flash"`.
+To make an API call, we'll create a helper function called `generate_greetings` that will take a `Character` in as a parameter. The first thing we will do is construct a prompt for our request body that uses the `Character`'s attributes to describe what we are looking for.
 
 ```python
 def generate_greetings(character):
