@@ -11,7 +11,7 @@ Our goals for this lesson are to:
 
 The full URL that we have been using to make `POST` requests from Postman is:
 ```
-https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$GEMINI_API_KEY
+https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
 ```
 From our prior learning, we should be able to recognize different parts of the URL, even if we don't know exactly what they're doing. Let's take a closer look at each part of the URL:
 |  <div style="min-width:200px;">Part of URL</div>  | Purpose |
