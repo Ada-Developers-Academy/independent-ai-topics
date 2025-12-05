@@ -283,10 +283,10 @@ def add_greetings(char_id):
 
 This is not the final form our code for this endpoint will take, but if we make a post request to this endpoin in Postman using id 1, the terminal should display an AI generated response to our prompt! Go ahead and make this request now. If your terminal prints out the response, congratulations! You have successfully integrated an AI API into your backend! 
 
-### !callout-info
+### !callout-warn
 
 ## Knowing Your Response
-Because our responses are AI generated, we have no real way of knowing exactly what will be returned until we make an API call. As a result, it is important to test out the response by making the call in Postman or printing the response. Knowing the shape of the response will make it much easier to pick and choose what information to use and how to format it correctly. In order to get more consistent responses, it may be a good idea to make your prompts more concise and error proof using shots or another of the prompting techniques we discussed earlier.
+Because our responses are AI generated, we may receive one that is unreliably formatted. Our approach here is pretty basic and has to jump through some hoops to adjust the response we get to fit our needs. A more robust implementation may specify the desired format (e.g. JSON) or use prompt shotting to more accurately describe what is expected. 
 
 ### !end-callout
 
@@ -296,23 +296,39 @@ Now it's your turn. There are two endpoints left to write. First up is the POST 
 
 <br />
 <details>
+  <summary> Expand to view a modified `generate_greetings` function </summary>
+
+```python
+def generate_greetings(character):
+    input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
+    response = client.models.generate_content(
+        model="gemini-2.5-flash", contents=input_message
+    )
+    # print(response.text)
+    return response.text.splitlines()
+```
+</details>
+
+<br />
+<details>
   <summary> Try on your own and then compare with our solution </summary>
 
 ```python
 @bp.post("/<char_id>/generate")
 def add_greetings(char_id):
     character = validate_model(Character, char_id)
-    greetings = generate_greetings(character)
 
     if character.greetings: # Check to see if Greetings have already been added
         return {"message": f"Greetings already generated for {character.name} "}, 201
     
+    greetings = generate_greetings(character)
     new_greetings = []
     
     for greeting in greetings:
-        new_greeting = Greeting(greeting_text=greeting.strip("\","), # Strip leading and trailing quotes and commas from each greeting
-                                character = character
-                            )
+        new_greeting = Greeting(
+            greeting_text=greeting.strip("\","), # Strip leading and trailing quotes and commas from each greeting
+            character = character
+        )
         new_greetings.append(new_greeting)
     
     db.session.add_all(new_greetings)
