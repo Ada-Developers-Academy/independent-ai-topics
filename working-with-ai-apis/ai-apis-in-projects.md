@@ -292,7 +292,9 @@ Because our responses are AI generated, we may receive one that is unreliably fo
 
 ## Using The Response
 
-Now it's your turn. There are two endpoints left to write. First up is the POST request that creates "Greeting" records for a specific character by using the information returned from the call to the Gemini API. Try using what you know to write the `add_greetings` method. Don't forget to use the `generate_greetings` helper we just created.
+Now it's your turn. There are two endpoints left to write. First up is the POST request that creates "Greeting" records for a specific character by using the information returned from the call to the Gemini API. Try using what you know to write the `add_greetings` method.
+
+Don't forget to use the `generate_greetings` helper we just created, after updating it to return the the output as separate lines.
 
 <br />
 <details>
