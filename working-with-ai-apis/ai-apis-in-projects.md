@@ -296,7 +296,7 @@ Now it's your turn. There are two endpoints left to write. First up is the POST 
 
 <br />
 <details>
-  <summary> Expand to view a modified `generate_greetings` function </summary>
+  <summary> Expand to view a modified <code>generate_greetings</code> function that returns its result as separate lines</summary>
 
 ```python
 def generate_greetings(character):
