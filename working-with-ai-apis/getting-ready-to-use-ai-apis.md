@@ -22,49 +22,46 @@ If you run into issues creating a Google account, please reach out in #study-hal
 
 ## Creating an API Key
 
+### !callout-info
+
+## Gemini API Interface
+All images presented here are recent as of December 2025. As AI technology advances, the UI presented below may not match up with changes made to Gemini API documentation and Google AI Studio. While the images may differ, the steps outlined in this module will remain the same. Do your best to follow the steps below. If you have any questions or get stuck on any step, please do not hesitate to stop by office hours or reach out in study hall.
+
+### !end-callout 
 As with most APIs, we are required to use an API key to authenticate calls to the Gemini API. Follow the steps below to create your API key.
 
 1. Visit [Google Gemini's API key documentation](https://ai.google.dev/gemini-api/docs/api-key) and ensure you are signed in to your Google account by checking the upper right corner of the page. 
    ![Google Gemini API Key documentation with signed in user showing in top right corner](assets/setting-up-ai-api/api_key_docs_check_signed_in.png) 
    *Fig. Google Gemini API Key documentation with signed in user showing ([Full Size Image](assets/setting-up-ai-api/api_key_docs_check_signed_in.png))*  
 
-2. Press the button labeled "Get a Gemini API key in Google AI Studio" to open the Google AI Studio API Key website in a new tab. 
-   ![Close up on the "Get a Gemini API key in Google AI Studio" button in the Google Gemini API Key documentation](assets/setting-up-ai-api/get_api_key_docs.png) 
-   *Fig. Close up on the "Get a Gemini API key in Google AI Studio" button ([Full Size Image](assets/setting-up-ai-api/get_api_key_docs.png))* 
+2. Press the button labeled "Get API key" to open the Google AI Studio API Key website in a new tab. 
+   ![Google Gemini API Key documentation with the "Get API Key" button highlighted](assets/setting-up-ai-api/get_api_key_docs.png) 
+   *Fig. Google Gemini API Key documentation with the "Get API Key" button highlighted ([Full Size Image](assets/setting-up-ai-api/get_api_key_docs.png))* 
 
    We want to leave the current browser tab with the Gemini API Key documentation open because we will come back here to test our API key at the end. 
 
-3. When the Google AI Studio tab loads, we should see a pop up asking us to choose an environment. Since we want to make calls from Postman, VS Code, and maybe more, we will select "Get API key" next to "Develop in your own environment"   
-   ![Google AI Studio pop up to choose generating an API key or building inside Google AI studio](assets/setting-up-ai-api/api_key_choose_environment.png) 
-   *Fig. Google AI Studio pop up ([Full Size Image](assets/setting-up-ai-api/api_key_choose_environment.png))* 
-
-4. After this we will be shown and need to accept the Google Gemini API's Terms of Service before we can proceed.
-   ![Google AI Studio pop up showing the Google Gemini API Terms of Service](assets/setting-up-ai-api/api_key_legal_notice.png) 
-   *Fig. Google AI Studio pop up showing the Google Gemini API Terms of Service ([Full Size Image](assets/setting-up-ai-api/api_key_legal_notice.png))* 
-
-5. The pop up will dismiss and leave us on the Google AI Studio "Get API Key" page. We can now press the "Create API Key" button in the middle of the page to generate our Gemini API key. 
+3. When the Google AI Studio tab loads, we should see a couple buttons we can use to create an API key. As of the time this lesson was created, the page looked as it does in the image below. We can now press the "Create API Key" button at the top of the page to generate our Gemini API key. 
    ![Google AI Studio "Get API Key" page with the "Create API Key" button highlighted](assets/setting-up-ai-api/create_api_key_button.png) 
    *Fig. "Create API Key" button on the Google AI Studio "Get API Key" page ([Full Size Image](assets/setting-up-ai-api/create_api_key_button.png))* 
 
-6. A pop up will be displayed with a spinner while the API key is generating. Once the API key is created the pop up will display the API key with an option to copy it. 
+4. A pop up will be displayed asking you to give a name and attach a project to this particular API key. If you click "Create Project", you can name a new project. This will technically create a new cloud project associated with the API key, but you will be able to use the key externally without issue.
+   ![Pop up used to create API key](assets/setting-up-ai-api/create_api_key_pop_up.png) 
+   *Fig. Pop up used to create a new API key ([Full Size Image](assets/setting-up-ai-api/create_api_key_pop_up.png))* 
 
-   The webpage will also have updated to show our new API key underneath the button we just used to create our key. We may create multiple keys if we implement different AI features in different projects. All of the Gemini API keys we create will be listed here.
-   ![Pop up showing newly created API key in the foreground and page updated in the background to also list the new API key](assets/setting-up-ai-api/api_key_created.png) 
-   *Fig. Newly created API key showing in a pop up and listed on the page ([Full Size Image](assets/setting-up-ai-api/api_key_created.png))* 
+5. The webpage will update to show our new API key. We may create multiple keys if we implement different AI features in different projects. All of the Gemini API keys we create will be listed here.
+   ![Example page to show list of API keys](assets/setting-up-ai-api/api_keys_list.png) 
+   *Fig. Page that shows example of Google AI Studio with list of API keys ([Full Size Image](assets/setting-up-ai-api/api_keys_list.png))* 
 
 ## Verifying our API key
 
 We want to see our API key in action before trying to use it from a project, so how can we check it out? We'll look at testing and customizing prompts from Postman in a following section, but we can do a test API call with even less set up just to see if our key is working.
 
-1. Let's go back to the [Google Gemini's API key documentation](https://ai.google.dev/gemini-api/docs/api-key) page. Underneath the button we used to launch Google AI Studio, there's a section "Send your first Gemini API request" that contains a `curl` command that we can run from Terminal. 
+1. Let's go back to the [Google Gemini's API key documentation](https://ai.google.dev/gemini-api/docs/api-key) page. Toward the middle of the page, there is a section titled "Providing the API key explicitly". There will be a section that has examples on how to provide an API key explicitly. Select the "REST" tab and you will see a curl command similar to the one below. 
 
-   ![Send your first Gemini API request section of Google's Gemini API Key documentation](assets/setting-up-ai-api/send_first_request_docs.png) 
-   *Fig. Send your first Gemini API request section ([Full Size Image](assets/setting-up-ai-api/send_first_request_docs.png))*
+   ![Providing the API key explicitly section of Google's Gemini API Key documentation](assets/setting-up-ai-api/send_first_request_docs.png) 
+   *Fig. Providing the API key explicitly section of Google's Gemini API Key documentation ([Full Size Image](assets/setting-up-ai-api/send_first_request_docs.png))*
 
-2. We will need to edit the end of this command to add our API key. The text box on the page allows us to change the placeholder text at the end of the command to add our API key, then copy the entire command. 
-
-   ![Editable placeholder for your API key at the end of the `curl` command to test your API key](assets/setting-up-ai-api/editable_api_key_placeholder.png) 
-   *Fig. Editable placeholder for your API key ([Full Size Image](assets/setting-up-ai-api/editable_api_key_placeholder.png))*
+2. We will need to edit the middle of this command to add our API key. The text box on the page allows us to change the placeholder text at the end of the command to add our API key, then copy the entire command. 
 
    Feel free to take a moment to read through the parts of the `curl` command and see what you can make sense of. We will talk more in-depth about the information we need to make requests to generate text with the Gemini API in following sections.
 

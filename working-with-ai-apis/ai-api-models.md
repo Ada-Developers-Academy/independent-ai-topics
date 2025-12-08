@@ -6,7 +6,7 @@ Now that we can make calls to an AI API in Postman, we can start digging a littl
 
 Our goals for this lesson are to:
 - Get exposure to more applications of AI models. 
-- Understand key features and limitations of the Google Gemini 1.5 Flash model at the free tier of service.
+- Understand key features and limitations of the Google Gemini 2.5 Flash model at the free tier of service.
 
 ## What is an AI Model?
 
@@ -31,18 +31,18 @@ These models are commonly used as query parameters within our API requests to te
 
 ### !end-callout
  
-## Google Gemini 1.5 Flash
+## Google Gemini 2.5 Flash
   
-While we work with the Google Gemini API, we will be using the Gemini Flash 1.5 model specifically. We are using this model because its free tier fits our needs to show off some text-based request and response use cases and allows for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
+While we work with the Google Gemini API, we will be using the Gemini Flash 2.5 model specifically. We are using this model because its free tier fits our needs to show off some text-based request and response use cases and allows for exploration past what we will cover in class for folks who are interested. We will cover facts we think are useful below, for more information, check out the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs/models/gemini).
 
-**Gemini 1.5 Flash Model Facts**
+**Gemini 2.5 Flash Model Facts**
 | Category | Detail |
 | -------- | ------ | 
 | Input Types | Text, Audio, Images, Video |
 | Output Types | Text |
-| Maximum Requests Per Minute | 15 Requests Per Minute |
-| Maximum Tokens Per Minute | 1 million Tokens Per Minute |
-| Maximum Requests Per Day | 1,500 Requests Per Day |
+| Maximum Requests Per Minute | 10 Requests Per Minute |
+| Maximum Tokens Per Minute | 250,000 Tokens Per Minute |
+| Maximum Requests Per Day | 250 Requests Per Day |
 | Supported Languages | 30+, see documentation for details |
 
 When thinking about tokens and our processing limits, a token is equivalent to about 4 characters for Gemini models. 100 tokens are about 60-80 English words. Token limits can creep up on us if we're doing a significant amount of work. A model needs to process the data we send it into tokens, and the model will put together tokens to create its text response, all of which count towards our total processing limits. If we are working and suddenly see requests failing, we may need to look at our usage and possibly wait for a bit until we can make requests again if we are out of processing resources.

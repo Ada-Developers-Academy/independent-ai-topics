@@ -11,7 +11,7 @@ Our goals for this lesson are to:
 
 As a reminder, when we work with APIs, Postman is a great tool for testing our endpoints, making sure we are formatting our requests correctly, and ensuring that we are receiving the expected responses. 
 
-In the past, when we worked with APIs that require authorization, we created an environment within our project using the .env file where we stored our environment variables such as our API key. To make testing out AI API endpoints in Postman just a bit easier, we can create an environment within Postman itself that includes our API key so that we don't have to manually attach it to each request. We can do that following the steps below.
+In the past, when we worked with APIs that require authorization, we created an environment within our project using the `.env` file where we stored our environment variables such as our API key. To make testing out AI API endpoints in Postman just a bit easier, we can create an environment within Postman itself that includes our API key so that we don't have to manually attach it to each request. We can do that following the steps below.
 
 ### !callout-info
 
@@ -24,6 +24,8 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 
 ## Setting up an Environment in Postman
 
+Creating an Environment in Postman requires that you have a Workspace created. You must be logged in to Postman to create a Workspace. If you try to select a Workspace without being logged in, Postman will open a browser window prompting you to log in or create an account. After doing so, your Workspace should be available, including the Environments tab needed below!
+
 ### Create The Environment
 1. Open up Postman. Select the "Environments" tab in the menu to the left. Once selected, click the plus sign at the top to create a new environment. 
     ![Environments Tab in Postman](assets/postman-and-ai-apis/create-environment-tab.png)  
@@ -31,20 +33,22 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 
 2. When you click the plus sign, a window will open where you can start setting up your environment. This is the equivalent of setting up a `.env` file. There will be a place to give your environment a name. We've named ours "AI API Practice". 
 
-    There will also be a place to add variables to your environment. This is where you can add the API key for whichever AI API you are using. We've added a variable named `GEMINI_API_KEY`. Make sure to change the type to `secret`. Paste your key value in the columns labeled "Initial value" and "Current value".
+    There will also be a place to add variables to your environment. This is where you can add the API key for whichever AI API you are using. We've added a variable named `GEMINI_API_KEY`. You can click the key icon to mark the variable as "sensitive". Paste your key value in the column labeled "Value".
     ![Creating an Environment in Postman](assets/postman-and-ai-apis/create-postman-environment.png) 
     *Fig. Creating an environment in Postman ([Full Size Image](assets/postman-and-ai-apis/create-postman-environment.png))*
 
 ### Make your first AI API Call
 1. Open up a new POST request. Copy over the endpoint you'll be using from whichever API you are working with. For our purposes, the endpoint we're using is: 
  
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent` 
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent` 
+
+    In the top right corner, you should see a tab that says "No environment". Click this tab and choose the environment you just created that holds your Gemini API key.
 
     Under the authorization tab, choose and set up the type of authorization your API requires. For Gemini, we'll use an API key. 
-    - The key is `key` 
+    - The key is `x-goog-api-key` (You might recognize this from the curl request)
     - The value is `{{GEMINI_API_KEY}}` 
 
-    `{{GEMINI_API_KEY}}` will grab the API key from our environment variables. We've also chosen to add the key to the query params. With some APIs, the key may be added to the header. 
+    `{{GEMINI_API_KEY}}` will grab the API key from our environment variables. We've also chosen to add the key to the Header. With some APIs, the key may be added to the Query Params. 
     ![Creating a POST Request in Postman](assets/postman-and-ai-apis/create-post-request-postman.png) 
     *Fig. Adding a POST request to our Postman Environment ([Full Size Image](assets/postman-and-ai-apis/create-post-request-postman.png))*
 
@@ -58,15 +62,13 @@ Where possible, the steps outlined below are going to be as generic as we can ma
 {
     "contents" : [{
         "parts": [{
-            "text": "Write me a list of 10 flighless birds."
+            "text": "Write me a list of 10 flightless birds."
         }]
     }]
 }
 ```
 
 4. Once your body is complete, make the POST request and you should get a response generated by your AI API!
-   ![POST Request body](assets/postman-and-ai-apis/post-request-body.png)
-   *Fig. POST request body in Postman ([Full Size Image](assets/postman-and-ai-apis/post-request-body.png))*
    ![Postman Response body](assets/postman-and-ai-apis/postman-response-body.png)
    *Fig. POST response body in Postman ([Full Size Image](assets/postman-and-ai-apis/postman-response-body.png))*
 

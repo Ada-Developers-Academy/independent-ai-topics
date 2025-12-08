@@ -2,11 +2,11 @@
 
 ## Goals
 
-Now that we know more about requests and responses to the `/gemini-1.5-flash:generateContent` endpoint, let's learn how to use it within our programs. To do so, we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the [`google-generativeai`](https://pypi.org/project/google-generativeai/) Python package and then leverage the `gemini-1.5-flash` model's `generateContent` function to generate dialogue for characters we create.
+Now that we know more about requests and responses to the `/gemini-2.5-flash:generateContent` endpoint, let's learn how to use it within our programs. To do so, we will work with a partially finished API that creates video game NPCs (Non Playable Characters). Within that program, we will install the [`google-genai`](https://pypi.org/project/google-genai/) Python package and then leverage the `gemini-2.5-flash` model's `generateContent` function to generate dialogue for characters we create.
 
 Our goals for this lesson are to:
-- Integrate the `google-generativeai` library into a Python project.
-- Use the `/gemini-1.5-flash:generateContent` text completion endpoint to generate content for our project. 
+- Integrate the `google-genai` library into a Python project.
+- Use the `/gemini-2.5-flash:generateContent` text completion endpoint to generate content for our project. 
 
 ## Set Up the NPC Generator
 
@@ -189,48 +189,41 @@ Create and connect your database using the steps below:
 </details>
 </br>
 
-## Install the `google-generativeai` Library and Connect Your Secret Key
+## Install the `google-genai` Library and Connect Your Secret Key
 
-Before we write our request to the Gemini API within the project, we need to install the `google-generativeai` package. 
+Before we write our request to the Gemini API within the project, we need to install the `google-genai` package. 
 
-1. In your terminal, run `pip install -q -U google-generativeai`
-2. Run `pip freeze > requirements.txt` to add the `google-generativeai` package to your requirements.
+1. In your terminal, run `pip install -q -U google-genai`
+2. Run `pip freeze > requirements.txt` to add the `google-genai` package and dependencies to your requirements.
 3. In your `.env` file, add the variable `GEMINI_API_KEY` and assign it the value of your secret key: 
     `GEMINI_API_KEY=<Your Secret Key>`
-4. In the `character_routes.py` file, import the `google-generativeai` package and configure the Gemini API environment using the code below:
+4. In the `character_routes.py` file, import the `google-genai` package and configure the Gemini API environment using the code below:
    
     ```python
-    import google.generativeai as genai
-    import os
+    from google import genai
 
-    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+    client = genai.Client()
     ```
    
    | <div style="min-width:300px;">Part of Code</div> | Description |
    | ------------- | ----------- | 
-   | `import google.generativeai as genai` | Import the `google-generativeai` package and give it an alias of `genai`. |
-   | `import os` | Import the `os` package so we can read our `GEMINI_API_KEY` from the `.env` file. |
-   | `genai.configure(api_key=...)` | This code configures the Gemini API environment with your secret key from the `.env` file. We will use the `genai` import to access the `gemini-1.5-flash` model and make requests to the `/gemini-1.5-flash:generateContent` endpoint. |
+   | `from google import genai` | Import the `google-genai` package . |
+   | `client = genai.Client()` | This code creates a Gemini API client with your secret key from the `.env` file. It looks specifically for a key named `GEMINI_API_KEY`. We will use the `genai` import to access the `gemini-2.5-flash` model and make requests to the `/gemini-2.5-flash:generateContent` endpoint. |
 
 ## Make the API call
 
-To make an API call, we'll create a helper function called `generate_greetings` that will take a `Character` in as a parameter. The first thing we will do is use the aliased `google.generativeai` import to get a reference to the AI model we want to use. To do this, we'll call the constructor for the `GenerativeModel` class and pass it the name of the model as an string argument `"gemini-1.5-flash"`.
+To make an API call, we'll create a helper function called `generate_greetings` that will take a `Character` in as a parameter. The first thing we will do is construct a prompt for our request body that uses the `Character`'s attributes to describe what we are looking for.
 
 ```python
 def generate_greetings(character):
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
 ```
-
-Then we'll use the `Character`'s attributes to construct a prompt for our request body. This may look something like:
+Once the prompt has been constructed we can use our `Client` object to send our Gemini API call. To access the desired `/gemini-2.5-flash:generateContent` endpoint we will call the `generate_content()` method on the `client` variable, passing our `input_message` as a parameter. The code we will use to make the call to the text completion endpoint and then store the response is:
 
 ```python
-input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
-```
-
-Once the prompt has been constructed we can use our `model` object to send our Gemini API call. To access the desired `/gemini-1.5-flash:generateContent` endpoint we will call the `generate_content` method on the `model` variable, passing our `input_message` as a parameter. The code we will use to make the call to the text completion endpoint and then store the response is:
-
-```python
-response = model.generate_content(input_message)
+    response = client.models.generate_content(
+        model="gemini-2.5-flash", contents=input_message
+    )
 ```
 
 Remember that the text completions endpoint returns a nested object. Let's pause here and recall what that object looks like. Using the example request data we shared to create the character Misty, we received the following response:
@@ -260,38 +253,48 @@ Remember that the text completions endpoint returns a nested object. Let's pause
 }
 ```
 
-That is a lot of information but now it's up to us to parse through that response and determine what we want to use. Ultimately, we want to just use the `text` within `candidates` > `content` > `parts`. Happily for us, the `response` object returned by `generate_content` has a convenience attribute `.text` that we can use to directly access this `text` key within the JSON.
+That is a lot of information but now it's up to us to parse through that response and determine what we want to use. Ultimately, we want to just use the `text` within `candidates` > `content` > `parts`. Happily for us, the `response` object returned by `generate_content` has a convenience attribute `.text` that we can use to directly access this `text` key within the JSON. Before we use this response in an endpoint, let's print out the text to see what we get:
 
-We have a list of generated greetings inside `text`, but they are all a single string. Fortunately, each item is separated by a newline character, so we can use that to our advantage. If we access `response.text` to get to the string itself, we can split it by the newline character to get a list of responses: 
 ```python
-response_split = response.text.split("\n")
+print(response.text)
 ```
 
-Since the response we're given ends with a newline character, this split operation will leave us with an empty string at the end of our list. Since we don't want to save an empty string to our NPC sayings, we can slice off the last value before we return our list. That return statement may look something like:
-```python
-return response_split[:-1]
-```
+This gives our `generate_greetings` helper method the final code of:
 
-When we string this all together, our `generate_greetings` helper method is as follows:
 ```python
 def generate_greetings(character):
-    model = genai.GenerativeModel("gemini-1.5-flash")
     input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
-    response = model.generate_content(input_message)
-    response_split = response.text.split("\n") #Splits response into a list of stock phrases, ends up with an empty string at index -1
-    return response_split[:-1] #Returns the stock phrases list, just without the empty string at the end
+    response = client.models.generate_content(
+        model="gemini-2.5-flash", contents=input_message
+    )
+    print(response.text)
 ```
 
-### !callout-info
+In order to test out what we get, we do still need to attach the `generate_greetings(character)` method to an endpoint. We can do this quickly by adding the following code to the `add_greetings(char_id)` function in our `/<char_id>/greetings` endpoint:
+
+```python
+@bp.post("/<char_id>/generate")
+def add_greetings(char_id):
+    character = validate_model(Character, char_id)
+    generate_greetings(character)
+
+    return character.to_dict()
+```
+
+This is not the final form our code for this endpoint will take, but if we make a post request to this endpoin in Postman using id 1, the terminal should display an AI generated response to our prompt! Go ahead and make this request now. If your terminal prints out the response, congratulations! You have successfully integrated an AI API into your backend! 
+
+### !callout-warn
 
 ## Knowing Your Response
-Because our responses are AI generated, we have no real way of knowing exactly what will be returned until we make an API call. As a result, it is important to test out the response by making the call in Postman or printing the response. Knowing the shape of the response will make it much easier to pick and choose what information to use and how to format it correctly. In order to get more consistent responses, it may be a good idea to make your prompts more concise and error proof using shots or another of the prompting techniques we discussed earlier.
+Because our responses are AI generated, we may receive one that is unreliably formatted. Our approach here is pretty basic and has to jump through some hoops to adjust the response we get to fit our needs. A more robust implementation may specify the desired format (e.g. JSON) or use prompt shotting to more accurately describe what is expected. 
 
 ### !end-callout
 
 ## Using The Response
 
-Now it's your turn. There are two endpoints left to write. First up is the POST request that creates "Greeting" records for a specific character by using the information returned from the call to the Gemini API. Try using what you know to write the `add_greetings` method. Don't forget to use the `generate_greetings` helper we just created.
+Now it's your turn. There are two endpoints left to write. First up is the POST request that creates "Greeting" records for a specific character by using the information returned from the call to the Gemini API. Try using what you know to write the `add_greetings` method.
+
+Don't forget to use the `generate_greetings` helper we just created, after updating it to return the the output as separate lines.
 
 <br />
 <details>
@@ -300,28 +303,44 @@ Now it's your turn. There are two endpoints left to write. First up is the POST 
 ```python
 @bp.post("/<char_id>/generate")
 def add_greetings(char_id):
-    character_obj = validate_model(Character, char_id)
-    greetings = generate_greetings(character_obj)
+    character = validate_model(Character, char_id)
 
-    if character_obj.greetings:
-        return {"message": f"Greetings already generated for {character_obj.name} "}, 201
+    if character.greetings: # Check to see if Greetings have already been added
+        return {"message": f"Greetings already generated for {character.name} "}, 201
     
+    greetings = generate_greetings(character)
     new_greetings = []
-
+    
     for greeting in greetings:
         new_greeting = Greeting(
-            greeting_text = greeting.strip("\""), #Removes quotes from each string
-            character = character_obj
+            greeting_text=greeting.strip("\","), # Strip leading and trailing quotes and commas from each greeting
+            character = character
         )
         new_greetings.append(new_greeting)
     
     db.session.add_all(new_greetings)
     db.session.commit()
 
-    return {"message": f"Greetings successfully added to {character_obj.name}"}, 201
+    return {"message": f"Greetings successfully added to {character.name}"}, 201
 ```
 </details>
 </br>
+
+<details>
+  <summary> Expand to view a modified <code>generate_greetings</code> function that returns its result as separate lines</summary>
+
+```python
+def generate_greetings(character):
+    input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
+    response = client.models.generate_content(
+        model="gemini-2.5-flash", contents=input_message
+    )
+    # print(response.text)
+    return response.text.splitlines()
+```
+</details>
+
+<br />
 
 Once you've done that, try your hand at the `get_greetings` method as well.
 
@@ -341,6 +360,18 @@ def get_greetings(char_id):
                 "Greetings" : []}
     for greeting in character.greetings:
         response["Greetings"].append({
+            "greeting" : greeting.greeting_text
+        })
+    
+    character = validate_model(Character, char_id)
+    
+    if not character.greetings:
+        return {"message": f"No greetings found for {character.name}"}, 201
+    
+    response = {"character_name": character.name,
+                "greetings": []}
+    for greeting in character.greetings:
+        response["greetings"].append({
             "greeting" : greeting.greeting_text
         })
     
@@ -373,7 +404,7 @@ Mark off each step that you have completed
 ##### !options
 
 * Set up NPC Generator
-* Install the `google-generativeai` package
+* Install the `google-genai` package
 * Complete generate_greetings
 * Complete add_greetings
 * Complete get_greetings
