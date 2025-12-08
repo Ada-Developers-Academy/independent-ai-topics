@@ -298,21 +298,6 @@ Don't forget to use the `generate_greetings` helper we just created, after updat
 
 <br />
 <details>
-  <summary> Expand to view a modified <code>generate_greetings</code> function that returns its result as separate lines</summary>
-
-```python
-def generate_greetings(character):
-    input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
-    response = client.models.generate_content(
-        model="gemini-2.5-flash", contents=input_message
-    )
-    # print(response.text)
-    return response.text.splitlines()
-```
-</details>
-
-<br />
-<details>
   <summary> Try on your own and then compare with our solution </summary>
 
 ```python
@@ -340,6 +325,22 @@ def add_greetings(char_id):
 ```
 </details>
 </br>
+
+<details>
+  <summary> Expand to view a modified <code>generate_greetings</code> function that returns its result as separate lines</summary>
+
+```python
+def generate_greetings(character):
+    input_message = f"I am writing a fantasy RPG video game. I have an npc named {character.name} who is {character.age} years old. They are a {character.occupation} who has a {character.personality} personality. Please generate a Python style list of 10 stock phrases they might use when the main character talks to them. Please return just the list without a variable name and square brackets."
+    response = client.models.generate_content(
+        model="gemini-2.5-flash", contents=input_message
+    )
+    # print(response.text)
+    return response.text.splitlines()
+```
+</details>
+
+<br />
 
 Once you've done that, try your hand at the `get_greetings` method as well.
 
