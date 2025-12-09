@@ -33,6 +33,7 @@ Feel free to expand the sections below to see our model code.
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..db import db
 
+
 class Character(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str]
@@ -40,23 +41,23 @@ class Character(db.Model):
     occupation: Mapped[str]
     age: Mapped[int]
     greetings: Mapped[list["Greeting"]] = relationship(back_populates="character")
-    
+
     def to_dict(self):
         return {
-            "id" : self.id,
-            "name" : self.name,
-            "personality" : self.personality,
-            "occupation" : self.occupation,
-            "age" : self.age
+            "id": self.id,
+            "name": self.name,
+            "personality": self.personality,
+            "occupation": self.occupation,
+            "age": self.age
         }
-    
+
     @classmethod
     def from_dict(cls, data_dict):
         new_character = cls(
-            name = data_dict["name"],
-            personality = data_dict["personality"],
-            occupation = data_dict["occupation"],
-            age = data_dict["age"]
+            name=data_dict["name"],
+            personality=data_dict["personality"],
+            occupation=data_dict["occupation"],
+            age=data_dict["age"]
         )
 
         return new_character
@@ -73,16 +74,18 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from ..db import db
 
+
 class Greeting(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     greeting_text: Mapped[str]
-    character_id: Mapped[int] = mapped_column(ForeignKey("character.id")) 
+    character_id: Mapped[int] = mapped_column(ForeignKey("character.id"))
     character: Mapped["Character"] = relationship(back_populates="greetings")
+
 
     def to_dict(self):
         return {
-            "id" : self.id,
-            "greeting" : self.greeting_text,
+            "id": self.id,
+            "greeting": self.greeting_text,
         }
 ```
 </details>
@@ -103,54 +106,58 @@ from sqlalchemy import func, union, except_
 
 bp = Blueprint("characters", __name__, url_prefix="/characters")
 
+
 @bp.post("")
 def create_character():
 
     request_body = request.get_json()
-    try: 
+    try:
         new_character = Character.from_dict(request_body)
         db.session.add(new_character)
         db.session.commit()
 
         return new_character.to_dict(), 201
-    
+
     except KeyError as e:
         abort(make_response({"message": f"missing required value: {e}"}, 400))
+
 
 @bp.get("")
 def get_characters():
     character_query = db.select(Character)
 
     characters = db.session.scalars(character_query)
-    response = []
-
-    for character in characters:
-        response.append(
-            {
-                "id" : character.id,
-                "name" : character.name,
-                "personality" : character.personality,
-                "occupation" : character.occupation,
-                "age" : character.age
-            }
-        )
+    response = [character.to_dict() for character in characters]
 
     return response
+
+
+@bp.get("/<char_id>")
+def get_character(char_id):
+    character = validate_model(Character, char_id)
+    return character.to_dict()
+
 
 @bp.get("/<char_id>/greetings")
 def get_greetings(char_id):
     pass
 
+
 @bp.post("/<char_id>/generate")
 def add_greetings(char_id):
     pass
 
-def validate_model(cls,id):
+
+def generate_greetings(character):
+    pass
+
+
+def validate_model(cls, id):
     try:
         id = int(id)
     except:
         response = {"message": f"{cls.__name__} {id} invalid"}
-        abort(make_response(response , 400))
+        abort(make_response(response, 400))
 
     query = db.select(cls).where(cls.id == id)
     model = db.session.scalar(query)
@@ -281,7 +288,7 @@ def add_greetings(char_id):
     return character.to_dict()
 ```
 
-This is not the final form our code for this endpoint will take, but if we make a post request to this endpoin in Postman using id 1, the terminal should display an AI generated response to our prompt! Go ahead and make this request now. If your terminal prints out the response, congratulations! You have successfully integrated an AI API into your backend! 
+This is not the final form our code for this endpoint will take, but if we make a post request to this endpoint in Postman using id 1, the terminal should display an AI generated response to our prompt! Go ahead and make this request now. If your terminal prints out the response, congratulations! You have successfully integrated an AI API into your backend! 
 
 ### !callout-warn
 
@@ -303,25 +310,26 @@ Don't forget to use the `generate_greetings` helper we just created, after updat
 ```python
 @bp.post("/<char_id>/generate")
 def add_greetings(char_id):
-    character = validate_model(Character, char_id)
+    character_obj = validate_model(Character, char_id)
 
-    if character.greetings: # Check to see if Greetings have already been added
-        return {"message": f"Greetings already generated for {character.name} "}, 201
-    
-    greetings = generate_greetings(character)
+    if character_obj.greetings:
+        return {"message": f"Greetings already generated for {character_obj.name} "}, 201
+
+    greetings = generate_greetings(character_obj)
+
     new_greetings = []
-    
+
     for greeting in greetings:
         new_greeting = Greeting(
-            greeting_text=greeting.strip("\","), # Strip leading and trailing quotes and commas from each greeting
-            character = character
+            greeting_text=greeting,
+            character=character_obj
         )
         new_greetings.append(new_greeting)
-    
+
     db.session.add_all(new_greetings)
     db.session.commit()
 
-    return {"message": f"Greetings successfully added to {character.name}"}, 201
+    return {"message": f"Greetings successfully added to {character_obj.name}"}, 201
 ```
 </details>
 </br>
@@ -335,8 +343,11 @@ def generate_greetings(character):
     response = client.models.generate_content(
         model="gemini-2.5-flash", contents=input_message
     )
-    # print(response.text)
-    return response.text.splitlines()
+
+    lines = response.text.splitlines()
+
+    # Strip leading and trailing quotes and commas from each greeting
+    return [line.strip("\"',") for line in lines]
 ```
 </details>
 
@@ -352,29 +363,9 @@ Once you've done that, try your hand at the `get_greetings` method as well.
 @bp.get("/<char_id>/greetings")
 def get_greetings(char_id):
     character = validate_model(Character, char_id)
-    
-    if not character.greetings:
-        return {"message": f"No greetings found for {character.name} "}, 201
-    
-    response = {"Character Name" : character.name,
-                "Greetings" : []}
-    for greeting in character.greetings:
-        response["Greetings"].append({
-            "greeting" : greeting.greeting_text
-        })
-    
-    character = validate_model(Character, char_id)
-    
-    if not character.greetings:
-        return {"message": f"No greetings found for {character.name}"}, 201
-    
-    response = {"character_name": character.name,
-                "greetings": []}
-    for greeting in character.greetings:
-        response["greetings"].append({
-            "greeting" : greeting.greeting_text
-        })
-    
+
+    response = [greeting.to_dict() for greeting in character.greetings]
+
     return response
 ```
 </details>
