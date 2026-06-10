@@ -88,3 +88,18 @@ Standards:
         Type: Lesson
         UID: 08cc5b97-3408-4e71-8b47-aecbde2cb458
         Path: /working-with-ai-apis/ai-apis-in-projects.md
+  -
+    Title: Agentic Coding
+    Description: How do we oversee and coordinate coding agents to create code with AI assistance?
+    UID: 0182dc79-daa0-4cf6-bf14-ba0a98292f99
+    SuccessCriteria:
+      - success criteria
+    ContentFiles:
+      -
+        Type: Lesson
+        UID: eca69a0b-e630-4766-acd5-4a3992f89b9e
+        Path: /agentic-coding/agentic-intro.md
+      -
+        Type: Lesson
+        UID: 0370ba94-6324-413e-9c1b-7b2db283f646
+        Path: /agentic-coding/agentic-problem-set.md
