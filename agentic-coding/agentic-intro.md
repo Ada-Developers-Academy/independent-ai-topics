@@ -166,13 +166,13 @@ The goal isn't automation that replaces engineering judgment. It's a workflow wh
 
 Moving from prompt-based AI assistance to agentic coding means shifting from single-turn exchanges to a configured system that runs on its own between human checkpoints. At the core of that system is still a language model doing text prediction.
 
-The ReAct loop is what makes agents capable of sustained, multi-step work. Tool results get appended to the context window, which feeds the model's next output, which can trigger the next tool call, and so on. The more capable and well-configured the tools, the more useful the loop becomes. Because the loop runs on statistical prediction rather than judgment, it requires guardrails, sandboxing, and meaningful human review to make it safe to use in real environments.
+The **ReAct** loop is what makes agents capable of sustained, multi-step work. Tool results get appended to the context window, which feeds the model's next output, which can trigger the next tool call, and so on. The more capable and well-configured the tools, the more useful the loop becomes. Because the loop runs on statistical prediction rather than judgment, it requires guardrails, sandboxing, and meaningful human review to make it safe to use in real environments.
 
 The components of an agentic setup each address a specific part of making this system reliable and manageable: 
-- Skills give agents procedural knowledge for specific tasks without loading everything upfront, using tiered loading to control context costs. 
-- Steering files give agents the project-level context they can't retain on their own between sessions. 
-- Subagents keep the primary agent's context clean by handling isolated subtasks in their own windows and returning only what's needed. 
-- MCP connects agents to live external services, and RAG makes large knowledge stores accessible at runtime without loading them all at once.
+- **Skills** give agents procedural knowledge for specific tasks without loading everything upfront, using tiered loading to control context costs. 
+- **Steering files** give agents the project-level context they can't retain on their own between sessions. 
+- **Subagents** keep the primary agent's context clean by handling isolated subtasks in their own windows and returning only what's needed. 
+- **MCP** connects agents to live external services, and **RAG** makes large knowledge stores accessible at runtime without loading them all at once.
 
 Our role in this system is to design it well, configure the right guardrails, and stay engaged at the right moments. The agent extends our capacity for mechanical work; we retain responsibility for the judgment calls: defining requirements, reviewing plans before execution, checking outputs before they're committed, and steering when results drift from our intent.
 

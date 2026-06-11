@@ -1,5 +1,9 @@
 # Scratchpad
 
+## Context Windows & usage
+
+
+
 ## Intro lesson
 
 This window includes system instructions, conversation history, loaded files, and tool outputs.
@@ -14,7 +18,7 @@ RAG (Retrieval-Augmented Generation)A technique where relevant content is retrie
 Managing the context window of our agent sessions is an important part of agentic coding flows, and subagents are a key tool for that management. We'll dive much deeper on this in an upcoming lesson, but subagents keep the primary agent's context window from being consumed by work that doesn't need to stay in scope. 
 - Think about a task like exploring and documenting a code base. File contents need to be added to the context window to be available for processing, but once a summary that maps the code base has been created, is it helpful to keep working in a session whose context window if full of . 
 
-## Context Windows & usage
+
 
 
 
