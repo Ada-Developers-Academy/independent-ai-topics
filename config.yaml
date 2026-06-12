@@ -101,5 +101,9 @@ Standards:
         Path: /agentic-coding/agentic-intro.md
       -
         Type: Lesson
+        UID: eca69a0b-e630-4766-acd5-4a3992f89b9f
+        Path: /agentic-coding/context-windows.md
+      -
+        Type: Lesson
         UID: 0370ba94-6324-413e-9c1b-7b2db283f646
         Path: /agentic-coding/agentic-problem-set.md

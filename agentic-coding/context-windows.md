@@ -1,0 +1,262 @@
+# Token Usage & Context Windows
+
+In the previous lesson, we introduced agents, subagents, and skills at a high level. Before we step into workflows and best practices for these components, it can be helpful to have a clear picture of the resource model underlying everything an AI coding agent does. 
+
+Every action an agent takes, whether reading a file, generating code, or processing a plan, has a cost: tokens. Understanding where those tokens go, and how the space available for them shapes agent behavior, gives us the foundation we need to keep AI agents performing well and reduce our costs where possible.
+
+## Learning Goals
+
+- Identify the different sources of token consumption in an agentic coding session
+- Explain what a context window is and describe what contributes to filling it
+- Describe how agent behavior changes as the context window approaches capacity
+- Apply strategies for managing the context window to get more out of a session
+
+## Vocabulary and Synonyms
+
+| Vocab | Definition | Synonyms | How to Use in a Sentence |
+| --------- | --------- | -------- | --------- |
+| Context Compaction | An automatic or manual process where an agent summarizes its conversation history to free up space in the context window without losing the most essential information. | Context compression, summarization | "When compaction triggered, the agent condensed the earlier part of our session into a summary so we could keep working without starting over." |
+
+## Where Tokens Get Spent
+
+We already know from previous lessons that tokens are the unit of measure for how much text an AI model processes. What we're exploring in this lesson is *where* those tokens come from in a typical agentic session, because the sources add up quickly and aren't always obvious.
+
+The primary sources of token usage in an agentic session are:
+
+### Startup content: system prompt, steering configuration, and tool definitions
+
+Before we type our first message, the agent's session comes pre-loaded with context: instructions that define the agent's behavior, any steering document like a project configuration file, and descriptions of available tools and skills. 
+- This foundational layer can range from a few hundred to several thousand tokens depending on how much guidance has been configured. 
+- Notably, this entire layer is re-sent with every message in the session, which means a bloated steering file or a large number of connected tool definitions compounds in cost over the course of a session.
+
+### Our messages and the full conversation history
+
+Unlike a simple search query, an agent session is cumulative. Every message we send and every response the model returns stays in the context window for the duration of the session. Crucially, each new message doesn't just add to a running tab: the model re-reads the entire conversation from the start on every turn. 
+- A session that has grown to 30 exchanges can cost exponentially more per turn than the same exchange made in a fresh session, because the earlier content is re-processed each time.
+
+### Tool calls and their results
+
+When an agent takes an action such as reading a file, running a shell command, or calling a search tool, the results of those actions come back into the context window. A single tool call that returns the full contents of a large source file can consume thousands of tokens at once. 
+- Shell commands are a particularly easy source of invisible bloat: a verbose test suite, a long build log, or a `git log` with hundreds of commits can flood the context with output that lingers for the rest of the session.
+
+### Extended processing passes
+
+Some AI models support a mode where the model performs additional passes over the input before producing a final output. In this mode, the model generates a series of intermediate outputs that guide what it produces next, similar to how working through a scratch pad produces better results than jumping straight to an answer. 
+- These intermediate outputs also consume tokens and count against the context window, so this feature is best reserved for genuinely complex problems rather than routine tasks.
+
+### Generated output
+
+The plans, explanations, code, and any other content the agent produces are all output tokens, which typically cost more than input tokens with most providers. 
+
+As we can see, an agentic session contains vastly more content than our back and forth conversation with the AI. It is an accumulating record of everything that has happened, and that record grows with every step!
+
+## A Deeper Look at the Context Window
+
+### What the Context Window Actually Contains
+
+We can think of the context window as the agent's working memory. It is everything the model can actively process at a given moment. When an agent is mid-session on a coding task, that window contains all of the types of content we listed above:
+- System prompt
+- Steering documentation
+- Skill index
+- Connected RAG and MCP server definitions
+- All messages and responses of the current conversation
+- The full contents of any skills loaded during the session
+- The results of every file read, search, or command run so far, including any code the agent has written or reviewed in this session
+
+This is a fundamentally different model from how we might think about human memory: 
+- A developer working on a task can recall what they did last week, set aside information that isn't immediately relevant, and pull in context from many sources over time. 
+- A model, by contrast, can only process what is currently inside its context window. Information outside that window might as well not exist from the model's perspective.
+
+### How the Window Fills Up
+
+In a straightforward back-and-forth conversation, a context window fills gradually and predictably. In an agentic coding session, it tends to fill faster and less evenly. A couple common patterns accelerate the fill rate:
+
+**File exploration** - When an agent reads source files or searches documentation, each file's contents enters the window in full. Reading a handful of long files early in a session can consume a significant portion of the available space before any code has been written. Free-range exploration, where the model reads files one by one to find what it needs, is especially costly; targeted searches that return only matching lines are far more efficient.
+
+**Iterative debugging cycles** - When a fix doesn't work on the first try, the error output, the attempted fix, the follow-up error, and the next attempt all accumulate. A debugging loop that takes five or six tries doesn't just cost more time: it costs significantly more tokens with each round.
+
+### How Behavior Degrades as the Window Fills
+
+This is the part that catches many developers off guard. Context windows have a hard ceiling, but behavioral degradation often begins well before that ceiling is hit. Research and practitioner experience point to the same pattern: as the total content in a context window grows, models tend to lose track of information buried in the middle of the conversation.
+
+The effect is somewhat like trying to remember something from the middle of a very long lecture. Information near the start and end tends to be more accessible than what came between. For an agent working through a long coding session, this can manifest as:
+
+- Forgetting constraints or decisions established early in the conversation
+- Repeating work that was already completed
+- Producing code that contradicts earlier design decisions
+- Giving generic or less precise outputs as earlier context becomes effectively inaccessible
+
+Most systems begin automatic compaction somewhere around 80–95% of the window's capacity. But by that point, some degradation is likely already occurring. This is why we want to develop habits to proactively manage context rather than waiting for automatic intervention. 
+- A useful rule of thumb is to check context usage frequently and around the 60% mark, take action before quality starts to drift.
+
+## Managing the Context Window
+
+Understanding that the window fills and behavior degrades is only useful if we know what to do about it. There are a variety of strategies, and we get the most out of our sessions by using them in combination:
+
+### Compaction
+
+When a context window grows too full, most agentic tools offer a mechanism, sometimes automatic and sometimes manually triggered, that compresses the conversation history by replacing it with a structured summary. The agent generates a compact account of what has happened so far, preserving the most important decisions, findings, and state, and then continues from that summary rather than the full transcript.
+- It can be worth manually triggering compaction when the option is available. Most tools that offer manual compaction let you give some guidance around what information is okay to lose and what topics must keep as much context as possible. 
+
+Compaction is useful and often necessary, but it comes with the tradeoff that some context is still forgotten. Any information that wasn't captured in the summary is lost. If a subtle constraint from early in the session doesn't make it into the summary, the agent won't have access to it going forward. 
+- This is why other strategies, keeping context lean in the first place, are often preferable. Compaction is a recovery mechanism, not a workflow strategy.
+
+It can be worth manually triggering compaction when the option is available to allow us finer control over how the context window gets compacted. Most tools that offer manual compaction let us include some guidance around what information is okay to lose and what topics must keep as much context as possible.
+
+### Passing Summaries and File Paths Instead of Full Content
+
+One of the most effective habits we can develop is resisting the urge to load large files directly into the conversation. Instead of asking an agent to read and hold an entire codebase, we can be more surgical:
+
+- Reference a file by its path and ask the agent to load only the relevant sections
+- Summarize what a file or module does rather than pasting its full contents
+- Provide the agent with a high-level map of the codebase and let it pull in details on demand
+
+The same principle applies to plans and documents. Rather than re-pasting a long planning document into every message, we can write it to a file, tell the agent where that file lives, and let it read it when needed. The file reference itself costs almost nothing in tokens; the full document only enters the context when the agent actually needs it.
+
+Being precise with what we reference also matters at a smaller scale. For example: 
+- If a bug is in one function, pointing the agent at that function is *far* cheaper than sharing the whole file. 
+- If an error is in the last ten lines of a log, those ten lines are all the agent needs.
+
+### Treating Files as External Memory
+
+This leads to a broader habit: using disk storage to extend the effective memory of a session. The context window is a scarce resource, but disk storage is not. Anything that has been figured out, decided, or produced during a session is a candidate for writing to a file:
+
+- Planning documents and architecture decisions
+- Implementation notes and design choices
+- Research findings
+- Partial implementations that are complete and don't need revisiting
+
+When we write important outputs to files rather than relying on conversation history to retain them, we free up context for the work actually happening now. We also protect that information from compaction: a file on disk survives a context compression, while a detail buried mid-conversation may not. A useful end-of-session habit is asking the agent to write a short summary file capturing the decisions made, files touched, and any open questions, then starting the next session fresh by loading that summary rather than the full scrollback.
+
+Conversely, we should be thoughtful about when we read files back in. Loading something into context has a cost. If an agent doesn't need the full contents of a file to complete the current step, there's no reason to pay for it.
+
+### Managing What Gets Connected
+
+Startup content loads on every message, so anything connected to the agent that isn't actively needed is a recurring cost. MCP server tool definitions in particular can run into the tens of thousands of tokens per server. Disconnecting servers we aren't using in a given session, and configuring exclusion rules so the agent skips build artifacts, dependency directories, and generated files, can eliminate a significant portion of background overhead without changing anything about how we work.
+
+### Starting a Fresh Session
+
+Sometimes the most effective move is to begin a new session entirely. When a current session has accumulated a lot of dead weight, failed attempts, exploratory tangents, and superseded plans, carrying it forward can work against us. A fresh context gives the model a clean slate, and if we've been writing important decisions and outputs to files, we lose very little by starting over. We can re-orient the new session quickly by pointing it at those files rather than trying to summarize or compress a cluttered history.
+
+We'll go deeper on when and why to start a new session in a later lesson. For now, it's worth knowing it's a legitimate and often underused option.
+
+### Subagents as a Context Management Tool
+
+All of the strategies above help us be more careful with a single session's context. But once we're confident a session is being managed sensibly, the most powerful step up is to delegate isolated work to subagents.
+
+As covered in the previous lesson, a subagent is a separate agent instance with its own fresh context window. When a primary agent spawns a subagent, it gives it a focused task: do this research, implement this function, run these tests. The subagent works in its own clean context, completes its job, and returns a summary of what it found or produced. The primary agent receives that summary, not the subagent's full conversation history.
+
+This means all the file exploration, intermediate steps, and failed attempts that happened inside the subagent stay there. None of that accumulates in the main session's context. From the primary agent's perspective, the subagent's work appears as a single compact result.
+
+This is especially valuable for research and exploration tasks, which are among the fastest ways to fill a context window. Delegating "go read these files and tell me what's relevant" to a subagent lets us gather information without paying for it in our primary session. We'll dig into subagents much more deeply in a later lesson.
+
+## Putting It Together
+
+Managing a context window well isn't about memorizing a set of rules. It's about developing a mental model of where tokens go and why that matters.
+
+The context window is the agent's working memory: it doesn't grow, and it doesn't forget on its own. It fills. Everything we put in it costs, and costs compound across the full session because earlier content is re-processed on every new turn.
+
+Degradation is gradual and tends to sneak up on us. We don't get a sudden drop in quality when the window fills. We get a slow drift toward less precise, less consistent outputs. Catching this early means watching for the signs: ignoring earlier constraints, repeating work, generic outputs where specific ones are expected.
+
+Keeping the window lean is always better than cleaning it up after it fills. The goal is to give the model exactly the context it needs to do good work at each step, not everything that has happened since we opened the session.
+
+Files are persistent, context is not. Decisions, plans, and outputs written to disk are safe from context pressure. Habits around externalizing information, writing things down and referencing files by path rather than pasting full contents, pay compound dividends over a working session.
+
+Subagents are context isolation in action. Once we have a session being managed well, subagents let us scale that discipline across parallel or sequential workstreams without the main session paying the cost of all that work.
+
+We'll build on each of these ideas throughout the rest of the course.
+
+## Check for Understanding
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: m4Rk9pLxQ2nBv7Yw3Jf8Dc1Tz5As6Ge
+* title: Understanding Performance, Usage, & Costs: Token Usage & Context Windows
+##### !question
+
+A developer has been working in the same coding agent session all day. By message 40, they notice the agent has started ignoring a constraint they set up in message 5. What most likely explains this behavior?
+
+##### !end-question
+##### !options
+
+a| The model's weights are updated during long sessions and the original constraint was overwritten.
+b| Content buried in the middle of a long context window receives less effective attention from the model, making earlier constraints less likely to influence later outputs.
+c| The constraint was invalid and the model determined it should be skipped.
+d| Agent sessions expire after a set number of messages, resetting the context automatically.
+
+##### !end-options
+##### !answer
+
+b|
+
+##### !end-answer
+##### !explanation
+
+Models tend to pay less attention to content that is buried in the middle of a long context window, a pattern sometimes called "lost in the middle." As a session grows longer, earlier instructions, constraints, and decisions become progressively less likely to influence the model's outputs even though they are technically still present in the context. This is why proactive context management matters: keeping the window lean, writing important decisions to files, and using compaction or fresh sessions before degradation sets in are all more effective than hoping a long context stays coherent.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: Hn6Wq8kRpY1Lc4Mv2Xt7Bs3Jf9Dz5Au
+* title: Understanding Performance, Usage, & Costs: Token Usage & Context Windows
+##### !question
+
+A team is working on a large codebase. At the start of each session, their agent reads every source file in the project directory to build context. What is the primary problem with this approach?
+
+##### !end-question
+##### !options
+
+a| Reading files at session start prevents the agent from writing to those files later.
+b| File reads are billed at a higher token rate than conversation history.
+c| Loading large volumes of content upfront consumes a significant portion of the context window before any useful work begins, and all of that content is re-processed on every subsequent turn.
+d| Agents can only read files that are explicitly listed in the steering document.
+
+##### !end-options
+##### !answer
+
+c|
+
+##### !end-answer
+##### !explanation
+
+Because an agent re-reads the entire context window on every turn, files loaded at the start of a session aren't a one-time cost: they recur with every message. Loading an entire codebase upfront can consume the majority of the available context before any code is written, and that overhead compounds throughout the session. A more effective pattern is to reference files by path and have the agent load only the sections it actually needs for the current step, keeping the context focused on active work.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: Qp3Lz7Xv9Fw2Nt5Bm8Yk1Cj4Rg6Dh0
+* title: Understanding Performance, Usage, & Costs: Token Usage & Context Windows
+##### !question
+
+A developer working on a multi-day project wants to end their current session without losing important context. Which approach best preserves useful information while keeping the next session's starting context lean?
+
+##### !end-question
+##### !options
+
+a| Leave the session open overnight so the context window stays populated.
+b| Paste the full conversation history into the new session's first message.
+c| Ask the agent to write a summary file capturing key decisions, files touched, and open questions, then start a fresh session that loads that file.
+d| Trigger compaction immediately before ending the session so the history is compressed in place.
+
+##### !end-options
+##### !answer
+
+c|
+
+##### !end-answer
+##### !explanation
+
+Writing a summary to a file before ending a session lets us start the next session with only what's actually needed: the conclusions, decisions, and open loops. Loading that file in a fresh session costs far fewer tokens than re-loading a full conversation history, and unlike relying on compaction, we have direct control over what the summary captures. Leaving a session open or pasting the full history into a new session both preserve the bloat we're trying to avoid. Compaction at session end helps but produces output that lives in the session's history rather than a portable file we can load in a new context.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
