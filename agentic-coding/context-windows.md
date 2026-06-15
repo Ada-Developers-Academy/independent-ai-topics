@@ -96,12 +96,10 @@ Understanding that the window fills and behavior degrades is only useful if we k
 ### Compaction
 
 When a context window grows too full, most agentic tools offer a mechanism, sometimes automatic and sometimes manually triggered, that compresses the conversation history by replacing it with a structured summary. The agent generates a compact account of what has happened so far, preserving the most important decisions, findings, and state, and then continues from that summary rather than the full transcript.
-- It can be worth manually triggering compaction when the option is available. Most tools that offer manual compaction let you give some guidance around what information is okay to lose and what topics must keep as much context as possible. 
+- It can be worth manually triggering compaction when the option is available. Most tools that offer manual compaction let you add a prompt to give some guidance around what information is okay to lose and what topics must keep as much context as possible. 
 
 Compaction is useful and often necessary, but it comes with the tradeoff that some context is still forgotten. Any information that wasn't captured in the summary is lost. If a subtle constraint from early in the session doesn't make it into the summary, the agent won't have access to it going forward. 
-- This is why other strategies, keeping context lean in the first place, are often preferable. Compaction is a recovery mechanism, not a workflow strategy.
-
-It can be worth manually triggering compaction when the option is available to allow us finer control over how the context window gets compacted. Most tools that offer manual compaction let us include some guidance around what information is okay to lose and what topics must keep as much context as possible.
+- This is why other strategies, such as keeping context lean, are often preferable. Compaction should be treated as a recovery mechanism, more than a workflow strategy.
 
 ### Passing Summaries and File Paths Instead of Full Content
 
@@ -124,47 +122,52 @@ This leads to a broader habit: using disk storage to extend the effective memory
 - Planning documents and architecture decisions
 - Implementation notes and design choices
 - Research findings
-- Partial implementations that are complete and don't need revisiting
+- Implementations that are complete and don't need revisiting
 
-When we write important outputs to files rather than relying on conversation history to retain them, we free up context for the work actually happening now. We also protect that information from compaction: a file on disk survives a context compression, while a detail buried mid-conversation may not. A useful end-of-session habit is asking the agent to write a short summary file capturing the decisions made, files touched, and any open questions, then starting the next session fresh by loading that summary rather than the full scrollback.
+When we write important outputs to files rather than relying on conversation history to retain them, we free up context for the work actually happening now. We also protect that information from compaction: a file on disk survives a context compression, while a detail buried mid-conversation may not. 
+- A useful end-of-session habit is to ask the agent to write a short summary file capturing the decisions made, files touched, and any open questions. This allows us to start the next session fresh by loading just that summary rather than the full prior context.
 
 Conversely, we should be thoughtful about when we read files back in. Loading something into context has a cost. If an agent doesn't need the full contents of a file to complete the current step, there's no reason to pay for it.
 
 ### Managing What Gets Connected
 
-Startup content loads on every message, so anything connected to the agent that isn't actively needed is a recurring cost. MCP server tool definitions in particular can run into the tens of thousands of tokens per server. Disconnecting servers we aren't using in a given session, and configuring exclusion rules so the agent skips build artifacts, dependency directories, and generated files, can eliminate a significant portion of background overhead without changing anything about how we work.
+Startup content loads on every message, so anything connected to the agent that isn't actively needed is a recurring cost. MCP server tool definitions in particular can run into the tens of thousands of tokens per server. 
+
+Disconnecting servers we aren't using in a given session, and configuring exclusion rules so the agent skips build artifacts, dependency directories, and generated files, can eliminate a significant portion of background overhead without changing anything about how we work.
 
 ### Starting a Fresh Session
 
-Sometimes the most effective move is to begin a new session entirely. When a current session has accumulated a lot of dead weight, failed attempts, exploratory tangents, and superseded plans, carrying it forward can work against us. A fresh context gives the model a clean slate, and if we've been writing important decisions and outputs to files, we lose very little by starting over. We can re-orient the new session quickly by pointing it at those files rather than trying to summarize or compress a cluttered history.
+Often times, the most effective move is to begin a new session entirely. When a current session has accumulated a lot of history like failed attempts, exploratory tangents, and superseded plans, carrying it forward can work against us. 
+
+A fresh context gives the model a clean slate, and if we've been writing important decisions and outputs to files, we lose very little by starting over. We can re-orient the new session quickly by pointing it at those files rather than trying to summarize or compress a cluttered history.
 
 We'll go deeper on when and why to start a new session in a later lesson. For now, it's worth knowing it's a legitimate and often underused option.
 
 ### Subagents as a Context Management Tool
 
-All of the strategies above help us be more careful with a single session's context. But once we're confident a session is being managed sensibly, the most powerful step up is to delegate isolated work to subagents.
+All of the strategies above help us be more careful with a single session's context. Once we're confident that we have strong habits in place to manage a single session's context, the most powerful step up is to delegate isolated tasks to subagents.
 
-As covered in the previous lesson, a subagent is a separate agent instance with its own fresh context window. When a primary agent spawns a subagent, it gives it a focused task: do this research, implement this function, run these tests. The subagent works in its own clean context, completes its job, and returns a summary of what it found or produced. The primary agent receives that summary, not the subagent's full conversation history.
+As we covered in the previous lesson, a subagent is a separate agent instance with its own fresh context window. When a primary agent spawns a subagent, it gives it a focused task: do this research, implement this function, run these tests. The subagent works in its own clean context, completes its job, and returns a summary of what it found or produced to the primary agent.
 
 This means all the file exploration, intermediate steps, and failed attempts that happened inside the subagent stay there. None of that accumulates in the main session's context. From the primary agent's perspective, the subagent's work appears as a single compact result.
 
-This is especially valuable for research and exploration tasks, which are among the fastest ways to fill a context window. Delegating "go read these files and tell me what's relevant" to a subagent lets us gather information without paying for it in our primary session. We'll dig into subagents much more deeply in a later lesson.
+This is especially valuable for research and exploration tasks, which are among the fastest ways to fill a context window. Delegating "go read these files and tell me what's relevant" to a subagent lets us gather information without taking over the context window in our primary session. We'll dig into subagents more deeply as we talk about workflows and best practices.
 
-## Putting It Together
+## Summary
 
-Managing a context window well isn't about memorizing a set of rules. It's about developing a mental model of where tokens go and why that matters.
+Managing a context window is less about memorizing a set of rules and more about developing a mental model of where tokens go and why that matters. Everything we put in it costs something in tokens, and costs compound across the full session because earlier content is re-processed on every new turn.
 
-The context window is the agent's working memory: it doesn't grow, and it doesn't forget on its own. It fills. Everything we put in it costs, and costs compound across the full session because earlier content is re-processed on every new turn.
+The context window is the agent's working memory: it can only contain so much information and as it fills, compaction will cause it to lose details over time. Session degradation is gradual and tends to sneak up on us. We don't get a sudden drop in quality when the window fills. We get a slow drift toward less precise, less consistent outputs. Catching this early means watching for the signs: 
+- ignoring earlier constraints
+- repeating work
+- generic outputs where specific ones are expected
 
-Degradation is gradual and tends to sneak up on us. We don't get a sudden drop in quality when the window fills. We get a slow drift toward less precise, less consistent outputs. Catching this early means watching for the signs: ignoring earlier constraints, repeating work, generic outputs where specific ones are expected.
+Keeping the window lean as we work is a better practice than cleaning it up after it fills. Our goal at each step is to provide models with exactly the context they need to do work that meets our requirements. 
+- Providing extra content that isn't immediately useful can actually hurt us by filling context windows faster and driving sessions towards degradation sooner.
 
-Keeping the window lean is always better than cleaning it up after it fills. The goal is to give the model exactly the context it needs to do good work at each step, not everything that has happened since we opened the session.
+Files are persistent, while an agent's session context is not. Decisions, plans, and outputs written to disk are safe from context pressure. Practices around externalizing information, writing things down and referencing files by path rather than pasting full contents, all work together to allow us to get the most out of individual sessions.
 
-Files are persistent, context is not. Decisions, plans, and outputs written to disk are safe from context pressure. Habits around externalizing information, writing things down and referencing files by path rather than pasting full contents, pay compound dividends over a working session.
-
-Subagents are context isolation in action. Once we have a session being managed well, subagents let us scale that discipline across parallel or sequential workstreams without the main session paying the cost of all that work.
-
-We'll build on each of these ideas throughout the rest of the course.
+Subagents are context isolation in action. Once we have built up practices for managing context in a single agent's session, subagents let us scale that discipline across parallel or sequential workstreams without filling up the main session context. As we'll see in upcoming lessons, this is important in workflows where a primary agent is often responsible for organizing tasks, orchestrating subagents to perform them, and tracking the overall project progress.
 
 ## Check for Understanding
 
@@ -193,7 +196,9 @@ b|
 ##### !end-answer
 ##### !explanation
 
-Models tend to pay less attention to content that is buried in the middle of a long context window, a pattern sometimes called "lost in the middle." As a session grows longer, earlier instructions, constraints, and decisions become progressively less likely to influence the model's outputs even though they are technically still present in the context. This is why proactive context management matters: keeping the window lean, writing important decisions to files, and using compaction or fresh sessions before degradation sets in are all more effective than hoping a long context stays coherent.
+Models tend to pay less attention to content that is buried in the middle of a long context window, a pattern sometimes called "lost in the middle." As a session grows longer, earlier instructions, constraints, and decisions become progressively less likely to influence the model's outputs even though they are technically still present in the context. 
+
+This is why proactive context management matters: keeping the window lean, writing important decisions to files, and using compaction or fresh sessions before degradation sets in are all more effective than hoping a long context stays coherent.
 
 ##### !end-explanation
 ### !end-challenge
@@ -224,7 +229,9 @@ c|
 ##### !end-answer
 ##### !explanation
 
-Because an agent re-reads the entire context window on every turn, files loaded at the start of a session aren't a one-time cost: they recur with every message. Loading an entire codebase upfront can consume the majority of the available context before any code is written, and that overhead compounds throughout the session. A more effective pattern is to reference files by path and have the agent load only the sections it actually needs for the current step, keeping the context focused on active work.
+Because an agent re-reads the entire context window on every turn, files loaded at the start of a session aren't a one-time cost: they recur with every message. Loading an entire codebase upfront can consume the majority of the available context before any code is written, and that overhead compounds throughout the session. 
+
+A more effective pattern is to reference files by path and have the agent load only the sections it actually needs for the current step, keeping the context focused on active work.
 
 ##### !end-explanation
 ### !end-challenge
@@ -255,7 +262,9 @@ c|
 ##### !end-answer
 ##### !explanation
 
-Writing a summary to a file before ending a session lets us start the next session with only what's actually needed: the conclusions, decisions, and open loops. Loading that file in a fresh session costs far fewer tokens than re-loading a full conversation history, and unlike relying on compaction, we have direct control over what the summary captures. Leaving a session open or pasting the full history into a new session both preserve the bloat we're trying to avoid. Compaction at session end helps but produces output that lives in the session's history rather than a portable file we can load in a new context.
+Writing a summary to a file before ending a session lets us start the next session with only what's actually needed: the conclusions, decisions, and open loops. Loading that file in a fresh session costs far fewer tokens than re-loading a full conversation history, and unlike relying on compaction, we have direct control over what the summary captures. 
+
+Leaving a session open or pasting the full history into a new session both preserve the bloat we're trying to avoid. Triggering compaction at the end of a session helps, but produces output that lives in the session's history rather than in a portable file that we could load into a new context.
 
 ##### !end-explanation
 ### !end-challenge
