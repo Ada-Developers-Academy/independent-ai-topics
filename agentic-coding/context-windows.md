@@ -63,6 +63,9 @@ We can think of the context window as the agent's working memory. It is everythi
 - The full contents of any skills loaded during the session
 - The results of every file read, search, or command run so far, including any code the agent has written or reviewed in this session
 
+![One bar representing our monthly token pool that is filled up with many individual agent sessions with another bar above it that represents a single instance of an agent session. The agent session bar is made up of the components listed above the image.](assets/token_pool_and_context_windows.png)
+*Fig. Our token pool and agent context windows are tightly linked. Over a billing period, the token pool is used by the individual agent sessions we run. Each of those agent sessions uses tokens to represent the data that fills their context windows. ([Full Size Image](assets/token_pool_and_context_windows.png))*
+
 This is a fundamentally different model from how we might think about human memory: 
 - A developer working on a task can recall what they did last week, set aside information that isn't immediately relevant, and pull in context from many sources over time. 
 - A model, by contrast, can only process what is currently inside its context window. Information outside that window might as well not exist from the model's perspective.
