@@ -63,8 +63,8 @@ We can think of the context window as the agent's working memory. It is everythi
 - The full contents of any skills loaded during the session
 - The results of every file read, search, or command run so far, including any code the agent has written or reviewed in this session
 
-![One bar representing our monthly token pool that is filled up with many individual agent sessions with another bar above it that represents a single instance of an agent session. The agent session bar is made up of the components listed above the image.](assets/token_pool_and_context_windows.png)
-*Fig. Our token pool and agent context windows are tightly linked. Over a billing period, the token pool is used by the individual agent sessions we run. Each of those agent sessions uses tokens to represent the data that fills their context windows. ([Full Size Image](assets/token_pool_and_context_windows.png))*
+![One bar representing our monthly account credits that is filled up with many individual agent sessions with another bar above it that represents a single instance of an agent session. The agent session bar is made up of the components listed above the image.](assets/token_pool_and_context_windows.png)
+*Fig. Our account credits and tokens used by agent context windows are tightly linked. Different models bill our credits at different rates. Over a billing period, our account credits are used by the individual agent sessions we run. Each of those agent sessions uses tokens to represent the data that fills their context windows. ([Full Size Image](assets/token_pool_and_context_windows.png))*
 
 This is a fundamentally different model from how we might think about human memory: 
 - A developer working on a task can recall what they did last week, set aside information that isn't immediately relevant, and pull in context from many sources over time. 
@@ -91,6 +91,38 @@ The effect is somewhat like trying to remember something from the middle of a ve
 
 Most systems begin automatic compaction somewhere around 80–95% of the window's capacity. But by that point, some degradation is likely already occurring. This is why we want to develop habits to proactively manage context rather than waiting for automatic intervention. 
 - A useful rule of thumb is to check context usage frequently and around the 60% mark, take action before quality starts to drift.
+
+### Context Window Usage Example
+
+How does this context usage look in a standard workflow? Let's say that we want to use Copilot AI agents in VS Code to help us complete the [Adagrams project](https://github.com/AdaGold/adagrams-py). If we open up the code locally, start off a new agent session in planning mode, then send a prompt like:
+
+> Help me create a structured approach to complete the Adagrams project. The requirements are outlined in 'README.md'. Only the file 'adagrams/game.py' is allowed to be changed to complete this project. 'adagrams/game.py' contains 4 function definitions that need to be fully implemented. These functions must pass the tests located in the 'tests' folder. The functions should follow PEP8 best practices for Python. Only the packages in the file 'requirements.txt' are allowed to be used for this project.
+
+We should pretty shortly see some plan generated, along with information on the model version and how many account credits were used by the response.
+
+![Copilot agent chat panel in VS Code showing an implentation plan for the Adagrams project along wth information about the response like the model version and credits used.](assets/adagrams_planning_chat.png)
+*Fig. Copilot agent chat in planning mode showing part of a plan for implementing the Adagrams project. ([Full Size Image](assets/adagrams_planning_chat.png))*
+
+If we click on the session usage tracker at the bottom of the screen, we can see details on the context window contents like our current usage, how the contents are divided up, and options for compacting the conversation:
+
+![Session usage tracker for the copilot planning agent working on the adagrams implementation plan showing the current context window usage.](assets/adagrams_planning_context_use.png)
+
+*Fig. Session usage tracker for the copilot planning agent working on the adagrams implementation plan. ([Full Size Image](assets/adagrams_planning_context_use.png))*
+
+The model used for this planning session has a 1 million token context window size. The single request and response combined used up 21.9 thousand tokens of that total 1 million limit, and that's without any back and forth, no asking for explanation, requesting changes, etc. 
+
+If we use the "Start Implementation" button shown at the bottom of the chat window screenshot above, it will open a new agent session to begin implementing the outlined plan. In our run through, the implementation was started using a different model from planning, `GPT-5.3-Codex` which has a 400 thousand token limit for its context window. After the initial implementation, we asked for 3 changes:
+1. create a venv and install requirements before trying to run pytest
+2. move constants to their own file and import them into `game.py`
+3. refactor the last function to reduce repetition and make the function easier to follow
+    - We needed to ask for this to be refactored twice, since the initial refactor used a nested helper function and made the code harder to follow.
+
+![Part of the copilot agent's implementation response along with the session usage tracker information after Adagram's changes were completed](assets/adagrams_impl_context_usage.png)
+*Fig. Part of the implementation response along with the session usage tracker for the copilot implementation agent after Adagram's changes were completed. ([Full Size Image](assets/adagrams_impl_context_usage.png))*
+
+The prompt & response cycle for the implementation plan and our requested changes, without any further discussion or code explanations, used about 8% of the context window for the implementation agent. 
+
+Adagrams is a smaller scale project, we only altered two files, and only needed to read around seven files in total (test files, README.md & the two implementation files). As our project size and the amount of context required to do a task increases, proactively managing our context window becomes increasingly more important.
 
 ## Managing the Context Window
 
