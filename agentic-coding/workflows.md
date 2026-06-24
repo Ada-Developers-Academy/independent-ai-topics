@@ -1,4 +1,4 @@
-# Recommended Workflow for Agentic Coding
+# Recommended Workflows
 
 In the previous lessons we established what agents are and how their context windows work. Now we can put those ideas to use by looking at how to structure a full coding session: what phases we move through, where human review belongs in that sequence, and what patterns experienced practitioners reach for when the work scales up.
 
@@ -111,6 +111,9 @@ After automated or AI-assisted review, the final step in this phase is human rev
 - If the work needs revision, we return to implementation and repeat the loop. 
 - If the plan itself was flawed, we may return all the way to planning!
 
+![Circular image split into thirds where each section represents a phase of the recommended workflow: planning, implementation, and review.](assets/workflows/workflow_phases.png)
+*Fig. The steps of the recommended workflow showing how the planning, impementation, and review phases flow into each other. ([Full Size Image](assets/workflows/workflow_phases.png))*
+
 ## Patterns to Know
 
 The plan-implement-review loop works well for many tasks. As projects becomes more complex, two complementary patterns that extend the same loop come up frequently in practice: **adversarial review** and **fan-out**.
@@ -164,7 +167,7 @@ Some practitioners maintain files specifically for this purpose: an architecture
 
 ## Summary
 
-The workflow in practice looks like this:
+Our recommended workflow looks like:
 
 1. **Plan** by researching and writing a concrete specification, then having a human review the plan before anything gets executed.
 
@@ -178,3 +181,132 @@ Fan-out and adversarial review are patterns that sit within this loop. Fan-out s
 
 AI agents handle the mechanical work between our checkpoints. Our role is to provide the plan it works from, review the outputs it produces, and make the go/no-go decisions at each transition.
 
+## Check for Understanding
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: K3nR8qWm2Lx7Vp4Bt9Yc1Js6Fh0Ae5D
+* title: Recommended Workflows
+##### !question
+
+A team is about to begin using an AI agent to implement a new feature. One developer suggests skipping a detailed planning phase and letting the agent figure out the approach as it writes code, arguing that the agent can always revise if something doesn't work. 
+
+Select all options that are significant risks of this approach.
+
+##### !end-question
+##### !options
+
+a| The agent will refuse to write code without a formal specification document.
+b| The agent may produce sophisticated-looking output that contains errors or misses requirements.
+c| Without a planning phase, the agent cannot access tools like file reads or test runners.
+d| Agents can only run one implementation attempt per session, so there is no opportunity to revise.
+e| Revising after the fact is substantially more costly than catching problems during planning.
+
+##### !end-options
+##### !answer
+
+b|
+e|
+
+##### !end-answer
+##### !explanation
+
+Agents generate output based on statistical patterns over the context they're given. A vague or incomplete description of the goal produces output that reflects that vagueness, often in ways that aren't immediately visible. Because the agent is working from statistical prediction rather than judgment, it won't flag when it has misunderstood requirements. Discovering a flawed approach during implementation is substantially more expensive than interrogating the plan before any code is written. Agents are also not blocked from running without a spec, and tool access is independent of whether planning happened.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: 9Qz4Hw6Nb1Yt3Uf8Rm2Xk7Gv5Ld0Pc
+* title: Recommended Workflows
+##### !question
+
+During a code review, a developer asks their coding agent to check whether the implementation it just produced matches the project's requirements. The review comes back clean, but a colleague looking at the same code spots a missing edge case almost immediately. What best explains why the agent's review missed it?
+
+##### !end-question
+##### !options
+
+a| The agent ran out of available tokens and truncated the review.
+b| Code review is not a capability that current agents support.
+c| An agent reviewing its own output is unlikely to identify patterns that didn't register as problems when the code was generated.
+d| The colleague used a different version of the specification than the agent had access to.
+
+##### !end-options
+##### !answer
+
+c|
+
+##### !end-answer
+##### !explanation
+
+This is a limitation of single-session review. An agent reviewing output it produced is working from the same context that generated that output. Statistical text prediction tends to validate patterns consistent with the context it came from, so an agent is unlikely to flag gaps it didn't notice when producing the code. This is the motivation for the adversarial review pattern, which separates the reviewer from the author by using a fresh session with no access to the original session's reasoning.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: 7Th1Eq6Ow3Rz9Kj5Md2Yl4Vb8Nc0Sf
+* title: Recommended Workflow for Agentic Coding
+##### !question
+
+A team is implementing a large feature that involves updating twelve independent service modules. Each module's changes are self-contained and don't depend on the others being completed first. Which workflow pattern is best suited for this situation, and why?
+
+##### !end-question
+##### !options
+
+a| Fan-out, because multiple subagents can work on the independent modules in parallel.
+b| Single-session implementation, because switching to subagents adds complexity without meaningful benefit for tasks under twenty files.
+c| Adversarial review, because independent modules require a separate critic session for each one before implementation begins.
+d| Fan-out, because it eliminates the need for a planning phase when the work is clearly defined.
+
+##### !end-options
+##### !answer
+
+a|
+
+##### !end-answer
+##### !explanation
+
+Fan-out is well-suited to work that can be decomposed into independent units that don't need to exchange information during execution. Here, twelve self-contained modules fits that shape exactly: subagents can work in parallel, each with a clean context window focused on a single module. This is faster than sequential single-session work and avoids the context management problems that would arise from one session holding the full scope of all twelve modules. Fan-out does not eliminate the planning phase, and adversarial review is a verification pattern used after implementation, not before it.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: 5Px2Ab7Uf1Qn3Lw9Rk6Tv8Mz0Hd4Yj
+* title: Recommended Workflows
+##### !question
+
+A developer finishes a planning session and has produced a detailed specification. Rather than saving it to a file, they plan to keep the spec in the conversation history and reference it by describing what they discussed earlier. What is the most significant problem with this approach?
+
+##### !end-question
+##### !options
+
+a| Agents cannot read prior conversation history after the first message, so the spec would be inaccessible immediately.
+b| As the session grows, content from earlier in the conversation becomes less reliably referenced, and the spec is unavailable to other sessions, collaborators, or agents entirely.
+c| Specifications written in conversation history automatically expire after 24 hours.
+d| Agents are only able to follow instructions written in a dedicated file format, not plain conversational text.
+
+##### !end-options
+##### !answer
+
+b|
+
+##### !end-answer
+##### !explanation
+
+Keeping a specification only in conversation history creates two problems. First, as a context window grows, earlier content becomes less reliably attended to by the model, meaning details from an early spec may not influence later implementation steps as intended. Second, a spec that exists only in one session's conversation history is completely inaccessible to other sessions, teammates, or any future agent working on the same project. Writing the spec to a file makes it durable across context compaction, shareable with colleagues for review, and referenceable by path in any future session without paying the token cost of pasting it in full.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->

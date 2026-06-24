@@ -210,7 +210,7 @@ Subagents are context isolation in action. Once we have built up practices for m
 ### !challenge
 * type: multiple-choice
 * id: m4Rk9pLxQ2nBv7Yw3Jf8Dc1Tz5As6Ge
-* title: Understanding Performance, Usage, & Costs: Token Usage & Context Windows
+* title: Token Usage & Context Windows
 ##### !question
 
 A developer has been working in the same coding agent session all day. By message 40, they notice the agent has started ignoring a constraint they set up in message 5. What most likely explains this behavior?
@@ -243,7 +243,7 @@ This is why proactive context management matters: keeping the window lean, writi
 ### !challenge
 * type: multiple-choice
 * id: Hn6Wq8kRpY1Lc4Mv2Xt7Bs3Jf9Dz5Au
-* title: Understanding Performance, Usage, & Costs: Token Usage & Context Windows
+* title: Token Usage & Context Windows
 ##### !question
 
 A team is working on a large codebase. At the start of each session, their agent reads every source file in the project directory to build context. What is the primary problem with this approach?
@@ -276,7 +276,7 @@ A more effective pattern is to reference files by path and have the agent load o
 ### !challenge
 * type: multiple-choice
 * id: Qp3Lz7Xv9Fw2Nt5Bm8Yk1Cj4Rg6Dh0
-* title: Understanding Performance, Usage, & Costs: Token Usage & Context Windows
+* title: Token Usage & Context Windows
 ##### !question
 
 A developer working on a multi-day project wants to end their current session without losing important context. Which approach best preserves useful information while keeping the next session's starting context lean?

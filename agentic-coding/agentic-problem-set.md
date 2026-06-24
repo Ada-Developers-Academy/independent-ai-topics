@@ -1,43 +1,12 @@
-# Problem Set
+# Agentic Coding Problem Set
 
 ## Intro 
 
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
-* id: c4e69c28-6d60-4201-8460-18730bd2d1b7
-* title: Coding with Agents
-##### !question
-
-Which of the following most accurately describes what a language model is doing when it produces a plan or a code change as part of an agent session?
-
-##### !end-question
-##### !options
-
-* It is applying logical reasoning to analyze the problem and determine the correct solution.
-* It is searching its training data for examples from similar projects.
-* It is generating text by predicting what should follow the current context window, based on patterns from training.
-* It is executing the plan internally before outputting it to verify the result is correct.
-
-##### !end-options
-##### !answer
-
-* It is generating text by predicting what should follow the current context window, based on patterns from training.
-
-##### !end-answer
-##### !explanation
-
-A language model is a statistical text prediction system. Given a context window, it produces the text most statistically likely to follow — including plans, code, and tool call specifications. It does not apply logical reasoning in the human sense, search training data at runtime, or execute code internally to verify outputs. Understanding this is important for knowing why guardrails, sandboxing, and human review are necessary components of a well-designed agentic workflow.
-
-##### !end-explanation
-### !end-challenge
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-### !challenge
-* type: multiple-choice
 * id: 78d4c53f-65d4-4fdd-83e9-15a0ae170576
-* title: Coding with Agents
+* title: Agentic Coding Problem Set
 ##### !question
 
 A team is planning an agentic coding workflow and wants to know where human review is most important. Based on what we know about how the ReAct loop works, which answer best reflects where human involvement remains critical?
@@ -68,7 +37,7 @@ Because the loop produces outputs based on statistical text prediction rather th
 ### !challenge
 * type: multiple-choice
 * id: 2d8aaaac-510a-4345-b826-c51e92ec1f76
-* title: Coding with Agents
+* title: Agentic Coding Problem Set
 ##### !question
 
 A language model running as a coding agent has no persistent memory between sessions. Without additional infrastructure, it begins each session with no knowledge of the project it's working on. Which component is specifically designed to solve this problem?
@@ -99,7 +68,7 @@ A steering file is a persistent markdown document loaded at the start of every s
 ### !challenge
 * type: multiple-choice
 * id: eb8334f6-cb0c-4776-b798-98c8f3311703
-* title: Coding with Agents
+* title: Agentic Coding Problem Set
 ##### !question
 
 An agent is configured with access to a large internal knowledge base — hundreds of documents covering architecture decision records, API references, and service runbooks. Loading all of this into the context window at startup would exceed token limits. Which mechanism is designed to handle this scenario?
@@ -129,70 +98,8 @@ RAG (Retrieval-Augmented Generation) is specifically designed for this use case:
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
-* id: e0aa3896-bd9b-4f45-90f8-177d5ea8da88
-* title: Coding with Agents
-##### !question
-
-A team sets up a coding agent with access to their file system and test runner. The agent reads several source files, generates a code change, runs the tests, reads the failure output, and generates a revised change — all without the team prompting each step. What makes this multi-step behavior possible?
-
-##### !end-question
-##### !options
-
-* The language model has been trained to understand the team's specific codebase.
-* A control loop appends tool results back to the context window, and the model generates successive outputs based on the updated context.
-* The steering file contains a step-by-step script that the agent follows for every task.
-* The agent stores the results of each step in long-term memory between sessions.
-
-##### !end-options
-##### !answer
-
-* A control loop appends tool results back to the context window, and the model generates successive outputs based on the updated context.
-
-##### !end-answer
-##### !explanation
-
-What makes multi-step agentic behavior possible is the ReAct loop: the model generates output that specifies a tool call, the tool runs and returns a result, that result is appended to the context window, and the model then generates the next output. This cycle repeats without requiring a new human prompt at each step. The model itself doesn't have inherent knowledge of the codebase; it works from what's in the context window at each iteration.
-
-##### !end-explanation
-### !end-challenge
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-### !challenge
-* type: multiple-choice
-* id: 4f7d8180-683c-4b75-a667-6b47561dca9a
-* title: Coding with Agents
-##### !question
-
-Why is it important to configure sandboxes, guardrails, and human review checkpoints when working with coding agents?
-
-##### !end-question
-##### !options
-
-* Agents are known to produce malicious outputs without these restrictions in place.
-* The control loop runs based on statistical model outputs rather than human judgment, so confident-looking results can still be incorrect or out of scope without these safeguards.
-* Sandboxes prevent the agent from consuming too many tokens during a session.
-* Human review checkpoints allow the agent to ask clarifying questions before proceeding.
-
-##### !end-options
-##### !answer
-
-* The control loop runs based on statistical model outputs rather than human judgment, so confident-looking results can still be incorrect or out of scope without these safeguards.
-
-##### !end-answer
-##### !explanation
-
-The agent loop is driven by a language model doing statistical text prediction — it produces outputs that look confident and coherent regardless of whether they are correct. Without guardrails, tool permission limits, and human review, the agent can take unintended actions or produce plausible-looking but wrong results. These safeguards are not about agent intent; they're how we manage the gap between statistical pattern matching and the judgment calls our codebases actually require.
-
-##### !end-explanation
-### !end-challenge
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-### !challenge
-* type: multiple-choice
 * id: 98a02df3-85a6-4424-bfbc-769ee70205c9
-* title: Coding with Agents
+* title: Agentic Coding Problem Set
 ##### !question
 
 A team wants their coding agent to follow their team's 12-step process for scaffolding a new service, including specific file naming conventions and required boilerplate. This process is not something a general-purpose language model would know. What is the most appropriate way to provide this knowledge to the agent?
@@ -219,32 +126,36 @@ A skill file is the right component for providing procedural knowledge for a spe
 ### !end-challenge
 <!-- prettier-ignore-end -->
 
+## Context Windows
+
+## Recommended Workflows
+
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
-* id: 7da86d44-e4d8-4d47-b639-2c5bb8e93c3b
-* title: Coding with Agents
+* id: 2Wj5Ds9Lq0Nt7Mc4Xr1Ak8Fv3Yz6Bp
+* title: Agentic Coding Problem Set
 ##### !question
 
-Which of the following most accurately describes what a large language model is doing when it operates as the core of a coding agent?
+A team runs adversarial review on a newly implemented authentication module. Three critic sessions evaluate architectural conformance, security, and edge case coverage. The security critic returns a list of specific violations. What happens next in the workflow?
 
 ##### !end-question
 ##### !options
 
-* It reasons through the problem using logic and understanding of software architecture.
-* It produces text outputs by predicting what text should follow its current context window, based on patterns from training.
-* It executes code and uses the results to update its internal knowledge about the codebase.
-* It searches its training data for solutions that have been used in similar projects.
+a| The findings are discarded because no single critic can produce a definitive result without consensus from all three.
+b| The findings are passed to the implementation phase as a concrete list of issues to address, then the review runs again.
+c| The entire implementation is discarded and the planning phase restarts from scratch.
+d| A fourth critic session is automatically spawned to verify the first three critics' findings.
 
 ##### !end-options
 ##### !answer
 
-* It produces text outputs by predicting what text should follow its current context window, based on patterns from training.
+b|
 
 ##### !end-answer
 ##### !explanation
 
-A large language model is a statistical system that generates outputs by predicting what text should follow a given input, based on patterns learned during training. It does not reason in the human sense, execute code directly, or search its training data at runtime. The capabilities we associate with capable coding agents — exploring files, running tests, iterating on failures — come from the control loop and tool infrastructure built around the model, not from reasoning or understanding inside the model itself.
+The adversarial review pattern creates a structured loop: critic sessions return specific, actionable findings, those findings go back to implementation for fixes, and then the review runs again. This continues until the critics pass or a defined iteration threshold is reached. The goal is targeted remediation, not wholesale restart. Discarding findings from a single dimension would undermine the purpose of running focused critics, and requiring consensus across all critics before acting on any finding would delay fixes unnecessarily.
 
 ##### !end-explanation
 ### !end-challenge
