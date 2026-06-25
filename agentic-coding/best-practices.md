@@ -1,47 +1,5 @@
 # Best Practices A
 
-### Skills: What Belongs Here
-
-A skill covers procedural knowledge for a specific type of task: how to do something particular that the agent can't reliably do from training data alone. Skills are loaded on demand rather than at startup, which means we can maintain a large skill library without paying for all of it on every session.
-
-The basic structure of a skill file looks like this:
-
-```markdown
----
-name: api-endpoint
-description: Use when creating a new API endpoint. Covers route handler structure, 
-             service layer setup, validation patterns, and test file scaffolding.
----
-
-## Steps
-
-1. Create the route handler in `src/routes/` following the existing handler structure.
-2. Add the service method in `src/services/` for any business logic.
-3. Use the `validate()` middleware for input validation. See `src/middleware/validate.ts` for usage.
-4. Write integration tests in `tests/routes/` following the pattern in `tests/routes/users.test.ts`.
-5. Register the new route in `src/app.ts`.
-```
-
-The `name` and `description` fields are critical because the description is what the agent uses to determine whether the skill applies to the current task. A description that is too vague ("general coding help") will either never load or load when it shouldn't. A description that precisely names the scenarios where the skill applies ("use when creating a new API endpoint") gives the agent a reliable trigger condition.
-
-Keep the main SKILL.md file focused and under roughly 500 lines. Move detailed reference material such as example input/output pairs, long configuration templates, or supporting documentation into a `references/` subdirectory within the skill folder. The agent can pull these in if it needs them, without paying the token cost for them when it doesn't.
-
-#### What We Can Do With Skills
-
-Skills can contain more than just written instructions. The skill folder structure supports:
-- **References**: Additional documentation files the agent can retrieve when it needs more detail on a step
-- **Scripts**: Executable code (Python, JavaScript, or shell) the agent can run as part of the skill's workflow
-
-Scripts are particularly useful for tasks where a specific sequence of commands needs to run reliably, like a database migration scaffold or a code generation step. Rather than hoping the agent produces the right command from its training, a skill script encodes exactly what needs to run. That said, any skill that includes scripts should be treated with the same scrutiny as any other code being run in the environment: script approval gates and sandboxing apply here too.
-
-#### Skills and Context Windows: The Connection
-
-We covered in Lesson 2 that context windows fill up quickly and need to be managed carefully. Skills are one of the primary tools for doing that without sacrificing capability. Because only the name and description of each skill are loaded at startup (roughly 100 tokens per skill), we can configure an agent with dozens of skills and only pay for the full instructions of the ones that are relevant to the current task.
-
-This also means skills are worth sharing across agents and projects. A code review skill, a changelog generation skill, or an API documentation skill can be maintained in a shared library and referenced by multiple agents without duplicating instructions across steering files.
-
----
-
 ## Agents and Subagents
 
 The previous lesson covered the planning, implementation, and review workflow. In the context of best practices, agents and subagents are primarily about *how we execute* that workflow efficiently at scale. There are three main levers here: which model we use for which task, when subagents are worth spinning up, and how subagents help us manage the context window of a long-running project.

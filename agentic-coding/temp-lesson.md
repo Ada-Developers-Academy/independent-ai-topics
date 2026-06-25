@@ -169,6 +169,8 @@ Good steering file candidates:
 What often steers people wrong is treating the steering file like a knowledge base. Team members start adding edge case documentation, onboarding notes, guides for specific workflows, and the file grows to several thousand tokens. Because it's loaded on every message for the entire session, this overhead compounds continuously. 
 - A bloated steering file is one of the most consistently expensive things we can do to our token usage.
 
+Steering files often live at the root of a project repo. As we get more comfortable with steering contents, we can look into settings to apply steering files at the workspace or user level if there is steering information we find useful to apply to all projects we work with.
+
 **Example steering file for a TypeScript project**
 
 ```markdown
@@ -195,9 +197,20 @@ A useful tactic to keep our steering file lean is to start by adding information
 
 ### Skills: On-Demand Procedural Knowledge
 
-A skill provides an agent with step-by-step instructions for a specific kind of task. Unlike the steering file, it loads only when the agent encounters a task that matches the skill's description.
+A quick refresher on what we learned about skills previously:
 
-The structure of a skill file:
+- Skills provide agents with step-by-step instructions for specific tasks that the agent can't reliably do from training data alone. 
+
+- Unlike the steering file, skills load a light index at session start up and the full contents of skills are only loaded when an agent encounters a task that matches the skill's description. They allow a large library of team knowledge to be available to agents without deeply impacting token usage until that knowledge is actually needed.
+
+- Skills are shareable across projects and agents. A code review skill, a deployment checklist skill, or an API documentation skill developed once can be reused across every project that benefits from it.
+
+Skill files may live in different locations depending on our IDE. 
+1. Typically there will be a hidden folder in the root of a project named something like `.agents`, `.claude`, or `.cursor` where we can create a folder named `skills` to add our custom skills.
+2. For each skill, we create a new folder named after the skill and create a file named `SKILL.md` in that folder
+3. Each `SKILL.md` file must contain a name, a short description of the skill it provides, and the steps the AI must take to complete the described task.
+
+The basic structure of a skill file looks like:
 
 ```markdown
 ---
@@ -215,24 +228,21 @@ description: Use when creating a new Alembic migration, modifying the database s
 5. Note in the PR that a migration is included so reviewers know to run it.
 ```
 
-The name and description fields are the trigger mechanism. The description needs to be specific enough that the agent can reliably identify when the skill applies. "Use when creating database migrations" is more reliable than "database help" because it leaves less ambiguity about when to load the skill.
+The name and description fields act as the trigger mechanism: the description needs to be specific enough that the agent can reliably identify when the skill applies. 
+- A description that is too vague ("general coding help") will either never load or load when it doesn't apply. 
+- A description that precisely names the scenarios where the skill applies ("use when creating a new API endpoint") gives the agent a reliable trigger condition.
+
+Skill file sizes will range depending on what they describe, but in general, SKILL.md files should be focused on a single task and under roughly 500 lines. For more complicated skills, detailed reference material such as example input/output pairs, long configuration templates, or supporting documentation can be placed into a `references/` subdirectory within the folder for that specific skill. The agent can pull these reference documents in if it needs them, without paying the token cost for them when it doesn't. 
 
 #### Skills Can Include More Than Instructions
 
-Beyond the main SKILL.md file, a skill folder can contain:
+Beyond the main `SKILL.md` file, the skill folder structure supports:
 
-- A `references/` subdirectory for supporting documentation: style guides, example files, detailed configuration references. These are fetched on demand by the agent when it needs more depth on a step.
-- A `scripts/` subdirectory for executable code the agent can run as part of the skill workflow.
+- **References**: A `references/` subdirectory for supporting documentation like style guides, example files, and detailed configuration references. These are fetched on demand by the agent when it needs more depth on a step of a skill.
+- **Scripts**: A `scripts/` subdirectory for executable code the agent can run as part of the skill workflow.
 
-Scripts are particularly useful when a task involves a precise sequence of commands that needs to run the same way every time. Rather than relying on the agent to produce the command correctly from its training data, the script encodes exactly what runs. Scripts should be treated with the same security awareness as any other executable code: they run in the agent's execution environment and belong inside a sandbox.
-
-#### Skills and the Context Window
-
-Because skills are loaded on demand, they allow a large library of team knowledge to be available to agents without affecting token usage until that knowledge is actually needed. Only the short advertised descriptions of each skill contribute to startup cost. The full instructions are only loaded when they match a task.
-
-This also means skills are shareable across projects and agents. A code review skill, a deployment checklist skill, or an API documentation skill developed once can be reused across every project that benefits from it.
-
----
+Scripts are particularly useful when a task involves a precise sequence of commands that needs to run the same way every time. Rather than relying on the agent to produce the command correctly from its training data, the script encodes exactly what runs. 
+- Scripts should be treated with the same security awareness as any other executable code: they run in the agent's execution environment and belong inside a sandbox.
 
 ## Agents and Subagents in Practice
 
