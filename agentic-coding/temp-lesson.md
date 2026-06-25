@@ -43,11 +43,17 @@ Let's explore a potential scenario: Imagine an agent helping with a data migrati
 
 ### Scoping Access to the Phase of Work
 
-Not every phase of the workflow described in Lesson 3 requires the same access. A practical approach is to configure permissions that match what the current phase needs, no more:
+Not every phase of a workflow requires the same access. Leaning on the principle of least priviledge, a practical approach is to configure permissions that match what the current phase needs and nothing more:
 
-**Research and planning**: Reading through code, reviewing documentation, and drafting a specification don't require write access to production files. A read-only sandbox is appropriate here. This also makes it safe to run more aggressive exploration steps, since the worst case is a failed read rather than an unintended write.
+**Research and planning**: 
 
-**Implementation**: Write access to the project directory is necessary. Access outside it typically isn't. A container scoped to the project root provides a solid boundary for most implementation work.
+During research, a read-only sandbox is appropriate. Reading through code, reviewing documentation, and drafting a specification don't require write access to production files. This also makes it safe to run more aggressive exploration steps, since the worst case is a failed read rather than an unintended write. 
+
+When research is complete and we are creating the specification, we should allow minimal write access, even if that's a single allowed file so that the implementation plan can be saved to disk for review.
+
+**Implementation**: 
+
+Write access to the project directory is necessary. Access outside it typically isn't. A container scoped to the project root provides a solid boundary for most implementation work.
 
 **Review**: Like research, review agents consume output rather than produce it. Read-only access reduces risk without reducing capability.
 
