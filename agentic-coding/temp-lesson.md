@@ -17,7 +17,9 @@ This lesson shifts focus from *what* to do toward *how* to do it well. We'll con
 
 | Vocab | Definition | Synonyms | How to Use in a Sentence |
 | --------- | --------- | -------- | --------- |
-| Sandbox | An isolated execution environment that constrains what an agent can access or modify, limiting the blast radius of unintended actions. | Isolated environment, container | "Running the agent in a sandbox meant that even when it attempted to modify a file outside the project directory, the operation was blocked." |
+| Sandbox | An isolated execution environment that constrains what an agent can access or modify, limiting the blast radius of unintended actions. | Isolated environment | "Running the agent in a sandbox meant that even when it attempted to modify a file outside the project directory, the operation was blocked." |
+| Container | A lightweight, isolated runtime environment that packages an application with its dependencies and gives it its own view of the filesystem, network, and processes, separate from the host system. | Docker container, isolated environment | "We mounted only the project directory into the container, so the agent had no visibility into the rest of the host filesystem." |
+| Container image | A read-only template that defines the filesystem, dependencies, and configuration used to create a container. Running a container is always based on an image. | Docker image, base image | "The team built a container image with the project's language runtime and toolchain pre-installed so the agent could start work without a setup step." |
 | Steering file | A persistent markdown document loaded into every agent session that provides project-level context the model cannot otherwise know. | AGENTS.md, CLAUDE.md, project config | "We kept the steering file short and focused on universal conventions across our project." |
 | Skill | A markdown document that provides an agent with procedural instructions for a specific task, loaded on demand when relevant. | Agent skill, SKILL.md | "The team wrote a skill for their API documentation format so every agent session produces consistent endpoint documentation without re-explaining the format each time." |
 
@@ -41,73 +43,155 @@ Let's explore a potential scenario: Imagine an agent helping with a data migrati
 - If a sandbox is configured that restricts writes to the current project root, then the write operation is blocked, the agent cannot write files to the other project's folder. 
 - Without sandboxing, the error might not surface until someone notices the output is "missing" or someone sees unexpected files in a different project.
 
+### Sandboxing Tools
+
+Sandboxing exists on a spectrum. We don't always need full container isolation, and understanding the tools available at each level helps us match the approach to what the situation actually calls for.
+
+#### Level 1: Built-in Tool Permission Controls
+
+Most agentic coding tools ship with some form of permission gating at the application level. These are the coarsest controls and the first line of defense.
+
+In practice, this looks like configuring which categories of action the agent is allowed to take without pausing for approval. Common categories include: file reads, file writes, shell command execution, and network requests. Many tools let us set each category to "allow," "deny," or "ask," where "ask" means the agent pauses and surfaces a prompt before proceeding.
+
+This is the default sandbox for most developers and is often good enough for low-stakes tasks. If we're asking an agent to help us draft documentation or refactor a single file, application-level permission controls may be all we need. The limitation is precision: we're drawing boundaries around categories of action, not specific paths or commands. An agent with write access can write anywhere, not just to the places we intended.
+
+Some tools allow more granular specification. It's possible in some environments to configure path-specific rules ("allow writes to `src/`, deny writes to `migrations/`") or to allowlist specific shell commands by pattern. This is more controlled than category-level permissions, but it still has a meaningful gap: a command like `git` can behave as read-only or destructively depending on the subcommand and flags it receives. Pattern-matching on command strings doesn't give us reliable guarantees about side effects.
+
+#### Level 2: OS-Level Process Isolation
+
+On macOS and Linux, the operating system provides tools for constraining what a process can do at a lower level than application permissions.
+
+On macOS, **Seatbelt** (accessed via the `sandbox-exec` command) is a profile-based sandboxing system that constrains what a process is allowed to do at the OS level. A Seatbelt profile is a policy file that specifies which filesystem paths the process can read or write, whether it can open network connections, and whether it can spawn child processes. When an agent's shell process runs inside a Seatbelt policy, any operation outside the policy's rules fails with a permission error, regardless of what the agent was instructed to do.
+
+On Linux, **seccomp** (short for secure computing mode) operates at the system call level. Rather than specifying what files a process can touch, seccomp specifies which system calls a process is allowed to make at all. A seccomp filter can, for example, block `unlink` (the call that deletes files) or `fork` (the call that creates child processes) entirely, regardless of how a program tries to invoke them. This is a more powerful but more complex tool than filesystem path restrictions.
+
+OS-level tools are significantly more reliable than application-level permission categories because they operate below the application: even if a tool or agent framework tries to bypass a restriction, the OS enforces the boundary. The tradeoff is setup complexity. These tools require writing and maintaining configuration files, and mistakes in policy definitions can break the development environment in ways that take time to diagnose.
+
+#### Level 3: Container Isolation
+
+The strongest commonly-used boundary for local development is a container. Docker and similar container runtimes create fully isolated environments with their own filesystem, network stack, and process space. Anything running inside the container has no visibility into the host system beyond what is explicitly mounted in.
+
+The basic pattern for running an agent inside a container involves:
+
+1. **Mounting the project directory** into the container as a volume, giving the agent read/write access to project files without access to anything else on the host filesystem
+2. **Restricting network access** if the agent doesn't need internet connectivity for the task
+3. **Running as a non-root user** inside the container, so that even within the container the agent can't modify system files
+4. **Setting resource limits** to cap CPU and memory consumption, which prevents a runaway loop from affecting the host
+
+An example Docker invocation that applies these principles:
+
+```bash
+docker run \
+  --rm \
+  --user $(id -u):$(id -g) \
+  --network none \
+  --memory 2g \
+  --cpus 1.5 \
+  -v $(pwd):/workspace:rw \
+  -v /home/dev/.ssh:/home/dev/.ssh:ro \
+  -w /workspace \
+  my-agent-image
+```
+
+Breaking this command down:
+- `--rm` removes the container when it exits, so containers do not accumulate on the host
+- `--user` runs the process as our current user ID rather than root
+- `--network none` disables all network access
+- `--memory` and `--cpus` cap memory and compute resource consumption
+- `-v $(pwd):/workspace:rw` mounts the current directory into `/workspace` with read/write access
+- `-v /home/dev/.ssh:/home/dev/.ssh:ro` mounts the SSH directory in read-only mode as a separate volume in case the agent needs git access over SSH
+- `-w /workspace` runs in the current project directory at `/workspace` with read & write priviledges
+- `my-agent-image` is the Docker image that is being run to create a container with the settings above
+
+Inside the container, the agent's file operations are limited to `/workspace`. Attempts to write to `/etc/`, `/home/`, or any other host path simply don't work because those paths don't exist in the container's view of the filesystem.
+
+Container isolation is the approach to reach for when:
+- An agent needs to run arbitrary scripts it generates, including fetching and executing code from the internet
+- The task involves long autonomous runs where we won't be actively monitoring every action
+- The development environment contains credentials or sensitive files that must not be accessible
+- We want the strongest available guarantee that agent operations are contained to the project scope
+
+Many agentic coding tools are beginning to ship with optional container-based execution, either via a bundled Docker image or as a configurable mode. This is the direction the industry is moving for longer-horizon autonomous work, precisely because the guarantee container isolation provides is qualitatively stronger than what application-level or even OS-level tools can offer.
+
+#### Choosing the Right Tool
+
+For most development work, the choice comes down to risk profile and workflow needs:
+
+| Level | Good for | Limitations |
+|---|---|---|
+| Application permissions | Quick tasks, supervised sessions, low-sensitivity projects | Category-level only, below-application bypasses aren't blocked |
+| OS tools (Seatbelt, seccomp, firejail) | Single-machine setups where containers add too much overhead | Setup complexity, misconfiguration risk |
+| Container isolation | Autonomous runs, scripts from external sources, sensitive environments | Docker required, initial setup overhead, volume mounts need care |
+
+Starting with whatever sandbox the agentic tool provides by default is reasonable for getting started. As we take on work that runs for longer, touches more of the filesystem, or operates closer to sensitive resources, moving toward container isolation often becomes worth the setup cost.
+
 ### Scoping Access to the Phase of Work
 
 Not every phase of a workflow requires the same access. Leaning on the principle of least priviledge, a practical approach is to configure permissions that match what the current phase needs and nothing more:
 
-**Research and planning**: 
+#### Research and planning
 
-During research, a read-only sandbox is appropriate. Reading through code, reviewing documentation, and drafting a specification don't require write access to production files. This also makes it safe to run more aggressive exploration steps, since the worst case is a failed read rather than an unintended write. 
+During research, read-only access is appropriate. Reading through code, reviewing documentation, and drafting a specification don't require write access to production files. 
 
 When research is complete and we are creating the specification, we should allow minimal write access, even if that's a single allowed file so that the implementation plan can be saved to disk for review.
 
-**Implementation**: 
+#### Implementation
 
 Write access to the project directory is necessary. Access outside it typically isn't. A container scoped to the project root provides a solid boundary for most implementation work.
 
-**Review**: Like research, review agents consume output rather than produce it. Read-only access reduces risk without reducing capability.
+#### Review
 
-Some teams take a step further and maintain different sandbox configurations for each phase, switching between them as the workflow progresses. This is more overhead to set up but produces stronger guarantees about what each phase can and cannot do.
+Like research, review agents consume output rather than produce it. Read-only access reduces risk without reducing capability, however, we may want limited write access to allow the agent to write the outcomes of the review to disk for persistance.
 
-### The Counterintuitive Benefit
+Some teams maintain different sandbox configurations for each phase, switching between them as the workflow progresses. This is more overhead to set up but produces stronger guarantees about what each phase can and cannot do.
 
-There's a version of this that practitioners sometimes articulate as "security enables capability." When we know the agent can't accidentally modify our home directory, read our SSH keys, or escape the project scope, we're able to give it more latitude within those bounds. We can let it run scripts, explore freely, iterate on failing tests, and retry operations without monitoring every step. The constraint is what makes that confidence possible.
+### Sandboxing Enables Capability, Not Just Safety
 
----
+Sandboxes don't just prevent problems, they change what we're comfortable letting agents do. There's a version of this that practitioners sometimes articulate as "security enables capability." When we know the agent can't accidentally modify our home directory, read our SSH keys, or escape the project scope, we're able to give it more latitude within those bounds. We can let it run scripts, explore freely, iterate on failing tests, and retry operations without monitoring every step. The constraint is what makes that confidence possible.
 
-## Steering Files and Skills: Getting the Separation Right
+## Adding Instructions: Steering Files and Skills
 
-Both steering files and skills are ways of providing agents with context and instructions. The most common mistake in using them is not understanding that the distinction between them matters a great deal for context window usage and overall agent performance.
+Earlier we introduced steering files and skills at a high level, here, we'll look at how to use them effectively. Both steering files and skills are ways of providing agents with context and instructions. Understanding the distinction between them and when to add to a steering file or create a new skill matters a great deal for context window usage and overall agent performance.
 
 ### Steering Files: Always On, Always Cost
 
-A steering file is loaded into every session at startup. From a context window perspective, it is always present. As we covered in Lesson 2, anything present in the context window accumulates cost on every message throughout the session.
+A steering file is loaded into every session at startup. From a context window perspective, it is always present. As we covered previously, anything present in the context window accumulates cost on every message throughout the session.
 
 This shapes what should go in a steering file: only things that are universally relevant, across every session, every task, every phase of work. If a piece of content is relevant for API endpoint work but not for database migration work, it does not belong in the steering file.
 
 Good steering file candidates:
 - Rules and prohibitions that apply to everything: branch naming, files that must never be modified, required tests before committing
-- Project structure and folder organization, so any agent knows where things live
-- Naming conventions, import patterns, and style guidelines that apply project-wide
-- Pointers to canonical examples in the codebase
+- Project or team-specific conventions the model wouldn't know from training, like naming patterns or import conventions
+- Pointers to canonical examples in the codebase the model should reference when producing similar work
+- Project structure and folder organization 
+    - Depending on the size of the mapping/our code base, this architectural information can be offloaded to it's own file if every agent does not need to know the structure of the code base at all times.
 
-What tends to bloat steering files unnecessarily:
-- Onboarding documentation or background context
-- Workflow guides that only apply to specific tasks
-- Long explanations for things skills should handle
-- Documentation of edge cases for specific features
+What often steers people wrong is treating the steering file like a knowledge base. Team members start adding edge case documentation, onboarding notes, guides for specific workflows, and the file grows to several thousand tokens. Because it's loaded on every message for the entire session, this overhead compounds continuously. 
+- A bloated steering file is one of the most consistently expensive things we can do to our token usage.
 
-**A lean steering file example for a Python project:**
+**Example steering file for a TypeScript project**
 
 ```markdown
 # Project Conventions
 
-This is a Python/FastAPI project using SQLAlchemy for ORM and pytest for testing.
+This is a Node.js/TypeScript project using Express for routing and PostgreSQL via pg-promise. `package.json` contains the approved packages in use for this project.
 
 ## Structure
-- `app/routes/` — API route definitions
-- `app/services/` — Business logic (keep routes thin)
-- `app/models/` — SQLAlchemy models
-- `migrations/` — Alembic migration scripts. Do not edit manually.
+- `src/routes/` — API route handlers
+- `src/services/` — Business logic layer
+- `src/db/` — Query files and migration scripts
+- `src/generated/` — Auto-generated types. Do not modify directly.
 
 ## Standards
-- All functions must have type annotations
-- Run `pytest` before any commit
-- Use Black for formatting: `black app/`
-- New features start in a branch: `feat/<ticket-number>-<short-description>`
+- All public functions must have JSDoc comments
+- Run `npm test` to execute the test suite and ensure all tests pass before committing
+- Use the service layer for business logic; route handlers should stay thin
+- Branch naming: `feat/<ticket>`, `fix/<ticket>`, `chore/<description>`
 ```
 
-This file loads on every message throughout the session. Its job is to ensure any agent working on any task in this project knows the basic rules and structure. That's all it needs to do.
+This file is short enough that it adds minimal overhead per message, but helps orient an agent picking up any task in the project so they can work within the team's norms.
+
+A useful tactic to keep our steering file lean is to start by adding information as a skill. If we find that we're needing that skill for every task, then it's likely worth migrating into the steering file. 
 
 ### Skills: On-Demand Procedural Knowledge
 
