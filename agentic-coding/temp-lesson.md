@@ -1,4 +1,4 @@
-# Best Practices WIP
+# Best Practices
 
 The previous lessons gave us foundations: what agents are and how they work, how context windows determine the output and usefulness of a session, and the shape of workflows that experienced practitioners tend to converge on. 
 
@@ -100,10 +100,10 @@ Breaking this command down:
 - `--memory` and `--cpus` cap memory and compute resource consumption
 - `-v $(pwd):/workspace:rw` mounts the current directory into `/workspace` with read/write access
 - `-v /home/dev/.ssh:/home/dev/.ssh:ro` mounts the SSH directory in read-only mode as a separate volume in case the agent needs git access over SSH
-- `-w /workspace` runs in the current project directory at `/workspace` with read & write priviledges
+- `-w /workspace` runs in the current project directory at `/workspace` with read & write privileges
 - `my-agent-image` is the Docker image that is being run to create a container with the settings above
 
-Inside the container, the agent's file operations are limited to `/workspace`. Attempts to write to `/etc/`, `/home/`, or any other host path simply don't work because those paths don't exist in the container's view of the filesystem.
+Inside the container, the agent's file operations are limited to `/workspace`. Attempts to write to `/etc/`, `/home/`, or any other host path don't work because those paths don't exist in the container's view of the filesystem.
 
 Container isolation is the approach to reach for when:
 - An agent needs to run arbitrary scripts it generates, including fetching and executing code from the internet
@@ -113,7 +113,7 @@ Container isolation is the approach to reach for when:
 
 Many agentic coding tools are beginning to ship with optional container-based execution, either via a bundled Docker image or as a configurable mode. This is the direction the industry is moving for longer-horizon autonomous work, precisely because the guarantee container isolation provides is qualitatively stronger than what application-level or even OS-level tools can offer.
 
-#### Choosing the Right Tool
+#### Choosing the Right Sandbox
 
 For most development work, the choice comes down to risk profile and workflow needs:
 
@@ -147,7 +147,7 @@ Some teams maintain different sandbox configurations for each phase, switching b
 
 ### Sandboxing Enables Capability, Not Just Safety
 
-Sandboxes don't just prevent problems, they change what we're comfortable letting agents do. There's a version of this that practitioners sometimes articulate as "security enables capability." When we know the agent can't accidentally modify our home directory, read our SSH keys, or escape the project scope, we're able to give it more latitude within those bounds. We can let it run scripts, explore freely, iterate on failing tests, and retry operations without monitoring every step. The constraint is what makes that confidence possible.
+Sandboxes don't only prevent problems, they change what we're comfortable letting agents do. There's a version of this that practitioners sometimes articulate as "security enables capability." When we know the agent can't accidentally modify our home directory, read our SSH keys, or escape the project scope, we're able to give it more latitude within those bounds. We can let it run scripts, explore freely, iterate on failing tests, and retry operations without monitoring every step. The constraint is what makes that confidence possible.
 
 ## Adding Instructions: Steering Files and Skills
 
@@ -246,62 +246,117 @@ Scripts are particularly useful when a task involves a precise sequence of comma
 
 ## Agents and Subagents in Practice
 
-Lesson 1 introduced agents and subagents conceptually; Lesson 3 showed how they fit into the recommended workflow through patterns like fan-out. Here, we focus on the practical configuration decisions: which model to use, when a subagent is worth the added complexity, and how to define one.
+In the context of best practices, agents and subagents are primarily about *how we execute* our workflow efficiently at scale. There are three main levers we'll look at in this section: 
+- which model we use for which task
+- when subagents are worth spinning up
+- when it's worth defining our own agents
 
 ### Model Selection
 
-AI models vary significantly in cost, speed, and capability. For most agentic setups, the same model doesn't need to run every task. Matching the model to what the task actually requires is one of the most effective ways to reduce cost without sacrificing the quality of important outputs.
+AI models vary significantly in cost, speed, and capability. A model optimized for extended analytical processing will generally produce better planning documents and architectural analysis than a smaller, faster model, but it also costs more per token and may be slower. Matching  AI model to what the task actually requires is one of the most effective ways to reduce cost without sacrificing the quality of important outputs.
 
-A general framework:
+A general framework for choosing models looks like:
 
-**Planning and architecture work** benefits from higher-capability models. Planning documents and architectural decisions set the direction for everything that follows. Errors at this stage are expensive to fix downstream. The higher cost per token is justified by the higher stakes of the output.
+| Task Type | Required Capabilities | Model Characteristics |
+|-------|--------------|----------------------|
+| Planning / architecture | Nuanced analysis, handling ambiguity, considering tradeoffs | Higher-capability models are worth the cost here; errors in the plan compound and are expensive to fix downstream |
+| Implementation | Reliable code generation to spec | Mid-tier models are often sufficient for routine implementation given a given a clear and well-specified plan |
+| Research / exploration | Reading and summarizing files, retrieving documentation | Smaller, faster models handle this well and cost significantly less |
+| Boilerplate / scaffolding | Generating repetitive structures that follow a template | Smallest capable model; A lighter model that can follow an existing pattern is sufficient for this kind of work. |
 
-**Routine implementation** given a clear and well-specified plan is a less demanding task. A mid-tier model working from a solid plan is often as effective as a higher-capability model working from a vague one, and costs less.
+Model choice doesn't require active management for every task. Many practitioners choose a default model for their primary session and a lighter model for subagents doing routine work. Some versions of IDEs even have auto-model selection capabilities that try to match appropriate models for a task based on our prompt. 
+- As we get more experience with how our workflow actually runs, we can refine our agent choices further!
 
-**Research and file exploration** is largely pattern matching over text. Smaller, faster models are well-suited to reading files, surfacing relevant sections, and returning summaries. Running exploration in a subagent with a lighter model is both cheaper and keeps the primary session's context clean.
+As an example of how this can look in practice, let's assume we have a team that is building out a new notification service. They might map AI models to the tasks in the project like so: 
+1. A higher-capability model is used to draft the architecture and implementation plan with a human reviewing the results at each step.
+2. As part of planning, a research subagent uses a smaller model to pull documentation for the notification library and summarize existing related code in the project. 
+3. Once the plan is finalized, the team has a subagent using a mid-tier model implement the code. 
+4. The orchestrating session, still running the higher-capability model, coordinates results from subagents and keeps track of the progress through project tasks.
 
-**Boilerplate and scaffolding** generation is the lowest-stakes, most templated category. A lighter model that can follow the existing pattern in the codebase is sufficient for this kind of work.
+### Using Subagents
 
-**A practical scenario**: A team is building out a new notification service. They use a higher-capability model to draft the architecture and implementation plan with a human reviewing the result at each step. Once the plan is finalized, they run implementation in a subagent using a mid-tier model. Two research subagents using a smaller model run in parallel to pull documentation for the notification library and summarize existing related code in the project. The orchestrating session, still running the higher-capability model, coordinates results and handles the parts of the work that require cross-context judgment.
+The reality is that as IDEs and agent harnesses continue to develop, they are getting more sophisticated around when to spin work off to subagents without us directly saying "Do some task in a subagent session". More and more frequently, using a subagent is not an explicit choice we are making, but is what's happening with our agentic coding tool set under the hood. 
+- If you have experimented with agentic coding before, it's possible that you've already experienced working with subagents in a way that abstracted away the subagent sessions!
 
-This isn't over-engineering. It's recognizing that different phases of the same project have different requirements, and letting the configuration reflect that.
+When sitting down to work in an agentic set up, we may not be instructing the primary agent to spin up a subagent for a task, but it's useful for our understanding of the systems to know when subagents are useful, and when a system is likely to spin up a subagent session that will impact our usage and costs. 
 
-### When to Use Subagents
-
-We've covered subagents extensively already. In the context of best practices, the key question is: when does the overhead of setting up a subagent actually pay off?
-
-Subagents are worth the added configuration when:
-
+Subagents are usually not necessary for short, simple tasks where the cost of spinning up an isolated context exceeds the benefit of isolation. Splitting off work to subagents is worth the cost and coordination when:
 - The task will generate significant context that isn't useful to the primary session afterward (research, exploration, debugging a specific module)
 - Multiple independent tasks can run in parallel, and running them sequentially in the primary session would be slower without any benefit
 - We're doing adversarial review, where structural separation between the agent that wrote the code and the agent that reviews it is the point
 - The primary session is deep into a long-running project and we want implementation of a distinct phase to happen in a clean context
 
-Subagents are usually not worth it for short, simple tasks where the overhead of spinning up an isolated context exceeds the benefit of isolation.
+### Defining a Custom Agent
 
-#### Defining a Subagent
+Most agentic coding tools ship with a default general-purpose agent. That default is a reasonable starting point, but as our workflows mature, we often find that different tasks want different configurations locked in rather than re-specified each time. This is where custom agents become useful.
 
-The mechanics of defining a subagent vary by tooling, but the key elements are consistent:
+A custom agent is a saved profile that combines a name, a model preference, a set of permitted tools, and a system prompt. When we activate it, the tool loads that configuration automatically. We switch roles rather than rebuild a configuration from scratch.
 
-1. The model to use for the subagent
-2. The task instructions: specific enough that the subagent doesn't need to ask clarifying questions
-3. What files or context to provide
-4. The expected output format: a file path, a structured JSON summary, a completed implementation
+**The structure of a custom agent file**
 
-The output specification matters more than it might seem. A subagent that returns unstructured prose is harder for an orchestrator to act on than one that returns a summary in a predictable format or writes its output to a specified file path.
+Custom agents are typically defined as markdown files. Depending on the tool, they live in a folder like `.github/agents/`, `.claude/agents/`, or a user-level agents directory. The filename usually becomes the agent's identifier.
 
-### A Note on How Much to Think About This
+The file has two parts: a YAML frontmatter block that sets configuration, and a body that contains the system prompt.
 
-Experienced practitioners consistently note that once a workflow is running well, they rarely think about agents and subagents actively. The tooling handles the orchestration. It's worth spending time upfront to configure things well, but the goal is a setup that can run without constant adjustment. 
-
-The moments to revisit agent and subagent configuration are:
-- When experimenting with a new model and wanting to compare its output
-- When a workflow that's been working well starts showing signs of strain (context saturation, inconsistent outputs, ballooning costs)
-- When taking on a significantly more complex or larger-scale project than previous work
-
-Outside of those moments, a well-configured setup runs in the background.
-
+```markdown
 ---
+name: code-reviewer
+description: Reviews implementation for correctness, edge cases, and security issues.
+tools: ['search/codebase', 'search/usages']
+model: claude-sonnet-4-6
+---
+
+You are reviewing code that has been implemented against a specification. Your job is
+to identify problems, not to rewrite the code.
+
+Focus your review on:
+- Whether the implementation satisfies the requirements in the spec
+- Missing edge case handling
+- Security concerns (injection risks, credential handling, input validation)
+- Anything that would be caught in a team code review but might be missed otherwise
+
+Write your findings to `docs/reviews/<branch-name>-review.md` with a PASS or FAIL
+verdict and an itemized list of issues.
+```
+
+The frontmatter fields that matter most:
+
+- **tools**: This is the access control layer. A reviewer agent that lists only read-only tools cannot accidentally write files even if the body prompt doesn't explicitly say not to. This is the mechanism that makes phase-appropriate access reliable rather than prompt-dependent.
+- **model**: Different phases of our workflow benefit from different models. Pinning a model at the agent level means we don't have to remember to switch it manually.
+- **description**: Some tools use this to surface the agent in a UI picker or to help an orchestrating agent select the right subagent for a task. Worth writing clearly.
+
+The body prompt is the system prompt for the agent's sessions. It should be specific enough that the agent behaves consistently without us restating context every time we activate it.
+
+**When a custom agent is the right tool**
+
+The distinction between a skill and a custom agent is worth being clear on. A skill adds procedural knowledge for a specific task, but it doesn't change tool access or the base model. A custom agent locks in a combination of tool permissions, a model, and a persistent set of instructions as a reusable role. Changing any of those three things is a signal that a custom agent is more appropriate than a skill.
+
+A few practical scenarios:
+
+- A **planning agent** configured with read-only tools and a more capable model, so there's no risk of it writing code during a research-heavy planning phase
+- An **adversarial review agent** with read-only access and explicit instructions to look for violations and edge cases the implementation agent might have missed
+- A **documentation agent** scoped to write only within `docs/` directories, preventing it from touching source files even if given a broad prompt
+- A **migration agent** for a specific recurring task, like schema migrations, with the relevant skill pre-loaded and tool access scoped to the database migration toolchain
+
+**Handoffs: connecting agents in sequence**
+
+Some tools support defining handoff actions between agents. A handoff is a button that appears after an agent completes its work, letting us move directly into the next configured agent with relevant context already in scope. A planning agent can offer a handoff to an implementation agent. An implementation agent can hand off to a review agent.
+
+This is useful for making the phases of the recommended workflow tangible and easy to navigate without manually reconfiguring things between steps. The plan phase ends, we select "Begin Implementation," and the implementation agent activates with the plan document already referenced in context.
+
+**Where to store them**
+
+Project-level agents live in the repository and are available to the whole team. User-level agents are stored in a personal directory and follow us across projects. For team workflows, project-level is generally better: the agent configuration versions alongside the code, updates are shared automatically, and new team members get the configuration without setup.
+
+### A Note on How Much to Think About Subagents
+
+Experienced practitioners frequently note that once we've established a workflow we're comfortable with, we often don't need to actively manage subagent configuration day-to-day. The tooling handles a lot of this, so we should think more actively about our agent and subagent setup when:
+
+- We are experimenting with a new model and want to compare its output to our current default
+- We notice performance degradation that could be addressed by changing which model handles which task
+- We are scaling up to a larger or more complex project where the default setup is showing strain
+
+The goal is to understand the system well enough to tune it when necessary, we should not need to micromanage it constantly.
 
 ## When to Start a New Session
 

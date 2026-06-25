@@ -1,58 +1,63 @@
 # Best Practices A
 
-## Agents and Subagents
+### Defining a Custom Agent
 
-The previous lesson covered the planning, implementation, and review workflow. In the context of best practices, agents and subagents are primarily about *how we execute* that workflow efficiently at scale. There are three main levers here: which model we use for which task, when subagents are worth spinning up, and how subagents help us manage the context window of a long-running project.
+A custom agent is a saved configuration that bundles a model, a set of tool permissions, and a system prompt into a reusable profile. Rather than reconstructing that setup manually at the start of every session, we define it once and activate it by name whenever the same kind of work comes up.
 
-### Choosing Models for the Task
+The most common reason to define a custom agent is that a recurring workflow requires a specific combination of capabilities that doesn't match the general-purpose default. A planning agent that should only read code but never modify it has fundamentally different tool access requirements than an implementation agent that needs full write access. Switching between those manually is error-prone and tedious. A named custom agent encodes the configuration so that switching is a single action.
 
-Different models have meaningfully different cost and capability profiles. A model optimized for extended analytical processing will generally produce better planning documents and architectural analysis than a smaller, faster model. But it also costs more per token and may be slower. Matching the model to the phase of work is one of the most effective ways to control cost without sacrificing output quality.
+**What a custom agent file contains**
 
-A practical breakdown:
+Custom agents are typically defined as markdown files with a YAML frontmatter section at the top. The file location varies by tool but is usually a project-level folder like `.github/agents/`, `.claude/agents/`, or a user-level directory for agents that should be available across all projects.
 
-| Phase | What's Needed | Model Characteristics |
-|-------|--------------|----------------------|
-| Planning / architecture | Nuanced analysis, handling ambiguity, considering tradeoffs | Higher-capability models are worth the cost here; errors in the plan compound |
-| Implementation | Reliable code generation to spec | Mid-tier models are often sufficient for routine implementation given a solid plan |
-| Research / exploration | Reading and summarizing files, retrieving documentation | Smaller, faster models handle this well and cost significantly less |
-| Boilerplate / scaffolding | Generating repetitive structures that follow a template | Smallest capable model; these tasks don't require sophistication |
+The frontmatter defines the agent's configuration:
 
-This doesn't require active management on every task. Most practitioners develop a default model for their primary session and a lighter model for subagents doing routine work. As we get more experience with how our workflow actually runs, we can refine this further.
-
-### Defining Subagents
-
-A subagent is an agent instance given a focused task to complete in its own isolated context window. As we covered in Lesson 1, it's analogous to a helper function: it handles a specific piece of work and returns the result, without its internal process affecting the caller's context.
-
-The key question when considering a subagent is: *will this task's context be useful to the primary session after it's done?* 
-
-If a primary agent is implementing a feature and needs to research how a third-party library handles rate limiting, that research is valuable for the implementation but won't be needed again once the implementation is complete. Delegating the research to a subagent means the primary session only receives a focused summary of what it needs, not pages of library documentation.
-
-**Scenarios where subagents add clear value:**
-
-- Research and exploration tasks that consume a lot of context but produce a small, targeted output
-- Parallel workstreams where independent tasks can run simultaneously (fan-out, covered in Lesson 3)
-- Adversarial review, where structural isolation between author and reviewer is the entire point
-- Long-running projects where delegating implementation phases to subagents keeps the orchestrator's context focused on the overall plan
-
-**How to define a subagent**: This varies somewhat by tooling, but the general pattern is to specify the model to use, the task instructions, what files or context to give it access to, and what the expected output format is. The output should be concrete enough that the primary agent can incorporate it without ambiguity: a summary file path, a completed implementation, a structured review report.
-
-### Subagents as a Context Window Strategy
-
-We touched on this in Lesson 2, but it's worth reinforcing in the context of best practices: for long-running projects, the primary agent's context window is a finite resource. Every subagent we spin up for a well-defined subtask keeps the primary session's context from filling with details that don't need to persist.
-
-The practical pattern is to use the primary agent as an orchestrator: it holds the plan, tracks what has been completed, and delegates focused chunks of work to subagents. The subagents do the heavy lifting in clean contexts and return summaries. The orchestrator accumulates results and determines the next step.
-
-### When We Don't Need to Think About Subagents
-
-One thing experienced practitioners note is that once we've established a workflow we're comfortable with, we often don't need to actively manage subagent configuration day-to-day. The tooling handles a lot of this. We should think more actively about our agent and subagent setup when:
-
-- We are experimenting with a new model and want to compare its output to our current default
-- We notice performance degradation that could be addressed by changing which model handles which task
-- We are scaling up to a larger or more complex project where the default setup is showing strain
-
-Otherwise, a setup that works well can run without active adjustment. The goal is to understand the system well enough to tune it when necessary, not to micromanage it constantly.
-
+```markdown
 ---
+name: planner
+description: Generates implementation plans for new features. Read-only access only.
+tools: ['search/codebase', 'web/fetch']
+model: claude-opus-4-6
+---
+
+You are in planning mode. Your task is to research the relevant parts of the codebase
+and produce a concrete implementation plan. Do not make any code edits.
+
+The plan should include:
+- A brief summary of what will change and why
+- Which files will be modified and how
+- The testing strategy
+- Any risks or open questions to resolve before implementation begins
+
+Write the completed plan to `docs/plans/<feature-name>.md`.
+```
+
+The key fields:
+
+- **name**: How we refer to and activate this agent
+- **description**: What the agent is for; some tools surface this in the UI
+- **tools**: The specific tools this agent is allowed to use. Restricting tools here is how we enforce phase-appropriate access without relying on the agent to self-limit.
+- **model**: The model to use for this agent's sessions. This is where we can pin a higher-capability model for planning work and a lighter one for agents doing routine tasks.
+- **body**: The system prompt that defines the agent's behavior and any specific instructions
+
+**When to define a custom agent versus using a skill**
+
+Skills provide procedural instructions for specific tasks, but they don't change the agent's model, tool access, or base behavior. A custom agent does all three.
+
+A useful distinction: if we want the agent to know *how* to do something differently, a skill is appropriate. If we want to change *what the agent is allowed to do* or *which model it uses*, a custom agent is the right tool. In practice, most well-configured custom agents also load relevant skills.
+
+Some scenarios where creating a custom agent is worth the setup:
+
+- A **planning agent** with read-only tools and a higher-capability model, configured to always output a structured spec file
+- A **review agent** with read-only access and specific instructions for the team's code review format
+- A **documentation agent** scoped to documentation directories only, preventing it from touching implementation files
+- A **research agent** with a lighter model that is explicitly allowed to fetch external documentation and summarize it
+
+**Scope: project-level versus user-level**
+
+Most tools support defining agents at two levels. Project-level agents live in the repository and are available to everyone who clones it, making them useful for team-shared workflows. User-level agents live in a personal directory and are available across all projects on our machine, which is useful for general-purpose roles like a personal planning or review agent we want available everywhere.
+
+For most team-facing workflows, project-level agents are preferable. They version-control alongside the code, get updated when the workflow changes, and don't require each team member to configure them manually.
 
 ## Starting New Sessions
 
