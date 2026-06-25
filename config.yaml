@@ -109,6 +109,10 @@ Standards:
         Path: /agentic-coding/workflows.md
       -
         Type: Lesson
+        UID: eca69a0b-e630-4766-acd5-4a3992f89b9i
+        Path: /agentic-coding/best-practices.md
+      -
+        Type: Lesson
         UID: eca69a0b-e630-4766-acd5-4a3992f89b9h
         Path: /agentic-coding/temp-lesson.md
       -
