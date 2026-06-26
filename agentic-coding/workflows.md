@@ -1,6 +1,6 @@
 # Recommended Workflows
 
-In the previous lessons we established what agents are and how their context windows work. Now we can put those ideas to use by looking at how to structure a full coding session: what phases we move through, where human review belongs in that sequence, and what patterns experienced practitioners reach for when the work scales up.
+In the previous lessons we established what agents are and how their context windows work. Now we can put those ideas to use by looking at how to structure a coding session: what phases we move through, where human review belongs in that sequence, and what patterns experienced practitioners reach for when the work scales up.
 
 ## Learning Goals
 
@@ -252,37 +252,6 @@ This is a limitation of single-session review. An agent reviewing output it prod
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
-* id: 7Th1Eq6Ow3Rz9Kj5Md2Yl4Vb8Nc0Sf
-* title: Recommended Workflow for Agentic Coding
-##### !question
-
-A team is implementing a large feature that involves updating twelve independent service modules. Each module's changes are self-contained and don't depend on the others being completed first. Which workflow pattern is best suited for this situation, and why?
-
-##### !end-question
-##### !options
-
-a| Fan-out, because multiple subagents can work on the independent modules in parallel.
-b| Single-session implementation, because switching to subagents adds complexity without meaningful benefit for tasks under twenty files.
-c| Adversarial review, because independent modules require a separate critic session for each one before implementation begins.
-d| Fan-out, because it eliminates the need for a planning phase when the work is clearly defined.
-
-##### !end-options
-##### !answer
-
-a|
-
-##### !end-answer
-##### !explanation
-
-Fan-out is well-suited to work that can be decomposed into independent units that don't need to exchange information during execution. Here, twelve self-contained modules fits that shape exactly: subagents can work in parallel, each with a clean context window focused on a single module. This is faster than sequential single-session work and avoids the context management problems that would arise from one session holding the full scope of all twelve modules. Fan-out does not eliminate the planning phase, and adversarial review is a verification pattern used after implementation, not before it.
-
-##### !end-explanation
-### !end-challenge
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-### !challenge
-* type: multiple-choice
 * id: 5Px2Ab7Uf1Qn3Lw9Rk6Tv8Mz0Hd4Yj
 * title: Recommended Workflows
 ##### !question
@@ -306,6 +275,37 @@ b|
 ##### !explanation
 
 Keeping a specification only in conversation history creates two problems. First, as a context window grows, earlier content becomes less reliably attended to by the model, meaning details from an early spec may not influence later implementation steps as intended. Second, a spec that exists only in one session's conversation history is completely inaccessible to other sessions, teammates, or any future agent working on the same project. Writing the spec to a file makes it durable across context compaction, shareable with colleagues for review, and referenceable by path in any future session without paying the token cost of pasting it in full.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: 7Th1Eq6Ow3Rz9Kj5Md2Yl4Vb8Nc0Sf
+* title: Recommended Workflow for Agentic Coding
+##### !question
+
+A team is implementing a large feature that involves updating twelve independent service modules. Each module's changes are self-contained and don't depend on the others being completed first. Which workflow pattern is best suited for this situation, and why?
+
+##### !end-question
+##### !options
+
+a| Fan-out, because multiple subagents can work on the independent modules in parallel.
+b| Single-session implementation, because switching to subagents adds complexity without meaningful benefit for tasks under twenty files.
+c| Adversarial review, because independent modules require a separate critic session for each one before implementation begins.
+d| Fan-out, because it eliminates the need for a planning phase when the work is clearly defined.
+
+##### !end-options
+##### !answer
+
+a|
+
+##### !end-answer
+##### !explanation
+
+Fan-out is well-suited to work that can be decomposed into independent units that don't need to exchange information during execution. Here, twelve self-contained modules fits that shape exactly: subagents can work in parallel, each with a clean context window focused on a single module. This is faster than sequential single-session work and avoids the context management problems that would arise from one session holding the full scope of all twelve modules. Fan-out does not eliminate the planning phase, and adversarial review is a verification pattern used after implementation, not before it.
 
 ##### !end-explanation
 ### !end-challenge

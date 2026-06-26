@@ -160,23 +160,54 @@ This leads to a broader habit: using disk storage to extend the effective memory
 - Implementations that are complete and don't need revisiting
 
 When we write important outputs to files rather than relying on conversation history to retain them, we free up context for the work actually happening now. We also protect that information from compaction: a file on disk survives a context compression, while a detail buried mid-conversation may not. 
-- A useful end-of-session habit is to ask the agent to write a short summary file capturing the decisions made, files touched, and any open questions. This allows us to start the next session fresh by loading just that summary rather than the full prior context.
 
 Conversely, we should be thoughtful about when we read files back in. Loading something into context has a cost. If an agent doesn't need the full contents of a file to complete the current step, there's no reason to pay for it.
+
+#### End-of-Session Summaries
+
+A practice that makes new agent sessions feel less disruptive is building a summary step into the end of each session. Before closing a session, we ask the agent to write a brief summary file capturing:
+
+- The decisions made and their rationale 
+- Any constraints or patterns that came up that should inform future work
+- Which files were modified and why
+- Open questions or blockers
+- What the next session should start with
+
+This summary file becomes the starting context for the next session. It can be loaded alongside any relevant plan documents to give the new session the essential continuity without the clutter of the full prior history.
+
+As a side benefit, over the course of a longer project, these session summaries build into a chronological record of how the project evolved, which decisions were made and why, and what was tried and abandoned. This kind of record is useful for project retrospectives, onboarding new team members, or revisiting a decision that was made months earlier.
+
+### Starting a Fresh Session
+
+Often times, the most effective move is to begin a new session entirely. When a current session has accumulated a lot of history like failed attempts, exploratory tangents, and superseded plans, carrying it forward can work against us. 
+
+A fresh context gives the model a clean slate, and if we've been writing important decisions and outputs to files, we lose almost nothing by closing a session and opening a new one. We can re-orient the new session quickly by pointing it at those files rather than trying to summarize or compress a cluttered history.
+
+Imagine this scenario: a team has been in a planning session for several hours, iterating on an implementation plan for a new authentication flow. 
+- The session includes several rounds of "what if we approached it this way instead" exchanges, a long tangent about a library they eventually decided not to use, and an early version of the plan that was significantly revised. 
+- They now have a final plan written to `docs/auth-implementation-plan.md`.
+
+Rather than passing this implementation plan to the current session with its full history, they open a fresh session, load the plan document, and begin implementation. The agent starts with exactly what's needed, without any knowledge of or influence from the exploratory paths we went down while planning.
+
+#### Recognizing When to Switch
+
+Common signals that a new session would serve us better:
+
+**Phase transitions**: Moving from planning to implementation is often a natural point to start fresh. The planning session produced a specification; the implementation session loads that specification and the codebase. There's no benefit to bringing the planning discussion along.
+
+**Completed topics**: If a session included significant investigation into an issue that's now resolved, the context from that investigation doesn't help with the next task. It just adds to the overhead the model processes on every message.
+
+**Output quality drift**: Agents don't flag when context saturation is affecting their outputs. If we notice outputs becoming less specific, more generic, or less consistent with instructions that were clear earlier in the session, this is often a sign that the context window is working against us.
+
+**A genuinely new task**: Starting a different feature, a separate bug fix, or a task in a different part of the codebase is almost always better done in a fresh session. There's no reason to pay for unrelated context on every message.
+
+None of these are hard rules, sometimes it could makes sense to continue! But if we find that we are by default choosing to continue existing sessions because starting fresh feels like lost work, we should question this. If the important outputs are in files, the "lost work" is mostly accumulated noise.
 
 ### Managing What Gets Connected
 
 Startup content loads on every message, so anything connected to the agent that isn't actively needed is a recurring cost. MCP server tool definitions in particular can run into the tens of thousands of tokens per server. 
 
 Disconnecting servers we aren't using in a given session, and configuring exclusion rules so the agent skips build artifacts, dependency directories, and generated files, can eliminate a significant portion of background overhead without changing anything about how we work.
-
-### Starting a Fresh Session
-
-Often times, the most effective move is to begin a new session entirely. When a current session has accumulated a lot of history like failed attempts, exploratory tangents, and superseded plans, carrying it forward can work against us. 
-
-A fresh context gives the model a clean slate, and if we've been writing important decisions and outputs to files, we lose very little by starting over. We can re-orient the new session quickly by pointing it at those files rather than trying to summarize or compress a cluttered history.
-
-We'll go deeper on when and why to start a new session in a later lesson. For now, it's worth knowing it's a legitimate and often underused option.
 
 ### Subagents as a Context Management Tool
 
