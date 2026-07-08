@@ -1,4 +1,4 @@
-# Coding with Agents
+# Overview: Coding with Agents
 
 Let's start with a perhaps familiar scenario. When we ask an AI tool to help debug a function, we might: 
 1. paste in some context like code or an error
@@ -182,7 +182,7 @@ Our role in this system is to design it well, configure the right guardrails, an
 ### !challenge
 * type: multiple-choice
 * id: d57bbc0f-85a5-42cd-ab41-593a399c07b9
-* title: Coding with Agents
+* title: Overview: Coding with Agents
 ##### !question
 
 Which of the following most accurately describes what a language model is doing when it produces a code change as part of an agent session?
@@ -213,7 +213,7 @@ A language model is a statistical text prediction system. Given the current cont
 ### !challenge
 * type: multiple-choice
 * id: 7bd1db0e-d998-47e5-8faf-7844a580ecf6
-* title: Coding with Agents
+* title: Overview: Coding with Agents
 ##### !question
 
 A primary agent is working on a large feature. To research how a third-party library handles rate limits, it spawns a subagent, gives it a focused task, and receives a summary back before continuing with its implementation plan. What is the main benefit of this pattern?
@@ -244,7 +244,7 @@ Subagents run in their own isolated context windows and return only their output
 ### !challenge
 * type: multiple-choice
 * id: f4b0916f-cf3a-4f7e-b9e5-bef598cd086f
-* title: Coding with Agents
+* title: Overview: Coding with Agents
 ##### !question
 
 A team configures their coding agent with 40 skill files covering a wide range of tasks. They're concerned about the impact on token usage. Which aspect of how skills work helps address this concern?
@@ -275,7 +275,7 @@ Skills use a tiered loading approach to manage context costs. At startup, the ag
 ### !challenge
 * type: multiple-choice
 * id: 981eef1a-982e-490a-9892-582509c71ee5
-* title: Coding with Agents
+* title: Overview: Coding with Agents
 ##### !question
 
 A developer moves from using a chat-based AI assistant to a fully configured coding agent. Which of the following most accurately describes how their role changes?

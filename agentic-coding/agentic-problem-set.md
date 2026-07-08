@@ -1,7 +1,5 @@
 # Agentic Coding Problem Set
 
-## Intro 
-
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
@@ -126,8 +124,6 @@ A skill file is the right component for providing procedural knowledge for a spe
 ### !end-challenge
 <!-- prettier-ignore-end -->
 
-## Context Windows
-
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
@@ -220,8 +216,6 @@ Context window degradation does not wait for the window to hit its ceiling. Rese
 ##### !end-explanation
 ### !end-challenge
 <!-- prettier-ignore-end -->
-
-## Recommended Workflows
 
 <!-- prettier-ignore-start -->
 ### !challenge
@@ -320,8 +314,6 @@ The adversarial review pattern creates a structured loop: critic sessions return
 ### !end-challenge
 <!-- prettier-ignore-end -->
 
-## Best Practices
-
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
@@ -413,6 +405,99 @@ c|
 ##### !explanation
 
 Planning and architecture work benefits from higher-capability models because errors at this stage compound into implementation problems that are costly to fix later. Once a well-specified plan exists, routine code generation tasks can often be handled reliably by a mid-tier model at lower cost. This approach matches model capability to where it has the most impact rather than applying the same model uniformly.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: 6GE0x0FW84vza8M0pM5x2uRE
+* title: Adding Outside Knowledge: MCP & RAG
+##### !question
+
+A team connects five MCP servers to their agent "just in case" they're needed, even though most sessions only use tools from one of them. What is the most accurate description of the cost this creates?
+
+##### !end-question
+##### !options
+
+a| No added cost, since unused tools are automatically removed from context
+b| A one-time cost paid only the first time each server is connected
+c| A steady token cost across every message in the session, since all connected tool definitions load into context at the start
+d| A per-query cost that only applies when a tool from one of the servers is actually called
+
+##### !end-options
+##### !answer
+
+c|
+
+##### !end-answer
+##### !explanation
+
+Every tool definition from every connected server gets loaded into the context window at the start of a session and stays there for the duration, whether or not it's used. Connecting several servers "just in case" means paying that token cost on every single message in the session, not just once or only when a tool is actually called. This is different from RAG, where cost is tied to the number of chunks retrieved per query.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: wExkv5ahmovSSJgLP4L22bVX
+* title: Adding Outside Knowledge: MCP & RAG
+##### !question
+
+How does the security boundary of a remote MCP server typically differ from that of a local MCP server?
+
+##### !end-question
+##### !options
+
+a| A remote server's boundary is defined by our account permissions on the connected service; a local server's boundary is defined by our user permissions or arguments we give the server when starting it.
+b| A remote server has no security boundary at all, since it runs outside our machine
+c| A local server's boundary is defined by OAuth scopes, while a remote server's boundary is defined by folder paths
+d| Both use the exact same boundary, since MCP is a single standardized protocol
+
+##### !end-options
+##### !answer
+
+a|
+
+##### !end-answer
+##### !explanation
+
+A local server runs with our own machine's permissions, so what it can touch is scoped by configuration details like which folders it was given access to. A remote server acts through an authenticated session, so what it can touch is defined by whatever access our account has been granted on that service, commonly established through OAuth or an API key rather than through local configuration.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: wuQo1d0TUqHwgS0cYEiOeY9T
+* title: Adding Outside Knowledge: MCP & RAG
+##### !question
+
+Before a RAG system can answer any questions, source material has to go through a setup phase. Which sequence correctly describes that phase?
+
+##### !end-question
+##### !options
+
+a| The query is converted to an embedding, then compared against tool schemas, then injected into the context window
+b| Source material is broken into chunks, each chunk is converted into an embedding, and those embeddings are stored in a vector database
+c| Source material is sent directly to the model, which memorizes it permanently for future sessions
+d| An MCP server is connected first, and it automatically generates embeddings for any file it can access
+
+##### !end-options
+##### !answer
+
+b|
+
+##### !end-answer
+##### !explanation
+
+Building a RAG knowledge base happens ahead of time and involves three steps: splitting source material into smaller chunks, converting each chunk into an embedding that captures its meaning, and storing those embeddings in a vector database for fast comparison later. Retrieval and injection happen afterward, at the time a query is actually made, not during this setup phase.
 
 ##### !end-explanation
 ### !end-challenge

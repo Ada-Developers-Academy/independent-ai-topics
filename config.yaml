@@ -113,8 +113,12 @@ Standards:
         Path: /agentic-coding/best-practices.md
       -
         Type: Lesson
+        UID: eca69a0b-e630-4766-acd5-4a3992f89b9j
+        Path: /agentic-coding/mcp-rag.md
+      -
+        Type: Lesson
         UID: eca69a0b-e630-4766-acd5-4a3992f89b9h
-        Path: /agentic-coding/temp-lesson.md
+        Path: /agentic-coding/agentic-setup-steps.md
       -
         Type: Lesson
         UID: 0370ba94-6324-413e-9c1b-7b2db283f646

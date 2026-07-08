@@ -149,9 +149,23 @@ Fan-out is useful when:
 
 Because each subagent works in a clean context window focused on a single task, their outputs tend to be more consistent and easier to synthesize than what a single session produces when juggling many concerns at once.
 
-### Using Both Patterns Together
+#### Beyond Fan-out: Managing Multiple Agent Sessions
 
-The two patterns compose naturally. Some common structures are to: 
+Once we get really comfortable with our workflow on a single project, we can branch out further, and run multiple agent sessions in parallel, each working on their own feature or task.
+
+Working on multiple tasks with agents brings higher complexity to our workflow; something we need to consider in multi-agent workflows is our workspace itself. In the fan out pattern we talked about multiple agents dividing up independent pieces of the same task in different files, which can share a single repo. But what about different projects or features that might touch the same tests or source files? 
+
+Without separate copies of the repo, everything works in the same directory. Changes for different projects could conflict with each other while the agents are still trying to make updates! 
+
+The most common solution to this problem is [git worktrees](https://git-scm.com/docs/git-worktree), which allows us to have multiple copies of a repo with different checked out branches. Many AI coding tools and IDEs automatically create new branches using worktrees when moving from planning to implementation, but this can be something we need to configure or ask the AI to do (or put in our steering documentation to bake into our process).
+
+So, depending on our tooling, we may not need to take specific action to use worktrees when working with agents, but it's good for us to know about so we can understand the full picture of how and where our agents are working, and where we should look if there are issues to debug. 
+
+Even when we're working on a single feature at a time, using worktress for AI agents is a great idea, because it gives the AI their own copy of the repo to work in, preserving the original branch. 
+
+### Using Adversarial Review and Fan-Out Together
+
+These two patterns solve different common issues, so they compose naturally. Some common structures are to: 
 - use fan-out during planning for research, then run adversarial review passes on the specification before human review.
 - use fan-out for the implementation phase (delegating separate modules or files to parallel subagents) and adversarial review for the review phase (running a critic session against each subagent's output before synthesizing). 
 
