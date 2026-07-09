@@ -211,7 +211,7 @@ Disconnecting servers we aren't using in a given session, and configuring exclus
 
 ### Subagents as a Context Management Tool
 
-All of the strategies above help us be more careful with a single session's context. Once we're confident that we have strong habits in place to manage a single session's context, the most powerful step up is to delegate isolated tasks to subagents.
+All of the strategies above help us be more careful with a single session's context. Once we're confident that we have strong habits in place to manage a single session, the most powerful step up is to delegate isolated tasks to subagents.
 
 As we covered in the previous lesson, a subagent is a separate agent instance with its own fresh context window. When a primary agent spawns a subagent, it gives it a focused task: do this research, implement this function, run these tests. The subagent works in its own clean context, completes its job, and returns a summary of what it found or produced to the primary agent.
 
