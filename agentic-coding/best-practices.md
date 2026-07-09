@@ -111,7 +111,7 @@ Container isolation is the approach to reach for when:
 - The development environment contains credentials or sensitive files that must not be accessible
 - We want the strongest available guarantee that agent operations are contained to the project scope
 
-Many agentic coding tools are beginning to ship with optional container-based execution, either via a bundled Docker image or as a configurable mode. This is the direction the industry is moving for longer-horizon autonomous work, precisely because the guarantee container isolation provides is qualitatively stronger than what application-level or even OS-level tools can offer.
+Many agentic coding tools are beginning to ship with optional container-based execution, either via a bundled Docker image or as a configurable mode. This is the direction the industry is moving for longer-term autonomous work, precisely because the guarantee container isolation provides is qualitatively stronger than what application-level or OS-level tools can offer.
 
 #### Choosing the Right Sandbox
 
@@ -147,7 +147,7 @@ Some teams maintain different sandbox configurations for each phase, switching b
 
 ### Sandboxing Enables Capability, Not Just Safety
 
-Sandboxes don't only prevent problems, they change what we're comfortable letting agents do. There's a version of this that practitioners sometimes articulate as "security enables capability." When we know the agent can't accidentally modify our home directory, read our SSH keys, or escape the project scope, we're able to give it more latitude within those bounds. We can let it run scripts, explore freely, iterate on failing tests, and retry operations without monitoring every step. The constraint is what makes that confidence possible.
+Sandboxes don't only prevent problems, they change what we're comfortable letting agents do. There's a version of this that practitioners sometimes articulate as "security enables capability." When we know the agent can't accidentally modify our home directory, read our SSH keys, or escape the project scope, we're able to give it more latitude within those bounds. We can let it run scripts, explore freely, iterate on failing tests, and retry operations without monitoring every step. The constraint is what makes that confidence possible!
 
 ## Adding Instructions: Steering Files and Skills
 
