@@ -126,11 +126,11 @@ Here's what is happenning in the newly added code:
 
 - **`"type": "http"`**: This tells our agent host how to talk to the server. Rather than launching a program and communicating over standard input and output the way a local server does, our agent host sends requests to this server over HTTP.
 
-- **`"url"`**: The address of the server itself. This is the one piece of information our agent host actually needs to reach it, since there's no command to run or package to install. The server is already running, hosted by GitHub, and we're simply pointing to it.
+- **`"url"`**: The address of the server itself. This is the one piece of information our agent host actually needs to reach it, since there's no command to run or package to install. The server is already running, hosted by GitHub, and we're pointing to it.
 
 A few things worth noting:
 
-- **There's no command, no package, and no local file paths.** Unlike a local server, we're not launching anything or scoping access to specific folders on our machine. The server already exists elsewhere, and our configuration is just an address.
+- **There's no command, no package, and no arguments passed.** Unlike a local server, we're not launching anything. The server already exists elsewhere, and our configuration is just an address.
 - **Authentication isn't shown in this file.** Most remote servers require us to log in or provide credentials before they'll act on our behalf, but that step usually happens through a separate sign-in flow in our agent host rather than being written into this configuration. Once we've authenticated, our agent host holds onto that authorization for future sessions.
 - **The security boundary shifts.** With a local server, what it can touch is defined by our user permissions that it is running with or by the arguments we give it at start up. With a remote server, what it can touch is defined by our account permissions on whatever service it's connected to, since the server is acting on our behalf through that authenticated session rather than through our machine's file system.
 
@@ -209,7 +209,7 @@ Both of these mechanisms extend what an agent can accomplish, but neither one is
 
 **MCP's cost shows up upfront.** Every tool definition from every connected server gets loaded into the context window at the start of a session, whether or not that tool ends up being used. A server that exposes a small handful of focused tools might only add a few hundred tokens. A server that exposes dozens of tools, each with a detailed input schema, can add tens of thousands of tokens before we start working. If we connect several MCP servers "just in case," we can end up paying a steady token tax across every single message in the session.
 
-**RAG's cost shows up per query, but stays smaller.** Rather than loading an entire knowledge base upfront, RAG only injects the specific chunks retrieved for a given question, typically a few hundred to a couple thousand tokens depending on how many chunks are returned. The tradeoff is that retrieval isn't perfect. If the wrong chunks get retrieved, we've spent tokens on unhelpful context and may still get an inaccurate answer.
+**RAG's cost shows up per query.** Rather than loading an entire knowledge base upfront, RAG only injects the specific chunks retrieved for a given question, typically a few hundred to a couple thousand tokens depending on how many chunks are returned. The tradeoff is that retrieval isn't perfect. If the wrong chunks get retrieved, we've spent tokens on unhelpful context and may still get an inaccurate answer.
 
 The table below summarizes the comparisons above:
 
@@ -235,7 +235,7 @@ Agents don't come pre-loaded with access to our tools or our private data, so we
 
 Both add further capabilities to our agents, but neither is free: 
 - MCP's cost is paid upfront every session for each connected server's tool definitions.
-- RAG's cost is paid per query based on how many chunks get retrieved. 
+- RAG's cost is paid per query based on how many tokens are used by the chunks retrieved. 
 
 Unless we are explicitly experimenting, each server and knowledge base we connect should earn its place in the context window through necessity or measured value. Being deliberate about which servers we connect and how aggressively we retrieve documentation helps us keep sessions efficient.
 
