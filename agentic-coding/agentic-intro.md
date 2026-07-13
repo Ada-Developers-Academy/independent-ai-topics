@@ -151,7 +151,7 @@ When we work with agents rather than one-off prompting, the shape of our involve
 | We manage context by what we paste in | Context is managed through persistent files, skills, and retrieval systems |
 | We evaluate and apply each output | The agent executes changes directly, requiring us to review them |
 | We direct every next step | The loop generates successive outputs; we create the overall workflow and structure then review at key checkpoints |
-| Each session starts from scratch | Steering files and skills provide continuity across sessions |
+| Each session starts from scratch | Documentation, steering files, and skills provide continuity across sessions |
 | Stakes of each exchange are low | The agent can take many actions; scope and permissions matter more |
 
 Because the agent loop runs on statistical text prediction rather than human judgment, our oversight remains essential. We remain responsible for:
