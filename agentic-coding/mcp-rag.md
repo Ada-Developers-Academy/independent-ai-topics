@@ -80,6 +80,26 @@ A couple notes about this server and its definition:
 - **The directory paths are also the security boundary.** This server will only be able to read or modify files inside `/Users/username/Desktop` and `/Users/username/Downloads`, because that's what its own tools were configured to allow. Adding or removing paths here is how we widen or narrow what the server can reach, without needing to change any code.
 - **Nothing here mentions our agent or model at all.** This configuration is entirely about how to launch and scope a program that happens to speak MCP. The agent doesn't know these tools exist until our host restarts and completes tool discovery against this running server.
 
+### !callout-info
+
+## Try it out!
+
+Let's connect a local MCP server in VS Code and confirm that its tools show up where we expect.
+
+1. Inside a project run **MCP: Open User Configuration** from the Command Palette to open the MCP configuration file.
+2. Add a `filesystem` server entry using the configuration we walked through above by copy & pasting the configuration then updating the directory paths to point at folders on our own machine.
+3. Save the file. VS Code will ask us to confirm that we trust the server before it starts, since local servers can run code on our machine.
+4. Open the Chat view and select **Configure Tools** in the chat input. We should see the tools VS Code discovered from our new server listed there.
+    ![VS Code chat window showing the "Configure Tools" button](assets/mcp-rag/vscode_chat_configure_tools_button.png)   
+    *Fig. "Configure Tools" button in the VS Code Chat UI*
+
+    !["secure-filesystem-server" tools showing in the VS Code "Configure Tools" menu](assets/mcp-rag/vscode_tools_dropdown.png)
+    *Fig. `secure-filesystem-server` tools showing in the VS Code "Configure Tools" menu*
+
+5. Give the agent a prompt that would use one of those tools, such as asking it to list the files in one of the directories we configured, and confirm we're prompted to approve the tool call before it runs.
+
+### !end-callout
+
 ### Remote Servers
 
 A remote MCP server runs somewhere other than our own machine. These servers are commonly hosted by teams or companies to facilitate integrating their products into AI workflows. A few examples of the many companies that host their own MCP servers are: 
@@ -153,7 +173,7 @@ Regardless of whether a server is local or remote, connecting it triggers the sa
 From there, when our request matches something a connected tool can do, the agent's output includes a tool call: a structured request naming the tool and supplying the required inputs. The server executes that call against the real system it's connected to and returns a result, which gets added back into the context for the next step.
 
 Most agent hosts don't let a connected server act freely. The first time a tool would be used, we're often shown what it wants to do and asked to approve it. 
-- Many tools let us configure which specific commands are allowed to run without asking each time, however, we should be cautious about auto approving tool actions until we are comfotable with our sandbox set up and how those particular tools operate.
+- Many tools let us configure which specific commands are allowed to run without asking each time, however, we should be cautious about auto approving tool actions until we are comfortable with our sandbox set up and how those particular tools operate.
 
 ### Practical Scenario
 
@@ -226,6 +246,38 @@ How tokens are used by these systems means our setup decisions matter, and that 
 - **Prefer focused servers over broad ones when we have a choice.** A server with five well-scoped tools is cheaper to keep connected than one with fifty tools we mostly ignore.
 - **Tune how much RAG retrieves.** Most RAG systems allow us some control over how much information is returned. Pulling back ten chunks "to be safe" costs more tokens than pulling back three well-matched ones, and can also dilute the model's context with less relevant material.
 - **Reach for RAG over stuffing full documents into context.** If we find ourselves in a pattern of needing to reference a large document or set of documents frequently, and we end up pasting the entire reference document into a conversation when we only need a single section or page, that is a strong sign that a retrieval setup could serve us better long term.
+
+### !callout-info
+
+## Try it out!
+
+Let's look at how to disable tools from a server, shut down a local MCP server, and remove the server entirely, so we know how to disable tools we aren't actively using.
+
+First, we'll check that the server is running: 
+1. Run `MCP: List Servers` from the Command Palette  
+2. Look for the `filesystem` server in the dropdown list. It will say "Running" next to the name if it is currently active.
+    - If the server says "Stopped", click on it and choose the "Start Server" action.
+
+To disable tools from a server without stopping the local server:
+1. Open the Chat view and select "**"Configure Tools**"
+2. Uncheck the box next to `secure-filesystem-server` to disable all tools avilable on the server. 
+    - We can also choose to disable individual tools from the server from this view by unchecking the box next to a specific tool's name.
+
+To turn off the running `filesystem` MCP server:
+1. Run `MCP: List Servers` from the Command Palette  
+2. Select the `filesystem` server from the drop down that appears, and choose "**Stop Server**". 
+
+To fully remove the MCP Server we can either:
+- Use the UI: 
+    1. Click the settings icon at the top of the VS Code Chat pane
+    2. Select "MCP Servers" from the menu on the left
+    3. Right click on the `filesystem` server and select "Uninstall" from the drop down
+- Edit the MCP configuration file:
+    1. Run **MCP: Open User Configuration** from the Command Palette to open the MCP configuration file.
+    2. Delete the `filesystem` key and value pair from the `servers` object
+    3. Save the updated configuration file
+
+### !end-callout
 
 ## Summary
 
