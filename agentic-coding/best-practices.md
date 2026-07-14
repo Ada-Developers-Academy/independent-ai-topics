@@ -30,6 +30,9 @@ Every response an agent produces in a chat session can serve as a checkpoint for
 
 These checkpoints give us a way to explore a direction with an agent and fully back out of it if the result isn't what we needed, rather than manually tracking and reversing each change ourselves.
 
+![VS Code chat window showing the "Restore Checkpoint" button after an agent response](assets/best-practices/vscode_chat_checkpoint.png)   
+*Fig. "Restore Checkpoint" button in the VS Code Chat UI ([Full Size Image](assets/best-practices/vscode_chat_checkpoint.png))*
+
 **Steering During Execution**
 
 While an agent is working, the send button in the chat pane becomes a drop down with options for how our message should be handled:
