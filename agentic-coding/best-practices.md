@@ -24,7 +24,7 @@ This lesson shifts focus from *what* to do toward *how* to do it well. We'll con
 
 Sometimes we might see that our agent has veered off-path, or we forgot something in the original prompt. We don't have to wait until the agent is done processing to take action; especially if we can see that the work will not meet our needs, we can act immediately!
 
-**Checkpoints**
+### Checkpoints
 
 Every response an agent produces in a chat session can serve as a checkpoint for our workspace. If we want to undo an agent's changes, we can restore an earlier checkpoint, which returns our files to the state they were in at that moment and removes any conversation history and file changes that came after it. To do so, we can hover over a message in the chat, and "Restore Checkpoint" controls will appear.
 
@@ -33,12 +33,15 @@ These checkpoints give us a way to explore a direction with an agent and fully b
 ![VS Code chat window showing the "Restore Checkpoint" button after an agent response](assets/best-practices/vscode_chat_checkpoint.png)   
 *Fig. "Restore Checkpoint" button in the VS Code Chat UI ([Full Size Image](assets/best-practices/vscode_chat_checkpoint.png))*
 
-**Steering During Execution**
+### Steering During Execution
 
 While an agent is working, the send button in the chat pane becomes a drop down with options for how our message should be handled:
 - "**Add to queue**" - Waits for the current response to finish, then send the message. Best used when the AI is mostly on track but we want to add something we forgot without stopping or changing the current progress.
 - "**Steer with message**" - Tells the agent to pause after its current tool call and process our message immediately before continuing. This is useful when we want to adjust behavior without cancelling work that has already been done. 
 - "**Stop and send**" - Cancels the current request, removing work done for this request that is not presisted to disk. This is the right option when we need to start over, typically when the AI is far off track and continuing would waste resources.
+
+![VS Code chat window showing the dropdown of send options while an agent is creating a response](assets/best-practices/vscode_chat_send_options.png)   
+*Fig. VS Code Chat UI showing the Send options while an agent is creating a response*
 
 ## Adding Instructions: Steering Files and Skills
 

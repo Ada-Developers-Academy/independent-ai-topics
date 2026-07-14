@@ -224,7 +224,7 @@ Let's try the fan-out pattern on a task that splits naturally into independent p
 4. **Let each subagent work in its own session.** Each one should only have the context it needs for its piece, not the full scope of the whole task.
 5. **Review how the orchestrator synthesizes the results.** Once the subagents return their output, check how it gets combined into a single result. Does anything get lost or contradict another piece in the process?
 6. **Weigh the tradeoff.** Note how long this took compared to doing the same task in a single sequential session, and consider the token cost of running multiple sessions at once. Fan-out is worth it when the speed gain outweighs that added cost.
-    - For our example task of splitting up a paragraph across files, the cost does not justify using multiple agents, doing that work manually or with a single agent would work just as well.
+    - For our example task of splitting up a paragraph across files, the cost does not justify using multiple agents. Doing that work manually or with a single agent would work just as well.
 
 ### !end-callout
 
