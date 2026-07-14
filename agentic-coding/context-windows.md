@@ -124,6 +124,17 @@ The prompt & response cycle for the implementation plan and our requested change
 
 Adagrams is a smaller scale project, we only altered two files, and only needed to read around seven files in total (test files, README.md & the two implementation files). As our project size and the amount of context required to do a task increases, proactively managing our context window becomes increasingly more important.
 
+### !callout-info
+
+## Try it out!
+
+Using a project you're familiar with, ask an agent to help you create an implementation plan. 
+- Use the same steps above to examine the agent's context window usage. 
+- Ask a question or two and see how many tokens are used beyond the initial prompt.
+
+### !end-callout
+
+
 ## Managing the Context Window
 
 Understanding that the window fills and behavior degrades is only useful if we know what to do about it. There are a variety of strategies, and we get the most out of our sessions by using them in combination:
@@ -166,20 +177,26 @@ Conversely, we should be thoughtful about when we read files back in. Loading so
 
 This is a habit that supports us outside of AI as well. These same files that help keep AI agents oriented and on track can help us or our teammates, days, weeks, or months down the road when we may not remember details of an implementation plan or reasoning behind specific decisions in the architecture.
 
-Try it out! 
-
 ### !callout-info
 
 ## Try it out!
 
-Next time you work on a project with agents, when you are done planning and ready to implement, ask the agent to save your plan to disk before getting started.
+Continuing the agent session from the context window usage example earlier, we can ask for the agent to persist this plan to disk for us. Use the prompt below as-is or update it to fit your needs or desired project structure:
 
-As you go, if decisions are made, ask the AI to keep track of those in the implementation plan file or a separate "decisions" file if you'd like.
+> Create a new file at the path "./project_docs/implementation_plan.md" and write the implementation plan to that file.
 
-What kinds of decisions and documentation do you find useful to review for your learning? As you come up with questions, topics you want to review, or other thoughts you don't want to lose track of, ask the AI to save them to a file that you can look over later.
-- This can be great for helping organize questions and topics that you want to ask about
+We now have a record of our implementation plan that persists across agent sessions and that we can review or share at any time!
 
 ### !end-callout
+
+#### Concrete ways to put this in practice
+
+1. Next time we work on a project with agents, when planning is done and we're ready to implement, we should ask the agent to save our plan to disk before getting started.
+
+2. As we go, if decisions are made, ask the AI to keep track of those in the implementation plan file or a separate "decisions" file.
+
+3. We should think about what kinds of decisions and documentation we find useful to review for our learning. As we come up with questions, topics we want to review, or other thoughts we don't want to lose track of, ask the AI to save them to a file that we can look over later.
+    - This can be great for helping organize questions and topics to ask about in #study-hall or office hours!
 
 #### End-of-Session Summaries
 
@@ -199,9 +216,35 @@ As a side benefit, over the course of a longer project, these session summaries 
 
 ## Try it out!
 
-Before you wrap up your next agentic session, use the prompt below, or create your own that captures the details you are most interested in to ask the AI to write a summary to disk:
+Before you wrap up your next agentic session, use the prompt below, or create your own that captures the details you are most interested in, to ask the AI to write a summary to disk:
 
-> 
+> Please create a session summary at the file path <your_chosen_filepath>. Output the response exactly in the following structured format:
+>
+> 1. Intent & Progress
+>     - **Primary Request:** What was the overarching goal of this coding session?
+>     - **Current State:** Exactly what was accomplished, and what state is the codebase in right now?
+>     - **Pending Tasks:** What are the next immediate work items to do?
+>
+> 1. Technical Concepts & Architecture
+>     - **Tech Stack:** Key frameworks, libraries, and design patterns used.
+>     - **Conventions & Rules:** Specific architectural or coding standards we established in this session that future agents MUST follow (e.g., naming conventions, error-handling patterns).
+>
+> 3. Files & Codebase
+>     - **Files Modified/Created:** Bulleted list of exact file paths.
+>     - **Key Code Additions:** High-level overview or snippets of the most critical logic or APIs recently added.
+>
+> 4. Errors & Troubleshooting
+>     - **Errors Resolved:** Brief summary of bugs encountered and how they were fixed.
+>     - **Known Issues/Warnings:** Any unresolved issues, edge cases to watch out for, or pending technical debt.
+>
+> 5. Verification & Testing
+>     - **Verification Commands:** List exact commands (e.g., `npm run test`, `pytest`) that can be run to validate this project's integrity.
+>     - **Edge Cases Tested:** Scenarios already accounted for.
+>
+> 6. Actionable Next Steps
+>     - Provide a concise, 1-2 sentence command or paragraph we can feed to the next agent to get it up to speed with the right context.
+
+Review the summary and note what went well, where information may have been vauge, and what you might want to tweak in the prompt for next time to get a summary that meets your needs.
 
 ### !end-callout
 
@@ -235,13 +278,13 @@ None of these are hard rules, sometimes it could makes sense to continue! But if
 
 Startup content loads on every message, so anything connected to the agent that isn't actively needed is a recurring cost. MCP server tool definitions in particular can run into the tens of thousands of tokens per server. 
 
-Disconnecting servers we aren't using in a given session, and configuring exclusion rules so the agent skips build artifacts, dependency directories, and generated files, can eliminate a significant portion of background overhead without changing anything about how we work.
+Disconnecting servers we aren't using in a given session, and configuring exclusion rules so the agent skips build artifacts, dependency directories, and generated files, can eliminate a significant portion of background overhead without changing anything about how we work. We'll look at where to connect and disconnect MCP servers in VS Code in a later lesson.
 
 ### Subagents as a Context Management Tool
 
 All of the strategies above help us be more careful with a single session's context. Once we're confident that we have strong habits in place to manage a single session, the most powerful step up is to delegate isolated tasks to subagents.
 
-As we covered in the previous lesson, a subagent is a separate agent instance with its own fresh context window. When a primary agent spawns a subagent, it gives it a focused task: do this research, implement this function, run these tests. The subagent works in its own clean context, completes its job, and returns a summary of what it found or produced to the primary agent.
+As we covered in a previous lesson, a subagent is a separate agent instance with its own fresh context window. When a primary agent spawns a subagent, it gives it a focused task: do this research, implement this function, run these tests. The subagent works in its own clean context, completes its job, and returns a summary of what it found or produced to the primary agent.
 
 This means all the file exploration, intermediate steps, and failed attempts that happened inside the subagent stay there. None of that accumulates in the main session's context. From the primary agent's perspective, the subagent's work appears as a single compact result.
 
