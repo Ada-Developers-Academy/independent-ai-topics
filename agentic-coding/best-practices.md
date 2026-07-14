@@ -33,6 +33,18 @@ These checkpoints give us a way to explore a direction with an agent and fully b
 ![VS Code chat window showing the "Restore Checkpoint" button after an agent response](assets/best-practices/vscode_chat_checkpoint.png)   
 *Fig. "Restore Checkpoint" button in the VS Code Chat UI ([Full Size Image](assets/best-practices/vscode_chat_checkpoint.png))*
 
+### !callout-info
+
+## Try it out!
+
+The next time we're working with an agent and want to explore a direction we might not keep, try backing out of it with a checkpoint instead of undoing the changes ourselves.
+
+1. Send a prompt to our agent and let it produce at least one full response.
+2. Hover over that response in the chat history and look for the "Restore Checkpoint" control.
+3. Restore the checkpoint and confirm our files and conversation return to the state they were in before that response.
+
+### !end-callout
+
 ### Steering During Execution
 
 While an agent is working, the send button in the chat pane becomes a drop down with options for how our message should be handled:
@@ -42,6 +54,20 @@ While an agent is working, the send button in the chat pane becomes a drop down 
 
 ![VS Code chat window showing the dropdown of send options while an agent is creating a response](assets/best-practices/vscode_chat_send_options.png)   
 *Fig. VS Code Chat UI showing the Send options while an agent is creating a response*
+
+### !callout-info
+
+## Try it out!
+
+The next time we're running an agent session, try each of the send options from the dropdown so we can feel the difference between them.
+
+1. Start a task and, while the agent is still working, use "Add to queue" to send a small addition without interrupting its current progress.
+2. On a separate task, use "Steer with message" to redirect the agent partway through once we notice it heading somewhere we don't want.
+3. If we see an agent go far enough off track that the work in progress isn't worth keeping, try "Stop and send" to cancel and restart with a corrected prompt.
+
+Compare how each option affects the agent's progress and note which situations call for which option.
+
+### !end-callout
 
 ## Adding Instructions: Steering Files and Skills
 
@@ -53,7 +79,7 @@ A steering file is loaded into every session at startup. From a context window p
 
 This shapes what should go in a steering file: only things that are universally relevant, across every session, every task, every phase of work. If a piece of content is relevant for API endpoint work but not for database migration work, it does not belong in the steering file.
 
-Good steering file candidates:
+Strong steering file candidates:
 - Rules and prohibitions that apply to everything: branch naming, files that must never be modified, required tests before committing
 - Project or team-specific conventions the model wouldn't know from training, like naming patterns or import conventions
 - Pointers to canonical examples in the codebase the model should reference when producing similar work
@@ -63,7 +89,7 @@ Good steering file candidates:
 What often steers people wrong is treating the steering file like a knowledge base. Team members start adding edge case documentation, onboarding notes, guides for specific workflows, and the file grows to several thousand tokens. Because it's loaded on every message for the entire session, this overhead compounds continuously. 
 - A bloated steering file is one of the most consistently expensive things we can do to our token usage.
 
-Steering files often live at the root of a project repo. As we get more comfortable with steering contents, we can look into settings to apply steering files at the workspace or user level if there is steering information we find useful to apply to all projects we work with.
+Steering files often live at the root of a project repo and are named `AGENTS.md`, `CLAUDE.md`, or similar depending on the environment we are working in. As we get more comfortable with steering contents, we can look into settings to apply steering files at the workspace or user level if there is steering information we find useful to apply to all projects we work with.
 
 **Example steering file for a TypeScript project**
 
@@ -87,7 +113,19 @@ This is a Node.js/TypeScript project using Express for routing and PostgreSQL vi
 
 This file is short enough that it adds minimal overhead per message, but helps orient an agent picking up any task in the project so they can work within the team's norms.
 
-A useful tactic to keep our steering file lean is to start by adding information as a skill. If we find that we're needing that skill for every task, then it's likely worth migrating into the steering file. 
+A useful tactic to keep our steering file lean is to start by adding information as a skill. If we find that we're needing that skill for every task, then it could be worth migrating into the steering file. 
+
+### !callout-info
+
+## Try it out!
+
+Let's create a steering file for a project we're currently working in, keeping it deliberately short.
+
+1. In VS Code, find or create a file named `AGENTS.md` at the root of the project.
+2. Write 1-2 lines describing something universally useful across every task in the project, for example a rule to create a new branch before starting any implementation work.
+3. Start a new agent session and ask the agent what conventions it's aware of for the project, to confirm the steering content loaded.
+
+### !end-callout
 
 ### Skills: On-Demand Procedural Knowledge
 
@@ -192,6 +230,23 @@ A walkthrough produces a first version, not a final one. Each time we run the sk
 ```
 
 This kind of detail can be hard to derive from planning alone, it comes from running the task and observing where things break. The walkthrough approach builds those observations directly into the skill creation process rather than treating them as corrections to fix after the fact.
+
+### !callout-info
+
+## Try it out!
+
+The Token Usage & Context Windows lesson covered end-of-session summaries as a way to preserve continuity between sessions. Rather than drafting a session-summary skill from memory, let's build it the way we just covered: through a walkthrough.
+
+If you don't have a project with an active agent session open currently, open a project, start a session, and ask a few questions, so that there is some content in the chat to summarize.
+
+1. At the end of an agent session, ask the agent to write a session summary to disk, using the categories from the Token Usage & Context Windows lesson as a starting point.
+2. Review the result and correct anything missing or off-target directly in the session.
+3. Once the summary reflects what we actually want, ask the agent to draft a `SKILL.md` from the session, using a prompt like the one covered above: 
+    > "Review what you just did to complete this task. Write a SKILL.md that would guide an agent through the same process reliably."
+4. Find or create a skills directory in the current project, then create a `session-summary` folder in that directory. Save the draft created by the agent as `SKILL.md`, and sharpen the name and description fields if needed so an agent reliably recognizes when to use it.
+5. Run the skill at the end of your next agent session. If it misses something, add that correction to a "Gotchas" section rather than rewriting the skill from scratch.
+
+### !end-callout
 
 ## Agents and Subagents in Practice
 
@@ -315,6 +370,20 @@ A few practical scenarios where custom agents can be useful:
 - An **adversarial review agent** with read-only access and explicit instructions to look for violations and edge cases the implementation agent might have missed.
 - A **documentation agent** scoped to write only within `docs/` directories, preventing it from touching source files even if given a broad prompt.
 - A **migration agent** for a specific recurring task, like schema migrations, with the relevant skill pre-loaded and tool access scoped to the database migration toolchain.
+
+### !callout-info
+
+## Try it out!
+
+The "Recommended Workflows" lesson introduced adversarial review, where a separate agent with a clean context evaluates finished work against a specification. Let's encode that reviewer as a custom agent!
+
+1. Create a new agent file in our project's custom agent directory, following the frontmatter and body structure covered above.
+2. Doing some outside research where necessary, set the `tools` field to only read-only tools, like file reads and search, so the agent can't make any edits during a review.
+3. Write a body prompt instructing the agent to compare an implementation against a specification and return an itemized list of findings, drawing on the review focus areas covered in the "Recommended Workflows" lesson.
+4. Activate the agent against a recent implementation and specification, and compare its findings to our own review.
+    - As always, note down what went well, and what didn't perform as expected to help decide what you want to keep and what should be updated for the future.
+
+### !end-callout
 
 ## Summary
 
