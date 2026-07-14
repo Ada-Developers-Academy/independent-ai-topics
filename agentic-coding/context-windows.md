@@ -244,7 +244,9 @@ Before you wrap up your next agentic session, use the prompt below, or create yo
 > 6. Actionable Next Steps
 >     - Provide a concise, 1-2 sentence command or paragraph we can feed to the next agent to get it up to speed with the right context.
 
-Review the summary and note what went well, where information may have been vauge, and what you might want to tweak in the prompt for next time to get a summary that meets your needs.
+Review the summary and note what went well, where information may have been vauge, and what you might want to tweak in the prompt for next time to get a summary that meets your needs. 
+
+We can save this prompt to reuse, but we can also think about turning this into a skill file that we can reuse and share with other teammates. More on skills in a later lesson!
 
 ### !end-callout
 
