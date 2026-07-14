@@ -57,7 +57,7 @@ A strong planning session typically involves two distinct activities: **research
 
 #### Research
 
-During research, an agents gathers the information it will need to work *well*. This might be reading through existing codebase structure, reviewing relevant documentation, understanding the constraints or edge cases involved, or exploring multiple possible approaches before committing to one. 
+During research, an agent gathers the information it will need to work *well*. This might be reading through existing codebase structure, reviewing relevant documentation, understanding the constraints or edge cases involved, or exploring multiple possible approaches before committing to one. 
 
 Research is a context-window-intensive activity. As we covered previously, exploration fills context windows quickly. Keeping research in its own focused session or delegating it to a subagent prevents research overhead from degrading the context available for implementation.
 
@@ -84,6 +84,20 @@ The purpose of a planning phase is to produce a plan we are genuinely confident 
 
 The planning phase ends with a human checkpoint: do we proceed with this plan or do we iterate? If we still have concerns or areas that are not well defined, we iterate until we feel confident in the specification. This is the first of the workflow's meaningful human review moments, and arguably the most important one.
 
+### !callout-info
+
+## Try it out!
+
+Let's put the planning phase into practice with a small task of our own choosing. Pick something manageable: a new function, a small feature, or a fix to an existing piece of code.
+
+1. **Ask an agent to draft an implementation plan.** Describe the task and ask the agent to produce a written specification covering the approach, the files or components involved, and how we'll know the work is complete.
+2. **Save the plan to a file.** Rather than leaving it in the conversation, write it to disk (for example, `plan.md`). This gives us a durable artifact we can review, revise, and return to later.
+3. **Review the plan on our own.** Read through it as though we were about to hand it to a teammate. Does the approach make sense? Are there requirements or edge cases the plan doesn't address? Is anything ambiguous enough that two different people could implement it two different ways?
+4. **Ask clarifying questions.** Bring any gaps or concerns back to the agent and ask it to address them directly in the plan, rather than assuming they'll be resolved during implementation.
+5. **Update the file.** Once we're confident the plan reflects what we actually want built, save the revised version. This is the plan we'd carry into the implementation phase.
+
+### !end-callout
+
 ### Phase 2: Implementation
 
 With a reviewed plan in hand, implementation can proceed. An agent works through the plan, writing code, running tests, and handling errors. Compared to implementation without a plan, this phase is substantially more predictable: the agent has clear instructions, the scope is defined, and there are testable success criteria to work against.
@@ -100,6 +114,21 @@ It's worth noting that agents working through a long implementation plan will of
 
 When the implementation has reached the criteria defined in the plan, or when we have hit a defined stopping point, we move to review.
 
+### !callout-info
+
+## Try it out!
+
+Now let's carry the plan we saved earlier into an implementation session.
+
+1. **Point the agent to the saved plan file.** Rather than re-explaining the task, reference the plan by its file path so the agent works from the reviewed specification instead of a fresh, unreviewed description.
+2. **Include testing in the same session.** Ask the agent to write and run tests as part of implementing each piece, not as a separate step tackled afterward. This keeps the relevant context available while it's still useful.
+3. **Commit at logical checkpoints.** As distinct pieces of the plan are completed and tests pass, commit that work before moving to the next piece. These commits give us recovery points if a later change causes problems.
+4. **Watch for repeated, unproductive cycling.** It's normal for an agent to run a test, hit a failure, and try again. If we notice the same failing approach repeating without progress, pause the session and redirect it, either by adding missing context or narrowing the current step.
+
+By the end of this, we should have working code committed in stages, produced from a plan we already reviewed (rather than one improvised along the way).
+
+### !end-callout
+
 ### Phase 3: Review & Iterate
 
 The review phase evaluates what was produced against what was planned. It's not just proofreading for syntax or style. A thorough review asks: does this implementation actually satisfy the requirements? Does it handle edge cases? Are there security implications? Does it follow the architectural approach we decided on?
@@ -113,6 +142,26 @@ After automated or AI-assisted review, the final step in this phase is human rev
 
 ![Circular image split into thirds where each section represents a phase of the recommended workflow: planning, implementation, and review.](assets/workflows/workflow_phases.png)
 *Fig. The steps of the recommended workflow showing how the planning, impementation, and review phases flow into each other. ([Full Size Image](assets/workflows/workflow_phases.png))*
+
+### !callout-info
+
+## Try it out!
+
+Let's put the results of our earlier implementation through a review before deciding it's done.
+
+1. **Compare the result against the saved plan.** Read through the implementation and check it against the specification we wrote earlier, not just against what looks like reasonable code. A few things worth checking specifically:
+    - **Requirements**: does the implementation actually do what the plan called for, not just something adjacent to it?
+    - **Edge cases**: are the edge cases we identified during planning handled, and are there any that were missed?
+    - **Tests**: do the tests that were written actually exercise the requirements and edge cases, and do they pass?
+    - **Architecture**: does the approach match what we agreed on in the plan, or did the implementation drift into a different structure along the way?
+    - **Security**: does the code introduce any obvious risks, such as unvalidated input or exposed data, that the plan didn't account for?
+    - **Readability**: could another person on our team pick this up and understand it without extra explanation?
+2. **Decide: commit or iterate.** Based on that review, decide whether the work is ready to commit as is, needs another pass through implementation, or points to a gap in the plan itself that sends us back to planning.
+    - **If iterating, document the specific feedback.** Rather than asking for another attempt, note exactly what fell short and where, so the next round has something concrete to work from.
+
+This phase is where our judgment carries the most weight. The agent can produce output to check against the plan, but the decision to commit, revise, or replan is ours to make.
+
+### !end-callout
 
 ## Patterns to Know
 
@@ -131,6 +180,20 @@ When a critic session identifies violations or gaps, those findings are returned
 
 As always, there is a tension between our finite resources (tokens) and what we can do with agents. Adversarial review costs more in tokens than single-session review, because we are running additional sessions. The tradeoff is that it tends to catch a category of errors that single-session review misses, and is more likely to produce specific and targeted feedback. 
 
+### !callout-info
+
+## Try it out!
+
+Let's try separating the reviewer from the author using the plan and implementation from our earlier steps.
+
+1. **Start a fresh session with no history from implementation.** Open a new agent session that has no access to the conversation where the code was written. 
+2. **Give it only the plan and the output.** Provide the fresh session with the saved plan file and the resulting code, without summarizing what happened during implementation or explaining our own opinion of the result.
+3. **Ask it to evaluate the output against the plan.** Have it check specifically for spec violations, missed requirements, and gaps rather than a general impression of quality.
+4. **Compare its findings to our own review.** Note where the fresh session caught something we missed, and where the two reviews agree. Differences here are often the clearest evidence of what single-session review misses.
+5. **Feed any findings back to implementation.** If the fresh session surfaces real issues, treat them as a concrete list to address, then repeat implementation and review until we're satisfied.
+
+### !end-callout
+
 ### Fan-Out
 
 The fan-out pattern addresses a different challenge: some tasks involve a large number of independent subtasks that can be completed in parallel rather than in sequence.
@@ -148,6 +211,22 @@ Fan-out is useful when:
 - The volume of work would otherwise cause a single session's context window to fill before completion
 
 Because each subagent works in a clean context window focused on a single task, their outputs tend to be more consistent and easier to synthesize than what a single session produces when juggling many concerns at once.
+
+### !callout-info
+## Try it out!
+
+Let's try the fan-out pattern on a task that splits naturally into independent pieces.
+
+1. **Pick a task with independent subtasks.** Look for something like updating several unrelated modules, writing tests for a handful of separate functions, or researching multiple topics that don't depend on each other's results. 
+    - For this example, if you don't have a project or task handy, the task could be something like taking a paragraph of text and asking each agent write a certain number of the sentences to different files.
+2. **Write a plan that identifies the independent pieces.** Before delegating anything, make sure the plan spells out which subtasks can run without waiting on one another. Fan-out only helps when the pieces are genuinely independent.
+3. **Ask an orchestrating agent to delegate the subtasks.** Rather than working through the pieces one at a time in a single session, have the orchestrator assign each subtask to its own isolated session.
+4. **Let each subagent work in its own session.** Each one should only have the context it needs for its piece, not the full scope of the whole task.
+5. **Review how the orchestrator synthesizes the results.** Once the subagents return their output, check how it gets combined into a single result. Does anything get lost or contradict another piece in the process?
+6. **Weigh the tradeoff.** Note how long this took compared to doing the same task in a single sequential session, and consider the token cost of running multiple sessions at once. Fan-out is worth it when the speed gain outweighs that added cost.
+    - For our example task of splitting up a paragraph across files, the cost does not justify using multiple agents, doing that work manually or with a single agent would work just as well.
+
+### !end-callout
 
 #### Beyond Fan-out: Managing Multiple Agent Sessions
 
