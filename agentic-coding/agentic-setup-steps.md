@@ -1,7 +1,7 @@
 # Setting up Our Workspace
 
 We'll be using two tools to provide free access to large language models for coding agents.
-- [Github Copilot](https://github.com/features/copilot), through the GitHub Student Develoepr Pack
+- [Github Copilot](https://github.com/features/copilot), through the GitHub Student Developer Pack
 - [OpenRouter](https://openrouter.ai/)
 
 Once our accounts are set up, both of these will be used from inside VS Code, keeping our tools in one location so we don't need to leave our IDE to add agents to our workflow. We will also explore sandboxing as a way to secure agents, and look at what sandboxing controls VS Code provides.
@@ -54,7 +54,7 @@ To add Copilot to VS Code, we need to install the Copilot extension:
    *Fig. "GitHub Copilot" in the VS Code Extension search results*
 
 3. We can install GitHub Copilot using the "Install" button directly on the entry in the results list or click the "GitHub Copilot" result to go to their extension page and click "Install" from there.
-   - When we install the "GitHub Copilot" extension it will automatically install the "GitHub Copilot Chat" extension and vice versa. These are both required for Copilot to work. 
+   - You may see other Copilot extensions listed, only the "GitHub Copilot" extension is necessary for what we will cover. 
 
    ![The information page for the GitHub Copilot Extension](../working-w-copilot/assets/setting-up-copilot/vscode-copilot-extension-page.png)  
    *Fig. "GitHub Copilot"'s extension page in VS Code*
@@ -77,11 +77,13 @@ To use OpenRouter, we will need to:
 ### OpenRouter Account and API Key
 
 1. Browse to [OpenRouter](https://openrouter.ai/) and click the "Sign Up button".
+
     ![OpenRouter homepage with sign up button highlighted](assets/set-up/openrouter_home.png)
     *Fig. OpenRouter homepage*
 
 2. This will open a pop-up that lets you create an account using a username & password or select from other auth options. Choose the option you prefer; once your information is filled out and submitted, you should receive and email to confirm your account.
-    ![OpenRouter "Create Account" pop up showing multiple modalities to choose](assets/set-up/openrouter_sign_up.png)
+
+    ![OpenRouter "Create Account" pop up showing multiple modalities to choose](assets/set-up/openrouter_sign_up.png)   
     *Fig. OpenRouter "Create Account" UI*
 
 3. After clicking the link in your email to confirm your account you may be brought either to a home screen or directly to the "Credits" billing page. You are required to add payment information to your account, however, you are not required to add any credits to OpenRouter to access the free models they host. If you are not immediately brought to payment information, it can be accessed from the menu at the top right of the page:
@@ -103,7 +105,8 @@ To use OpenRouter, we will need to:
             *Fig. Where to create a new key on OpenRouter's "API Keys" page ([Full Size Image](assets/set-up/openrouter_new_key_button.png))*
         
         3. In the pop up that displays, you are required to choose a name to help you distinguish between your keys. Nothing else is required to create a key, but we recommend looking through the options, since this is where we could add restrictions like a spending limit to the API key. 
-            ![OpenRouter's UI for creating a new API key](assets/set-up/openrouter_new_key_ui.png)
+
+            ![OpenRouter's UI for creating a new API key](assets/set-up/openrouter_new_key_ui.png)   
             *Fig. OpenRouter's form for creating a new API key*
 
         4. Once the key is created, it will only be displayed once. Copy the value and hold onto it securely since we'll need it in the next section!
@@ -113,37 +116,37 @@ To use OpenRouter, we will need to:
 To add OpenRouter to VS Code so we can choose models they provide from inside our IDE, we need to add OpenRouter as a provider and supply our API key.
 
 1. Inside of VS Code, use the shortcut "Shift" + "cmd" + "i" (`⌃⌘I`) to open the chat view. Click the model picker button at the bottom of the chat pane. This field will show the name of the currently selected model or "Auto" if the IDE is set to automatically pick from available models.
-    ![VS Code chat pane with the model picker button highlighted](assets/set-up/vscode_chat_models_button.png)
+    ![VS Code chat pane with the model picker button highlighted](assets/set-up/vscode_chat_models_button.png)   
     *Fig. VS Code's model picker button in the chat UI*
 
 2. In the pop up that displays, press the gear icon in the lower right corner to go to the model settings view.
-    ![VS Code showing the model picker UI with the model settings icon highlighted](assets/set-up/vscode_model_settings_button.png)
+    ![VS Code showing the model picker UI with the model settings icon highlighted](assets/set-up/vscode_model_settings_button.png)   
     *Fig. VS Code's model picker UI with the model settings icon highlighted*
 
 3. From the model settings screen, press the "Add Models" button next to the search bar at the top of the frame, then select "OpenRouter" from the drop down that appears.
-    ![VS Code's model settings screen showing the "Select a provider" drop down when adding a new model](assets/set-up/vscode_manage_models_view.png)
+    ![VS Code's model settings screen showing the "Select a provider" drop down when adding a new model](assets/set-up/vscode_manage_models_view.png)   
     *Fig. VS Code's drop down for choosing a provider when adding new models ([Full Size Image](assets/set-up/vscode_manage_models_view.png))*
 
 4. A prompt will appear at the top of the screen asking for you to choose a name to group the OpenRouter models under in the UI. "OpenRouter" will be entered in the field by default, press enter to accept this name.
-    ![VS Code UI for creating the group name for a set of models](assets/set-up/vscode_name_provider_group.png)
+    ![VS Code UI for creating the group name for a set of models](assets/set-up/vscode_name_provider_group.png)   
     *Fig. VS Code's text field for naming the model group ([Full Size Image](assets/set-up/vscode_name_provider_group.png))*
 
 5. A new prompt will appear at the top of the screen asking for your API key. Paste in your OpenRouter API key and press enter.
-    ![VS Code's UI for adding a model provider's API key](assets/set-up/vscode_add_api_key.png)
+    ![VS Code's UI for adding a model provider's API key](assets/set-up/vscode_add_api_key.png)   
     *Fig. VS Code's text field for adding a provider's API key ([Full Size Image](assets/set-up/vscode_add_api_key.png))*
 
 6. After a moment, the model settings ui should refresh and we should be able to see a new section and many more models that we now have access to. If at any point we need to update our API key or want to remove OpenRouter from VS Code, we can press the settings icon on the group name for options. 
-    ![VS Code's model settings screen updated to show OpenRouter and its available models](assets/set-up/vscode_new_models_showing.png)
+    ![VS Code's model settings screen updated to show OpenRouter and its available models](assets/set-up/vscode_new_models_showing.png)   
     *Fig. Updated screen showing OpenRouter models and settings to update or remove the model provider ([Full Size Image](assets/set-up/vscode_new_models_showing.png))*
 
 ### Choosing Models with OpenRouter
 
 At this point we have access to multiple models and model providers! To see what models are curently free on OpenRouter, check out their "Models" page and use the filter options to select "Text" input and "Free" pricing. 
-    ![OpenRouter's "models" page with filters for input type and cost highlighted](assets/set-up/openrouter_models_page_filtered.png)
+    ![OpenRouter's "models" page with filters for input type and cost highlighted](assets/set-up/openrouter_models_page_filtered.png)   
     *Fig. OpenRouter's "models" page with filters for input type and cost highlighted ([Full Size Image](assets/set-up/openrouter_models_page_filtered.png))*
 
 When you see one that you like, we can search for that name under the model picker in VS Code!
-    ![VS Code's model picker in the chat pane with the search bar highlighted](assets/set-up/vscode_model_picker_search_box.png)
+    ![VS Code's model picker in the chat pane with the search bar highlighted](assets/set-up/vscode_model_picker_search_box.png)   
     *Fig. We can search models in VS Code using the search bar at the top of the model picker UI*
 
 ## Sandboxing and Scoping Access
@@ -207,7 +210,7 @@ We recommend that folks turn this setting on to give some security and start get
 - **File writes** are limited to the current working directory and its subdirectories.
 - **Network access** is blocked by default, though we can allow specific domains if a command needs to reach one.
 
-Because the boundary is enforced by the OS, commands that stay inside it run without a confirmation prompt. Anything that needs more than the sandbox allows surfaces a prompt asking whether to run it outside the sandbox instead. The isolation mechanism underneath differs by platform (Seatbelt on macOS, `bubblewrap` and `socat` on Linux, the `MXC runtime` on Windows), but VS Code manages those details once the setting is turned on.
+Because the boundary is enforced by the OS, commands that stay inside it run without a confirmation prompt. Anything that needs more than the sandbox allows surfaces a prompt asking whether to run it outside the sandbox instead. The isolation mechanism underneath differs by platform, but VS Code manages those details once the setting is turned on.
 
 For our first agentic coding sessions, a reasonable combination is: 
 1. keep the permission level on Default Approvals
@@ -215,7 +218,10 @@ For our first agentic coding sessions, a reasonable combination is:
 
 This pairs a human checkpoint before risky actions with an OS-enforced boundary in case something proceeds that we didn't anticipate, at the cost of a single settings change. As we mentioned earlier in the lesson, over time our tasks may grow more autonomous or start running unattended for longer stretches. At that point container isolation becomes worth the added setup, but VS Code's built-in sandboxing is enough to get us started.
 
-## Info & Resources
+## Next Steps & Notes
+
+Before moving on to the next lesson, we recommend opening up a project that you are familiar with in VS Code. Our goal is for students to keep a coding project up while reading through the lessons and pause to try things out as they go.
+- Any project can be used to try things out, but using a familiar project means that we can focus on the new topics and what is or is not working well with the agentic tools without also ramping up on a new codebase.
 
 ### VS Code Shortcuts
 
@@ -233,5 +239,107 @@ Students that already have or choose to later procure their own subscriptions to
 
 ## Summary
 
+In this lesson we set up the tools we'll use for agentic coding and looked at how to keep those tools within safe boundaries. 
+
+We walked through activating GitHub Copilot with the Student Developer Pack and installing its VS Code extension, then created an OpenRouter account, generated an API key, and connected it to VS Code as an additional model provider. 
+
+On the security side, we looked at why sandboxing matters. 
+- Since agents generate output based on statistical likelihood rather than an assessment of whether an action is safe, external constraints are what keep file access and command execution within safe bounds. 
+- We compared three levels of sandboxing (application permissions, OS-level isolation, and full container isolation), each trading more setup for a stronger guarantee. 
+- Finally, we ended with a practical starting point in VS Code: keeping approvals on their default setting while turning on VS Code's built-in agent sandboxing to restrict file and network access at the OS level.
+
 ## Check for Understanding
 
+<!-- prettier-ignore-start -->
+### !challenge
+* type: checkbox
+* id: hF0EIqaqXEuiy67YxscCNvMUyq
+* title: Setting up Our Workspace
+##### !question
+
+Rather than using the default API key OpenRouter generates for us, we decide to create a new key instead. Which of the following are reasons this can be a good idea?
+
+##### !end-question
+##### !options
+
+* A new key lets us set guardrails, such as a spending limit that deactivates the key before it uses up more credits than we intend.
+* We can give a new key a name, which makes it easier to track usage if we end up creating multiple keys for different purposes.
+* Creating a new key is the only way to connect OpenRouter to VS Code; the default key cannot be used at all.
+* Creating a new key removes the requirement to add payment information to our OpenRouter account.
+
+##### !end-options
+##### !answer
+
+* A new key lets us set guardrails, such as a spending limit that deactivates the key before it uses up more credits than we intend.
+* We can give a new key a name, which makes it easier to track usage if we end up creating multiple keys for different purposes.
+
+##### !end-answer
+##### !explanation
+
+The default key OpenRouter generates has no restrictions, so it works for connecting to VS Code, but it doesn't offer any spending controls. Creating a new key lets us name it and optionally add guardrails, like a spending cap, to help manage costs if we later add credits or try paid models. Payment information is required on our OpenRouter account regardless of which key we use.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: BbnvAEMPaZ9ZeHN0WBgAbpYeOG
+* title: Setting up Our Workspace
+##### !question
+
+An agent is given unrestricted file system and shell access, and later writes to a file well outside the project directory. The agent wasn't instructed to do this and had no malicious goal. Which explanation best fits why this happened?
+
+##### !end-question
+##### !options
+
+* The agent weighed the risk of the action and incorrectly concluded it was safe.
+* The agent produced whatever action was statistically likely given its context, regardless of whether that action was actually safe to run.
+* This can only happen if the agent was deliberately prompted to act outside the project directory.
+* Agents are physically incapable of accessing paths outside the project directory unless a sandbox is disabled.
+
+##### !end-options
+##### !answer
+
+* The agent produced whatever action was statistically likely given its context, regardless of whether that action was actually safe to run.
+
+##### !end-answer
+##### !explanation
+
+Agents don't evaluate whether an action is safe before producing it. They generate output based on statistical text prediction, so if a file write or command is statistically likely given the surrounding context, the agent will produce it whether or not it's actually safe. This is exactly why external constraints like sandboxing matter: they enforce boundaries that prompting alone can't reliably guarantee.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: UDIHTQVx05hLJxTLYU9PvZouw7
+* title: Setting up Our Workspace
+##### !question
+
+We're about to let an agent run an unattended, multi-step script from an external source against a sensitive project, and we want the strongest available guarantee that it can't touch anything outside a specific folder. We're willing to accept extra setup time in exchange for that guarantee. Which level of sandboxing best fits this situation?
+
+##### !end-question
+##### !options
+
+* Application-level permissions, since they can be set to deny file writes and command execution entirely.
+* OS-level isolation, since tools like Seatbelt or seccomp require no additional setup to use.
+* Container isolation, since it fully separates the agent's filesystem, network, and process view from the host machine.
+* No sandboxing is needed as long as we only run scripts we've read in advance.
+
+##### !end-options
+##### !answer
+
+* Container isolation, since it fully separates the agent's filesystem, network, and process view from the host machine.
+
+##### !end-answer
+##### !explanation
+
+Container isolation is the strongest point on the sandboxing spectrum: everything outside an explicitly mounted directory is fully separated from the host machine, which fits a high-risk, unattended scenario. It also requires the most setup, typically a runtime like Docker and a decision about what to mount into the container, which is the tradeoff we accept for that stronger guarantee. Application-level permissions only draw lines around categories of action, and OS-level isolation, while lower effort, is a lighter guarantee than full container separation.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->

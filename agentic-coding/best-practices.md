@@ -334,6 +334,68 @@ Custom agents make model choice persistent, encoding the right model alongside t
 <!-- prettier-ignore-start -->
 ### !challenge
 * type: multiple-choice
+* id: k3ZqW8bNpX1yT6mRvJ4cL9dQaF
+* title: Best Practices
+##### !question
+
+After several exchanges with an agent, we notice the direction taken won't meet our needs. We want to return our files to an earlier state and remove the conversation history and file changes that came after that point. What should we do?
+
+##### !end-question
+##### !options
+
+a| Manually track and reverse each file change we believe the agent made.
+b| Hover over the message from the point we want to return to and select "Restore Checkpoint."
+c| Close the session and start an entirely new one with a fresh prompt.
+d| Wait for the agent to finish its current response before taking any action.
+
+##### !end-options
+##### !answer
+
+b|
+
+##### !end-answer
+##### !explanation
+
+Every response an agent produces serves as a checkpoint. Restoring a checkpoint returns our files to the state they were in at that point and removes any conversation history and file changes that came after it. This gives us a way to fully back out of a direction we explored, rather than manually tracking and reversing each change ourselves.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
+* id: H7tY2sVbK9mQwL4xN0pR6cJ3zB
+* title: Best Practices
+##### !question
+
+While an agent is actively working through a task, we realize we forgot to include a constraint in our original prompt. The agent's progress so far still looks correct, and we don't want to stop or change the work already in progress. Which option should we choose from the send button's dropdown?
+
+##### !end-question
+##### !options
+
+a| "Add to queue," which waits for the current response to finish before sending our message.
+b| "Steer with message," which pauses the agent after its current tool call to process our message right away.
+c| "Stop and send," which cancels the current request and removes any unsaved work.
+d| Restore an earlier checkpoint from the conversation history.
+
+##### !end-options
+##### !answer
+
+a|
+
+##### !end-answer
+##### !explanation
+
+"Add to queue" waits for the current response to finish before sending our message, so it doesn't stop or alter the work already underway. "Steer with message" is better suited to adjusting behavior mid-task since it pauses the agent after its current tool call, and "Stop and send" cancels the current request entirely, which would discard unsaved progress we want to keep. Restoring a checkpoint addresses undoing past work, not adding a missing instruction to work still in progress.
+
+##### !end-explanation
+### !end-challenge
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+### !challenge
+* type: multiple-choice
 * id: m7TsA1eWqN5bUjXcF0rKgY4vP
 * title: Best Practices
 ##### !question

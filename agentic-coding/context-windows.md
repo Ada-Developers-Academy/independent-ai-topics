@@ -141,10 +141,11 @@ Compaction is useful and often necessary, but it comes with the tradeoff that so
 One of the most effective habits we can develop is resisting the urge to load large files directly into the conversation. Instead of asking an agent to read and hold an entire codebase, we can be more surgical:
 
 - Reference a file by its path and ask the agent to load only the relevant sections
+  - For example, we can tell an agent something like "The file located at `./src/routes/user_routes.py` can be used as an example, the file to implement is located at `./src/routes/admin_routes.py`" over copy & pasting one or both of the contents of those files into the context.
 - Summarize what a file or module does rather than pasting its full contents
 - Provide the agent with a high-level map of the codebase and let it pull in details on demand
 
-The same principle applies to plans and documents. Rather than re-pasting a long planning document into every message, we can write it to a file, tell the agent where that file lives, and let it read it when needed. The file reference itself costs almost nothing in tokens; the full document only enters the context when the agent actually needs it.
+The same principle applies to plans and documents. Rather than re-pasting a long planning document into every message, we can write it to a file, tell the agent where that file lives, and let it read it when needed. The file reference itself costs almost nothing in tokens; the full document only enters the context when the agent needs it.
 
 Being precise with what we reference also matters at a smaller scale. For example: 
 - If a bug is in one function, pointing the agent at that function is *far* cheaper than sharing the whole file. 
@@ -163,6 +164,23 @@ When we write important outputs to files rather than relying on conversation his
 
 Conversely, we should be thoughtful about when we read files back in. Loading something into context has a cost. If an agent doesn't need the full contents of a file to complete the current step, there's no reason to pay for it.
 
+This is a habit that supports us outside of AI as well. These same files that help keep AI agents oriented and on track can help us or our teammates, days, weeks, or months down the road when we may not remember details of an implementation plan or reasoning behind specific decisions in the architecture.
+
+Try it out! 
+
+### !callout-info
+
+## Try it out!
+
+Next time you work on a project with agents, when you are done planning and ready to implement, ask the agent to save your plan to disk before getting started.
+
+As you go, if decisions are made, ask the AI to keep track of those in the implementation plan file or a separate "decisions" file if you'd like.
+
+What kinds of decisions and documentation do you find useful to review for your learning? As you come up with questions, topics you want to review, or other thoughts you don't want to lose track of, ask the AI to save them to a file that you can look over later.
+- This can be great for helping organize questions and topics that you want to ask about
+
+### !end-callout
+
 #### End-of-Session Summaries
 
 A practice that makes new agent sessions feel less disruptive is building a summary step into the end of each session. Before closing a session, we ask the agent to write a brief summary file capturing:
@@ -176,6 +194,16 @@ A practice that makes new agent sessions feel less disruptive is building a summ
 This summary file becomes the starting context for the next session. It can be loaded alongside any relevant plan documents to give the new session the essential continuity without the clutter of the full prior history.
 
 As a side benefit, over the course of a longer project, these session summaries build into a chronological record of how the project evolved, which decisions were made and why, and what was tried and abandoned. This kind of record is useful for project retrospectives, onboarding new team members, or revisiting a decision that was made months earlier.
+
+### !callout-info
+
+## Try it out!
+
+Before you wrap up your next agentic session, use the prompt below, or create your own that captures the details you are most interested in to ask the AI to write a summary to disk:
+
+> 
+
+### !end-callout
 
 ### Starting a Fresh Session
 
