@@ -1,6 +1,6 @@
 # Adding Outside Knowledge: MCP & RAG
 
-In the agentic coding overview, we noted that a model on its own only knows two things: what was in its training data and whatever currently sits in its context window. A model can't natively query a production database, open a ticket in our project tracker, or read a document we wrote last week. Two mechanisms close that gap in different ways:
+At this point, we know that a model on its own knows two things: what was in its training data and whatever currently sits in its context window. A model can't natively query a production database, open a ticket in our project tracker, or read a document we wrote last week. Two mechanisms close that gap in different ways:
 - Model Context Protocol (MCP) gives an agent a way to reach external tools and services.
 - Retrieval-Augmented Generation (RAG) gives an agent a way to pull in relevant knowledge from a large external source without loading all of it upfront.
 
@@ -17,12 +17,12 @@ In this lesson, we'll look more closely at how each of these works, what connect
 
 | Vocab | Definition | Synonyms | How to Use in a Sentence |
 | --------- | --------- | -------- | --------- |
-| Model Context Protocol (MCP) | An open standard that defines how an agent connects to external tools and services, and how those tools describe themselves to the agent. | MCP | "We used MCP to connect the agent to our internal deployment system instead of writing a custom integration ourselves." |
+| Model Context Protocol (MCP) | An open standard that defines how an agent connects to external tools and services, and how those tools describe themselves to the agent. | MCP | "We used MCP to connect the agent to our internal deployment system." |
 | MCP Server | A program that exposes a defined set of tools, and their schemas, to an agent over the Model Context Protocol. | Tool server | "We connected a Slack MCP server so the agent could post updates to our team channel without us copying and pasting them manually." |
 | Tool Schema | The structured definition of a tool's name, description, and expected inputs and outputs, provided by an MCP server. | Tool spec | "The tool schema specified that the `create_ticket` tool required a title and a priority level as inputs." |
 | Chunk | A smaller piece of a larger document, broken up so it can be individually embedded and retrieved by a RAG system. | Passage, segment | "The onboarding guide was split into chunks by section, so retrieval could return just the relevant section instead of the whole guide." |
-| Embedding | A numeric representation of a piece of text that captures its meaning, used to compare how similar two pieces of text are. | Vector representation | "The retrieval system converted our question into an embedding so it could compare it against the embeddings stored for each document chunk." |
-| Vector Database | A database designed to store embeddings and quickly find the ones most similar to a given query. | Embedding store | "The support team's RAG system stored their help articles in a vector database so relevant ones could be retrieved in milliseconds." |
+| Embedding | A numeric representation of a piece of text that captures its meaning, used to compare how similar two pieces of text are. | Vector representation | "The retrieval system converted our question into an embedding so it could be compared against the embeddings stored for each document chunk." |
+| Vector Database | A database designed to store embeddings and quickly find the ones most similar to a given query. | Embedding store | "The support team's RAG system stores their help articles in a vector database so relevant chunks of articles can be retrieved in milliseconds." |
 
 ## Reaching External Tools: MCP Servers
 
@@ -34,7 +34,7 @@ Connecting to an MCP server looks a little different depending on where that ser
 
 A local server runs as a process on our own machine, alongside whatever agent tool we're using. We typically set one up by editing a configuration file that tells our agent host what command to run to start the server. That configuration usually specifies:
 - A name for the server, so we can identify it in our tool's interface
-- The command used to launch it, along with any arguments it needs, such as which directories a file-access server is allowed to touch
+- The command used to launch it, along with any arguments it must be supplied to run successfully
 - Any environment variables the server needs, like an API key it uses to reach a service on our behalf
 
 Once that configuration is saved and our agent host is restarted, it starts the server process and communicates with it using standard input and output, often referred to as **stdio**.
@@ -68,12 +68,12 @@ Here's what each part is doing:
 
 - **`"filesystem"`**: A name we're choosing for this server. This is just a label, it's how the server shows up in our agent host's interface, and it doesn't need to match the package name or anything else in the configuration.
 
-- **`"command": "npx"`**: The program our agent host should run to start the server. `npx` is a tool that comes with Node.js, and its job here is to fetch and run a JavaScript package without us having to install it separately first.
+- **`"command": "npx"`**: The command our agent host should run to start the server. `npx` is a tool that comes with Node.js, and its job here is to fetch and run a JavaScript package without us having to install it separately first.
 
 - **`"args"`**: The list of arguments passed to that command, in order, exactly as if we'd typed them into a terminal ourselves:
-  - **`"-y"`**: Tells `npx` to go ahead and install the package automatically if it isn't already available locally, rather than pausing to ask us to confirm.
+  - **`"-y"`**: Tells `npx` to install the package automatically if it isn't already available locally, rather than pausing to ask us to confirm.
   - **`"@modelcontextprotocol/server-filesystem"`**: The specific package to run. This is the filesystem server itself, the code that knows how to read files, list directories, and so on.
-  - **`"/Users/username/Desktop"` and `"/Users/username/Downloads"`**: These last two arguments aren't flags, they're arguments given to the filesystem server when it launches. These are read to determine which directories the server is allowed to touch. Every argument from this point in the array onward is handled by the server's logic rather than by `npx`.
+  - **`"/Users/username/Desktop"` and `"/Users/username/Downloads"`**: These last two arguments aren't flags for `npx`, they're arguments given to the filesystem server when it launches. These are read to determine which directories the server is allowed to touch. Every argument from this point in the array onward is handled by the server's logic rather than by `npx`.
 
 A couple notes about this server and its definition:
 
@@ -87,7 +87,7 @@ A couple notes about this server and its definition:
 Let's connect a local MCP server in VS Code and confirm that its tools show up where we expect.
 
 1. Inside a project run **MCP: Open User Configuration** from the Command Palette to open the MCP configuration file.
-2. Add a `filesystem` server entry using the configuration we walked through above by copy & pasting the configuration then updating the directory paths to point at folders on our own machine.
+2. Add a `filesystem` server entry using the configuration we walked through above by copy & pasting the configuration then updating the directory paths (`"/Users/username/Desktop"`, `"/Users/username/Downloads"`) to point at folders on our own machine.
 3. Save the file. VS Code will ask us to confirm that we trust the server before it starts, since local servers can run code on our machine.
 4. Open the Chat view and select **Configure Tools** in the chat input. We should see the tools VS Code discovered from our new server listed there.
     ![VS Code chat window showing the "Configure Tools" button](assets/mcp-rag/vscode_chat_configure_tools_button.png)   
@@ -116,7 +116,7 @@ Because the server isn't running under our own user account, most remote servers
 
 #### Remote MCP Configuration
 
-Let's take a look at our MCP server configuration from earlier but with a remote server connection added to the top of the `servers` list. 
+Let's take a look at our MCP server configuration from earlier, this time with a remote server connection added to the top of the `servers` list. 
 
 The new connection points at [GitHub's hosted MCP server](https://github.com/github/github-mcp-server), giving an agent tools for working with repositories, issues, and pull requests:
 
