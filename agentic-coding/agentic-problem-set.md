@@ -13,14 +13,14 @@ A team is planning an agentic coding workflow and wants to know where human revi
 ##### !options
 
 * Human review is only needed when the agent reports an error, since successful-looking outputs can be assumed to be correct.
-* Human review is most valuable before the agent executes on a plan and before agent-generated changes are accepted into the codebase, because confident-looking outputs can still be incorrect.
+* Human review is most valuable before the agent executes on a plan and before agent-generated changes are accepted into the codebase.
 * Human review should happen at every individual loop iteration to ensure each tool call is appropriate.
 * Human review is no longer necessary once the steering file and skills are configured correctly.
 
 ##### !end-options
 ##### !answer
 
-* Human review is most valuable before the agent executes on a plan and before agent-generated changes are accepted into the codebase, because confident-looking outputs can still be incorrect.
+* Human review is most valuable before the agent executes on a plan and before agent-generated changes are accepted into the codebase.
 
 ##### !end-answer
 ##### !explanation
@@ -105,7 +105,7 @@ A team wants their coding agent to follow their team's 12-step process for scaff
 ##### !end-question
 ##### !options
 
-* Include the 12-step process as a tool the agent can execute.
+* Create a custom agent with the 12-step process as the agent's system prompt.
 * Add it to the steering file so it is loaded into every session by default.
 * Create a skill file for the scaffolding process, which the agent loads when a relevant task is identified.
 * Configure a RAG system to retrieve the process from the team's internal wiki on demand.
@@ -118,7 +118,7 @@ A team wants their coding agent to follow their team's 12-step process for scaff
 ##### !end-answer
 ##### !explanation
 
-A skill file is the right component for providing procedural knowledge for a specific task type. The skill's description acts as a trigger: when the agent encounters a task that matches, it loads the full instructions. This keeps the information modular, reusable, and out of the context window until it's actually needed. A steering file is better suited for persistent project-wide context that applies to every session, not task-specific procedures. RAG is for large document stores; a 12-step process is better maintained as a skill.
+A skill file is the right component for providing procedural knowledge for a specific task type. The skill's description acts as a trigger: when the agent encounters a task that matches, it loads the full instructions. This keeps the information modular, reusable, and out of the context window until it's actually needed. A steering file is better suited for persistent project-wide context that applies to every session, not task-specific procedures. RAG is for large document stores.
 
 ##### !end-explanation
 ### !end-challenge
