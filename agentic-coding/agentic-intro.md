@@ -6,6 +6,7 @@ Let's start with a perhaps familiar scenario. When we ask an AI tool to help deb
 3. read the response (maybe follow up with questions to ensure understanding or explore a concept)
 4. decide if it makes sense and check for accuracy
 5. apply the changes 
+
 This flow is useful, but it's very manual; we are the one coordinating each of the steps.
 
 Agentic coding is a different setup. Rather than a single exchange, we configure a system that runs a loop: 
@@ -17,7 +18,7 @@ Agentic coding is a different setup. Rather than a single exchange, we configure
 This keeps going, without a human prompting each turn, until the task is done or the system reaches a stopping condition. 
 - The underlying engine is still a language model doing text prediction, but the infrastructure around it (tools, structured context, orchestration) enables coding agents to do sustained, multi-step work across a codebase.
 
-In this lesson, we'll build a shared vocabulary for the concepts that make this possible. We'll define what an agent actually is under the hood, introduce the key components of an agentic setup, and clarify what is and is not different about this approach compared to one-off prompting.
+In this lesson, we'll build a shared vocabulary for the concepts that make this possible. We'll define what an agent is under the hood, introduce the key components of an agentic setup, and clarify what is and is not different about this approach compared to one-off prompting.
 
 ## Learning Goals
 
@@ -33,7 +34,7 @@ In this lesson, we'll build a shared vocabulary for the concepts that make this 
 | Agent | A system that wraps a language model with tools and a control loop, enabling it to take actions, receive results, and produce successive outputs toward a goal. | AI agent, coding agent, autonomous agent | "We configured the agent with access to our file system and test runner so it could work through the failing tests without us intervening at each step." |
 | Context Window | The body of text that a language model has the ability to work with at any given point. Models have fixed size context windows and can only generate output based on the current contents of the window. | working memory | "When the context window filled with debugging output, earlier instructions were no longer in scope and the agent's outputs became less consistent." |
 | Subagent | An agent instance spawned to handle a specific, isolated subtask. | worker agent, child agent | "The primary agent spawned a subagent for the research phase so its own context window wouldn't be consumed by library documentation." |
-| Steering File | A persistent markdown document loaded into context at the start of every agent session. | project instructions, AGENTS.md, CLAUDE.md, agent config | "The steering file specifies which directories contain auto-generated code so agents don't attempt to modify them." |
+| Steering File | A persistent markdown document loaded into context at the start of every agent session. | project instructions, AGENTS.md, CLAUDE.md, agent config | "The steering file specifies which directories contain auto-generated code and instructs agents not to modify them." |
 | Skill | A markdown document that provides an agent with procedural instructions for a specific task. | agent skill, skill file | "Adding a code review skill gave the agent consistent instructions for summarizing pull request feedback in our team's format." |
 
 ## LLMs & Agents
@@ -57,7 +58,7 @@ This is why well-designed agentic workflows include:
 - **guardrails** - rules embedded in the system context to help prevent malicious use
 - **human review checkpoints** - moments where a person verifies the output before the next phase proceeds 
 
-In many organizations and production environments these aren't optional; they're required structures teams use to address the gap between statistical prediction and reliable software engineering.
+In many organizations and production environments these aren't optional; they're required structures teams use to help close the gap between statistical prediction and reliable software engineering.
 
 ### What Is an AI Agent?
 
@@ -65,7 +66,7 @@ At the core of any AI agent is a **large language model (LLM)**. What transforms
 
 - **Structured context**: System instructions, project files, skill documents, and conversation history all live in the context window and shape what the model produces.
 - **Tools**: External programs the agent can call — read a file, run a command, invoke an API, execute a test suite. The model's output specifies which tool to call and with what inputs; the tool runs and returns a result.
-- **A control loop**: Rather than generating one response and stopping, the agent runs in a cycle. The model produces output, the output triggers a tool call, the tool result is added to the context, and the model generates the next output. This repeats until the configured stopping conditions are met.
+- **A control loop**: Rather than generating one response and stopping, the agent runs in a cycle. It repeats until some stopping conditions are met: often, either a goal is reached or more content is not statistically likely.
 
 This combination is what makes an AI agent capable of multi-step, sustained work. The model itself hasn't changed, it's still doing text prediction, but the architecture around it enables us to use LLM-backed agents to complete complex tasks.
 
@@ -160,7 +161,7 @@ Because the agent loop runs on statistical text prediction rather than human jud
 - Configuring appropriate sandboxes and tool permissions
 - Steering the agent when it produces off-target outputs
 
-The goal isn't automation that replaces engineering judgment. It's a workflow where the agent handles a broader scope of mechanical work between our checkpoints, while we focus on the decisions that require context and judgment the agent doesn't have.
+We want to create a workflow where agents handle a broader scope of mechanical work between our checkpoints, while we focus on the decisions that require context and engineering judgment that agents don't have.
 
 ## Summary
 
@@ -222,7 +223,7 @@ A primary agent is working on a large feature. To research how a third-party lib
 ##### !options
 
 a| It allows the research to run on a more capable model than the primary agent uses.
-b| It prevents the primary agent's context window from being consumed by the research work, and returns only the relevant result.
+b| It prevents the primary agent's context window from being consumed by the research work.
 c| It ensures the research results are verified by a human before the primary agent uses them.
 d| It reduces the total number of tool calls made during the session.
 
