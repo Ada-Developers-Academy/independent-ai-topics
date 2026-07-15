@@ -81,7 +81,7 @@ To use OpenRouter, we will need to:
     ![OpenRouter homepage with sign up button highlighted](assets/set-up/openrouter_home.png)
     *Fig. OpenRouter homepage*
 
-2. This will open a pop-up that lets you create an account using a username & password or select from other auth options. Choose the option you prefer; once your information is filled out and submitted, you should receive and email to confirm your account.
+2. This will open a pop-up that lets you create an account using a username & password or select from other auth options. Choose the option you prefer; once your information is filled out and submitted, you should receive an email to confirm your account.
 
     ![OpenRouter "Create Account" pop up showing multiple modalities to choose](assets/set-up/openrouter_sign_up.png)   
     *Fig. OpenRouter "Create Account" UI*
@@ -96,7 +96,7 @@ To use OpenRouter, we will need to:
 
     - **New API Key**: To create a new API key: 
 
-        1. Click the top right menu and select "Workspaces" from the drop down. On the workspaces page there is a menu on the left of the page, click "API Keys". You can also view all of your existing API keys from this page and delete ones that are not in use.
+        1. Click the top right menu and select "Workspaces" from the drop down. On the workspaces page there is a menu on the left of the page, click "API Keys". 
             ![Screenshot of the OpenRouter workspaces site showing the steps to navigate to the API Keys page](assets/set-up/openrouter_workspaces.png)
             *Fig. Navigation to the API Keys view in OpenRouter ([Full Size Image](assets/set-up/openrouter_workspaces.png))*
         
@@ -127,7 +127,7 @@ To add OpenRouter to VS Code so we can choose models they provide from inside ou
     ![VS Code's model settings screen showing the "Select a provider" drop down when adding a new model](assets/set-up/vscode_manage_models_view.png)   
     *Fig. VS Code's drop down for choosing a provider when adding new models ([Full Size Image](assets/set-up/vscode_manage_models_view.png))*
 
-4. A prompt will appear at the top of the screen asking for you to choose a name to group the OpenRouter models under in the UI. "OpenRouter" will be entered in the field by default, press enter to accept this name.
+4. A prompt will appear at the top of the screen asking for a name to group the OpenRouter models under in the UI. "OpenRouter" will be entered in the field by default, press enter to accept this name.
     ![VS Code UI for creating the group name for a set of models](assets/set-up/vscode_name_provider_group.png)   
     *Fig. VS Code's text field for naming the model group ([Full Size Image](assets/set-up/vscode_name_provider_group.png))*
 
@@ -135,13 +135,15 @@ To add OpenRouter to VS Code so we can choose models they provide from inside ou
     ![VS Code's UI for adding a model provider's API key](assets/set-up/vscode_add_api_key.png)   
     *Fig. VS Code's text field for adding a provider's API key ([Full Size Image](assets/set-up/vscode_add_api_key.png))*
 
-6. After a moment, the model settings ui should refresh and we should be able to see a new section and many more models that we now have access to. If at any point we need to update our API key or want to remove OpenRouter from VS Code, we can press the settings icon on the group name for options. 
+6. After a moment, the model settings ui should refresh and we should be able to see a new section and many more models that we now have access to. 
+    - If at any point we need to update our API key or want to remove OpenRouter from VS Code, we can press the settings icon on the group name for options. 
+
     ![VS Code's model settings screen updated to show OpenRouter and its available models](assets/set-up/vscode_new_models_showing.png)   
     *Fig. Updated screen showing OpenRouter models and settings to update or remove the model provider ([Full Size Image](assets/set-up/vscode_new_models_showing.png))*
 
 ### Choosing Models with OpenRouter
 
-At this point we have access to multiple models and model providers! To see what models are curently free on OpenRouter, check out their "Models" page and use the filter options to select "Text" input and "Free" pricing. 
+We now have access to multiple models and model providers! To see what models are curently free on OpenRouter, check out their ["Models" page](https://openrouter.ai/models) and use the filter options to select "Text" input and "Free" pricing. 
     ![OpenRouter's "models" page with filters for input type and cost highlighted](assets/set-up/openrouter_models_page_filtered.png)   
     *Fig. OpenRouter's "models" page with filters for input type and cost highlighted ([Full Size Image](assets/set-up/openrouter_models_page_filtered.png))*
 
@@ -151,7 +153,7 @@ When you see one that you like, we can search for that name under the model pick
 
 ## Sandboxing and Scoping Access
 
-We have access to agents in our IDE now, but before using them, let's talk a little about security. We've established that LLMs and agents built on them operate on statistical text prediction, not by reasoning about consequences. If an agent's context makes a particular file write or command statistically likely, the agent will produce it, whether or not it's actually safe to run. 
+Before we dive into using the models we just made accessible, let's talk a little about security. We've established that LLMs and agents built on them operate on statistical text prediction, not by reasoning about consequences. If an agent's context makes a particular file write or command statistically likely, the agent will produce it, whether or not it's actually safe to run. 
 
 Sandboxing is how we enforce constraints that prompts alone cannot reliably maintain. A **sandbox** is an isolated environment that constrains what an agent can reach. By scoping the access that AI agents have, we limit the potential blast radius of unexpected agent actions. 
 
@@ -170,7 +172,7 @@ Sandboxing isn't one setting we turn on, it is a suite of tools that work on dif
 | Level | What it constrains | Setup effort |
 |---|---|---|
 | **Application permissions** | Categories of action: file reads, file writes, running commands, network access. Usually configurable as allow, deny, or ask. | Built into most agentic tools already, little to no setup |
-| **OS-level isolation** | Specific file paths or system calls a process can use, enforced by the operating system itself (for example, macOS's `Seatbelt` or Linux's `seccomp`/`bubblewrap`). | Low to moderate, some tools ship this ready to enable |
+| **OS-level isolation** | Specific file paths or system calls a process can use, enforced by the operating system itself (for example, macOS's `Seatbelt`). | Low to moderate, some tools ship this ready to enable |
 | **Container isolation** | Everything outside an explicitly mounted directory. The agent's filesystem, network, and process view are fully separated from the host machine. | Highest, typically requires Docker or a similar runtime tool |
 
 **Application-level permissions** are the coarsest tool: they draw lines around categories of action, not specific paths, so "allow file writes" means the agent can write anywhere our account can. 
@@ -326,7 +328,7 @@ We're about to let an agent run an unattended, multi-step script from an externa
 ##### !options
 
 * Application-level permissions, since they can be set to deny file writes and command execution entirely.
-* OS-level isolation, since tools like Seatbelt or seccomp require no additional setup to use.
+* OS-level isolation, since tools like Mac OS's `Seatbelt` require no additional setup to use.
 * Container isolation, since it fully separates the agent's filesystem, network, and process view from the host machine.
 * No sandboxing is needed as long as we only run scripts we've read in advance.
 
