@@ -1,6 +1,6 @@
 # Best Practices
 
-The previous lessons gave us foundations: what agents are and how they work, how context windows determine the output and usefulness of a session, and the shape of workflows that experienced practitioners tend to converge on. 
+We have some foundations under our belt now: what agents are and how they work, how context windows determine the output and usefulness of a session, and the shape of workflows that experienced practitioners tend to converge on. 
 
 This lesson shifts focus from *what* to do toward *how* to do it well. We'll connect the practices described here back to the workflow we've already seen, because best practices don't exist independently of the systems they support. Understanding *why* a practice matters makes it easier to adapt them to our specific situations and projects.
 

@@ -1,6 +1,6 @@
 # Token Usage & Context Windows
 
-In the previous lesson, we introduced agents, subagents, and skills at a high level. Before we step into workflows and best practices for these components, it can be helpful to have a clear picture of the resource model underlying everything an AI coding agent does. 
+So far, we introduced agents, subagents, and skills at a high level. Before we step into workflows and best practices for these components, it can be helpful to have a clear picture of the resource model underlying everything an AI coding agent does. 
 
 Every action an agent takes, whether reading a file, generating code, or processing a plan, has a cost: tokens. Understanding where those tokens go, and how the space available for them shapes agent behavior, gives us the foundation we need to keep AI agents performing well and reduce our costs where possible.
 
