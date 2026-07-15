@@ -77,9 +77,7 @@ Writing this to a file rather than keeping it in the conversation serves two pur
 1. It makes the plan durable: it persists beyond any single session and can be shared with colleagues for review. 
 2. It gives us a concrete artifact to review, share with our team, and push back on if necessary before any code is written. A vague agreement is much easier to spot when it's written down as a specific plan vs. when it is buried in a context window.
 
-The goal of the planning phase is not to produce an acceptable specification on the first pass. One more time, because this is so vital to take with us: the intent of a planning phase is not to ask an AI to create a plan and accept the first or even second implementation plan presented to us. 
-
-The purpose of a planning phase is to produce a plan we are genuinely confident in after scrutiny. This is the phase where we should ask the hardest questions: What are the edge cases? What would break this approach? Is there a simpler mechanism? 
+The goal of the planning phase is not to produce an acceptable specification on the first pass. One more time, because this is so vital to take with us: the intent of a planning phase is not to ask an AI to create a plan and accept the first or even second implementation plan presented to us. The purpose of a planning phase is to produce a plan we are genuinely confident in after scrutiny. This is the phase where we should ask the hardest questions: What are the edge cases? What would break this approach? Is there a simpler mechanism? 
 - The time we spend interrogating a plan pays off by reducing the rework that results from discovering a flaw during implementation.
 
 The planning phase ends with a human checkpoint: do we proceed with this plan or do we iterate? If we still have concerns or areas that are not well defined, we iterate until we feel confident in the specification. This is the first of the workflow's meaningful human review moments, and arguably the most important one.
@@ -92,7 +90,7 @@ Let's put the planning phase into practice with a small task of our own choosing
 
 1. **Ask an agent to draft an implementation plan.** Describe the task and ask the agent to produce a written specification covering the approach, the files or components involved, and how we'll know the work is complete.
 2. **Save the plan to a file.** Rather than leaving it in the conversation, write it to disk (for example, `plan.md`). This gives us a durable artifact we can review, revise, and return to later.
-3. **Review the plan on our own.** Read through it as though we were about to hand it to a teammate. Does the approach make sense? Are there requirements or edge cases the plan doesn't address? Is anything ambiguous enough that two different people could implement it two different ways?
+3. **Review the plan on our own.** Read through it as though we were about to hand it to a teammate. Does the approach make sense? Are there requirements or edge cases the plan doesn't address? Does the testing strategy cover all features and their edge cases? Is anything ambiguous enough that two different people could implement it two different ways?
 4. **Ask clarifying questions.** Bring any gaps or concerns back to the agent and ask it to address them directly in the plan, rather than assuming they'll be resolved during implementation.
 5. **Update the file.** Once we're confident the plan reflects what we actually want built, save the revised version. This is the plan we'd carry into the implementation phase.
 
@@ -105,7 +103,8 @@ With a reviewed plan in hand, implementation can proceed. An agent works through
 A few practices keep implementation sessions productive:
 
 - Writing the implementation plan to a file before the session starts means any agent can reference it by file path rather than by relying on it being fully retained in a long context window. 
-- Including testing in the implementation scope, rather than treating it as a separate phase, helps the agent catch errors while the relevant context is still fresh. When we leave testing for a separate follow-up, we often find ourselves reconstructing context that would have been cheaper to maintain.
+- Including test writing in the implementation scope, rather than treating it as a separate phase, helps the agent catch errors while the relevant context is still fresh. 
+    - Our testing strategy should already be part of our implementation plan. We want the tests written concurrently with the feature so that new code can run against them to help give us confidence in correctness. Doing so also avoids us having to reconstruct the context necessary to write the tests for these functions in another session later on.
 - Committing working segments frequently provides recovery points. Agents working through long implementation tasks can drift, produce inconsistent code, or cycle on a failing approach. Frequent commits mean we can roll back to a known-good state rather than trying to untangle changes across many files.
 
 It's worth noting that agents working through a long implementation plan will often cycle between attempts: they produce output, run tests, encounter failures, and iterate – this is normal! Where it becomes a problem is when an agent gets stuck in a loop, iterating on the same failing approach repeatedly without making progress. 
@@ -219,7 +218,7 @@ Let's try the fan-out pattern on a task that splits naturally into independent p
 
 1. **Pick a task with independent subtasks.** Look for something like updating several unrelated modules, writing tests for a handful of separate functions, or researching multiple topics that don't depend on each other's results. 
     - For this example, if you don't have a project or task handy, the task could be something like taking a paragraph of text and asking each agent write a certain number of the sentences to different files.
-2. **Write a plan that identifies the independent pieces.** Before delegating anything, make sure the plan spells out which subtasks can run without waiting on one another. Fan-out only helps when the pieces are genuinely independent.
+2. **Write a plan that identifies the independent pieces.** Before delegating anything, make sure the plan spells out which subtasks can run without waiting on one another. Fan-out only helps when the pieces are fully independent.
 3. **Ask an orchestrating agent to delegate the subtasks.** Rather than working through the pieces one at a time in a single session, have the orchestrator assign each subtask to its own isolated session.
 4. **Let each subagent work in its own session.** Each one should only have the context it needs for its piece, not the full scope of the whole task.
 5. **Review how the orchestrator synthesizes the results.** Once the subagents return their output, check how it gets combined into a single result. Does anything get lost or contradict another piece in the process?
