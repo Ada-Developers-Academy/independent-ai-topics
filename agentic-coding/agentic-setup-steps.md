@@ -6,7 +6,7 @@ We'll be using two tools to provide free access to large language models for cod
 
 Once our accounts are set up, both of these will be used from inside VS Code, keeping our tools in one location so we don't need to leave our IDE to add agents to our workflow. We will also explore sandboxing as a way to secure agents, and look at what sandboxing controls VS Code provides.
 
-## Lesson Goals
+## Learning Goals
 
 - Enable GitHub Copilot and configure access in VS Code.
 - Create an OpenRouter account and connect it to VS Code.

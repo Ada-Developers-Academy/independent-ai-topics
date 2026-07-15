@@ -2,7 +2,7 @@
 
 We have some foundations under our belt now: what agents are and how they work, how context windows determine the output and usefulness of a session, and the shape of workflows that experienced practitioners tend to converge on. 
 
-This lesson shifts focus from *what* to do toward *how* to do it well. We'll connect the practices described here back to the workflow we've already seen, because best practices don't exist independently of the systems they support. Understanding *why* a practice matters makes it easier to adapt them to our specific situations and projects.
+This lesson shifts focus from *what* to do toward *how* to do it well. Best practices don't exist independently of the systems they support, so we'll connect the practices described here back to the workflow we've already seen.
 
 ## Learning Goals
 
@@ -16,8 +16,6 @@ This lesson shifts focus from *what* to do toward *how* to do it well. We'll con
 
 | Vocab | Definition | Synonyms | How to Use in a Sentence |
 | --------- | --------- | -------- | --------- |
-| Steering file | A persistent markdown document loaded into every agent session that provides project-level context the model cannot otherwise know. | AGENTS.md, CLAUDE.md, project config | "We kept the steering file short and focused on universal conventions across our project." |
-| Skill | A markdown document that provides an agent with procedural instructions for a specific task, loaded on demand when relevant. | Agent skill, SKILL.md | "The team wrote a skill for their API documentation format so every agent session produces consistent endpoint documentation without re-explaining the format each time." |
 | YAML frontmatter | A structured block of metadata written in YAML syntax that appears at the top of a markdown file, enclosed between two lines of triple dashes (`---`). | Front matter, metadata block | "The YAML frontmatter in our skill file sets the name and description the agent uses to decide when to load it." |
 
 ## Course Correcting: Checkpoints and Influencing Execution
@@ -91,7 +89,7 @@ What often steers people wrong is treating the steering file like a knowledge ba
 
 Steering files often live at the root of a project repo and are named `AGENTS.md`, `CLAUDE.md`, or similar depending on the environment we are working in. As we get more comfortable with steering contents, we can look into settings to apply steering files at the workspace or user level if there is steering information we find useful to apply to all projects we work with.
 
-**Example steering file for a TypeScript project**
+Let's take a look at an example steering file, the one below is for a TypeScript project:
 
 ```markdown
 # Project Conventions
@@ -149,8 +147,8 @@ The basic structure of a skill file looks like:
 ```markdown
 ---
 name: database-migration
-description: Use when creating a new Alembic migration, modifying the database schema,
-             or troubleshooting migration conflicts.
+description: Use when creating a new Alembic migration, modifying the database 
+             schema, or troubleshooting migration conflicts.
 ---
 
 ## Steps
@@ -162,17 +160,16 @@ description: Use when creating a new Alembic migration, modifying the database s
 5. Note in the PR that a migration is included so reviewers know to run it.
 ```
 
-The name and description fields act as the trigger mechanism: the description needs to be specific enough that the agent can reliably identify when the skill applies. 
+The name and description fields act as the trigger mechanism: the description needs to be specific enough that the agent can reliably identify when the skill applies (i.e. ("use when creating a new API endpoint")). 
 - A description that is too vague ("general coding help") will either never load or load when it doesn't apply. 
-- A description that precisely names the scenarios where the skill applies ("use when creating a new API endpoint") gives the agent a reliable trigger condition.
 
-Skill file sizes will range depending on what they describe, but in general, SKILL.md files should be focused on a single task and under roughly 500 lines. For more complicated skills, detailed reference material such as example input/output pairs, long configuration templates, or supporting documentation can be placed into a `references/` subdirectory within the folder for that specific skill. The agent can pull these reference documents in if it needs them, without paying the token cost for them when it doesn't. 
+After the required name and description, we structure the steps for the agent to complete a task. Skill file sizes will range depending on what they describe, but in general, SKILL.md files should be focused on a single task and under roughly 500 lines.
 
 ##### Skills Can Include More Than Instructions
 
 Beyond the main `SKILL.md` file, the skill folder structure supports:
 
-- **References**: A `references/` subdirectory for supporting documentation like style guides, example files, and detailed configuration references. These are fetched on demand by the agent when it needs more depth on a step of a skill.
+- **References**: A `references/` subdirectory for supporting documentation like style guides, example input/output files, long configuration templates, and detailed references. These are also progressively disclosed, resources in the references folder are fetched on demand by the agent when it needs more depth on a step of a skill, they are not automatically loaded when the skill is used.
 - **Scripts**: A `scripts/` subdirectory for executable code the agent can run as part of the skill workflow.
 
 Scripts are particularly useful when a task involves a precise sequence of commands that needs to run the same way every time. Rather than relying on the agent to produce the command correctly from its training data, the script encodes exactly what runs. 
@@ -182,7 +179,7 @@ Scripts are particularly useful when a task involves a precise sequence of comma
 
 One approach to creating skills is to sit down and write out what you want from the start. A problem many developers run into with this tactic, is that they miss a lot of finer details in that first draft. This tends to produce skills that are either too abstract to be useful or that miss the specific decision points where an agent needs guidance. Skills built this way can require significant debugging and updates to catch edge cases and fill in any steps or information that weren't top of mind when the skill was written.
 
-Writing instructions for a task we haven't watched an agent attempt is similar to writing a training guide for a job we've never observed being done. Rather than us trying to remember and document everything clearly without prompting, the most reliable method for writing a skill that consistently works is to work through the task that we want to build a skill for with an agent first. We observe where it succeeds and where it goes wrong, and then convert that proven interaction into a skill.
+Writing instructions for a task we haven't watched an agent attempt is similar to writing a training guide for a job we've never observed being done. Rather than us trying to remember and document everything clearly without prompting, the most reliable method for writing a skill that consistently works is to go through the task that we want to build a skill for with an agent first. We observe where it succeeds and where it goes wrong, and then convert that proven interaction into a skill.
 
 ##### The Walkthrough Approach
 
@@ -235,15 +232,15 @@ This kind of detail can be hard to derive from planning alone, it comes from run
 
 ## Try it out!
 
-The Token Usage & Context Windows lesson covered end-of-session summaries as a way to preserve continuity between sessions. Rather than drafting a session-summary skill from memory, let's build it the way we just covered: through a walkthrough.
+The "Token Usage & Context Windows" lesson covered end-of-session summaries as a way to preserve continuity between sessions. Rather than drafting a session-summary skill from memory, let's build it the way we just covered: through a walkthrough.
 
 If you don't have a project with an active agent session open currently, open a project, start a session, and ask a few questions, so that there is some content in the chat to summarize.
 
-1. At the end of an agent session, ask the agent to write a session summary to disk, using the categories from the Token Usage & Context Windows lesson as a starting point.
+1. At the end of an agent session, ask the agent to write a session summary to disk, using the categories from the "Token Usage & Context Windows" lesson as a starting point.
 2. Review the result and correct anything missing or off-target directly in the session.
 3. Once the summary reflects what we actually want, ask the agent to draft a `SKILL.md` from the session, using a prompt like the one covered above: 
     > "Review what you just did to complete this task. Write a SKILL.md that would guide an agent through the same process reliably."
-4. Find or create a skills directory in the current project, then create a `session-summary` folder in that directory. Save the draft created by the agent as `SKILL.md`, and sharpen the name and description fields if needed so an agent reliably recognizes when to use it.
+4. Find or create a skills directory in the current project, then create a `session-summary` folder in that directory. Save the draft created by the agent as `SKILL.md`, and clarify the name and description fields if needed.
 5. Run the skill at the end of your next agent session. If it misses something, add that correction to a "Gotchas" section rather than rewriting the skill from scratch.
 
 ### !end-callout
@@ -268,7 +265,7 @@ A general framework for choosing models looks like:
 | Research / exploration | Reading and summarizing files, retrieving documentation | Smaller, faster models handle this well and cost significantly less |
 | Boilerplate / scaffolding | Generating repetitive structures that follow a template | Smallest capable model; A lighter model that can follow an existing pattern is sufficient for this kind of work. |
 
-Model choice doesn't require active management for every task. Many practitioners choose a default model for their primary session and a lighter model for subagents doing routine work. Some versions of IDEs even have auto-model selection capabilities that try to match appropriate models for a task based on our prompt. 
+Model choice doesn't require active management for every task. Many practitioners choose a default model for their primary session and a lighter model for subagents doing routine work. Some IDEs even have auto-model selection options that try to match appropriate models for a task based on our prompt. 
 - As we get more experience with how our workflow runs, we can refine our agent choices further!
 
 As an example of how this can look in practice, let's assume we have a team that is building out a new notification service. They might map AI models to the tasks in the project like so: 
@@ -318,7 +315,7 @@ Custom agents are typically defined as markdown files. The file location varies 
 
 For team workflows, project-level is generally preferred: the agent configuration versions alongside the code, updates are shared automatically, and new team members get the configuration without setup.
 
-The file has two parts: 
+An agent definition has two parts: 
 1. a YAML frontmatter block that sets configuration
 2. a body that contains the system prompt
 
