@@ -41,8 +41,8 @@ When an agent takes an action such as reading a file, running a shell command, o
 
 ### Extended processing passes
 
-Some AI models support a mode where the model performs additional passes over the input before producing a final output. In this mode, the model generates a series of intermediate outputs that guide what it produces next, similar to how working through a scratch pad produces better results than jumping straight to an answer. 
-- These intermediate outputs also consume tokens and count against the context window, so this feature is best reserved for genuinely complex problems rather than routine tasks.
+Some AI models support a mode where the model performs additional passes over the input before producing a final output. In this mode, the model generates a series of intermediate outputs that guide what it produces next, similar to how working through a problem on a scratch pad generally produces better results than jumping straight to an answer. 
+- These intermediate outputs also consume tokens and count against the context window, so this feature is best reserved for truly complex problems rather than routine tasks.
 
 ### Generated output
 
@@ -111,7 +111,7 @@ If we click on the session usage tracker at the bottom of the screen, we can see
 
 The model used for this planning session has a 1 million token context window size. The single request and response combined used up 21.9 thousand tokens of that total 1 million limit, and that's without any back and forth, no asking for explanation, requesting changes, etc. 
 
-If we use the "Start Implementation" button shown at the bottom of the chat window screenshot above, it will open a new agent session to begin implementing the outlined plan. In our run through, the implementation was started using a different model from planning, `GPT-5.3-Codex` which has a 400 thousand token limit for its context window. After the initial implementation, we asked for 3 changes:
+If we use the "Start Implementation" button shown at the bottom of the chat window screenshot above, it will open a new agent session to begin implementing the outlined plan. In our run through, the implementation was started using a different model from planning, `GPT-5.3-Codex` which has a 400,000 token limit for its context window. After the initial implementation, we asked for 3 changes:
 1. create a venv and install requirements before trying to run pytest
 2. move constants to their own file and import them into `game.py`
 3. refactor the last function to reduce repetition and make the function easier to follow
@@ -167,11 +167,11 @@ Being precise with what we reference also matters at a smaller scale. For exampl
 This leads to a broader habit: using disk storage to extend the effective memory of a session. The context window is a scarce resource, but disk storage is not. Anything that has been figured out, decided, or produced during a session is a candidate for writing to a file:
 
 - Planning documents and architecture decisions
-- Implementation notes and design choices
+- Implementation notes and testing choices
 - Research findings
 - Implementations that are complete and don't need revisiting
 
-When we write important outputs to files rather than relying on conversation history to retain them, we free up context for the work actually happening now. We also protect that information from compaction: a file on disk survives a context compression, while a detail buried mid-conversation may not. 
+When we write important outputs to files rather than relying on conversation history to retain them, we free up context for the work happening right now. We also protect that information from compaction: a file on disk survives a context compression, while a detail buried mid-conversation may not. 
 
 Conversely, we should be thoughtful about when we read files back in. Loading something into context has a cost. If an agent doesn't need the full contents of a file to complete the current step, there's no reason to pay for it.
 
@@ -216,7 +216,7 @@ As a side benefit, over the course of a longer project, these session summaries 
 
 ## Try it out!
 
-Before you wrap up your next agentic session, use the prompt below, or create your own that captures the details you are most interested in, to ask the AI to write a summary to disk:
+In the current session where we generated an implementation plan and saved it to disk, use the prompt below, or create your own that captures the details you are most interested in, to ask the AI to write a summary to disk:
 
 > Please create a session summary at the file path <your_chosen_filepath>. Output the response exactly in the following structured format:
 >
