@@ -113,7 +113,7 @@ To use OpenRouter, we will need to:
 
 ### OpenRouter in VS Code
 
-To add OpenRouter to VS Code so we can choose models they provide from inside our IDE, we need to add OpenRouter as a provider and supply our API key.
+We need to add OpenRouter to VS Code so we can choose models they provide from inside our IDE. To do this, we need to add OpenRouter as a provider and supply our API key.
 
 1. Inside of VS Code, use the shortcut "Shift" + "cmd" + "i" (`⌃⌘I`) to open the chat view. Click the model picker button at the bottom of the chat pane. This field will show the name of the currently selected model or "Auto" if the IDE is set to automatically pick from available models.
     ![VS Code chat pane with the model picker button highlighted](assets/set-up/vscode_chat_models_button.png)   
@@ -139,7 +139,7 @@ To add OpenRouter to VS Code so we can choose models they provide from inside ou
     - If at any point we need to update our API key or want to remove OpenRouter from VS Code, we can press the settings icon on the group name for options. 
 
     ![VS Code's model settings screen updated to show OpenRouter and its available models](assets/set-up/vscode_new_models_showing.png)   
-    *Fig. Updated screen showing OpenRouter models and settings to update or remove the model provider ([Full Size Image](assets/set-up/vscode_new_models_showing.png))*
+    *Fig. VS Code's model settings screen showing OpenRouter models and settings to update or remove the model provider ([Full Size Image](assets/set-up/vscode_new_models_showing.png))*
 
 ### Choosing Models with OpenRouter
 
@@ -153,7 +153,7 @@ When you see one that you like, we can search for that name under the model pick
 
 ## Sandboxing and Scoping Access
 
-Before we dive into using the models we just made accessible, let's talk a little about security. We've established that LLMs and agents built on them operate on statistical text prediction, not by reasoning about consequences. If an agent's context makes a particular file write or command statistically likely, the agent will produce it, whether or not it's actually safe to run. 
+Before we dive into using the models we just made accessible, let's talk a little about security. We've established that LLMs and agents built on them operate on statistical text prediction, not by reasoning about consequences. An agent's context might deem a particular file write statistically likely (such as editing an existing file, creating a new configuration file, or overwriting a file completely) even if it is not what is actually correct or secure. The agent might also produce a command that seems like a natural next step, but might not actually be safe to run.
 
 Sandboxing is how we enforce constraints that prompts alone cannot reliably maintain. A **sandbox** is an isolated environment that constrains what an agent can reach. By scoping the access that AI agents have, we limit the potential blast radius of unexpected agent actions. 
 
@@ -162,8 +162,10 @@ Sandboxing is how we enforce constraints that prompts alone cannot reliably main
 Without sandboxing, an agent with file system access can write to any location our user account has permission to write to. An agent with shell access can run any command available in that shell. This is rarely what we want! The most common problems sandboxes protect against are:
 
 - **Filesystem scope creep**: Without boundaries, an agent with file write access can write anywhere our user account has permission to write, including dotfiles, other project directories, or SSH keys.
+    - Imagine asking an agent to clean up temporary files in your project. The agent interprets this broadly and starts deleting anything that looks temporary  like cache files in a sibling project directory that happened to be within reach. Without a sandbox boundary, 'clean up temporary files' turned into 'delete things outside the intended project'.
 
 - **Credential exposure**: Local environments often have API keys or cloud credentials sitting in environment variables or config files. An agent with unrestricted read access can pull these into its output or logs without any malicious intent behind it.
+    - Imagine asking an agent to debug why an API call is failing and it prints out the full request, including a header with your API key, into a log file that later gets uploaded to a public GitHub repo for troubleshooting. The key is now public, and anyone can use it until it's revoked.
 
 ### The Sandboxing Spectrum
 
@@ -185,7 +187,7 @@ For most development work, the choice comes down to risk profile and workflow ne
 
 | Level | Good for | Limitations |
 |---|---|---|
-| Application permissions | Quick tasks, supervised sessions, low-sensitivity projects | Category-level only, below-application bypasses aren't blocked |
+| Application permissions | Quick tasks, supervised sessions, low-sensitivity projects | Category-level only, below-application bypasses aren't blocked meaning the permissions control which apps get access, but not what an agent does once inside. |
 | OS tools (Seatbelt, seccomp, firejail) | Single-machine setups where containers add too much overhead | Setup complexity, misconfiguration risk |
 | Container isolation | Autonomous runs, scripts from external sources, sensitive environments | Docker required, initial setup overhead including determining what should be accessible from the conatiner |
 
@@ -206,7 +208,7 @@ VS Code gives us tools at the first two levels without any extra setup, which ma
 ![VS Code's settings UI open showing the checkbox to turn on agent sandboxing](assets/set-up/vscode_enable_sandbox.png)
 *Fig. The Sandbox setting enabled in VS Code's UI ([Full Size Image](assets/set-up/vscode_enable_sandbox.png))*
 
-We recommend that folks turn this setting on to give some security and start getting some exposure to how we can scope access for our tools. With it enabled, terminal commands run inside a boundary enforced by the operating system:
+We recommend that folks turn this setting on to give some security and start getting some exposure to how we can scope access for our tools. You can access your settings with the shortcut `cmd` + `,`. With it enabled, terminal commands run inside a boundary enforced by the operating system:
 
 - **File reads** are limited to our workspace folders and a few paths tools like `git` or `npm` need to function. Our home directory is off-limits by default, which keeps things like SSH keys and shell config out of reach.
 - **File writes** are limited to the current working directory and its subdirectories.
@@ -222,7 +224,7 @@ This pairs a human checkpoint before risky actions with an OS-enforced boundary 
 
 ## Next Steps & Notes
 
-Before moving on to the next lesson, we recommend opening up a project that you are familiar with in VS Code. Our goal is for students to keep a coding project up while reading through the lessons and pause to try things out as they go.
+Before moving on to the next lesson, we recommend opening up a project that you are familiar with (any project from Unit 1 would work well) in VS Code. Our goal is for students to keep a coding project up while reading through the lessons and pause to try things out as they go.
 - Any project can be used to try things out, but using a familiar project means that we can focus on the new topics and what is or is not working well with the agentic tools without also ramping up on a new codebase.
 
 ### VS Code Shortcuts
