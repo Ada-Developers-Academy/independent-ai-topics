@@ -1,6 +1,6 @@
 # Recommended Workflows
 
-In the previous lessons we established what agents are and how their context windows work. Now we can put those ideas to use by looking at how to structure a coding session: what phases we move through, where human review belongs in that sequence, and what patterns experienced practitioners reach for when the work scales up.
+In the previous lessons we established what agents are and how their context windows work. Now we can put those ideas to use by looking at how to structure a coding session: what phases we move through, where human review belongs in that sequence, and what patterns experienced practitioners reach for when work scales up.
 
 ## Learning Goals
 
@@ -34,7 +34,7 @@ We'll talk a bit more about what it means to keep a human in the loop, then dive
 
 The phrase "human-in-the-loop" refers to the principle that human judgment should sit at defined checkpoints in any agentic workflow, rather than allowing the agent to run autonomously from prompt to completion.
 
-This matters for the same reasons we've brought up previously: agents operate on statistical text prediction, not judgment. The outputs they produce can be sophisticated and superficially correct while containing subtle errors, missing edge cases, or violating architectural constraints that weren't fully specified. Because the AI loop runs without human awareness between steps, problems can compound before we have a chance to catch them if we do not build explicit checkpoints into our flows.
+This matters for the same reasons we've brought up previously: agents operate on statistical text prediction, not judgment. The outputs they produce can be sophisticated and superficially correct while containing subtle errors, missing edge cases, or violating architectural constraints that weren't fully specified. When the AI loop runs without human awareness between steps, problems can compound before we have a chance to catch them if we do not build explicit checkpoints into our flows.
 
 The practical implication is that our role in an agentic session is not just to write the initial prompt. It is to review plans before they become code, to monitor implementation for signs the agent is drifting or stuck, and to evaluate output before accepting it. The agent handles the mechanical work between our checkpoints; we remain responsible for the decisions at each transition.
 
@@ -67,17 +67,17 @@ Artifacts from research might look like a mapping of the code base or informatio
 #### Specification 
 
 The "specification" portion of planning means producing a concrete, written description of what we're going to build: 
-- the requirements
-- the approach
-- the architecture
-- the testing strategy
-- any other constraints or guidelines
+- Requirements
+- Approach
+- Architecture
+- Testing strategy
+- Any other constraints or guidelines
 
 Writing this to a file rather than keeping it in the conversation serves two purposes: 
 1. It makes the plan durable: it persists beyond any single session and can be shared with colleagues for review. 
 2. It gives us a concrete artifact to review, share with our team, and push back on if necessary before any code is written. A vague agreement is much easier to spot when it's written down as a specific plan vs. when it is buried in a context window.
 
-The goal of the planning phase is not to produce an acceptable specification on the first pass. One more time, because this is so vital to take with us: the intent of a planning phase is not to ask an AI to create a plan and accept the first or even second implementation plan presented to us. The purpose of a planning phase is to produce a plan we are genuinely confident in after scrutiny. This is the phase where we should ask the hardest questions: What are the edge cases? What would break this approach? Is there a simpler mechanism? 
+The goal of the planning phase is not to produce an acceptable specification on the first pass. One more time, because this is so vital to take with us: *the intent of a planning phase is not to ask an AI to create a plan and accept the first or even second implementation plan presented to us. The purpose of a planning phase is to produce a plan we are genuinely confident in after scrutiny.* This is the phase where we should ask the hardest questions: What are the edge cases? What would break this approach? Is there a simpler mechanism? 
 - The time we spend interrogating a plan pays off by reducing the rework that results from discovering a flaw during implementation.
 
 The planning phase ends with a human checkpoint: do we proceed with this plan or do we iterate? If we still have concerns or areas that are not well defined, we iterate until we feel confident in the specification. This is the first of the workflow's meaningful human review moments, and arguably the most important one.
