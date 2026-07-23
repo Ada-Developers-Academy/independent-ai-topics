@@ -57,7 +57,7 @@ A strong planning session typically involves two distinct activities: **research
 
 #### Research
 
-During research, an agent gathers the information it will need to work *well*. This might be reading through existing codebase structure, reviewing relevant documentation, understanding the constraints or edge cases involved, or exploring multiple possible approaches before committing to one. 
+During research, an agent gathers the information it will need to augment it's default training data. This might be reading through existing codebase structure, reviewing relevant documentation, discovering the constraints or edge cases involved, or exploring multiple possible approaches before committing to one. 
 
 Research is a context-window-intensive activity. As we covered previously, exploration fills context windows quickly. Keeping research in its own focused session or delegating it to a subagent prevents research overhead from degrading the context available for implementation.
 
@@ -74,7 +74,7 @@ The "specification" portion of planning means producing a concrete, written desc
 - Any other constraints or guidelines
 
 Writing this to a file rather than keeping it in the conversation serves two purposes: 
-1. It makes the plan durable: it persists beyond any single session and can be shared with colleagues for review. 
+1. It makes the plan durable: it persists beyond any single session and any future AI agent can read that file to work from the same plan.  
 2. It gives us a concrete artifact to review, share with our team, and push back on if necessary before any code is written. A vague agreement is much easier to spot when it's written down as a specific plan vs. when it is buried in a context window.
 
 The goal of the planning phase is not to produce an acceptable specification on the first pass. One more time, because this is so vital to take with us: *the intent of a planning phase is not to ask an AI to create a plan and accept the first or even second implementation plan presented to us. The purpose of a planning phase is to produce a plan we are genuinely confident in after scrutiny.* This is the phase where we should ask the hardest questions: What are the edge cases? What would break this approach? Is there a simpler mechanism? 
@@ -124,7 +124,7 @@ Now let's carry the plan we saved earlier into an implementation session.
 3. **Commit at logical checkpoints.** As distinct pieces of the plan are completed and tests pass, commit that work before moving to the next piece. These commits give us recovery points if a later change causes problems.
 4. **Watch for repeated, unproductive cycling.** It's normal for an agent to run a test, hit a failure, and try again. If we notice the same failing approach repeating without progress, pause the session and redirect it, either by adding missing context or narrowing the current step.
 
-By the end of this, we should have working code committed in stages, produced from a plan we already reviewed (rather than one improvised along the way).
+By the end of these steps we should have tested and working code that has been committed in stages and produced from a plan we already reviewed (rather than one improvised along the way).
 
 ### !end-callout
 
