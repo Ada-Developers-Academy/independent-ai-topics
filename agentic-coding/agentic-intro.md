@@ -62,13 +62,15 @@ In many organizations and production environments these aren't optional; they're
 
 ### What Is an AI Agent?
 
-At the core of any AI agent is a **large language model (LLM)**. What transforms a language model into an **agent** is the infrastructure built around it:
+At the core of any AI agent is a **large language model (LLM)**. **Agent harnesses**, typically built into our IDEs, are what wraps around a model to allow us to orchestrate them as agents. These agent harnesses provide:
 
-- **Structured context**: System instructions, project files, skill documents, and conversation history all live in the context window and shape what the model produces.
-- **Tools**: External programs the agent can call — read a file, run a command, invoke an API, execute a test suite. The model's output specifies which tool to call and with what inputs; the tool runs and returns a result.
-- **A control loop**: Rather than generating one response and stopping, the agent runs in a cycle. It repeats until some stopping conditions are met: often, either a goal is reached or more content is not statistically likely.
+- **Structured context**: System instructions, project files, skill documents, are loaded into the context window by the harness alongside our conversation history and shape what the model produces.
 
-This combination is what makes an AI agent capable of multi-step, sustained work. The model itself hasn't changed, it's still doing text prediction, but the architecture around it enables us to use LLM-backed agents to complete complex tasks.
+- **Tool Access**: Reading a file, running a command, invoking an API, executing a test suite, these are all actions we can allow an agent access to through the agent harness. The model's output specifies which tool to call and with what inputs; the agent harness runs the tool and returns a result to the agent context.
+
+- **A control loop**: Rather than generating one response and stopping, the agent harness creates an iterative cycle of response and evaluation. It repeats until some stopping conditions are met: often, either a goal is reached or more content is not statistically likely. The agent harness can also handle passing off results or instructions to other agents to continue the control loop for longer running or more complicated projects.
+
+This combination is what makes an AI agent capable of multi-step, sustained work. The models are still doing text prediction, but the architecture around them enables us to string them together to complete complex tasks. Feel free to follow your curiosity if you'd like to learn more about what agent harnesses are available!
 
 ### The Agent Loop
 
