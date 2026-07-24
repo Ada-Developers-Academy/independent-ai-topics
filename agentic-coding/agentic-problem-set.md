@@ -414,7 +414,7 @@ Planning and architecture work benefits from higher-capability models because er
 ### !challenge
 * type: multiple-choice
 * id: 6GE0x0FW84vza8M0pM5x2uRE
-* title: Adding Outside Knowledge: MCP & RAG
+* title: Agentic Coding Problem Set
 ##### !question
 
 A team connects five MCP servers to their agent "just in case" they're needed, even though most sessions only use tools from one of them. What is the most accurate description of the cost this creates?
@@ -445,7 +445,7 @@ Every tool definition from every connected server gets loaded into the context w
 ### !challenge
 * type: multiple-choice
 * id: wExkv5ahmovSSJgLP4L22bVX
-* title: Adding Outside Knowledge: MCP & RAG
+* title: Agentic Coding Problem Set
 ##### !question
 
 How does the security boundary of a remote MCP server typically differ from that of a local MCP server?
@@ -476,7 +476,7 @@ A local server runs with our own machine's permissions, so what it can touch is 
 ### !challenge
 * type: multiple-choice
 * id: wuQo1d0TUqHwgS0cYEiOeY9T
-* title: Adding Outside Knowledge: MCP & RAG
+* title: Agentic Coding Problem Set
 ##### !question
 
 Before a RAG system can answer any questions, source material has to go through a setup phase. Which sequence correctly describes that phase?
