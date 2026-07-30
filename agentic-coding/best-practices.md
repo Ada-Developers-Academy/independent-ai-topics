@@ -6,7 +6,7 @@ This lesson shifts focus from *what* to do toward *how* to do it well. Best prac
 
 ## Learning Goals
 
-- Identify controls for adusting the course of an existing agent session
+- Identify controls for adjusting the course of an existing agent session
 - Distinguish what belongs in a steering file versus a skill, and explain how that distinction affects context window usage.
 - Define the structure of a skill and write a basic skill file.
 - Explain how model selection affects workflow performance and cost.
@@ -16,7 +16,7 @@ This lesson shifts focus from *what* to do toward *how* to do it well. Best prac
 
 | Vocab | Definition | Synonyms | How to Use in a Sentence |
 | --------- | --------- | -------- | --------- |
-| YAML frontmatter | A structured block of metadata written in YAML syntax that appears at the top of a markdown file, enclosed between two lines of triple dashes (`---`). | Front matter, metadata block | "The YAML frontmatter in our skill file sets the name and description the agent uses to decide when to load it." |
+| YAML frontmatter | A structured block of metadata written in YAML syntax that appears at the top of a markdown file, enclosed between two lines of triple dashes (<code style="white-space: nowrap;">---</code>). | Front matter, metadata block | "The YAML frontmatter in our skill file sets the name and description the agent uses to decide when to load it." |
 
 ## Course Correcting: Checkpoints and Influencing Execution
 
@@ -48,7 +48,7 @@ The next time we're working with an agent and want to explore a direction we mig
 While an agent is working, the send button in the chat pane becomes a drop down with options for how our message should be handled:
 - "**Add to queue**" - Waits for the current response to finish, then send the message. Best used when the AI is mostly on track but we want to add something we forgot without stopping or changing the current progress.
 - "**Steer with message**" - Tells the agent to pause after its current tool call and process our message immediately before continuing. This is useful when we want to adjust behavior without cancelling work that has already been done. 
-- "**Stop and send**" - Cancels the current request, removing work done for this request that is not presisted to disk. This is the right option when we need to start over, typically when the AI is far off track and continuing would waste resources.
+- "**Stop and send**" - Cancels the current request, removing work done for this request that is not persisted to disk. This is the right option when we need to start over, typically when the AI is far off track and continuing would waste resources.
 
 ![VS Code chat window showing the dropdown of send options while an agent is creating a response](assets/best-practices/vscode_chat_send_options.png)   
 *Fig. VS Code Chat UI showing the Send options while an agent is creating a response*
@@ -69,7 +69,7 @@ Compare how each option affects the agent's progress and note which situations c
 
 ## Adding Instructions: Steering Files and Skills
 
-Earlier we introduced steering files and skills at a high level, here, we'll look at how to use them effectively. Both steering files and skills are ways of providing agents with context and instructions. Understanding the distinction between them and when to add to a steering file or create a new skill matters a great deal for context window usage and overall agent performance.
+Earlier we introduced steering files and skills at a high level. Here, we'll look at how to use them effectively. Both steering files and skills are ways of providing agents with context and instructions. Understanding the distinction between them and when to add to a steering file or create a new skill matters a great deal for context window usage and overall agent performance.
 
 ### Steering Files: Always On, Always Cost
 
@@ -109,7 +109,7 @@ This is a Node.js/TypeScript project using Express for routing and PostgreSQL vi
 - Branch naming: `feat/<ticket>`, `fix/<ticket>`, `chore/<description>`
 ```
 
-This file is short enough that it adds minimal overhead per message, but helps orient an agent picking up any task in the project so they can work within the team's norms.
+This file is short enough that it adds minimal overhead per message, but helps orient an agent picking up any task in the project so it can work within the team's norms.
 
 A useful tactic to keep our steering file lean is to start by adding information as a skill. If we find that we're needing that skill for every task, then it could be worth migrating into the steering file. 
 
@@ -144,7 +144,6 @@ Skill files may live in different locations depending on our IDE.
 
 The basic structure of a skill file looks like:
 
-```markdown
 ---
 name: database-migration
 description: Use when creating a new Alembic migration, modifying the database 
@@ -160,10 +159,12 @@ description: Use when creating a new Alembic migration, modifying the database
 5. Note in the PR that a migration is included so reviewers know to run it.
 ```
 
-The name and description fields act as the trigger mechanism: the description needs to be specific enough that the agent can reliably identify when the skill applies (i.e. ("use when creating a new API endpoint")). 
+The name and description fields act as triggers for the skill.
+- A user can explicitly invoke a skill by its name (usually written in `kebab-case`) when prefaced with a `/`.
+- An agent can invoke a skill by matching a task to a skill's description. The description therefore needs to be specific enough that the agent can reliably identify when the skill applies (e.g., "use when creating a new API endpoint").
 - A description that is too vague ("general coding help") will either never load or load when it doesn't apply. 
 
-After the required name and description, we structure the steps for the agent to complete a task. Skill file sizes will range depending on what they describe, but in general, SKILL.md files should be focused on a single task and under roughly 500 lines.
+After the required name and description, we structure the steps for the agent to complete a task. Skill file sizes will range depending on what they describe, but in general, `SKILL.md` files should be focused on a single task and under roughly 500 lines.
 
 ##### Skills Can Include More Than Instructions
 
@@ -238,9 +239,8 @@ If you don't have a project with an active agent session open currently, open a 
 
 1. At the end of an agent session, ask the agent to write a session summary to disk, using the categories from the "Token Usage & Context Windows" lesson as a starting point.
 2. Review the result and correct anything missing or off-target directly in the session.
-3. Once the summary reflects what we actually want, ask the agent to draft a `SKILL.md` from the session, using a prompt like the one covered above: 
-    > "Review what you just did to complete this task. Write a SKILL.md that would guide an agent through the same process reliably."
-4. Find or create a skills directory in the current project, then create a `session-summary` folder in that directory. Save the draft created by the agent as `SKILL.md`, and clarify the name and description fields if needed.
+3. Once the summary reflects what we actually want, ask the agent to draft a `SKILL.md` from the session, using a prompt like the one covered above.
+4. Find or create a `skills` directory in the current project inside of the top-level `.agents` folder (folks may need to do some independent research on how to make hidden files visible). Inside the `skills` directory, create a `session-summary` folder in that directory. Save the draft created by the agent as `SKILL.md`, and clarify the name and description fields if needed.
 5. Run the skill at the end of your next agent session. If it misses something, add that correction to a "Gotchas" section rather than rewriting the skill from scratch.
 
 ### !end-callout
@@ -315,13 +315,12 @@ Custom agents are typically defined as markdown files. The file location varies 
 
 For team workflows, project-level is generally preferred: the agent configuration versions alongside the code, updates are shared automatically, and new team members get the configuration without setup.
 
-An agent definition has two parts: 
+Similar to skills, an agent definition has two parts: 
 1. a YAML frontmatter block that sets configuration
 2. a body that contains the system prompt
 
 For example, a custom agent for code reviewing might look something like:
 
-```markdown
 ---
 name: code-reviewer
 description: Reviews implementation for correctness, edge cases, and security issues.
@@ -355,7 +354,7 @@ The key fields:
 A one-off task rarely justifies a custom agent. The overhead of defining a custom agent pays off when a workflow recurs often enough that rebuilding its configuration manually each time becomes a friction point. 
 - When we find ourselves repeatedly selecting the same model, enabling the same tools, and restating the same framing before getting to work, that's the strongest signal that a custom agent would serve us better. 
 
-Another signal is when the stakes of misconfiguration are high enough that we don't want to rely on getting it right each time. A planning agent that accidentally has write access, or a review agent that's running a smaller model than the task warrants, produces subtly worse results in ways that aren't always obvious in the moment. Encoding the right model and the right tool permissions into a named agent removes that variability. 
+Another signal is when the stakes of misconfiguration are high enough that we don't want to risk missing something each time we run the workflow. A planning agent that accidentally has write access, or a review agent that's running a smaller model than the task warrants, produces subtly worse results in ways that aren't always obvious in the moment. Encoding the right model and the right tool permissions into a named agent removes that variability. 
 
 As we mentioned briefly earlier, custom agents become particularly valuable when they're shared across a team. A project-level agent file that everyone uses means the whole team is running planning sessions with the same model, the same tool constraints, and the same base instructions. That consistency matters more than it might seem: 
 - it makes workflow outputs more predictable
@@ -522,6 +521,8 @@ b|
 ##### !explanation
 
 The walkthrough approach works through the task with a live agent session and corrects missteps as they happen. Those corrections become steps and gotchas in the skill file. Writing a skill from memory skips this discovery process, which means edge cases and environment-specific failure points, like the one this developer encountered, often don't get documented until they surface during actual use.
+
+<br>
 
 Adding examples of desired output in a `references/` subdirectory might help, but it's not a guarantee, depending on how many steps there are and where the AI is failing before producing that final output. Writing a longer skill description or creating a new skill do not address the core issue of the AI failing to correctly predict what it should do next with the given steps.
 
