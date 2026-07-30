@@ -199,7 +199,11 @@ That corrected walkthrough becomes the skill! We've now observed the actual deci
 
 Once a walkthrough is complete and we're satisfied with the result, we can ask the agent to draft the skill file directly from the session: 
 
-> "Review what you just did to complete this task. Write a SKILL.md that would guide an agent through the same process reliably."
+```txt
+Review what you just did to complete this task.
+Write a SKILL.md that would guide an agent through
+the same process reliably.
+```
 
 The agent has the full session context and can produce a reasonable first draft of the steps, ordered as it executed them. We review this draft, add any steps it omitted, sharpen the description field, and move the file into the skills directory.
 
