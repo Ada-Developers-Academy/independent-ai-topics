@@ -444,7 +444,7 @@ Every response an agent produces serves as a checkpoint. Restoring a checkpoint 
 * title: Best Practices
 ##### !question
 
-While an agent is actively working through a task, we realize we forgot to include a constraint in our original prompt. The agent's progress so far still looks correct, and we don't want to stop or change the work already in progress. Which option should we choose from the send button's dropdown?
+We have an agent reformatting files in three different folders to follow organization-wide conventions. After completing the first folder, we've instructed the agent to pause for human review before updating the remaining folders. When the agent is nearly finished updating the first folder, we realize we forgot to include a constraint in our original prompt. The updates so far look correct, so we don't want to stop the response or change how the work in progress is being done. Which option should we choose from the send button's dropdown?
 
 ##### !end-question
 ##### !options
