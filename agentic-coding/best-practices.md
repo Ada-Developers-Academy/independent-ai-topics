@@ -45,7 +45,7 @@ The next time we're working with an agent and want to explore a direction we mig
 
 ### Steering During Execution
 
-While an agent is working, the send button in the chat pane becomes a drop down with options for how our message should be handled:
+If we start to type a new message while an agent is working, the send button in the chat pane becomes a drop down with options for how our message should be handled:
 - "**Add to queue**" - Waits for the current response to finish, then send the message. Best used when the AI is mostly on track but we want to add something we forgot without stopping or changing the current progress.
 - "**Steer with message**" - Tells the agent to pause after its current tool call and process our message immediately before continuing. This is useful when we want to adjust behavior without cancelling work that has already been done. 
 - "**Stop and send**" - Cancels the current request, removing work done for this request that is not persisted to disk. This is the right option when we need to start over, typically when the AI is far off track and continuing would waste resources.

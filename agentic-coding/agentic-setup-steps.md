@@ -6,6 +6,18 @@ We'll be using two tools to provide free access to large language models for cod
 
 Once our accounts are set up, both of these will be used from inside VS Code, keeping our tools in one location so we don't need to leave our IDE to add agents to our workflow. We will also explore sandboxing as a way to secure agents, and look at what sandboxing controls VS Code provides.
 
+### !callout-info
+
+## Prefer Copilot over OpenRouter
+
+Copilot integrates better with VS Code and is what we recommend folks use first when trying out agentic coding. Credits are limited for Copilot access through the GitHub Student Developer Pack, so we have included OpenRouter set up as a fallback option in case we run out of Copilot credits. 
+
+<br>
+
+OpenRouter has rate limiting for free tiers that can cause issues with VS Code when those limits are hit and the agent cannot finish a request in progress. Typically we can recover by rolling back to the most recent checkpoint if we run into those kinds of problems.
+
+### !end-callout
+
 ## Learning Goals
 
 - Enable GitHub Copilot and configure access in VS Code.
