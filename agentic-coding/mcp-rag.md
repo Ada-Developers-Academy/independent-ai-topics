@@ -57,9 +57,7 @@ The local server in the configuration below is installed as an `npm` package ([n
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/username/Desktop",
-        "/Users/username/Downloads"
+        "@modelcontextprotocol/server-filesystem"
       ]
     }
   }
@@ -76,12 +74,11 @@ Here's what each part is doing:
 
 - **`"args"`**: The list of arguments passed to that command, in order, exactly as if we'd typed them into a terminal ourselves:
   - **`"-y"`**: Tells `npx` to install the package automatically if it isn't already available locally, rather than pausing to ask us to confirm.
-  - **`"@modelcontextprotocol/server-filesystem"`**: The specific package to run. This is the filesystem server itself, the code that knows how to read files, list directories, and so on.
-  - **`"/Users/username/Desktop"` and `"/Users/username/Downloads"`**: These last two arguments aren't flags for `npx`, they're arguments given to the filesystem server when it launches. These are read to determine which directories the server is allowed to touch. Every argument from this point in the array onward is handled by the server's logic rather than by `npx`.
+  - **`"@modelcontextprotocol/server-filesystem"`**: The specific package to run. This is the filesystem server itself, the code that knows how to read files, list directories, and so on. 
 
 A couple notes about this server and its definition:
 
-- **The directory paths are also the security boundary.** This server will only be able to read or modify files inside `/Users/username/Desktop` and `/Users/username/Downloads`, because that's what its own tools were configured to allow. Adding or removing paths here is how we widen or narrow what the server can reach, without needing to change any code.
+- **We are still working within access controls** This server will only be able to read or modify files inside the current project's workspace by default. VS Code announces the current workspace as it's root when starting up communication with the server, and the filesystem server adopts that root as its context. If we ask the server to list the contents of a folder or otherwise access a directory outside of the project workspace, we will see permission denied messages.   
 - **Nothing here mentions our agent or model at all.** This configuration is entirely about how to launch and scope a program that happens to speak MCP. The agent doesn't know these tools exist until our host restarts and completes tool discovery against this running server.
 
 ### !callout-info
@@ -91,7 +88,7 @@ A couple notes about this server and its definition:
 Let's connect a local MCP server in VS Code and confirm that its tools show up where we expect.
 
 1. Inside a project run **MCP: Open User Configuration** from the Command Palette to open the MCP configuration file.
-2. Add a `filesystem` server entry using the configuration we walked through above by copy & pasting the configuration then updating the directory paths (`"/Users/username/Desktop"`, `"/Users/username/Downloads"`) to point at folders on our own machine.
+2. Add a `filesystem` server entry using the configuration we walked through above by copy & pasting the configuration.
 3. Save the file. 
     1. VS Code may try to start the server immediately after saving. If so, it may ask us to confirm that we trust the server before it starts, since local servers can run code on our machine.
 4. Open the Chat view and select **Configure Tools** in the chat input. The name may not immediately default to the specific name we gave the server, but we should see the tools VS Code discovered from our new server listed there.  
@@ -101,7 +98,8 @@ Let's connect a local MCP server in VS Code and confirm that its tools show up w
     !["secure-filesystem-server" tools showing in the VS Code "Configure Tools" menu](assets/mcp-rag/vscode_tools_dropdown.png)
     *Fig. `secure-filesystem-server` tools showing in the VS Code "Configure Tools" menu*
 
-5. Give the agent a prompt that would use one of those tools, such as asking it to list the files in one of the directories we configured, and confirm we're prompted to approve the tool call before it runs.
+5. Give the agent a prompt that would use one of those tools, such as asking it to list the files in one of the directories we configured, and confirm we're prompted to approve the tool call before it runs. 
+    1. Agents in VS Code tend to prefer built in file management tools, so we may need to explicitly invoke one of the server tools to see it run like: `/write_file mcp_write_test.txt "The MCP Server wrote a file!"`
 
 ### !end-callout
 
@@ -136,9 +134,7 @@ The new connection points at [GitHub's hosted MCP server](https://github.com/git
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/username/Desktop",
-        "/Users/username/Downloads"
+        "@modelcontextprotocol/server-filesystem"
       ]
     }
   }
