@@ -1,4 +1,4 @@
-# Adding Outside Knowledge: MCP & RAG
+# MCP & RAG: Adding Outside Knowledge
 
 At this point, we know that a model on its own knows two things: what was in its training data and whatever currently sits in its context window. A model can't natively query a production database, open a ticket in our project tracker, or read a document we wrote last week. Two mechanisms close that gap in different ways:
 - Model Context Protocol (MCP) gives an agent a way to reach external tools and services.
@@ -26,7 +26,11 @@ In this lesson, we'll look more closely at how each of these works, what connect
 
 ## Reaching External Tools: MCP Servers
 
-An **MCP server** is a program that exposes a set of tools to an agent using a shared, open protocol. Instead of every AI tool vendor building its own custom way for agents to talk to Slack, GitHub, or a database, MCP defines one standard so a server built once can be used by any compatible agent.
+An **MCP server** is a program that exposes a set of tools to an agent using a shared, open protocol.
+
+**MCP** (Model Context Protocol) is a protocol standardizing how AI applications (built on models) connect to external data sources and tools, so that relevant information can be pulled into a model's context on demand. It also defines how an agent can call a tool and receive its results back.
+
+So instead of every AI tool vendor building its own custom way for agents to talk to Slack, GitHub, or a database, MCP defines one standard so a server built once can be used by any compatible agent.
 
 Connecting to an MCP server looks a little different depending on where that server runs, but the underlying steps are the same in either case.
 
@@ -37,7 +41,7 @@ A local server runs as a process on our own machine, alongside whatever agent to
 - The command used to launch it, along with any arguments it must be supplied to run successfully
 - Any environment variables the server needs, like an API key it uses to reach a service on our behalf
 
-Once that configuration is saved and our agent host is restarted, it starts the server process and communicates with it using standard input and output, often referred to as **stdio**.
+Once that configuration is saved and our agent host is restarted, it starts the server process and communicates with it using standard input and output, often referred to as **stdio** (usually read as either standard input output or standard I O).
 - **stdio** is the same mechanism command-line programs have long used to pass text back and forth!
 
 #### Local MCP Configuration
@@ -140,7 +144,7 @@ The new connection points at [GitHub's hosted MCP server](https://github.com/git
 }
 ```
 
-Here's what is happenning in the newly added code:
+Here's what is happening in the newly added code:
 
 - **`"github"`**: A name we're choosing for this server, just like in the local example. It's a label for our own reference, not something the server itself requires.
 
@@ -221,7 +225,7 @@ How we actually interact with RAG systems is typically through MCP, which is why
 A company's legal team maintains thousands of pages of internal compliance policies. When someone asks an agent whether a new vendor contract needs a specific data-handling clause, a RAG system searches that policy library and returns the handful of paragraphs most relevant to the question. The model then answers using those specific paragraphs, rather than guessing based on general knowledge of what compliance policies tend to say. 
 - RAG is useful here because contract terms are specific to the organization; there's no way general training data would reflect all of a company's current policies.
 
-We'll go deeper into RAG in later cloud-focused materials, for now, the key idea to hold onto is that RAG's job is to provide specific knowledge, relevant to a prompt, at the time it is requested.
+We'll revisit RAG in later cloud-focused materials. For now, the key idea to hold onto is that RAG's job is to provide specific knowledge, relevant to a prompt, at the time it is requested.
 
 ## Effects on Token Usage, Context Windows, and Cost
 
@@ -260,7 +264,7 @@ First, we'll check that the server is running:
 
 To disable tools from a server without stopping the local server:
 1. Open the Chat view and select "**"Configure Tools**"
-2. Uncheck the box next to `secure-filesystem-server` to disable all tools avilable on the server. 
+2. Uncheck the box next to `secure-filesystem-server` to disable all tools available on the server. 
     - We can also choose to disable individual tools from the server from this view by unchecking the box next to a specific tool's name.
 
 To turn off the running `filesystem` MCP server:
