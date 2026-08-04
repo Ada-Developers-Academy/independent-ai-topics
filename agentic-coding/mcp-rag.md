@@ -41,7 +41,7 @@ A local server runs as a process on our own machine, alongside whatever agent to
 - The command used to launch it, along with any arguments it must be supplied to run successfully
 - Any environment variables the server needs, like an API key it uses to reach a service on our behalf
 
-Once that configuration is saved and our agent host is restarted, it starts the server process and communicates with it using standard input and output, often referred to as **stdio** (usually read as either standard input output or standard I O).
+Once that configuration is saved and our agent host is restarted, it starts the server process and communicates with it using standard input and output, often referred to as **stdio** (usually read as either "standard input output" or "standard I O").
 - **stdio** is the same mechanism command-line programs have long used to pass text back and forth!
 
 #### Local MCP Configuration
