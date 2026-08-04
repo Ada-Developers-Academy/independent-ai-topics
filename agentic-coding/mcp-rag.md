@@ -92,8 +92,9 @@ Let's connect a local MCP server in VS Code and confirm that its tools show up w
 
 1. Inside a project run **MCP: Open User Configuration** from the Command Palette to open the MCP configuration file.
 2. Add a `filesystem` server entry using the configuration we walked through above by copy & pasting the configuration then updating the directory paths (`"/Users/username/Desktop"`, `"/Users/username/Downloads"`) to point at folders on our own machine.
-3. Save the file. VS Code will ask us to confirm that we trust the server before it starts, since local servers can run code on our machine.
-4. Open the Chat view and select **Configure Tools** in the chat input. We should see the tools VS Code discovered from our new server listed there.
+3. Save the file. 
+    1. VS Code may try to start the server immediately after saving. If so, it may ask us to confirm that we trust the server before it starts, since local servers can run code on our machine.
+4. Open the Chat view and select **Configure Tools** in the chat input. The name may not immediately default to the specific name we gave the server, but we should see the tools VS Code discovered from our new server listed there.  
     ![VS Code chat window showing the "Configure Tools" button](assets/mcp-rag/vscode_chat_configure_tools_button.png)   
     *Fig. "Configure Tools" button in the VS Code Chat UI*
 
