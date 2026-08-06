@@ -144,13 +144,14 @@ Skill files may live in different locations depending on our IDE.
 
 The basic structure of a skill file looks like:
 
+```
 ---
 name: database-migration
 description: Use when creating a new Alembic migration, modifying the database 
              schema, or troubleshooting migration conflicts.
 ---
 
-## Steps
+# Steps
 
 1. Create the migration with `alembic revision --autogenerate -m "<description>"`.
 2. Review the generated file in `migrations/versions/`. Autogenerate is not always accurate.
