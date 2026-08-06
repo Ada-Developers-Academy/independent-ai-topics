@@ -94,7 +94,9 @@ Most systems begin automatic compaction somewhere around 80–95% of the window'
 
 ### Context Window Usage Example
 
-How does this context usage look in a standard workflow? Let's say that we want to use Copilot AI agents in VS Code to help us complete the [Adagrams project](https://github.com/AdaGold/adagrams-py). If we open up the code locally, start off a new agent session in planning mode, then send a prompt like:
+How does this context usage look in a standard workflow? Let's look at a familiar example before trying it out ourselves: say that we want to use Copilot AI agents in VS Code to help us complete the [Adagrams project](https://github.com/AdaGold/adagrams-py). 
+
+The first thing we'll do is open up the code locally, start a new agent session, and set the session to planning mode using the mode switcher at the bottom of the chat text box (see the "mode" button highlighted in the image below). If we then send a prompt like:
 
 > Help me create a structured approach to complete the Adagrams project. The requirements are outlined in 'README.md'. Only the file 'adagrams/game.py' is allowed to be changed to complete this project. 'adagrams/game.py' contains 4 function definitions that need to be fully implemented. These functions must pass the tests located in the 'tests' folder. The functions should follow PEP8 best practices for Python. Only the packages in the file 'requirements.txt' are allowed to be used for this project.
 
@@ -111,7 +113,9 @@ If we click on the session usage tracker at the bottom of the screen, we can see
 
 The model used for this planning session has a 1 million token context window size. The single request and response combined used up 21.9 thousand tokens of that total 1 million limit, and that's without any back and forth, no asking for explanation, requesting changes, etc. 
 
-If we use the "Start Implementation" button shown at the bottom of the chat window screenshot above, it will open a new agent session to begin implementing the outlined plan. In our run through, the implementation was started using a different model from planning, `GPT-5.3-Codex` which has a 400,000 token limit for its context window. After the initial implementation, we asked for 3 changes:
+Once we have reviewed and approved the plan, we can press the "Start Implementation" button shown at the bottom of the chat window screenshot above, it will open a new agent session to begin implementing the outlined plan. In our run through, the implementation was started using a different model from planning, `GPT-5.3-Codex` which has a 400,000 token limit for its context window. 
+
+After the initial implementation, we reviewed what was created and asked for 3 changes:
 1. create a venv and install requirements before trying to run pytest
 2. move constants to their own file and import them into `game.py`
 3. refactor the last function to reduce repetition and make the function easier to follow
@@ -128,9 +132,11 @@ Adagrams is a smaller scale project, we only altered two files, and only needed 
 
 ## Try it out!
 
-Using a project you're familiar with, ask an agent to help you create an implementation plan. 
-- Use the same steps above to examine the agent's context window usage. 
-- Ask a question or two and see how many tokens are used beyond the initial prompt.
+Using Adagrams or another project you're familiar with, start a new chat, set it to "Plan" mode, and ask an agent to help you create an implementation plan. 
+1. Use the same steps above to examine the agent's context window usage. 
+2. Ask a question or two and see how many tokens are used beyond the initial prompt.
+
+As always with AI, we will get a slightly different responses, even when working with the same project. One session might require more or less changes, at different steps in the process to get to an implemetation that meets our needs. You may also see different asks from the agent, like requests for clarifications or tool permisions that did not come up in our example.
 
 ### !end-callout
 
