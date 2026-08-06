@@ -142,10 +142,10 @@ Understanding that the window fills and behavior degrades is only useful if we k
 ### Compaction
 
 When a context window grows too full, most agentic tools offer a mechanism, sometimes automatic and sometimes manually triggered, that compresses the conversation history by replacing it with a structured summary. The agent generates a compact account of what has happened so far, preserving the most important decisions, findings, and state, and then continues from that summary rather than the full transcript.
-- It can be worth manually triggering compaction when the option is available. Most tools that offer manual compaction let you add a prompt to give some guidance around what information is okay to lose and what topics must keep as much context as possible. 
 
-Compaction is useful and often necessary, but it comes with the tradeoff that some context is still forgotten. Any information that wasn't captured in the summary is lost. If a subtle constraint from early in the session doesn't make it into the summary, the agent won't have access to it going forward. 
-- This is why other strategies, such as keeping context lean, are often preferable. Compaction should be treated as a recovery mechanism, more than a workflow strategy.
+It can be worth manually triggering compaction when the option is available. Most tools that offer manual compaction let you add a prompt to give some guidance around what information is okay to lose and what topics must keep as much context as possible. 
+
+Compaction is useful and often necessary, but it comes with the tradeoff that some context is still forgotten. Any information that wasn't captured in the summary is lost. If a subtle constraint from early in the session doesn't make it into the summary, the agent won't have access to it going forward. This is why other strategies, such as keeping context lean, are often preferable. Compaction should be treated as a recovery mechanism, more than a workflow strategy.
 
 ### Passing Summaries and File Paths Instead of Full Content
 
@@ -301,8 +301,7 @@ The context window is the agent's working memory: it can only contain so much in
 - repeating work
 - generic outputs where specific ones are expected
 
-Keeping the window lean as we work is a better practice than cleaning it up after it fills. Our goal at each step is to provide models with exactly the context they need to do work that meets our requirements. 
-- Providing extra content that isn't immediately useful can actually hurt us by filling context windows faster and driving sessions towards degradation sooner.
+Keeping the window lean as we work is a better practice than cleaning it up after it fills. Our goal at each step is to provide models with exactly the context they need to do work that meets our requirements. Providing extra content that isn't immediately useful can actually hurt us by filling context windows faster and driving sessions towards degradation sooner.
 
 Files are persistent, while an agent's session context is not. Decisions, plans, and outputs written to disk are safe from context pressure. Practices around externalizing information, writing things down and referencing files by path rather than pasting full contents, all work together to allow us to get the most out of individual sessions.
 
