@@ -58,7 +58,7 @@ To add Copilot to VS Code, we need to install the Copilot extension:
    - In your browser, GitHub will request the necessary permissions for GitHub Copilot. To approve these permissions, click Authorize Visual Studio Code.
    - In Visual Studio Code, in the "Visual Studio Code" dialog box, click "Open" to confirm the authentication.
 
-For instructions to set up the Copilot extension in VS Code written another way, check out GitHub's ["Getting started with GitHub Copilot"](https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot#installing-the-github-copilot-extension-in-visual-studio-code) documentation.
+For instructions to set up the Copilot extension in VS Code written another way, check out GitHub's ["Getting started with GitHub Copilot"](https://docs.github.com/en/copilot/get-started/quickstart?tool=vscode) documentation.
 
 ## Summary
 
